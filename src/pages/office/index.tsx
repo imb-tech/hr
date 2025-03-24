@@ -13,6 +13,13 @@ const data: Office[] = [
     work_time: "09:00 - 18:00",
     users: 32,
   },
+  {
+    id: 2,
+    name: "IMB Holding",
+    address: "Tashkent Index, 3R",
+    work_time: "09:00 - 18:00",
+    users: 32,
+  },
 ];
 
 export default function OfficePage() {
@@ -25,6 +32,7 @@ export default function OfficePage() {
         data={data}
         onDelete={openModal}
         onEdit={(item) => console.log(item)}
+        onRowClick={(item) => console.log(item)}
       />
 
       <DeleteModal id={1} path="ddd" />

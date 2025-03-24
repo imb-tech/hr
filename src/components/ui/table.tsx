@@ -28,6 +28,7 @@ import {
 
 import { capitalize } from "../icons/table-icons";
 
+import { cn } from "@heroui/theme";
 import { SlidersVertical } from "lucide-react";
 import TableActions from "../elements/table-actions";
 
@@ -46,6 +47,7 @@ type Props<TData> = {
   onEdit?: (item: TData) => void;
   onDelete?: (item: TData) => void;
   onView?: (item: TData) => void;
+  onRowClick?: (item: TData) => void;
 };
 
 export default function DataTable<TData extends object>({
@@ -56,6 +58,7 @@ export default function DataTable<TData extends object>({
   onDelete,
   onEdit,
   onView,
+  onRowClick,
   ...props
 }: Props<TData> & TableProps) {
   type ColumnKey = keyof TData | "actions";
@@ -190,7 +193,11 @@ export default function DataTable<TData extends object>({
       </TableHeader>
       <TableBody emptyContent={"Empty"} items={sortedItems}>
         {(item) => (
-          <TableRow key={JSON.stringify(item)}>
+          <TableRow
+            key={JSON.stringify(item)}
+            onClick={() => onRowClick?.(item)}
+            className={cn(!!onRowClick ? "cursor-pointer" : "", "hover:bg-default-100 rounded-md")}
+          >
             {headerColumns.map((column) => (
               <TableCell key={column.dataKey as string}>
                 {renderCell(item, column.dataKey)}
