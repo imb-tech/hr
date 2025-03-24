@@ -1,5 +1,10 @@
 import { Link, linkOptions } from "@tanstack/react-router";
-import { Building2, CircleUser, Settings } from "lucide-react";
+import {
+  ArrowUpNarrowWide,
+  Building2,
+  CircleUser,
+  Settings,
+} from "lucide-react";
 import { Logo } from "../icons";
 import { UsersIcon } from "../icons/nav-icons";
 import MenuItem from "./menu-item";
@@ -23,6 +28,12 @@ export default function Sidebar() {
       icon: <UsersIcon />,
       enabled: true,
       title: "Hodimlar",
+    }),
+    linkOptions({
+      to: "/position",
+      icon: <ArrowUpNarrowWide />,
+      enabled: true,
+      title: "Lavozimlar",
     }),
     linkOptions({
       to: "/settings",

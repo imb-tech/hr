@@ -17,6 +17,7 @@ import { Route as MainIndexImport } from './routes/_main/index'
 import { Route as MainTestImport } from './routes/_main/test'
 import { Route as MainSettingsImport } from './routes/_main/settings'
 import { Route as MainProfileImport } from './routes/_main/profile'
+import { Route as MainPositionImport } from './routes/_main/position'
 import { Route as MainHrImport } from './routes/_main/hr'
 import { Route as AuthRegisterImport } from './routes/_auth/register'
 import { Route as AuthLoginImport } from './routes/_auth/login'
@@ -55,6 +56,12 @@ const MainSettingsRoute = MainSettingsImport.update({
 const MainProfileRoute = MainProfileImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => MainRoute,
+} as any)
+
+const MainPositionRoute = MainPositionImport.update({
+  id: '/position',
+  path: '/position',
   getParentRoute: () => MainRoute,
 } as any)
 
@@ -128,6 +135,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainHrImport
       parentRoute: typeof MainImport
     }
+    '/_main/position': {
+      id: '/_main/position'
+      path: '/position'
+      fullPath: '/position'
+      preLoaderRoute: typeof MainPositionImport
+      parentRoute: typeof MainImport
+    }
     '/_main/profile': {
       id: '/_main/profile'
       path: '/profile'
@@ -177,6 +191,7 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface MainRouteChildren {
   MainHrRoute: typeof MainHrRoute
+  MainPositionRoute: typeof MainPositionRoute
   MainProfileRoute: typeof MainProfileRoute
   MainSettingsRoute: typeof MainSettingsRoute
   MainTestRoute: typeof MainTestRoute
@@ -185,6 +200,7 @@ interface MainRouteChildren {
 
 const MainRouteChildren: MainRouteChildren = {
   MainHrRoute: MainHrRoute,
+  MainPositionRoute: MainPositionRoute,
   MainProfileRoute: MainProfileRoute,
   MainSettingsRoute: MainSettingsRoute,
   MainTestRoute: MainTestRoute,
@@ -199,6 +215,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
   '/hr': typeof MainHrRoute
+  '/position': typeof MainPositionRoute
   '/profile': typeof MainProfileRoute
   '/settings': typeof MainSettingsRoute
   '/test': typeof MainTestRoute
@@ -211,6 +228,7 @@ export interface FileRoutesByTo {
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
   '/hr': typeof MainHrRoute
+  '/position': typeof MainPositionRoute
   '/profile': typeof MainProfileRoute
   '/settings': typeof MainSettingsRoute
   '/test': typeof MainTestRoute
@@ -225,6 +243,7 @@ export interface FileRoutesById {
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/register': typeof AuthRegisterRoute
   '/_main/hr': typeof MainHrRoute
+  '/_main/position': typeof MainPositionRoute
   '/_main/profile': typeof MainProfileRoute
   '/_main/settings': typeof MainSettingsRoute
   '/_main/test': typeof MainTestRoute
@@ -239,6 +258,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/hr'
+    | '/position'
     | '/profile'
     | '/settings'
     | '/test'
@@ -250,6 +270,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/hr'
+    | '/position'
     | '/profile'
     | '/settings'
     | '/test'
@@ -262,6 +283,7 @@ export interface FileRouteTypes {
     | '/_auth/login'
     | '/_auth/register'
     | '/_main/hr'
+    | '/_main/position'
     | '/_main/profile'
     | '/_main/settings'
     | '/_main/test'
@@ -305,6 +327,7 @@ export const routeTree = rootRoute
       "filePath": "_main.tsx",
       "children": [
         "/_main/hr",
+        "/_main/position",
         "/_main/profile",
         "/_main/settings",
         "/_main/test",
@@ -325,6 +348,10 @@ export const routeTree = rootRoute
     },
     "/_main/hr": {
       "filePath": "_main/hr.tsx",
+      "parent": "/_main"
+    },
+    "/_main/position": {
+      "filePath": "_main/position.tsx",
       "parent": "/_main"
     },
     "/_main/profile": {

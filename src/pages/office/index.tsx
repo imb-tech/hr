@@ -35,7 +35,7 @@ export default function OfficePage() {
         onRowClick={(item) => console.log(item)}
       />
 
-      <DeleteModal id={1} path="ddd" />
+      <DeleteModal id={1} path="ddd" queryKey="office" />
 
       <Modal size="3xl" title="Ofis qo'shish">
         <CreateOfficeForm />
