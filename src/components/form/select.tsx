@@ -41,8 +41,8 @@ export default function FormSelect<IForm extends FieldValues>({
           isInvalid={!!fieldState.error}
           label={props.label}
           labelPlacement="outside"
-          multiple={multiple}
           name={name}
+          selectionMode={multiple ? "multiple" : "single"}
           placeholder={`Select ${props.label}`}
           selectedKeys={field.value as string}
           size="lg"
