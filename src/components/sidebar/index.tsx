@@ -1,27 +1,34 @@
 import { Link, linkOptions } from "@tanstack/react-router";
+import { Building2, CircleUser, Settings } from "lucide-react";
 import { Logo } from "../icons";
-import { HomeIcon, ProfileIcon, UsersIcon } from "../icons/nav-icons";
+import { UsersIcon } from "../icons/nav-icons";
 import MenuItem from "./menu-item";
 
 export default function Sidebar() {
   const links = [
     linkOptions({
       to: "/",
-      icon: <ProfileIcon />,
+      icon: <Building2 />,
       enabled: true,
-      title: "Profile",
+      title: "Ofislar",
     }),
     linkOptions({
-      to: "/dashboard",
-      icon: <HomeIcon />,
+      to: "/profile",
+      icon: <CircleUser />,
       enabled: true,
-      title: "Dashboard",
+      title: "Profil",
     }),
     linkOptions({
-      to: "/drivers",
+      to: "/hr",
       icon: <UsersIcon />,
       enabled: true,
-      title: "Drivers",
+      title: "Hodimlar",
+    }),
+    linkOptions({
+      to: "/settings",
+      icon: <Settings />,
+      enabled: true,
+      title: "Sozlamalar",
     }),
   ];
 

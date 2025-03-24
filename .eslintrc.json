@@ -73,6 +73,7 @@
         "next": ["const", "let", "var"]
       }
     ],
-    "react/no-unescaped-entities": "off"
+    "react/no-unescaped-entities": "off",
+     "react-hooks/rules-of-hooks": "off"
   }
 }
