@@ -1,7 +1,7 @@
 import Modal from "@/components/ui/modal";
 import DataTable from "@/components/ui/table";
-import CreateOfficeForm from "./create-office-form";
 import { usPostionsCols } from "./cols";
+import CreatePostionsForm from "./create-positon-form";
 
 export default function PostionsPage() {
   const data: Positon[] = [
@@ -17,7 +17,7 @@ export default function PostionsPage() {
       <DataTable columns={usPostionsCols()} data={data} />
 
       <Modal size="3xl" title="Lavozim qo'shish">
-        <CreateOfficeForm />
+        <CreatePostionsForm />
       </Modal>
     </div>
   );

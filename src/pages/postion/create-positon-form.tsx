@@ -1,6 +1,6 @@
 import ModalFormActions from "@/components/elements/modal-form-actions";
 import FormInput from "@/components/form/input";
-import FormSelect from "@/components/form/select";
+import TimeInput from "@/components/form/time-input";
 import { useForm } from "react-hook-form";
 
 export default function CreatePostionsForm() {
@@ -16,26 +16,28 @@ export default function CreatePostionsForm() {
         className="flex flex-col gap-2"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <FormInput required label="Nomi" methods={form} name="positon" size="lg" />
         <FormInput
           required
-          label="Lavozimlar"
+          label="Lavozim"
           methods={form}
           name="positon"
           size="lg"
         />
 
-        <FormSelect
-          required
-          label="Hodimlar"
-          methods={form}
-          name="work_time"
-          options={[
-            { label: "Doniyor Eshmamatov", key: 1 },
-            { label: "Ozodbek Abdisamatov", key: 2 },
-          ]}
-        />
-
+        <div className="grid grid-cols-2 gap-3 py-2">
+          <TimeInput
+            methods={form}
+            name="work_time"
+            label={"Tushlik boshlanish vaqti"}
+            isRequired
+          />
+          <TimeInput
+            methods={form}
+            name="work_time"
+            label={"Tushlik tugash vaqti"}
+            isRequired
+          />
+        </div>
 
         <ModalFormActions />
       </form>
