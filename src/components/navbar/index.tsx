@@ -2,19 +2,25 @@ import { Input } from "@heroui/input";
 import { Kbd } from "@heroui/kbd";
 import {
   Navbar as HeroUINavbar,
-  NavbarContent,
-  NavbarItem,
   NavbarMenu,
   NavbarMenuItem,
   NavbarMenuToggle,
 } from "@heroui/navbar";
 
-import { GithubIcon, SearchIcon } from "@/components/icons";
+import { SearchIcon } from "@/components/icons";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { siteConfig } from "@/config/site";
 import { Link } from "@tanstack/react-router";
+import { ReactNode } from "react";
+import HeaderBreadvrumb from "./header-breadcrumb";
 
-export const Navbar = () => {
+export const Navbar = ({
+  items,
+  rightComponent,
+}: {
+  items?: string[];
+  rightComponent?: ReactNode;
+}) => {
   const searchInput = (
     <Input
       aria-label="Search"
@@ -42,24 +48,30 @@ export const Navbar = () => {
       maxWidth="full"
       position="sticky"
     >
-      <NavbarContent
-        className="hidden sm:flex basis-1/5 sm:basis-full"
-        justify="end"
-      >
-        <NavbarItem className="hidden sm:flex gap-2">
-          <ThemeSwitch />
-        </NavbarItem>
-      </NavbarContent>
+      <div className="hidden sm:flex flex-1">
+        <div className="hidden sm:flex gap-2">
+          <HeaderBreadvrumb items={items ?? []} />
+        </div>
+      </div>
 
-      <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-        <Link to={siteConfig.links.github}>
-          <GithubIcon className="text-default-500" />
-        </Link>
+      {!!rightComponent && (
+        <div className="hidden sm:flex">
+          <div className="hidden sm:flex gap-2">{rightComponent}</div>
+        </div>
+      )}
+
+      <div className="hidden sm:flex">
+        <div className="hidden sm:flex gap-2">
+          <ThemeSwitch />
+        </div>
+      </div>
+
+      <div className="sm:hidden pl-4">
         <ThemeSwitch />
         <NavbarMenuToggle />
-      </NavbarContent>
+      </div>
 
-      <NavbarMenu>
+      <NavbarMenu className="static sm:hidden">
         {searchInput}
         <div className="mx-4 mt-2 flex flex-col gap-2">
           {siteConfig.navMenuItems.map((item, index) => (

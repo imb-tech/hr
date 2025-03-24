@@ -42,7 +42,7 @@ export default function Profilepage() {
       required: true,
     },
   ];
-  const form = useForm<Profile>()
+  const form = useForm<Profile>();
   const { Form } = useFormFields<Profile>(profileFields, form);
 
   const onSubmit = (data: any) => {

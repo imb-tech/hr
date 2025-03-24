@@ -1,9 +1,10 @@
+import HrPage from "@/pages/hr";
 import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/_main/dashboard")({
+export const Route = createFileRoute("/_main/hr")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  return <div>Hello "/_main/dashboard"!</div>;
+  return <HrPage />;
 }

@@ -2,24 +2,24 @@ import { FormField, useFormFields } from "@/hooks/use-fields";
 import { Link } from "@tanstack/react-router";
 import { Path, useForm } from "react-hook-form";
 
-type RegisterFields = {
+type LoginFields = {
   company: string;
   address: string;
   stir: number;
   aacept: boolean;
 };
 
-export default function RegisterForm() {
-  const form = useForm<RegisterFields>();
-  const { Form } = useFormFields<RegisterFields>(registerFields, form);
+export default function LoginForm() {
+  const form = useForm<LoginFields>();
+  const { Form } = useFormFields<LoginFields>(registerFields, form);
 
   const onSubmit = (data: any) => {
-    console.log("Register Data:", data);
+    console.log("Login Data:", data);
   };
 
   return (
-    <section className="flex pl-16 justify-center h-full flex-col">
-      <h1 className="text-3xl mb-1">Welcome to Acme 👋</h1>
+    <section className="flex pl-16 justify-center h-full flex-col w-full">
+      <h1 className="text-3xl mb-1 text-ce">Welcome to Acme 👋</h1>
       <div className="max-w-[400px] w-full flex items-center gap-2 mb-3">
         <span className="text-default-400 text-sm text-right">
           Already have an account?
@@ -29,10 +29,11 @@ export default function RegisterForm() {
         </Link>
       </div>
       <Form
-        onSubmit={onSubmit}
+        formBottom
         className="grid-cols-2"
-        wrapperClassName="max-w-xl"
         submitText="Create a Company"
+        wrapperClassName="max-w-xl"
+        onSubmit={onSubmit}
       />
       <div className="max-w-[400px] w-full flex mt-2">
         <Link className="text-primary text-sm text-right" to="/forgot-password">
@@ -43,7 +44,7 @@ export default function RegisterForm() {
   );
 }
 
-const registerFields: (FormField & { name: Path<RegisterFields> })[] = [
+const registerFields: (FormField & { name: Path<LoginFields> })[] = [
   {
     name: "company",
     type: "text",

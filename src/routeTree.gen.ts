@@ -11,30 +11,18 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as RegisterImport } from './routes/register'
-import { Route as NewLoginImport } from './routes/new-login'
 import { Route as MainImport } from './routes/_main'
 import { Route as AuthImport } from './routes/_auth'
 import { Route as MainIndexImport } from './routes/_main/index'
 import { Route as MainTestImport } from './routes/_main/test'
-import { Route as MainDriversImport } from './routes/_main/drivers'
-import { Route as MainDashboardImport } from './routes/_main/dashboard'
+import { Route as MainSettingsImport } from './routes/_main/settings'
+import { Route as MainProfileImport } from './routes/_main/profile'
+import { Route as MainHrImport } from './routes/_main/hr'
+import { Route as AuthRegisterImport } from './routes/_auth/register'
 import { Route as AuthLoginImport } from './routes/_auth/login'
 import { Route as AuthForgotPasswordImport } from './routes/_auth/forgot-password'
 
 // Create/Update Routes
-
-const RegisterRoute = RegisterImport.update({
-  id: '/register',
-  path: '/register',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const NewLoginRoute = NewLoginImport.update({
-  id: '/new-login',
-  path: '/new-login',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const MainRoute = MainImport.update({
   id: '/_main',
@@ -58,16 +46,28 @@ const MainTestRoute = MainTestImport.update({
   getParentRoute: () => MainRoute,
 } as any)
 
-const MainDriversRoute = MainDriversImport.update({
-  id: '/drivers',
-  path: '/drivers',
+const MainSettingsRoute = MainSettingsImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => MainRoute,
 } as any)
 
-const MainDashboardRoute = MainDashboardImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+const MainProfileRoute = MainProfileImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => MainRoute,
+} as any)
+
+const MainHrRoute = MainHrImport.update({
+  id: '/hr',
+  path: '/hr',
+  getParentRoute: () => MainRoute,
+} as any)
+
+const AuthRegisterRoute = AuthRegisterImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => AuthRoute,
 } as any)
 
 const AuthLoginRoute = AuthLoginImport.update({
@@ -100,20 +100,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainImport
       parentRoute: typeof rootRoute
     }
-    '/new-login': {
-      id: '/new-login'
-      path: '/new-login'
-      fullPath: '/new-login'
-      preLoaderRoute: typeof NewLoginImport
-      parentRoute: typeof rootRoute
-    }
-    '/register': {
-      id: '/register'
-      path: '/register'
-      fullPath: '/register'
-      preLoaderRoute: typeof RegisterImport
-      parentRoute: typeof rootRoute
-    }
     '/_auth/forgot-password': {
       id: '/_auth/forgot-password'
       path: '/forgot-password'
@@ -128,18 +114,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginImport
       parentRoute: typeof AuthImport
     }
-    '/_main/dashboard': {
-      id: '/_main/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof MainDashboardImport
+    '/_auth/register': {
+      id: '/_auth/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof AuthRegisterImport
+      parentRoute: typeof AuthImport
+    }
+    '/_main/hr': {
+      id: '/_main/hr'
+      path: '/hr'
+      fullPath: '/hr'
+      preLoaderRoute: typeof MainHrImport
       parentRoute: typeof MainImport
     }
-    '/_main/drivers': {
-      id: '/_main/drivers'
-      path: '/drivers'
-      fullPath: '/drivers'
-      preLoaderRoute: typeof MainDriversImport
+    '/_main/profile': {
+      id: '/_main/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof MainProfileImport
+      parentRoute: typeof MainImport
+    }
+    '/_main/settings': {
+      id: '/_main/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof MainSettingsImport
       parentRoute: typeof MainImport
     }
     '/_main/test': {
@@ -164,25 +164,29 @@ declare module '@tanstack/react-router' {
 interface AuthRouteChildren {
   AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
   AuthLoginRoute: typeof AuthLoginRoute
+  AuthRegisterRoute: typeof AuthRegisterRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthForgotPasswordRoute: AuthForgotPasswordRoute,
   AuthLoginRoute: AuthLoginRoute,
+  AuthRegisterRoute: AuthRegisterRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface MainRouteChildren {
-  MainDashboardRoute: typeof MainDashboardRoute
-  MainDriversRoute: typeof MainDriversRoute
+  MainHrRoute: typeof MainHrRoute
+  MainProfileRoute: typeof MainProfileRoute
+  MainSettingsRoute: typeof MainSettingsRoute
   MainTestRoute: typeof MainTestRoute
   MainIndexRoute: typeof MainIndexRoute
 }
 
 const MainRouteChildren: MainRouteChildren = {
-  MainDashboardRoute: MainDashboardRoute,
-  MainDriversRoute: MainDriversRoute,
+  MainHrRoute: MainHrRoute,
+  MainProfileRoute: MainProfileRoute,
+  MainSettingsRoute: MainSettingsRoute,
   MainTestRoute: MainTestRoute,
   MainIndexRoute: MainIndexRoute,
 }
@@ -191,24 +195,24 @@ const MainRouteWithChildren = MainRoute._addFileChildren(MainRouteChildren)
 
 export interface FileRoutesByFullPath {
   '': typeof MainRouteWithChildren
-  '/new-login': typeof NewLoginRoute
-  '/register': typeof RegisterRoute
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
-  '/dashboard': typeof MainDashboardRoute
-  '/drivers': typeof MainDriversRoute
+  '/register': typeof AuthRegisterRoute
+  '/hr': typeof MainHrRoute
+  '/profile': typeof MainProfileRoute
+  '/settings': typeof MainSettingsRoute
   '/test': typeof MainTestRoute
   '/': typeof MainIndexRoute
 }
 
 export interface FileRoutesByTo {
   '': typeof AuthRouteWithChildren
-  '/new-login': typeof NewLoginRoute
-  '/register': typeof RegisterRoute
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
-  '/dashboard': typeof MainDashboardRoute
-  '/drivers': typeof MainDriversRoute
+  '/register': typeof AuthRegisterRoute
+  '/hr': typeof MainHrRoute
+  '/profile': typeof MainProfileRoute
+  '/settings': typeof MainSettingsRoute
   '/test': typeof MainTestRoute
   '/': typeof MainIndexRoute
 }
@@ -217,12 +221,12 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_auth': typeof AuthRouteWithChildren
   '/_main': typeof MainRouteWithChildren
-  '/new-login': typeof NewLoginRoute
-  '/register': typeof RegisterRoute
   '/_auth/forgot-password': typeof AuthForgotPasswordRoute
   '/_auth/login': typeof AuthLoginRoute
-  '/_main/dashboard': typeof MainDashboardRoute
-  '/_main/drivers': typeof MainDriversRoute
+  '/_auth/register': typeof AuthRegisterRoute
+  '/_main/hr': typeof MainHrRoute
+  '/_main/profile': typeof MainProfileRoute
+  '/_main/settings': typeof MainSettingsRoute
   '/_main/test': typeof MainTestRoute
   '/_main/': typeof MainIndexRoute
 }
@@ -231,35 +235,35 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | ''
-    | '/new-login'
-    | '/register'
     | '/forgot-password'
     | '/login'
-    | '/dashboard'
-    | '/drivers'
+    | '/register'
+    | '/hr'
+    | '/profile'
+    | '/settings'
     | '/test'
     | '/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | ''
-    | '/new-login'
-    | '/register'
     | '/forgot-password'
     | '/login'
-    | '/dashboard'
-    | '/drivers'
+    | '/register'
+    | '/hr'
+    | '/profile'
+    | '/settings'
     | '/test'
     | '/'
   id:
     | '__root__'
     | '/_auth'
     | '/_main'
-    | '/new-login'
-    | '/register'
     | '/_auth/forgot-password'
     | '/_auth/login'
-    | '/_main/dashboard'
-    | '/_main/drivers'
+    | '/_auth/register'
+    | '/_main/hr'
+    | '/_main/profile'
+    | '/_main/settings'
     | '/_main/test'
     | '/_main/'
   fileRoutesById: FileRoutesById
@@ -268,15 +272,11 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   AuthRoute: typeof AuthRouteWithChildren
   MainRoute: typeof MainRouteWithChildren
-  NewLoginRoute: typeof NewLoginRoute
-  RegisterRoute: typeof RegisterRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRouteWithChildren,
   MainRoute: MainRouteWithChildren,
-  NewLoginRoute: NewLoginRoute,
-  RegisterRoute: RegisterRoute,
 }
 
 export const routeTree = rootRoute
@@ -290,32 +290,26 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/_auth",
-        "/_main",
-        "/new-login",
-        "/register"
+        "/_main"
       ]
     },
     "/_auth": {
       "filePath": "_auth.tsx",
       "children": [
         "/_auth/forgot-password",
-        "/_auth/login"
+        "/_auth/login",
+        "/_auth/register"
       ]
     },
     "/_main": {
       "filePath": "_main.tsx",
       "children": [
-        "/_main/dashboard",
-        "/_main/drivers",
+        "/_main/hr",
+        "/_main/profile",
+        "/_main/settings",
         "/_main/test",
         "/_main/"
       ]
-    },
-    "/new-login": {
-      "filePath": "new-login.tsx"
-    },
-    "/register": {
-      "filePath": "register.tsx"
     },
     "/_auth/forgot-password": {
       "filePath": "_auth/forgot-password.tsx",
@@ -325,12 +319,20 @@ export const routeTree = rootRoute
       "filePath": "_auth/login.tsx",
       "parent": "/_auth"
     },
-    "/_main/dashboard": {
-      "filePath": "_main/dashboard.tsx",
+    "/_auth/register": {
+      "filePath": "_auth/register.tsx",
+      "parent": "/_auth"
+    },
+    "/_main/hr": {
+      "filePath": "_main/hr.tsx",
       "parent": "/_main"
     },
-    "/_main/drivers": {
-      "filePath": "_main/drivers.tsx",
+    "/_main/profile": {
+      "filePath": "_main/profile.tsx",
+      "parent": "/_main"
+    },
+    "/_main/settings": {
+      "filePath": "_main/settings.tsx",
       "parent": "/_main"
     },
     "/_main/test": {

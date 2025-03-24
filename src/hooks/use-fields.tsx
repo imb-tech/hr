@@ -49,7 +49,6 @@ export type FormField =
 export function useFormFields<FieldTypes extends FieldValues>(
   fields: Partial<FormField[]>,
   form: UseFormReturn<FieldTypes>,
-  formBottom?: ReactNode,
 ) {
   const { handleSubmit, control } = form;
   type Field = Path<FieldTypes>;
@@ -146,11 +145,15 @@ export function useFormFields<FieldTypes extends FieldValues>(
       wrapperClassName,
       className,
       submitText,
+      hideSubmit,
+      formBottom,
     }: {
       onSubmit: (data: FieldTypes) => void;
       className?: string;
       wrapperClassName?: string;
       submitText?: string;
+      hideSubmit?: boolean;
+      formBottom?: ReactNode;
     }) => (
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -165,14 +168,17 @@ export function useFormFields<FieldTypes extends FieldValues>(
               {renderField(field!)}
             </div>
           ))}
-          {!formBottom && (
-            <div className="w-full h-full flex flex-col grid-cols-12">
-              <label className="opacity-0 h-2">{submitText ?? "Submit"}</label>
-              <Button type="submit" fullWidth color="primary">
-                {submitText ?? "Submit"}
-              </Button>
-            </div>
-          )}
+          {!formBottom ||
+            (!hideSubmit && (
+              <div className="w-full h-full flex flex-col grid-cols-12">
+                <label className="opacity-0 h-2">
+                  {submitText ?? "Submit"}
+                </label>
+                <Button type="submit" fullWidth color="primary">
+                  {submitText ?? "Submit"}
+                </Button>
+              </div>
+            ))}
         </div>
         {formBottom}
       </form>
