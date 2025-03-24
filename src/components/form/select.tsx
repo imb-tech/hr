@@ -42,9 +42,9 @@ export default function FormSelect<IForm extends FieldValues>({
           label={props.label}
           labelPlacement="outside"
           name={name}
-          selectionMode={multiple ? "multiple" : "single"}
           placeholder={`Select ${props.label}`}
           selectedKeys={field.value as string}
+          selectionMode={multiple ? "multiple" : "single"}
           size="lg"
           value={field.value}
           onSelectionChange={field.onChange}

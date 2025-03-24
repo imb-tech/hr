@@ -16,7 +16,7 @@ const mapContainerStyle = {
 
 const defaultZoom = 17;
 
-const VITE_GOOGLE_MAP_API_KEY = import.meta.env.VITE_GOOGLE_MAP_API_KEY
+const VITE_GOOGLE_MAP_API_KEY = import.meta.env.VITE_GOOGLE_MAP_API_KEY;
 
 function OfficeLocationSelect() {
   const [lat, long] = [41.200777, 69.236642];

@@ -19,30 +19,30 @@ export default function CreateOfficeForm() {
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <FormInput
+          isRequired
           required
           label="Nomi"
           methods={form}
           name="name"
           size="lg"
-          isRequired
         />
 
         <FormInput
+          isRequired
           required
           label="Manzil"
           methods={form}
           name="address"
           size="lg"
-          isRequired
         />
 
         <FormSelect
+          isRequired
+          multiple
           required
           label="Hodimlar"
           methods={form}
           name="users"
-          multiple
-          isRequired
           options={[
             { label: "Doniyor Eshmamatov", key: 1 },
             { label: "Ozodbek Abdisamatov", key: 2 },
@@ -51,16 +51,16 @@ export default function CreateOfficeForm() {
 
         <div className="grid grid-cols-2 gap-3 py-2">
           <TimeInput
+            isRequired
+            label={"Tushlik boshlanish vaqti"}
             methods={form}
             name="work_time"
-            label={"Tushlik boshlanish vaqti"}
-            isRequired
           />
           <TimeInput
+            isRequired
+            label={"Tushlik tugash vaqti"}
             methods={form}
             name="work_time"
-            label={"Tushlik tugash vaqti"}
-            isRequired
           />
         </div>
 

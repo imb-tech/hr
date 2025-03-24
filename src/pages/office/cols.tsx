@@ -9,6 +9,7 @@ export const usOfficeCols = () => {
       { header: "Manzil", dataKey: "address", sortable: true },
       { header: "Hodimlar soni", dataKey: "users", sortable: true },
       { header: "Ish vaqti", dataKey: "work_time", sortable: true },
+      { header: "Amallar", dataKey: "actions" },
     ],
     [],
   );
