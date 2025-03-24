@@ -75,7 +75,7 @@ function OfficeLocationSelect() {
     );
 
   return (
-    <div className="relative w-full !h-[400px] overflow-hidden rounded-xl">
+    <div className="relative w-full !h-[300px] overflow-hidden rounded-xl">
       <GoogleMap
         center={{ lat: +lat, lng: +long }}
         mapContainerStyle={mapContainerStyle}
