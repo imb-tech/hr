@@ -1,3 +1,4 @@
+import { addToast } from "@heroui/toast"
 import { toast } from "sonner"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -9,6 +10,10 @@ export function onError(err: any) {
             { duration: 5000 },
         )
     } else {
-        toast.error((err?.message || err?.detail), { duration: 5000 })
+        addToast({
+            title: "Xatolik",
+            description: (err?.message || err?.detail),
+            color: "danger",
+        })
     }
 }

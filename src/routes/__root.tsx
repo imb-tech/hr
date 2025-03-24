@@ -1,6 +1,6 @@
 import { Outlet, createRootRoute } from "@tanstack/react-router";
 import * as React from "react";
-import { Toaster } from "sonner";
+import {ToastProvider} from "@heroui/toast";
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -10,7 +10,7 @@ function RootComponent() {
   return (
     <React.Fragment>
       <Outlet />
-      <Toaster />
+      <ToastProvider />
     </React.Fragment>
   );
 }

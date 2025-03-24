@@ -8,7 +8,7 @@ export const deleteRequest = (url: string, config?: AxiosRequestConfig) =>
     api.delete(`/${url}/`, config).then((res) => res.data)
 
 export const useDelete = (
-    queryKeys: string | string[],
+    queryKeys: string | string[] | undefined,
     options?: Partial<UseMutationOptions<any, any, string>>,
     config?: AxiosRequestConfig,
 ) => {

@@ -19,7 +19,7 @@ export const putRequest = <T>(
 
 
 export const usePatch = <P = any, D = any>(
-    queryKeys: string | string[],
+    queryKeys: string | string[] | undefined,
     options?: Partial<UseMutationOptions<D, any, { url: string; payload: P }>>,
     config?: AxiosRequestConfig,
 ) => {
