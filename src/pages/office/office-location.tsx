@@ -9,8 +9,6 @@ import {
 } from "@react-google-maps/api";
 import { useState } from "react";
 
-const MAP_API_KEY = "AIzaSyDE1X4ckZsrfsMRRN2yN0NlXfdrS8kibAE";
-
 const mapContainerStyle = {
   width: "100%",
   height: "100%",
@@ -18,10 +16,12 @@ const mapContainerStyle = {
 
 const defaultZoom = 17;
 
+const VITE_GOOGLE_MAP_API_KEY = import.meta.env.VITE_GOOGLE_MAP_API_KEY
+
 function OfficeLocationSelect() {
   const [lat, long] = [41.200777, 69.236642];
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: MAP_API_KEY,
+    googleMapsApiKey: VITE_GOOGLE_MAP_API_KEY,
   } as LoadScriptProps);
 
   const { theme } = useTheme();
