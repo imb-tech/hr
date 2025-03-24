@@ -26,9 +26,10 @@ import {
   useState,
 } from "react";
 
-import { capitalize, VerticalDotsIcon } from "../icons/table-icons";
+import { capitalize } from "../icons/table-icons";
 
 import { SlidersVertical } from "lucide-react";
+import TableActions from "../elements/table-actions";
 
 export type ColumnDef<TData> = {
   dataKey: keyof TData | "actions";
@@ -42,6 +43,9 @@ type Props<TData> = {
   data: TData[];
   initialVisibleColumns?: (keyof TData | "actions")[];
   showColumnFilter?: boolean;
+  onEdit?: (item: TData) => void;
+  onDelete?: (item: TData) => void;
+  onView?: (item: TData) => void;
 };
 
 export default function DataTable<TData extends object>({
@@ -49,6 +53,9 @@ export default function DataTable<TData extends object>({
   columns = [],
   initialVisibleColumns,
   showColumnFilter,
+  onDelete,
+  onEdit,
+  onView,
   ...props
 }: Props<TData> & TableProps) {
   type ColumnKey = keyof TData | "actions";
@@ -87,18 +94,11 @@ export default function DataTable<TData extends object>({
       if (dataKey === "actions") {
         return (
           <div className="relative flex justify-end items-center gap-2">
-            <Dropdown placement="left-start">
-              <DropdownTrigger>
-                <Button isIconOnly size="sm" variant="light">
-                  <VerticalDotsIcon className="text-default-300" />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu>
-                <DropdownItem key="view">View</DropdownItem>
-                <DropdownItem key="edit">Edit</DropdownItem>
-                <DropdownItem key="delete">Delete</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
+            <TableActions
+              onDelete={onDelete ? () => onDelete?.(item) : undefined}
+              onEdit={onEdit ? () => onEdit?.(item) : undefined}
+              onView={onView ? () => onView?.(item) : undefined}
+            />
           </div>
         );
       }
