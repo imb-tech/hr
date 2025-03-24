@@ -1,5 +1,10 @@
 import { Link, linkOptions } from "@tanstack/react-router";
-import { ArrowUpNarrowWide, Building2, CircleUser, Settings } from "lucide-react";
+import {
+  ArrowUpNarrowWide,
+  Building2,
+  CircleUser,
+  Settings,
+} from "lucide-react";
 import { Logo } from "../icons";
 import { UsersIcon } from "../icons/nav-icons";
 import MenuItem from "./menu-item";

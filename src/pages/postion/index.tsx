@@ -7,7 +7,7 @@ export default function PostionsPage() {
   const data: Positon[] = [
     {
       id: 1,
-      positon: "Frontend de",
+      positon: "Frontend developer",
       work_time: "09:00 - 18:00",
     },
   ];

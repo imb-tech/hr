@@ -26,16 +26,16 @@ export default function CreatePostionsForm() {
 
         <div className="grid grid-cols-2 gap-3 py-2">
           <TimeInput
+            isRequired
+            label={"Tushlik boshlanish vaqti"}
             methods={form}
             name="work_time"
-            label={"Tushlik boshlanish vaqti"}
-            isRequired
           />
           <TimeInput
+            isRequired
+            label={"Tushlik tugash vaqti"}
             methods={form}
             name="work_time"
-            label={"Tushlik tugash vaqti"}
-            isRequired
           />
         </div>
 
