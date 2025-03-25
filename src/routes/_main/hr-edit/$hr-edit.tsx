@@ -3,7 +3,7 @@ import CreateHrForm from "@/pages/hr/create-hr-form";
 import { Button } from "@heroui/button";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/_main/hr-create")({
+export const Route = createFileRoute("/_main/hr-edit/$hr-edit")({
   component: RouteComponent,
 });
 

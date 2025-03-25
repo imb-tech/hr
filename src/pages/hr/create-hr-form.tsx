@@ -1,14 +1,53 @@
 import FormInput from "@/components/form/input";
 import FormSelect from "@/components/form/select";
+import { useGet } from "@/hooks/useGet";
+import { usePatch } from "@/hooks/usePatch";
+import { usePost } from "@/hooks/usePost";
+import { HR_API } from "@/lib/api-endpoints";
 import { Button } from "@heroui/button";
+import { addToast } from "@heroui/toast";
+import { useParams } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 export default function CreateHrForm() {
   const form = useForm<Human>();
+  const { "hr-edit": id } = useParams({ strict: false });
+  const { data, isSuccess } = useGet(HR_API, {
+    options: { enabled: Boolean(id) },
+  });
 
-  const onSubmit = (data: Human) => {
-    console.log("Login Data:", data);
+  const { mutate: postMutate } = usePost(HR_API, {
+    onSuccess: () => {
+      addToast({
+        description: "Muaffaqiyatli qo'shildi",
+        color: "success",
+      });
+    },
+  });
+
+  const { mutate: updateMutate } = usePatch(HR_API, {
+    onSuccess: () => {
+      addToast({
+        description: "Muaffaqiyatli yangilandi",
+        color: "success",
+      });
+    },
+  });
+
+  const onSubmit = (values: Human) => {
+    if (id) {
+      updateMutate(`${HR_API}/${id}`, values);
+    } else {
+      postMutate(HR_API, values);
+    }
   };
+
+  useEffect(() => {
+    if (data) {
+      form.reset(data);
+    }
+  }, [isSuccess, form, data]);
 
   const formFields = [
     { label: "F.I.O", name: "full_name" },

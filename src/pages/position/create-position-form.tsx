@@ -1,20 +1,46 @@
 import ModalFormActions from "@/components/elements/modal-form-actions";
 import FormInput from "@/components/form/input";
 import TimeInput from "@/components/form/time-input";
+import { usePatch } from "@/hooks/usePatch";
+import { usePost } from "@/hooks/usePost";
+import { POSITION } from "@/lib/api-endpoints";
+import { addToast } from "@heroui/toast";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 interface CreatePositionsFormProps {
-  dataItem?: Positon;
+  dataItem?: Position;
 }
 
-export default function CreatePostionsForm({
+export default function CreatePositionsForm({
   dataItem,
 }: CreatePositionsFormProps) {
-  const form = useForm<Positon>();
+  const form = useForm<Position>();
 
-  const onSubmit = (data: any) => {
-    console.log("Login Data:", data);
+  const { mutate: postMutate } = usePost(POSITION, {
+    onSuccess: () => {
+      addToast({
+        description: "Muaffaqiyatli qo'shildi",
+        color: "success",
+      });
+    },
+  });
+
+  const { mutate: updateMutate } = usePatch(POSITION, {
+    onSuccess: () => {
+      addToast({
+        description: "Muaffaqiyatli yangilandi",
+        color: "success",
+      });
+    },
+  });
+
+  const onSubmit = (values: Position) => {
+    if (dataItem?.id) {
+      updateMutate(`${POSITION}/${dataItem.id}`, values);
+    } else {
+      postMutate(POSITION, values);
+    }
   };
 
   useEffect(() => {
@@ -33,7 +59,7 @@ export default function CreatePostionsForm({
           required
           label="Lavozim"
           methods={form}
-          name="positon"
+          name="poisiton"
           size="lg"
         />
 
