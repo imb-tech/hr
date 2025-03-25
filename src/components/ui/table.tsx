@@ -201,7 +201,7 @@ export default function DataTable<TData extends object>({
       <TableBody emptyContent={"Empty"} items={sortedItems}>
         {(item) => (
           <TableRow
-            key={JSON.stringify(item)}
+            key={(item as any).id}
             className={cn(
               !!onRowClick ? "cursor-pointer" : "",
               "hover:bg-default-100 rounded-md",

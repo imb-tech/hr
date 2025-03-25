@@ -8,3 +8,13 @@ type TOffice = {
 
 type Office = TOffice & { users: number };
 type OfficeFields = TOffice & { users: string };
+
+
+type OfficeInfo = {
+  position: string
+  workers: number
+  in_office: number
+  lated: number
+  dont_came: number
+  early_came: number
+}
