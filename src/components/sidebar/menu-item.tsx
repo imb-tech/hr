@@ -16,7 +16,7 @@ export default function MenuItem({ to, title, icon }: Props) {
     to === "/" ? pathname === to : pathname.startsWith(to) && to !== "/";
 
   return (
-    <Button color="primary" variant={isActive ? "flat" : "light"}>
+    <Button color="default" variant={isActive ? "flat" : "light"}>
       <Link className="w-full h-full flex items-center justify-start" to={to}>
         {icon}
         <span className="ml-2">{title}</span>

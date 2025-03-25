@@ -55,7 +55,7 @@ export default function Sidebar() {
           <p className="font-bold text-inherit">ACME</p>
         </Link>
       </div>
-      <nav className="flex flex-col gap-0.5 py-14 w-full">
+      <nav className="flex flex-col gap-0.5 pt-2 w-full">
         {links?.map((link, i) => <MenuItem key={i} {...link} />)}
       </nav>
     </div>

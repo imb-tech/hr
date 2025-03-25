@@ -1,5 +1,6 @@
 type Positon = {
   id: number;
   positon: string;
-  work_time: string;
+  start_date: string;
+  end_date: string;
 };
