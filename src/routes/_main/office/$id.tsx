@@ -4,9 +4,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_main/office/$id")({
   component: RouteComponent,
-  validateSearch: (search: Record<string, string | undefined>) => {
-    return { tab: search?.tab ?? undefined };
-  },
+  validateSearch: (s: { tab?: string }) => s,
 });
 
 function RouteComponent() {
