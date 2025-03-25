@@ -10,16 +10,18 @@ export const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const storedToken = localStorage.getItem(TOKEN);
-    
+
     if (storedToken) {
       const token = JSON.parse(storedToken);
-      config.headers['Authorization'] = `Bearer ${token}`;
+
+      config.headers["Authorization"] = `Bearer ${token}`;
     }
+
     return config;
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 api.interceptors.response.use(
@@ -29,6 +31,7 @@ api.interceptors.response.use(
       localStorage.removeItem(TOKEN);
       window.location.href = "/login";
     }
+
     return Promise.reject(err);
-  }
+  },
 );

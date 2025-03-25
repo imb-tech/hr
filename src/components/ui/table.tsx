@@ -101,13 +101,16 @@ export default function DataTable<TData extends object>({
     (item: TData, dataKey: ColumnKey, cell?: Cell<TData, keyof TData>) => {
       if (dataKey === "actions") {
         return (
-          <div className="relative flex justify-end items-center gap-2">
+          <button
+            className="relative flex justify-end items-center gap-2 w-full py-1.5"
+            onClick={(e) => e.stopPropagation()}
+          >
             <TableActions
               onDelete={onDelete ? () => onDelete?.(item) : undefined}
               onEdit={onEdit ? () => onEdit?.(item) : undefined}
               onView={onView ? () => onView?.(item) : undefined}
             />
-          </div>
+          </button>
         );
       }
 
