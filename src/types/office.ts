@@ -16,5 +16,17 @@ type OfficeInfo = {
   in_office: number
   lated: number
   dont_came: number
-  early_came: number
+  early_left: number
+}
+
+
+type WorkerInfo = {
+  id: number
+  full_name: string
+  coming_time: string
+  work_duration: string
+  lating_time: string
+  early_left: string
+  live_location: string
+  left_time: string
 }

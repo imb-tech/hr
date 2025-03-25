@@ -1,7 +1,11 @@
 import Accordion from "@/components/ui/accordion";
 import DataTable from "@/components/ui/table";
-import { useHrListCols } from "../hr/cols";
+import { Selection } from "@react-types/shared";
+import { useNavigate, useParams, useSearch } from "@tanstack/react-router";
+import { useMemo } from "react";
+import { useWorkerInfoCols } from "./cols";
 import OfficeInfoRow from "./office-info-row";
+import OfficeProfile from "./office-profile";
 import OfficeDetailTableHeader from "./table-header";
 
 const info: OfficeInfo[] = [
@@ -11,7 +15,7 @@ const info: OfficeInfo[] = [
     in_office: 6,
     lated: 2,
     dont_came: 1,
-    early_came: 0,
+    early_left: 0,
   },
   {
     position: "Dispetcher",
@@ -19,67 +23,54 @@ const info: OfficeInfo[] = [
     in_office: 6,
     lated: 2,
     dont_came: 1,
-    early_came: 1,
+    early_left: 1,
+  },
+];
+const data: WorkerInfo[] = [
+  {
+    id: 1,
+    full_name: "Ozodbek",
+    coming_time: "08:56",
+    work_duration: "8s 15m",
+    lating_time: "0 min",
+    early_left: "15 min",
+    live_location: "Ishda",
+    left_time: "18:32",
   },
 ];
 
 export default function OfficeDetail() {
-  const data: Human[] = [
-    {
-      id: 1,
-      full_name: "Ozodbek",
-      phone: "+998 93 102 30 42",
-      family_phone: ["+998 88 102 30 42"],
-      address: "Tashkent, 123 Street",
-      location: "Tashkent, Uzbekistan",
-      id_card: "1234567890",
-      education: "Bachelor of Science",
-      salary: 50000,
-    },
-    {
-      id: 2,
-      full_name: "ozodbek 1",
-      phone: "+998 93 102 30 42",
-      family_phone: ["+998 88 102 30 42"],
-      address: "Tashkent, 123 Street",
-      location: "Tashkent, Uzbekistan",
-      id_card: "1234567890",
-      education: "Bachelor of Science",
-      salary: 32000,
-    },
-    {
-      id: 3,
-      full_name: "ozodbe",
-      phone: "+998 93 102 30 42",
-      family_phone: ["+998 88 102 30 42"],
-      address: "Tashkent, 123 Street",
-      location: "Tashkent, Uzbekistan",
-      id_card: "1234567890",
-      education: "Bachelor of Science",
-      salary: 42,
-    },
-    {
-      id: 4,
-      full_name: "ozodb",
-      phone: "+998 93 102 30 42",
-      family_phone: ["+998 88 102 30 42"],
-      address: "Tashkent, 123 Street",
-      location: "Tashkent, Uzbekistan",
-      id_card: "1234567890",
-      education: "Bachelor of Science",
-      salary: 500,
-    },
-  ];
+  const navigate = useNavigate();
+  const { id } = useParams({ from: "/_main/office/$id" });
+  const search = useSearch({ from: "/_main/office/$id" });
 
-  const columns = useHrListCols().filter((el) => el.dataKey !== "actions");
+  function clickAccordion(keys: Selection) {
+    navigate({
+      to: "/office/$id",
+      params: { id },
+      search: {
+        tab: Array.from(keys)
+          ?.map((s) => Number(s))
+          ?.join(","),
+      },
+    });
+  }
+  const selectedKeys = useMemo(
+    () => new Set(search?.tab?.split(",")),
+    [search],
+  );
+
+  const columns = useWorkerInfoCols();
 
   return (
     <div>
+      <OfficeProfile />
       <Accordion
         selectionMode="multiple"
         variant="light"
         items={[
           {
+            key: "1",
             title: <OfficeDetailTableHeader />,
             content: null,
           },
@@ -94,8 +85,10 @@ export default function OfficeDetail() {
       />
       <Accordion
         selectionMode="multiple"
-        variant="light"
-        items={info?.map((c) => ({
+        selectedKeys={selectedKeys}
+        onSelectionChange={(keys) => clickAccordion(keys)}
+        items={info?.map((c, i) => ({
+          key: i.toString(),
           title: <OfficeInfoRow data={c} />,
           content: (
             <DataTable

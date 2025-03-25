@@ -7,16 +7,16 @@ import {
 import { ReactNode } from "react";
 
 type Props = Omit<AccordionProps, "items" | "children"> & {
-  items?: { title: ReactNode; content?: ReactNode }[];
+  items?: { key: string; title: ReactNode; content?: ReactNode }[];
   itemProps?: AccordionItemProps;
 };
 
 export default function Accordion({ items, itemProps, ...props }: Props) {
   return (
     <HAccordion {...props}>
-      {items?.map((el, k) => (
+      {items?.map((el) => (
         <AccordionItem
-          key={k.toString()}
+          key={el.key}
           aria-label={el.title?.toString()}
           title={el.title}
           {...itemProps}
