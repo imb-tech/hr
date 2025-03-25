@@ -1,7 +1,8 @@
 import { TimeInput as HeroTimeInput, TimeInputProps } from "@heroui/date-input";
 import { cn } from "@heroui/theme";
+import { Time } from "@internationalized/date";
 import { ReactNode } from "react";
-import { FieldValues, Path, UseFormReturn } from "react-hook-form";
+import { FieldValues, Path, PathValue, UseFormReturn } from "react-hook-form";
 
 interface IProps<IForm extends FieldValues> {
   methods: UseFormReturn<IForm>;
@@ -10,6 +11,7 @@ interface IProps<IForm extends FieldValues> {
   required?: boolean;
   fullWidth?: boolean;
   wrapperClassName?: string;
+  value?: string;
 }
 
 export default function TimeInput<IForm extends FieldValues>({
@@ -19,8 +21,9 @@ export default function TimeInput<IForm extends FieldValues>({
   fullWidth = false,
   wrapperClassName,
   required = false,
+  value,
   ...props
-}: IProps<IForm> & TimeInputProps) {
+}: TimeInputProps & IProps<IForm>) {
   const {
     register,
     formState: { errors },
@@ -32,6 +35,14 @@ export default function TimeInput<IForm extends FieldValues>({
       message: `${label ?? ""} field is required`,
     },
   });
+
+  function handleChange(time: string) {
+    methods.setValue(
+      name,
+      time as PathValue<IForm, Path<IForm> & (string | undefined)>,
+    );
+  }
+  const times = methods.watch(name)?.split(":");
 
   return (
     <fieldset
@@ -54,13 +65,18 @@ export default function TimeInput<IForm extends FieldValues>({
         labelPlacement="outside"
         {...props}
         {...reg}
-        onChange={(time) =>
-          reg.onChange({
-            target: {
-              value: time,
-            },
-          })
+        value={
+          times?.[0]
+            ? new Time(Number(times?.[0]), Number(times?.[0]))
+            : undefined
         }
+        onChange={(time) => {
+          if (time) {
+            handleChange(
+              `${time?.hour?.toString()}:${time?.minute?.toString()}`,
+            );
+          } else methods.resetField(name);
+        }}
       />
     </fieldset>
   );

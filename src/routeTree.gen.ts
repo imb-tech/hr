@@ -22,6 +22,7 @@ import { Route as MainHrImport } from './routes/_main/hr'
 import { Route as AuthRegisterImport } from './routes/_auth/register'
 import { Route as AuthLoginImport } from './routes/_auth/login'
 import { Route as AuthForgotPasswordImport } from './routes/_auth/forgot-password'
+import { Route as MainOfficeIdImport } from './routes/_main/office/$id'
 
 // Create/Update Routes
 
@@ -87,6 +88,12 @@ const AuthForgotPasswordRoute = AuthForgotPasswordImport.update({
   id: '/forgot-password',
   path: '/forgot-password',
   getParentRoute: () => AuthRoute,
+} as any)
+
+const MainOfficeIdRoute = MainOfficeIdImport.update({
+  id: '/office/$id',
+  path: '/office/$id',
+  getParentRoute: () => MainRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -170,6 +177,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainIndexImport
       parentRoute: typeof MainImport
     }
+    '/_main/office/$id': {
+      id: '/_main/office/$id'
+      path: '/office/$id'
+      fullPath: '/office/$id'
+      preLoaderRoute: typeof MainOfficeIdImport
+      parentRoute: typeof MainImport
+    }
   }
 }
 
@@ -196,6 +210,7 @@ interface MainRouteChildren {
   MainSettingsRoute: typeof MainSettingsRoute
   MainTestRoute: typeof MainTestRoute
   MainIndexRoute: typeof MainIndexRoute
+  MainOfficeIdRoute: typeof MainOfficeIdRoute
 }
 
 const MainRouteChildren: MainRouteChildren = {
@@ -205,6 +220,7 @@ const MainRouteChildren: MainRouteChildren = {
   MainSettingsRoute: MainSettingsRoute,
   MainTestRoute: MainTestRoute,
   MainIndexRoute: MainIndexRoute,
+  MainOfficeIdRoute: MainOfficeIdRoute,
 }
 
 const MainRouteWithChildren = MainRoute._addFileChildren(MainRouteChildren)
@@ -220,6 +236,7 @@ export interface FileRoutesByFullPath {
   '/settings': typeof MainSettingsRoute
   '/test': typeof MainTestRoute
   '/': typeof MainIndexRoute
+  '/office/$id': typeof MainOfficeIdRoute
 }
 
 export interface FileRoutesByTo {
@@ -233,6 +250,7 @@ export interface FileRoutesByTo {
   '/settings': typeof MainSettingsRoute
   '/test': typeof MainTestRoute
   '/': typeof MainIndexRoute
+  '/office/$id': typeof MainOfficeIdRoute
 }
 
 export interface FileRoutesById {
@@ -248,6 +266,7 @@ export interface FileRoutesById {
   '/_main/settings': typeof MainSettingsRoute
   '/_main/test': typeof MainTestRoute
   '/_main/': typeof MainIndexRoute
+  '/_main/office/$id': typeof MainOfficeIdRoute
 }
 
 export interface FileRouteTypes {
@@ -263,6 +282,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/test'
     | '/'
+    | '/office/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | ''
@@ -275,6 +295,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/test'
     | '/'
+    | '/office/$id'
   id:
     | '__root__'
     | '/_auth'
@@ -288,6 +309,7 @@ export interface FileRouteTypes {
     | '/_main/settings'
     | '/_main/test'
     | '/_main/'
+    | '/_main/office/$id'
   fileRoutesById: FileRoutesById
 }
 
@@ -331,7 +353,8 @@ export const routeTree = rootRoute
         "/_main/profile",
         "/_main/settings",
         "/_main/test",
-        "/_main/"
+        "/_main/",
+        "/_main/office/$id"
       ]
     },
     "/_auth/forgot-password": {
@@ -368,6 +391,10 @@ export const routeTree = rootRoute
     },
     "/_main/": {
       "filePath": "_main/index.tsx",
+      "parent": "/_main"
+    },
+    "/_main/office/$id": {
+      "filePath": "_main/office/$id.tsx",
       "parent": "/_main"
     }
   }

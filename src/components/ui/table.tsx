@@ -96,13 +96,16 @@ export default function DataTable<TData extends object>({
     (item: TData, dataKey: ColumnKey) => {
       if (dataKey === "actions") {
         return (
-          <div className="relative flex justify-end items-center gap-2">
+          <button
+            className="relative flex justify-end items-center gap-2 w-full py-1.5"
+            onClick={(e) => e.stopPropagation()}
+          >
             <TableActions
               onDelete={onDelete ? () => onDelete?.(item) : undefined}
               onEdit={onEdit ? () => onEdit?.(item) : undefined}
               onView={onView ? () => onView?.(item) : undefined}
             />
-          </div>
+          </button>
         );
       }
       const column = columns.find((c) => c.dataKey === dataKey);
@@ -195,8 +198,11 @@ export default function DataTable<TData extends object>({
         {(item) => (
           <TableRow
             key={JSON.stringify(item)}
+            className={cn(
+              !!onRowClick ? "cursor-pointer" : "",
+              "hover:bg-default-100 rounded-md",
+            )}
             onClick={() => onRowClick?.(item)}
-            className={cn(!!onRowClick ? "cursor-pointer" : "", "hover:bg-default-100 rounded-md")}
           >
             {headerColumns.map((column) => (
               <TableCell key={column.dataKey as string}>
