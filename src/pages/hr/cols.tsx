@@ -12,6 +12,7 @@ export const useHrListCols = () => {
       { header: "Manzil", dataKey: "address", sortable: true },
       { header: "Yashash joy", dataKey: "location", sortable: true },
       { header: "Oila a'zolari", dataKey: "family_phone", sortable: true },
+      { header: "Amallar", dataKey: "actions" },
     ],
     [],
   );

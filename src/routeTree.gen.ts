@@ -18,6 +18,7 @@ import { Route as MainTestImport } from './routes/_main/test'
 import { Route as MainSettingsImport } from './routes/_main/settings'
 import { Route as MainProfileImport } from './routes/_main/profile'
 import { Route as MainPositionImport } from './routes/_main/position'
+import { Route as MainHrCreateImport } from './routes/_main/hr-create'
 import { Route as MainHrImport } from './routes/_main/hr'
 import { Route as AuthRegisterImport } from './routes/_auth/register'
 import { Route as AuthLoginImport } from './routes/_auth/login'
@@ -63,6 +64,12 @@ const MainProfileRoute = MainProfileImport.update({
 const MainPositionRoute = MainPositionImport.update({
   id: '/position',
   path: '/position',
+  getParentRoute: () => MainRoute,
+} as any)
+
+const MainHrCreateRoute = MainHrCreateImport.update({
+  id: '/hr-create',
+  path: '/hr-create',
   getParentRoute: () => MainRoute,
 } as any)
 
@@ -142,6 +149,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainHrImport
       parentRoute: typeof MainImport
     }
+    '/_main/hr-create': {
+      id: '/_main/hr-create'
+      path: '/hr-create'
+      fullPath: '/hr-create'
+      preLoaderRoute: typeof MainHrCreateImport
+      parentRoute: typeof MainImport
+    }
     '/_main/position': {
       id: '/_main/position'
       path: '/position'
@@ -205,6 +219,7 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface MainRouteChildren {
   MainHrRoute: typeof MainHrRoute
+  MainHrCreateRoute: typeof MainHrCreateRoute
   MainPositionRoute: typeof MainPositionRoute
   MainProfileRoute: typeof MainProfileRoute
   MainSettingsRoute: typeof MainSettingsRoute
@@ -215,6 +230,7 @@ interface MainRouteChildren {
 
 const MainRouteChildren: MainRouteChildren = {
   MainHrRoute: MainHrRoute,
+  MainHrCreateRoute: MainHrCreateRoute,
   MainPositionRoute: MainPositionRoute,
   MainProfileRoute: MainProfileRoute,
   MainSettingsRoute: MainSettingsRoute,
@@ -231,6 +247,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
   '/hr': typeof MainHrRoute
+  '/hr-create': typeof MainHrCreateRoute
   '/position': typeof MainPositionRoute
   '/profile': typeof MainProfileRoute
   '/settings': typeof MainSettingsRoute
@@ -245,6 +262,7 @@ export interface FileRoutesByTo {
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
   '/hr': typeof MainHrRoute
+  '/hr-create': typeof MainHrCreateRoute
   '/position': typeof MainPositionRoute
   '/profile': typeof MainProfileRoute
   '/settings': typeof MainSettingsRoute
@@ -261,6 +279,7 @@ export interface FileRoutesById {
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/register': typeof AuthRegisterRoute
   '/_main/hr': typeof MainHrRoute
+  '/_main/hr-create': typeof MainHrCreateRoute
   '/_main/position': typeof MainPositionRoute
   '/_main/profile': typeof MainProfileRoute
   '/_main/settings': typeof MainSettingsRoute
@@ -277,6 +296,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/hr'
+    | '/hr-create'
     | '/position'
     | '/profile'
     | '/settings'
@@ -290,6 +310,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/hr'
+    | '/hr-create'
     | '/position'
     | '/profile'
     | '/settings'
@@ -304,6 +325,7 @@ export interface FileRouteTypes {
     | '/_auth/login'
     | '/_auth/register'
     | '/_main/hr'
+    | '/_main/hr-create'
     | '/_main/position'
     | '/_main/profile'
     | '/_main/settings'
@@ -349,6 +371,7 @@ export const routeTree = rootRoute
       "filePath": "_main.tsx",
       "children": [
         "/_main/hr",
+        "/_main/hr-create",
         "/_main/position",
         "/_main/profile",
         "/_main/settings",
@@ -371,6 +394,10 @@ export const routeTree = rootRoute
     },
     "/_main/hr": {
       "filePath": "_main/hr.tsx",
+      "parent": "/_main"
+    },
+    "/_main/hr-create": {
+      "filePath": "_main/hr-create.tsx",
       "parent": "/_main"
     },
     "/_main/position": {

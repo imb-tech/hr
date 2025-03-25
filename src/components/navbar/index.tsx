@@ -4,7 +4,6 @@ import {
   Navbar as HeroUINavbar,
   NavbarMenu,
   NavbarMenuItem,
-  NavbarMenuToggle,
 } from "@heroui/navbar";
 
 import { SearchIcon } from "@/components/icons";
@@ -44,31 +43,15 @@ export const Navbar = ({
 
   return (
     <HeroUINavbar
-      className="border-b-small border-divider"
+      className="border-b-small border-divider  "
       maxWidth="full"
       position="sticky"
     >
-      <div className="hidden sm:flex flex-1">
-        <div className="hidden sm:flex gap-2">
-          <HeaderBreadvrumb items={items ?? []} />
-        </div>
-      </div>
+      <HeaderBreadvrumb items={items ?? []} />
 
-      {!!rightComponent && (
-        <div className="hidden sm:flex">
-          <div className="hidden sm:flex gap-2">{rightComponent}</div>
-        </div>
-      )}
-
-      <div className="hidden sm:flex">
-        <div className="hidden sm:flex gap-2">
-          <ThemeSwitch />
-        </div>
-      </div>
-
-      <div className="sm:hidden pl-4">
+      <div className="flex gap-3">
+        {!!rightComponent && <div className="flex gap-2">{rightComponent}</div>}
         <ThemeSwitch />
-        <NavbarMenuToggle />
       </div>
 
       <NavbarMenu className="static sm:hidden">

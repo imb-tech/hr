@@ -2,7 +2,7 @@ import { useModal } from "@/hooks/use-modal";
 import { useDelete } from "@/hooks/useDelete";
 import { Button } from "@heroui/button";
 import { ModalFooter } from "@heroui/modal";
-import { toast } from "sonner";
+import { addToast } from "@heroui/toast";
 import Modal from "../ui/modal";
 
 type Props = {
@@ -21,7 +21,10 @@ export default function DeleteModal({
   const { closeModal } = useModal(modalKey);
   const { mutate } = useDelete(queryKey, {
     onSuccess: () => {
-      toast.success("Muvaffaqiyatli o'chirildi");
+      addToast({
+        description: "Muvaffaqiyatli o'chirildi",
+        color: "success",
+      });
       closeModal();
     },
   });

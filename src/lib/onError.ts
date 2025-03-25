@@ -1,15 +1,22 @@
-import { toast } from "sonner";
+import { addToast } from "@heroui/toast";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function onError(err: any) {
   const arrayErrors = Object.entries(err?.response?.data || {});
 
   if (arrayErrors.length > 0) {
-    toast.error(
-      arrayErrors.map(([key, value]) => key + ": " + value + "; "),
-      { duration: 5000 },
+    addToast(
+      {
+        title: "Xatolik",
+        description: arrayErrors.map(([key, value]) => key + ": " + value + "; ").join(', '),
+        color: "danger"
+      },
     );
   } else {
-    toast.error(err?.message || err?.detail, { duration: 5000 });
+    addToast({
+      title: "Xatolik",
+      description: err?.message || err?.detail,
+      color: "danger",
+    });
   }
 }

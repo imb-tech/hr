@@ -26,7 +26,7 @@ export default function Modal({
 
   return (
     <HeroModal
-      backdrop="blur"
+      backdrop="opaque"
       isOpen={isOpen}
       onOpenChange={closeModal}
       {...props}

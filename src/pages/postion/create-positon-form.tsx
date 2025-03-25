@@ -1,14 +1,27 @@
 import ModalFormActions from "@/components/elements/modal-form-actions";
 import FormInput from "@/components/form/input";
 import TimeInput from "@/components/form/time-input";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-export default function CreatePostionsForm() {
+interface CreatePositionsFormProps {
+  dataItem?: Positon;
+}
+
+export default function CreatePostionsForm({
+  dataItem,
+}: CreatePositionsFormProps) {
   const form = useForm<Positon>();
 
   const onSubmit = (data: any) => {
     console.log("Login Data:", data);
   };
+
+  useEffect(() => {
+    if (dataItem) {
+      form.reset(dataItem);
+    }
+  }, [dataItem, form]);
 
   return (
     <div>
@@ -24,18 +37,18 @@ export default function CreatePostionsForm() {
           size="lg"
         />
 
-        <div className="grid grid-cols-2 gap-3 py-2">
+        <div className="grid md:grid-cols-2 grid-cols-1 gap-3 py-2">
           <TimeInput
             isRequired
             label={"Tushlik boshlanish vaqti"}
             methods={form}
-            name="work_time"
+            name="start_date"
           />
           <TimeInput
             isRequired
             label={"Tushlik tugash vaqti"}
             methods={form}
-            name="work_time"
+            name="end_date"
           />
         </div>
 

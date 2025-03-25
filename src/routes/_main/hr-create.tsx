@@ -1,9 +1,9 @@
 import Page from "@/layouts/page";
-import HrPage from "@/pages/hr";
+import CreateHrForm from "@/pages/hr/create-hr-form";
 import { Button } from "@heroui/button";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/_main/hr")({
+export const Route = createFileRoute("/_main/hr-create")({
   component: RouteComponent,
 });
 
@@ -14,12 +14,10 @@ function RouteComponent() {
     <Page
       breadcrumb={["Xodimlar"]}
       rightComponent={
-        <Button onPress={() => navigate({ to: "/hr-create" })}>
-          Xodim qo'shish
-        </Button>
+        <Button onPress={() => navigate({ to: "/" })}>Ortga</Button>
       }
     >
-      <HrPage />
+      <CreateHrForm />
     </Page>
   );
 }

@@ -32,17 +32,22 @@ import { cn } from "@heroui/theme";
 import { SlidersVertical } from "lucide-react";
 import TableActions from "../elements/table-actions";
 
-export type ColumnDef<TData> = {
-  dataKey: keyof TData | "actions";
+type DataKey<T> = keyof T | "actions";
+type Cell<T, K extends keyof T> = (value: T[K], item: T) => ReactNode;
+
+export type ColumnDef<TData extends object> = {
+  dataKey: DataKey<TData>;
   header: string;
   sortable?: boolean;
-  call?: (item: TData) => ReactNode;
+  cell?: keyof TData extends DataKey<TData>
+    ? Cell<TData, keyof TData>
+    : (value: undefined, item: TData) => ReactNode;
 };
 
-type Props<TData> = {
+type Props<TData extends object> = {
   columns: ColumnDef<TData>[];
   data: TData[];
-  initialVisibleColumns?: (keyof TData | "actions")[];
+  initialVisibleColumns?: DataKey<TData>[];
   showColumnFilter?: boolean;
   onEdit?: (item: TData) => void;
   onDelete?: (item: TData) => void;
@@ -61,7 +66,7 @@ export default function DataTable<TData extends object>({
   onRowClick,
   ...props
 }: Props<TData> & TableProps) {
-  type ColumnKey = keyof TData | "actions";
+  type ColumnKey = DataKey<TData>;
 
   const [visibleColumns, setVisibleColumns] = useState<ColumnKey[]>(
     initialVisibleColumns ?? columns.map((col) => col.dataKey),
@@ -93,7 +98,7 @@ export default function DataTable<TData extends object>({
   );
 
   const renderCell = useCallback(
-    (item: TData, dataKey: ColumnKey) => {
+    (item: TData, dataKey: ColumnKey, cell?: Cell<TData, keyof TData>) => {
       if (dataKey === "actions") {
         return (
           <button
@@ -108,10 +113,9 @@ export default function DataTable<TData extends object>({
           </button>
         );
       }
-      const column = columns.find((c) => c.dataKey === dataKey);
 
       return (
-        <div>{column?.call ? column.call(item) : (item as any)[dataKey]}</div>
+        <div>{cell ? cell(item[dataKey], item) : (item as any)[dataKey]}</div>
       );
     },
     [columns],
@@ -206,7 +210,11 @@ export default function DataTable<TData extends object>({
           >
             {headerColumns.map((column) => (
               <TableCell key={column.dataKey as string}>
-                {renderCell(item, column.dataKey)}
+                {renderCell(
+                  item,
+                  column.dataKey,
+                  column?.cell as Cell<TData, keyof TData>,
+                )}
               </TableCell>
             ))}
           </TableRow>
