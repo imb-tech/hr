@@ -11,7 +11,7 @@ export default function Page({ children, breadcrumb, rightComponent }: Props) {
   return (
     <>
       <Navbar items={breadcrumb} rightComponent={rightComponent} />
-      <main className="container flex-grow w-full max-w-full mx-auto px-3 py-2 overflow-y-auto">
+      <main className="container flex-grow w-full max-w-full mx-auto px-6 py-2 overflow-y-auto">
         {children}
       </main>
     </>

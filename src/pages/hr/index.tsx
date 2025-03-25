@@ -16,7 +16,7 @@ export default function HrPage() {
   const data: Human[] = [
     {
       id: 1,
-      full_name: "ozodbek",
+      full_name: "Ozodbek Abdisamatov",
       phone: "+998 93 102 30 42",
       family_phone: ["+998 88 102 30 42"],
       address: "Tashkent, 123 Street",
@@ -44,7 +44,7 @@ export default function HrPage() {
           if (!item.id) return;
           navigate({ to: `/hr-edit/$${item.id}` });
         }}
-        onRowClick={(item) => console.log(item)}
+        onRowClick={(item) => navigate({ to: `/hr-view/${item.id}` })}
       />
       <DeleteModal id={deleteID} path={HR_API} queryKey={HR_API} />
       <Modal size="3xl" title="Xodim qo'shish">
