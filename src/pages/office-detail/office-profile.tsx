@@ -1,32 +1,22 @@
 import { UsersIcon } from "@/components/icons/nav-icons";
 import { Card } from "@heroui/card";
-import { Chip } from "@heroui/chip";
 import { cn } from "@heroui/theme";
 
 const data = [
   {
-    title: "Total Users",
-    value: "5,400",
-    change: "33%",
+    title: "Ofisdagi xodimalar",
+    value: "32",
     changeType: "positive",
-    trendChipPosition: "top",
-    iconName: "solar:users-group-rounded-linear",
   },
   {
-    title: "Total Sales",
-    value: "$15,400",
-    change: "0.0%",
+    title: "Ofis tashqarisidagi xodimalar",
+    value: "6",
     changeType: "neutral",
-    trendChipPosition: "top",
-    iconName: "solar:wallet-money-outline",
   },
   {
-    title: "Net Profit",
-    value: "$10,400",
-    change: "3.3%",
+    title: "Kelmagan xodimalar",
+    value: "4",
     changeType: "negative",
-    trendChipPosition: "top",
-    iconName: "solar:hand-money-linear",
   },
 ];
 
@@ -34,7 +24,7 @@ export default function OfficeProfile() {
   return (
     <dl className="grid w-full grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
       {data.map(
-        ({ title, value, change, changeType, trendChipPosition }, index) => (
+        ({ title, value, changeType }, index) => (
           <Card
             key={index}
             className="border border-transparent dark:border-default-100 shadow-sm border-default-200"
@@ -67,29 +57,6 @@ export default function OfficeProfile() {
                   {value}
                 </dd>
               </div>
-
-              <Chip
-                className={cn("absolute right-4", {
-                  "top-4": trendChipPosition === "top",
-                  "bottom-4": trendChipPosition === "bottom",
-                })}
-                classNames={{
-                  content: "font-semibold text-[0.65rem]",
-                }}
-                color={
-                  changeType === "positive"
-                    ? "success"
-                    : changeType === "neutral"
-                      ? "warning"
-                      : "danger"
-                }
-                radius="sm"
-                size="sm"
-                startContent={"dd"}
-                variant="flat"
-              >
-                {change}
-              </Chip>
             </div>
           </Card>
         ),

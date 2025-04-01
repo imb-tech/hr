@@ -1,11 +1,10 @@
 import DeleteModal from "@/components/elements/delete-modal";
 import Modal from "@/components/ui/modal";
 import DataTable from "@/components/ui/table";
-import { COMPANIES } from "@/constants/api-endpoints";
 import { useModal } from "@/hooks/use-modal";
 import { useStore } from "@/hooks/use-store";
-import { useGet } from "@/services/default-requests";
 import { useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { usOfficeCols } from "./cols";
 import CreateOfficeForm from "./create-office-form";
 
@@ -14,10 +13,26 @@ export default function OfficePage() {
   const { openModal: openEdit } = useModal();
   const { setStore } = useStore("office-data");
   const navigate = useNavigate();
+  const [isLoading, seIsLoading] = useState(true);
 
-  const { data: companies, isLoading } = useGet(COMPANIES);
+  // const { data: companies, isLoading } = useGet(COMPANIES);
 
-  console.log(companies);
+  const companies: Office[] = [
+    {
+      id: 1,
+      name: "IMB Holding",
+      users: 42,
+      address: "Tashkent Index, 3R",
+      lunch_start_time: "12:00",
+      lunch_end_time: "13:00",
+      location: {
+        coordinates: [45.4134, 62.99231],
+      },
+      polygon: {
+        coordinates: [],
+      },
+    },
+  ];
 
   function handleEdit(itm: Office) {
     setStore(itm);
@@ -32,6 +47,12 @@ export default function OfficePage() {
       },
     });
   }
+
+  useEffect(() => {
+    setTimeout(() => {
+      seIsLoading(false);
+    }, 300);
+  }, []);
 
   return (
     <div>
