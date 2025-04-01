@@ -14,13 +14,16 @@ export default function CreateOfficeForm() {
       ? {
           ...store,
           users: "1",
+          locations: [],
         }
       : undefined,
   });
 
-  console.log(form.formState.defaultValues);
-
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: OfficeFields) => {
+    if (!data.locations || data.locations?.length < 3) {
+      form.setError("locations", { type: "required" });
+      return;
+    }
     console.log("Login Data:", data);
   };
 
@@ -64,17 +67,24 @@ export default function CreateOfficeForm() {
           isRequired
           label={"Tushlik boshlanish vaqti"}
           methods={form}
-          name="lunch_start"
+          name="lunch_start_time"
         />
         <TimeInput
           isRequired
           label={"Tushlik tugash vaqti"}
           methods={form}
-          name="lunch_end"
+          name="lunch_end_time"
         />
       </div>
 
-      <OfficeLocationSelect />
+      <OfficeLocationSelect
+        setLocations={(pnts) => {
+          form.clearErrors("locations");
+          form.setValue("locations", pnts);
+        }}
+        error={!!form.formState.errors["locations"]}
+        required
+      />
 
       <ModalFormActions />
     </form>

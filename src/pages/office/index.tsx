@@ -1,36 +1,23 @@
 import DeleteModal from "@/components/elements/delete-modal";
 import Modal from "@/components/ui/modal";
 import DataTable from "@/components/ui/table";
+import { COMPANIES } from "@/constants/api-endpoints";
 import { useModal } from "@/hooks/use-modal";
 import { useStore } from "@/hooks/use-store";
+import { useGet } from "@/services/default-requests";
 import { useNavigate } from "@tanstack/react-router";
 import { usOfficeCols } from "./cols";
 import CreateOfficeForm from "./create-office-form";
-
-const data: Office[] = [
-  {
-    id: 1,
-    name: "IMB Holding",
-    address: "Tashkent Index, 3R",
-    lunch_start: "13:00",
-    lunch_end: "14:00",
-    users: 32,
-  },
-  {
-    id: 2,
-    name: "IMB Holding",
-    address: "Tashkent Index, 3R",
-    lunch_start: "13:00",
-    lunch_end: "14:00",
-    users: 32,
-  },
-];
 
 export default function OfficePage() {
   const { openModal } = useModal("delete");
   const { openModal: openEdit } = useModal();
   const { setStore } = useStore("office-data");
   const navigate = useNavigate();
+
+  const { data: companies, isLoading } = useGet(COMPANIES);
+
+  console.log(companies);
 
   function handleEdit(itm: Office) {
     setStore(itm);
@@ -49,8 +36,9 @@ export default function OfficePage() {
   return (
     <div>
       <DataTable
+        isLoading={isLoading}
         columns={usOfficeCols()}
-        data={data}
+        data={companies ?? []}
         onDelete={openModal}
         onEdit={handleEdit}
         onRowClick={onRowClick}

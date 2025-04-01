@@ -1,10 +1,5 @@
 import { Link, linkOptions } from "@tanstack/react-router";
-import {
-  ArrowUpNarrowWide,
-  Building2,
-  CircleUser,
-  Settings,
-} from "lucide-react";
+import { Building2, CircleUser, SquareUser } from "lucide-react";
 import { Logo } from "../icons";
 import { UsersIcon } from "../icons/nav-icons";
 import MenuItem from "./menu-item";
@@ -18,10 +13,10 @@ export default function Sidebar() {
       title: "Ofislar",
     }),
     linkOptions({
-      to: "/profile",
-      icon: <CircleUser />,
+      to: "/position",
+      icon: <SquareUser />,
       enabled: true,
-      title: "Profil",
+      title: "Lavozimlar",
     }),
     linkOptions({
       to: "/hr",
@@ -30,16 +25,10 @@ export default function Sidebar() {
       title: "Hodimlar",
     }),
     linkOptions({
-      to: "/position",
-      icon: <ArrowUpNarrowWide />,
+      to: "/profile",
+      icon: <CircleUser />,
       enabled: true,
-      title: "Lavozimlar",
-    }),
-    linkOptions({
-      to: "/settings",
-      icon: <Settings />,
-      enabled: true,
-      title: "Sozlamalar",
+      title: "Profil",
     }),
   ];
 

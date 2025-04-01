@@ -18,6 +18,8 @@ import {
   TableRow,
 } from "@heroui/table";
 
+import { Skeleton } from "@heroui/skeleton";
+
 import {
   ReactNode,
   SetStateAction,
@@ -53,6 +55,7 @@ type Props<TData extends object> = {
   onDelete?: (item: TData) => void;
   onView?: (item: TData) => void;
   onRowClick?: (item: TData) => void;
+  isLoading?: boolean;
 };
 
 export default function DataTable<TData extends object>({
@@ -64,6 +67,7 @@ export default function DataTable<TData extends object>({
   onEdit,
   onView,
   onRowClick,
+  isLoading,
   ...props
 }: Props<TData> & TableProps) {
   type ColumnKey = DataKey<TData>;
@@ -198,28 +202,42 @@ export default function DataTable<TData extends object>({
           </TableColumn>
         ))}
       </TableHeader>
-      <TableBody emptyContent={"Empty"} items={sortedItems}>
-        {(item) => (
-          <TableRow
-            key={(item as any).id}
-            className={cn(
-              !!onRowClick ? "cursor-pointer" : "",
-              "hover:bg-default-100 rounded-md",
-            )}
-            onClick={() => onRowClick?.(item)}
-          >
-            {headerColumns.map((column) => (
-              <TableCell key={column.dataKey as string}>
-                {renderCell(
-                  item,
-                  column.dataKey,
-                  column?.cell as Cell<TData, keyof TData>,
-                )}
-              </TableCell>
-            ))}
-          </TableRow>
-        )}
-      </TableBody>
+      {isLoading ? (
+        <TableBody emptyContent={"Empty"} items={[{ id: 1 }, { id: 2 }]}>
+          {(item) => (
+            <TableRow key={(item as any).id}>
+              {headerColumns.map((column) => (
+                <TableCell key={column.dataKey as string}>
+                  <Skeleton className="h-10 rounded-md" />
+                </TableCell>
+              ))}
+            </TableRow>
+          )}
+        </TableBody>
+      ) : (
+        <TableBody emptyContent={"Empty"} items={sortedItems}>
+          {(item) => (
+            <TableRow
+              key={(item as any).id}
+              className={cn(
+                !!onRowClick ? "cursor-pointer" : "",
+                "hover:bg-default-100 rounded-md",
+              )}
+              onClick={() => onRowClick?.(item)}
+            >
+              {headerColumns.map((column) => (
+                <TableCell key={column.dataKey as string}>
+                  {renderCell(
+                    item,
+                    column.dataKey,
+                    column?.cell as Cell<TData, keyof TData>,
+                  )}
+                </TableCell>
+              ))}
+            </TableRow>
+          )}
+        </TableBody>
+      )}
     </Table>
   );
 }
