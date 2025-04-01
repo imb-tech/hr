@@ -50,8 +50,8 @@ export default function FormInput<IForm extends FieldValues>({
         isInvalid={!!errors[name]}
         label={label}
         labelPlacement="outside"
-        placeholder={label}
-        type="text"
+        placeholder={props.placeholder ?? label}
+        type={"text"}
         {...props}
         {...reg}
       />

@@ -9,4 +9,5 @@ type Human = {
   education: string;
   salary: number;
   positon: string;
+  password?: string
 };

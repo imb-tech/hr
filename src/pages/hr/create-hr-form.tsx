@@ -1,4 +1,5 @@
 import FormInput from "@/components/form/input";
+import PhoneField from "@/components/form/phone-field";
 import FormSelect from "@/components/form/select";
 import { HR_API } from "@/lib/api-endpoints";
 import { useGet, usePatch, usePost } from "@/services/default-requests";
@@ -47,57 +48,72 @@ export default function CreateHrForm() {
     }
   }, [isSuccess, form, data]);
 
-  const formFields = [
-    {
-      label: "F.I.O",
-      name: "full_name",
-      placeholder: "Abdisamatov Ozodbek Murod o'g'li",
-    },
-    {
-      label: "Telefon raqam",
-      name: "phone",
-      placeholder: "+998 90 123 45 67",
-    },
-    {
-      label: "Oila a'zolarining raqami",
-      name: "family_phone",
-      placeholder: "+998 91 123 45 60",
-    },
-    { label: "Oylik maoshi", name: "salary", placeholder: "3 000 000" },
-    { label: "Manzil", name: "location", placeholder: "Toshkent shahar" },
-    {
-      label: "Hozir turar joyi",
-      name: "address",
-      placeholder: "Toshkent shahar, Chilonzor tumani",
-    },
-    {
-      label: "Pasport ma'lumotlari",
-      name: "id_card",
-      placeholder: "AB 1234567",
-    },
-  ] as const;
-
   return (
     <div>
       <form
         className="grid grid-cols-1 gap-4 p-4 mt-6"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        {formFields.map(({ label, name, placeholder }) => (
-          <FormInput
-            key={name}
-            required
-            label={label}
-            methods={form}
-            name={name}
-            size="lg"
-            type="number"
-            placeholder={placeholder}
-          />
-        ))}
+        <FormInput
+          isRequired
+          label={"F.I.O"}
+          methods={form}
+          name={"full_name"}
+          size="lg"
+          type="text"
+          placeholder={"Abdisamatov Ozodbek Murod o'g'li"}
+        />
+        <PhoneField
+          placeholder="+998931203042"
+          required
+          methods={form}
+          name={"phone"}
+        />
+        <PhoneField
+          label="Qo'shimcha raqam"
+          required
+          methods={form}
+          name={"family_phone"}
+        />
+        <FormInput
+          isRequired
+          label={"Oylik maoshi"}
+          methods={form}
+          name={"salary"}
+          size="lg"
+          type="text"
+          placeholder={"3 000 000"}
+        />
+        <FormInput
+          isRequired
+          label={"Manzil"}
+          methods={form}
+          name={"location"}
+          size="lg"
+          type="text"
+          placeholder={"Toshkent shahar"}
+        />
+        <FormInput
+          isRequired
+          label={"Hozir turar joyi"}
+          methods={form}
+          name={"address"}
+          size="lg"
+          type="text"
+          placeholder={"Toshkent shahar, Chilonzor tumani"}
+        />
+        <FormInput
+          isRequired
+          label={"Pasport ma'lumotlari"}
+          methods={form}
+          name={"id_card"}
+          size="lg"
+          type="text"
+          placeholder={"AB 1234567"}
+        />
 
         <FormSelect
-          required
+          isRequired
           label="O'quv ma'lumoti"
           methods={form}
           name="education"
@@ -111,7 +127,7 @@ export default function CreateHrForm() {
         />
 
         <FormSelect
-          required
+          isRequired
           label="Lavozimi"
           methods={form}
           name="positon"
@@ -122,6 +138,15 @@ export default function CreateHrForm() {
           ]}
           size="lg"
           placeholder="Menejer"
+        />
+        <FormInput
+          isRequired
+          label={"Parol"}
+          methods={form}
+          name={"password"}
+          size="lg"
+          type="password"
+          placeholder={"*******"}
         />
 
         <div className="w-full">
