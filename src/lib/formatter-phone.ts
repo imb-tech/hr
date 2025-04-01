@@ -1,4 +1,4 @@
-function formatPhoneNumber(phone: string | number): string {
+function formatPhoneNumber(phone: string | number | undefined): string {
     const phoneStr = String(phone);
 
     const cleanedPhone = phoneStr.replace(/\D/g, '');

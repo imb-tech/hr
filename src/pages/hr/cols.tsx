@@ -24,8 +24,11 @@ export const useHrListCols = () => {
       {
         header: "Maosh",
         dataKey: "salary",
-        cell: (salary) => {
-          return salary.toLocaleString();
+        cell: (salary: number | string | undefined) => {
+          if (typeof salary === 'number') {
+            return salary.toLocaleString();
+          }
+          return salary; 
         },
       },
       { header: "Amallar", dataKey: "actions" },
