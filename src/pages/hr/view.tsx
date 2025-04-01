@@ -1,12 +1,14 @@
 import DataTable, { ColumnDef } from "@/components/ui/table";
+import formatPassportNumber from "@/lib/formatter-pasport";
+import formatPhoneNumber from "@/lib/formatter-phone";
 import { useMemo } from "react";
 
 export const useHrListCols = () => {
   return useMemo<ColumnDef<any>[]>(
     () => [
-      { header: "Sana", dataKey: "date_start", sortable: true },
-      { header: "Holat", dataKey: "status", sortable: true },
-      { header: "Vaqt", dataKey: "date", sortable: true },
+      { header: "Sana", dataKey: "date_start" },
+      { header: "Holat", dataKey: "status" },
+      { header: "Vaqt", dataKey: "date" },
     ],
     [],
   );
@@ -15,11 +17,11 @@ function ViewPage() {
   const data = {
     id: 1,
     full_name: "Ozodbek Abdisamatov",
-    phone: "+998 93 102 30 42",
-    family_phone: ["+998 88 102 30 42"],
+    phone: "+998931023042",
+    family_phone: "+998881023042",
     address: "Tashkent, 123 Street",
     location: "Tashkent, Uzbekistan",
-    id_card: "1234567890",
+    id_card: "AB3268079",
     education: "Bachelor of Science",
     salary: 50000,
   };
@@ -81,11 +83,11 @@ function ViewPage() {
             </li>
             <li className="flex items-center">
               <span className="block min-w-32">Tel:</span>
-              <span>{data.phone}</span>
+              <span>{formatPhoneNumber(data.phone)}</span>
             </li>
             <li className="flex items-center">
               <span className="block min-w-32">Oila a'zolari:</span>
-              <span>{data.family_phone}</span>
+              <span>{formatPhoneNumber(data.family_phone)}</span>
             </li>
             <li className="flex items-center">
               <span className="block min-w-32">Manzil:</span>
@@ -97,11 +99,11 @@ function ViewPage() {
             </li>
             <li className="flex items-center">
               <span className="block min-w-32">Pasport:</span>
-              <span>{data.id_card}</span>
+              <span>{formatPassportNumber(data.id_card)}</span>
             </li>
             <li className="flex items-center">
               <span className="block min-w-32">Maosh:</span>
-              <span>{data.salary}</span>
+              <span>{data.salary.toLocaleString()}</span>
             </li>
             <li className="flex items-center">
               <span className="block min-w-32">Ta'lim:</span>

@@ -31,7 +31,7 @@ const data: WorkerInfo[] = [
     id: 1,
     full_name: "Ozodbek",
     coming_time: "08:56",
-    work_duration: "8s 15m",
+    work_duration: "8s 15 min",
     lating_time: "0 min",
     early_left: "15 min",
     live_location: "Ishda",

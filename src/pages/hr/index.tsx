@@ -18,12 +18,13 @@ export default function HrPage() {
       id: 1,
       full_name: "Ozodbek Abdisamatov",
       phone: "+998 93 102 30 42",
-      family_phone: ["+998 88 102 30 42"],
+      family_phone: "+998 88 102 30 42",
       address: "Tashkent, 123 Street",
       location: "Tashkent, Uzbekistan",
       id_card: "1234567890",
       education: "Bachelor of Science",
       salary: 50000,
+      positon: "P. Manager",
     },
   ];
 

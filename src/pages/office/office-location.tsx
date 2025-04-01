@@ -44,7 +44,6 @@ function OfficeLocationSelect({
   } as LoadScriptProps);
 
   const { theme } = useTheme();
-
   const [polygonCoordinates, setPolygonCoordinates] = useState<Pin[]>(
     locations ?? [],
   );
@@ -60,6 +59,15 @@ function OfficeLocationSelect({
         setZoomLevel(map.getZoom() || defaultZoom),
       );
 
+      const addOfficeButton = document.createElement("button");
+      addOfficeButton.setAttribute(
+        "class",
+        `${btn.getButtonProps()?.className} ml-2 mt-2 bg-success`,
+      );
+      addOfficeButton.setAttribute("type", "button");
+      addOfficeButton.textContent = "Ofis qo'shish";
+      addOfficeButton.disabled = polygonCoordinates.length < 3;
+
       const clearButton = document.createElement("button");
 
       clearButton.setAttribute(
@@ -69,18 +77,22 @@ function OfficeLocationSelect({
       clearButton.setAttribute("type", "button");
       clearButton.textContent = "Tozalash";
 
-      clearButton.addEventListener("click", () => setPolygonCoordinates([]));
+      clearButton.addEventListener("click", () => {
+        setPolygonCoordinates([]);
+        setPolygonCoordinates([]);
+      });
 
       map.controls[google.maps.ControlPosition.TOP_RIGHT].push(clearButton);
+      map.controls[google.maps.ControlPosition.TOP_RIGHT].push(addOfficeButton);
     }
   };
 
   const circleRadius = useMemo(() => {
-    const baseRadius = 8; // Base radius in meters at zoom 17
+    const baseRadius = 8;
     const baseZoom = 17;
     const scaleFactor = Math.pow(1.5, baseZoom - zoomLevel);
     const newRadius = baseRadius * scaleFactor;
-    return Math.min(Math.max(newRadius, 2), 50); // Min 2m, Max 50m
+    return Math.min(Math.max(newRadius, 2), 50);
   }, [zoomLevel]);
 
   const coords = useMemo(
@@ -122,13 +134,11 @@ function OfficeLocationSelect({
     }
   };
 
-  console.log(zoomLevel);
-
   if (loadError) return <div>Xatolik yuz berdi</div>;
   if (!isLoaded)
     return (
       <div className="flex items-center justify-center w-full h-full">
-        Loading...
+        Yuklanmoqda...
       </div>
     );
 
@@ -146,14 +156,14 @@ function OfficeLocationSelect({
           // mapTypeControl: false,
           fullscreenControl: true,
           styles: theme === "light" ? [] : darkModeStyle,
-          mapTypeControl: true, // Xarita rejimlari tugmasi yoqilgan
+          mapTypeControl: true,
           mapTypeControlOptions: {
             mapTypeIds: [
-              google.maps.MapTypeId.ROADMAP, // Yo'l (Roadmap)
-              google.maps.MapTypeId.SATELLITE, // Sputnik (Satellite)
-              google.maps.MapTypeId.TERRAIN, // Relyef (Terrain)
+              google.maps.MapTypeId.ROADMAP,
+              google.maps.MapTypeId.SATELLITE,
+              google.maps.MapTypeId.TERRAIN,
             ],
-            style: google.maps.MapTypeControlStyle.DEFAULT, // Dropdown menyusi sifatida ko'rsatiladi
+            style: google.maps.MapTypeControlStyle.DEFAULT,
           },
           disableDefaultUI: true,
         }}

@@ -1,6 +1,5 @@
 import ModalFormActions from "@/components/elements/modal-form-actions";
 import FormInput from "@/components/form/input";
-import FormSelect from "@/components/form/select";
 import TimeInput from "@/components/form/time-input";
 import { useStore } from "@/hooks/use-store";
 import { useForm } from "react-hook-form";
@@ -48,18 +47,6 @@ export default function CreateOfficeForm() {
         methods={form}
         name="address"
         size="lg"
-      />
-
-      <FormSelect
-        isRequired
-        // multiple
-        label="Hodimlar"
-        methods={form}
-        name="users"
-        options={[
-          { label: "Doniyor Eshmamatov", key: 1 },
-          { label: "Ozodbek Abdisamatov", key: 2 },
-        ]}
       />
 
       <div className="grid grid-cols-2 gap-3 py-2">

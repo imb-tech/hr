@@ -4,12 +4,12 @@ import { useMemo } from "react";
 export const usOfficeCols = () => {
   return useMemo<ColumnDef<Office>[]>(
     () => [
-      { header: "ID", dataKey: "id", sortable: true },
-      { header: "Nomi", dataKey: "name", sortable: true },
-      { header: "Manzil", dataKey: "address", sortable: true },
-      { header: "Hodimlar soni", dataKey: "users", sortable: true },
-      { header: "Tushlik boshlanish", dataKey: "lunch_start_time", sortable: true },
-      { header: "Tushlik tugash", dataKey: "lunch_end_time", sortable: true },
+      { header: "ID", dataKey: "id" },
+      { header: "Nomi", dataKey: "name" },
+      { header: "Manzil", dataKey: "address" },
+      { header: "Hodimlar soni", dataKey: "users" },
+      { header: "Tushlik boshlanish", dataKey: "lunch_start_time" },
+      { header: "Tushlik tugash", dataKey: "lunch_end_time" },
       { header: "Amallar", dataKey: "actions" },
     ],
     [],

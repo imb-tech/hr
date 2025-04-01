@@ -48,29 +48,42 @@ export default function CreateHrForm() {
   }, [isSuccess, form, data]);
 
   const formFields = [
-    { label: "F.I.O", name: "full_name" },
-    { label: "Telefon raqam", name: "phone" },
-    { label: "Oila a'zolarining raqami", name: "family_phone" },
-    { label: "Manzil", name: "location" },
-    { label: "Hozir turar joyi", name: "address" },
-    { label: "Pasport ma'lumotlari", name: "id_card" },
-    { label: "O'quv ma'lumoti", name: "education" },
-    { label: "Oylik maoshi", name: "salary" },
+    {
+      label: "F.I.O",
+      name: "full_name",
+      placeholder: "Abdisamatov Ozodbek Murod o'g'li",
+    },
+    {
+      label: "Telefon raqam",
+      name: "phone",
+      placeholder: "+998 90 123 45 67",
+    },
+    {
+      label: "Oila a'zolarining raqami",
+      name: "family_phone",
+      placeholder: "+998 91 123 45 60",
+    },
+    { label: "Oylik maoshi", name: "salary", placeholder: "3 000 000" },
+    { label: "Manzil", name: "location", placeholder: "Toshkent shahar" },
+    {
+      label: "Hozir turar joyi",
+      name: "address",
+      placeholder: "Toshkent shahar, Chilonzor tumani",
+    },
+    {
+      label: "Pasport ma'lumotlari",
+      name: "id_card",
+      placeholder: "AB 1234567",
+    },
   ] as const;
-
-  const selectOptions = [
-    { label: "Toshkent", key: 1 },
-    { label: "Bishkek", key: 2 },
-    { label: "Jizzax", key: 3 },
-  ];
 
   return (
     <div>
       <form
-        className="grid md:grid-cols-2 grid-cols-1 gap-4 p-4 mt-6"
+        className="grid grid-cols-1 gap-4 p-4 mt-6"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        {formFields.map(({ label, name }) => (
+        {formFields.map(({ label, name, placeholder }) => (
           <FormInput
             key={name}
             required
@@ -78,16 +91,37 @@ export default function CreateHrForm() {
             methods={form}
             name={name}
             size="lg"
+            type="number"
+            placeholder={placeholder}
           />
         ))}
 
         <FormSelect
           required
-          label="Lavozimi"
+          label="O'quv ma'lumoti"
           methods={form}
           name="education"
-          options={selectOptions}
+          options={[
+            { label: "Oliy ta'lim", key: 1 },
+            { label: "O'rta maxsus", key: 2 },
+            { label: "Tugallanmagan oliy", key: 3 },
+          ]}
           size="lg"
+          placeholder="O'rta maxsus"
+        />
+
+        <FormSelect
+          required
+          label="Lavozimi"
+          methods={form}
+          name="positon"
+          options={[
+            { label: "Menejer", key: 1 },
+            { label: "Ish boshqaruvchi", key: 2 },
+            { label: "O'qituvchi", key: 3 },
+          ]}
+          size="lg"
+          placeholder="Menejer"
         />
 
         <div className="w-full">

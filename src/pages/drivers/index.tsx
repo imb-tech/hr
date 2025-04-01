@@ -220,17 +220,17 @@ const data: Driver[] = [
 const useCols = () => {
   return useMemo<ColumnDef<Driver>[]>(
     () => [
-      { header: "Name", dataKey: "name", sortable: true },
-      { header: "Status", dataKey: "status", sortable: true },
-      { header: "Location", dataKey: "location", sortable: true },
-      { header: "Vehicle", dataKey: "vehicle", sortable: true },
-      { header: "Break", dataKey: "break", sortable: true },
-      { header: "Drive", dataKey: "drive", sortable: true },
-      { header: "Shift", dataKey: "shift", sortable: true },
-      { header: "Cycle", dataKey: "cycle", sortable: true },
-      { header: "Violations", dataKey: "violations", sortable: true },
-      { header: "ELD", dataKey: "eld", sortable: true },
-      { header: "Updated", dataKey: "updated", sortable: true },
+      { header: "Name", dataKey: "name" },
+      { header: "Status", dataKey: "status" },
+      { header: "Location", dataKey: "location" },
+      { header: "Vehicle", dataKey: "vehicle" },
+      { header: "Break", dataKey: "break" },
+      { header: "Drive", dataKey: "drive" },
+      { header: "Shift", dataKey: "shift" },
+      { header: "Cycle", dataKey: "cycle" },
+      { header: "Violations", dataKey: "violations" },
+      { header: "ELD", dataKey: "eld" },
+      { header: "Updated", dataKey: "updated" },
     ],
     [],
   );
