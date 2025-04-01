@@ -1,7 +1,6 @@
 import DataTable, { ColumnDef } from "@/components/ui/table";
 import { useMemo } from "react";
 
-
 export const useHrListCols = () => {
   return useMemo<ColumnDef<any>[]>(
     () => [
@@ -27,31 +26,37 @@ function ViewPage() {
 
   const dataColumn = [
     {
+      id: 1,
       date_start: "17.03.2025 12:00",
       status: "Kirdi",
       date: "15 daqiqa",
     },
     {
+      id: 1,
       date_start: "17.03.2025 12:00",
       status: "Chiqdi",
       date: "150 daqiqa",
     },
     {
+      id: 3,
       date_start: "17.03.2025 12:00",
       status: "Kirdi",
       date: "4 soat 15 daqiqa",
     },
     {
+      id: 4,
       date_start: "17.03.2025 12:00",
       status: "Chiqdi",
       date: "35 daqiqa",
     },
     {
+      id: 5,
       date_start: "17.03.2025 12:00",
       status: "Kirdi",
       date: "15 daqiqa",
     },
     {
+      id: 6,
       date_start: "17.03.2025 12:00",
       status: "Kirdi",
       date: "45 daqiqa",
@@ -70,14 +75,38 @@ function ViewPage() {
             />
           </div>
           <ul className="h-full flex flex-col items-stretch gap-[3px]">
-            <li>F.I.O: {data.full_name}</li>
-            <li>Tel: {data.phone}</li>
-            <li>Oila a'zolari: {data.family_phone}</li>
-            <li>Manzil: {data.address}</li>
-            <li>Yashash joyi: {data.location}</li>
-            <li>Pasport: {data.id_card}</li>
-            <li>Maosh: {data.salary}</li>
-            <li>Ta'lim: {data.education}</li>
+            <li className="flex items-center">
+              <span className="block min-w-32">F.I.O:</span>
+              <span>{data.full_name}</span>
+            </li>
+            <li className="flex items-center">
+              <span className="block min-w-32">Tel:</span>
+              <span>{data.phone}</span>
+            </li>
+            <li className="flex items-center">
+              <span className="block min-w-32">Oila a'zolari:</span>
+              <span>{data.family_phone}</span>
+            </li>
+            <li className="flex items-center">
+              <span className="block min-w-32">Manzil:</span>
+              <span>{data.address}</span>
+            </li>
+            <li className="flex items-center">
+              <span className="block min-w-32">Yashash joyi:</span>
+              <span>{data.location}</span>
+            </li>
+            <li className="flex items-center">
+              <span className="block min-w-32">Pasport:</span>
+              <span>{data.id_card}</span>
+            </li>
+            <li className="flex items-center">
+              <span className="block min-w-32">Maosh:</span>
+              <span>{data.salary}</span>
+            </li>
+            <li className="flex items-center">
+              <span className="block min-w-32">Ta'lim:</span>
+              <span>{data.education}</span>
+            </li>
           </ul>
         </div>
 

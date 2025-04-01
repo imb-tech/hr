@@ -1,8 +1,9 @@
 import { useModal } from "@/hooks/use-modal";
-import { useDelete } from "@/hooks/useDelete";
+import { useDelete } from "@/services/default-requests";
 import { Button } from "@heroui/button";
 import { ModalFooter } from "@heroui/modal";
 import { addToast } from "@heroui/toast";
+import { useQueryClient } from "@tanstack/react-query";
 import Modal from "../ui/modal";
 
 type Props = {
@@ -19,13 +20,17 @@ export default function DeleteModal({
   queryKey,
 }: Props) {
   const { closeModal } = useModal(modalKey);
-  const { mutate } = useDelete(queryKey, {
+  const queryClient = useQueryClient();
+  const { mutate } = useDelete({
     onSuccess: () => {
       addToast({
         description: "Muvaffaqiyatli o'chirildi",
         color: "success",
       });
       closeModal();
+      queryClient.removeQueries({
+        queryKey: Array.isArray(queryKey) ? queryKey : [queryKey],
+      });
     },
   });
 

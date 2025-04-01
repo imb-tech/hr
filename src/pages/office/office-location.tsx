@@ -1,4 +1,6 @@
 import { darkModeStyle } from "@/constants/map";
+import { useButton } from "@heroui/button";
+import { cn } from "@heroui/theme";
 import { useTheme } from "@heroui/use-theme";
 import {
   CircleF,
@@ -7,7 +9,7 @@ import {
   PolygonF,
   useLoadScript,
 } from "@react-google-maps/api";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 const mapContainerStyle = {
   width: "100%",
@@ -18,31 +20,84 @@ const defaultZoom = 17;
 
 const VITE_GOOGLE_MAP_API_KEY = import.meta.env.VITE_GOOGLE_MAP_API_KEY;
 
-function OfficeLocationSelect() {
-  const [lat, long] = [41.200777, 69.236642];
+type Props = {
+  locations?: Pin[];
+  setLocations?: (points: Pin[]) => void;
+  required?: boolean;
+  error?: boolean;
+};
+
+type Pin = {
+  lat: number;
+  lng: number;
+};
+
+function OfficeLocationSelect({
+  locations,
+  setLocations,
+  required = false,
+  error,
+}: Props) {
+  const [lat, lng] = [41.200777, 69.236642];
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: VITE_GOOGLE_MAP_API_KEY,
   } as LoadScriptProps);
 
   const { theme } = useTheme();
 
-  const [polygonCoordinates, setPolygonCoordinates] = useState<
-    { lat: number; lng: number }[]
-  >([]);
+  const [polygonCoordinates, setPolygonCoordinates] = useState<Pin[]>(
+    locations ?? [],
+  );
+  const [zoomLevel, setZoomLevel] = useState(defaultZoom);
+
+  const btn = useButton({ color: "primary", size: "sm" });
 
   const handleMapLoad = (map: google.maps.Map) => {
     if (map) {
-      map.panTo({ lat: +lat, lng: +long });
+      map.panTo({ lat: +lat, lng: +lng });
       map.setZoom(defaultZoom);
+      map.addListener("zoom_changed", () =>
+        setZoomLevel(map.getZoom() || defaultZoom),
+      );
+
+      const clearButton = document.createElement("button");
+
+      clearButton.setAttribute(
+        "class",
+        `${btn.getButtonProps()?.className} ml-2 mt-2`,
+      );
+      clearButton.setAttribute("type", "button");
+      clearButton.textContent = "Tozalash";
+
+      clearButton.addEventListener("click", () => setPolygonCoordinates([]));
+
+      map.controls[google.maps.ControlPosition.TOP_RIGHT].push(clearButton);
     }
   };
 
+  const circleRadius = useMemo(() => {
+    const baseRadius = 8; // Base radius in meters at zoom 17
+    const baseZoom = 17;
+    const scaleFactor = Math.pow(1.5, baseZoom - zoomLevel);
+    const newRadius = baseRadius * scaleFactor;
+    return Math.min(Math.max(newRadius, 2), 50); // Min 2m, Max 50m
+  }, [zoomLevel]);
+
+  const coords = useMemo(
+    () => polygonCoordinates,
+    [circleRadius, polygonCoordinates],
+  );
+
   const handleMapClick = (event: google.maps.MapMouseEvent) => {
     if (event.latLng?.lat && event.latLng?.lng()) {
-      setPolygonCoordinates((prev) => [
-        ...prev,
-        { lat: event.latLng?.lat() || 0, lng: event.latLng?.lng() || 0 },
-      ]);
+      setPolygonCoordinates((prev) => {
+        const newCoords = [
+          ...prev,
+          { lat: event.latLng?.lat() || 0, lng: event.latLng?.lng() || 0 },
+        ];
+        setLocations?.(newCoords);
+        return newCoords;
+      });
     }
   };
 
@@ -61,10 +116,13 @@ function OfficeLocationSelect() {
           };
         }
 
+        setLocations?.(newCoords);
         return newCoords;
       });
     }
   };
+
+  console.log(zoomLevel);
 
   if (loadError) return <div>Xatolik yuz berdi</div>;
   if (!isLoaded)
@@ -75,20 +133,34 @@ function OfficeLocationSelect() {
     );
 
   return (
-    <div className="relative w-full !h-[300px] overflow-hidden rounded-xl">
+    <div className="relative w-full !h-[300px] overflow-hidden">
+      <p className={cn("mb-1", error ? "text-danger-500" : "")}>
+        Ofis maydonini belgilang
+        {required ? <span className="text-danger-500">*</span> : ""}
+      </p>
       <GoogleMap
-        center={{ lat: +lat, lng: +long }}
         mapContainerStyle={mapContainerStyle}
         options={{
           zoomControl: false,
           streetViewControl: false,
-          mapTypeControl: false,
+          // mapTypeControl: false,
           fullscreenControl: true,
           styles: theme === "light" ? [] : darkModeStyle,
+          mapTypeControl: true, // Xarita rejimlari tugmasi yoqilgan
+          mapTypeControlOptions: {
+            mapTypeIds: [
+              google.maps.MapTypeId.ROADMAP, // Yo'l (Roadmap)
+              google.maps.MapTypeId.SATELLITE, // Sputnik (Satellite)
+              google.maps.MapTypeId.TERRAIN, // Relyef (Terrain)
+            ],
+            style: google.maps.MapTypeControlStyle.DEFAULT, // Dropdown menyusi sifatida ko'rsatiladi
+          },
+          disableDefaultUI: true,
         }}
         zoom={defaultZoom}
         onClick={handleMapClick}
         onLoad={handleMapLoad}
+        onZoomChanged={() => console.log("zoom")}
       >
         {/* Poligon */}
         {polygonCoordinates.length > 2 && (
@@ -105,7 +177,7 @@ function OfficeLocationSelect() {
         )}
 
         {/* Har bir tanlangan nuqtani doira shaklida ko‘rsatish va drag qilish */}
-        {polygonCoordinates.map((coord, index) => (
+        {coords.map((coord, index) => (
           <CircleF
             key={index}
             center={coord}
@@ -118,7 +190,7 @@ function OfficeLocationSelect() {
               strokeWeight: 1,
               zIndex: 999,
             }}
-            radius={10}
+            radius={circleRadius}
             onDrag={(event) => handleCircleDrag(index, event)}
           />
         ))}

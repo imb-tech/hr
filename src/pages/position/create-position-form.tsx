@@ -1,9 +1,8 @@
 import ModalFormActions from "@/components/elements/modal-form-actions";
 import FormInput from "@/components/form/input";
 import TimeInput from "@/components/form/time-input";
-import { usePatch } from "@/hooks/usePatch";
-import { usePost } from "@/hooks/usePost";
 import { POSITION } from "@/lib/api-endpoints";
+import { usePatch, usePost } from "@/services/default-requests";
 import { addToast } from "@heroui/toast";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -17,7 +16,7 @@ export default function CreatePositionsForm({
 }: CreatePositionsFormProps) {
   const form = useForm<Position>();
 
-  const { mutate: postMutate } = usePost(POSITION, {
+  const { mutate: postMutate } = usePost({
     onSuccess: () => {
       addToast({
         description: "Muaffaqiyatli qo'shildi",
@@ -26,7 +25,7 @@ export default function CreatePositionsForm({
     },
   });
 
-  const { mutate: updateMutate } = usePatch(POSITION, {
+  const { mutate: updateMutate } = usePatch({
     onSuccess: () => {
       addToast({
         description: "Muaffaqiyatli yangilandi",
@@ -66,13 +65,13 @@ export default function CreatePositionsForm({
         <div className="grid md:grid-cols-2 grid-cols-1 gap-3 py-2">
           <TimeInput
             isRequired
-            label={"Tushlik boshlanish vaqti"}
+            label={"Ish boshlanish vaqti"}
             methods={form}
             name="start_date"
           />
           <TimeInput
             isRequired
-            label={"Tushlik tugash vaqti"}
+            label={"Ish tugash vaqti"}
             methods={form}
             name="end_date"
           />

@@ -1,9 +1,7 @@
 import FormInput from "@/components/form/input";
 import FormSelect from "@/components/form/select";
-import { useGet } from "@/hooks/useGet";
-import { usePatch } from "@/hooks/usePatch";
-import { usePost } from "@/hooks/usePost";
 import { HR_API } from "@/lib/api-endpoints";
+import { useGet, usePatch, usePost } from "@/services/default-requests";
 import { Button } from "@heroui/button";
 import { addToast } from "@heroui/toast";
 import { useParams } from "@tanstack/react-router";
@@ -17,7 +15,7 @@ export default function CreateHrForm() {
     options: { enabled: Boolean(id) },
   });
 
-  const { mutate: postMutate } = usePost(HR_API, {
+  const { mutate: postMutate } = usePost({
     onSuccess: () => {
       addToast({
         description: "Muaffaqiyatli qo'shildi",
@@ -26,7 +24,7 @@ export default function CreateHrForm() {
     },
   });
 
-  const { mutate: updateMutate } = usePatch(HR_API, {
+  const { mutate: updateMutate } = usePatch({
     onSuccess: () => {
       addToast({
         description: "Muaffaqiyatli yangilandi",

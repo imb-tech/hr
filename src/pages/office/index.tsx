@@ -4,33 +4,35 @@ import DataTable from "@/components/ui/table";
 import { useModal } from "@/hooks/use-modal";
 import { useStore } from "@/hooks/use-store";
 import { useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { usOfficeCols } from "./cols";
 import CreateOfficeForm from "./create-office-form";
-
-const data: Office[] = [
-  {
-    id: 1,
-    name: "IMB Holding",
-    address: "Tashkent Index, 3R",
-    lunch_start: "13:00",
-    lunch_end: "14:00",
-    users: 32,
-  },
-  {
-    id: 2,
-    name: "IMB Holding",
-    address: "Tashkent Index, 3R",
-    lunch_start: "13:00",
-    lunch_end: "14:00",
-    users: 32,
-  },
-];
 
 export default function OfficePage() {
   const { openModal } = useModal("delete");
   const { openModal: openEdit } = useModal();
   const { setStore } = useStore("office-data");
   const navigate = useNavigate();
+  const [isLoading, seIsLoading] = useState(true);
+
+  // const { data: companies, isLoading } = useGet(COMPANIES);
+
+  const companies: Office[] = [
+    {
+      id: 1,
+      name: "IMB Holding",
+      users: 42,
+      address: "Tashkent Index, 3R",
+      lunch_start_time: "12:00",
+      lunch_end_time: "13:00",
+      location: {
+        coordinates: [45.4134, 62.99231],
+      },
+      polygon: {
+        coordinates: [],
+      },
+    },
+  ];
 
   function handleEdit(itm: Office) {
     setStore(itm);
@@ -46,11 +48,18 @@ export default function OfficePage() {
     });
   }
 
+  useEffect(() => {
+    setTimeout(() => {
+      seIsLoading(false);
+    }, 500);
+  }, []);
+
   return (
     <div>
       <DataTable
+        isLoading={isLoading}
         columns={usOfficeCols()}
-        data={data}
+        data={companies ?? []}
         onDelete={openModal}
         onEdit={handleEdit}
         onRowClick={onRowClick}

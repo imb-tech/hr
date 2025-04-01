@@ -8,7 +8,7 @@ export const Route = createFileRoute("/_main/profile")({
 
 function RouteComponent() {
   return (
-    <Page breadcrumb={["Profile"]}>
+    <Page breadcrumb={["Profil"]}>
       <Profilepage />
     </Page>
   );
