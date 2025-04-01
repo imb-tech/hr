@@ -2,10 +2,10 @@ import { ColumnDef } from "@/components/ui/table";
 import { useMemo } from "react";
 
 export const usPostionsCols = () => {
-  return useMemo<ColumnDef<Positon>[]>(
+  return useMemo<ColumnDef<Position>[]>(
     () => [
       { header: "ID", dataKey: "id", sortable: true },
-      { header: "Lavozim", dataKey: "positon", sortable: true },
+      { header: "Lavozim", dataKey: "poisiton", sortable: true },
       {
         header: "Ish vaqti",
         dataKey: "end_date",

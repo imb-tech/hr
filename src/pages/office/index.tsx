@@ -51,7 +51,7 @@ export default function OfficePage() {
   useEffect(() => {
     setTimeout(() => {
       seIsLoading(false);
-    }, 300);
+    }, 500);
   }, []);
 
   return (

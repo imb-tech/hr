@@ -1,6 +1,6 @@
-type Positon = {
+type Position = {
   id: number;
-  positon: string;
+  poisiton: string;
   start_date: string;
   end_date: string;
 };

@@ -50,8 +50,7 @@ export default function Profilepage() {
   };
 
   return (
-    <section className="">
-      <h1 className="text-3xl text- mb-3">Profile</h1>
+    <section className="mt-4">
       <Form className="grid-cols-3" submitText="Save" onSubmit={onSubmit} />
     </section>
   );

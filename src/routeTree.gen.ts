@@ -24,6 +24,8 @@ import { Route as AuthRegisterImport } from './routes/_auth/register'
 import { Route as AuthLoginImport } from './routes/_auth/login'
 import { Route as AuthForgotPasswordImport } from './routes/_auth/forgot-password'
 import { Route as MainOfficeIdImport } from './routes/_main/office/$id'
+import { Route as MainHrViewIdImport } from './routes/_main/hr-view/$id'
+import { Route as MainHrEditHrEditImport } from './routes/_main/hr-edit/$hr-edit'
 
 // Create/Update Routes
 
@@ -100,6 +102,18 @@ const AuthForgotPasswordRoute = AuthForgotPasswordImport.update({
 const MainOfficeIdRoute = MainOfficeIdImport.update({
   id: '/office/$id',
   path: '/office/$id',
+  getParentRoute: () => MainRoute,
+} as any)
+
+const MainHrViewIdRoute = MainHrViewIdImport.update({
+  id: '/hr-view/$id',
+  path: '/hr-view/$id',
+  getParentRoute: () => MainRoute,
+} as any)
+
+const MainHrEditHrEditRoute = MainHrEditHrEditImport.update({
+  id: '/hr-edit/$hr-edit',
+  path: '/hr-edit/$hr-edit',
   getParentRoute: () => MainRoute,
 } as any)
 
@@ -191,6 +205,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainIndexImport
       parentRoute: typeof MainImport
     }
+    '/_main/hr-edit/$hr-edit': {
+      id: '/_main/hr-edit/$hr-edit'
+      path: '/hr-edit/$hr-edit'
+      fullPath: '/hr-edit/$hr-edit'
+      preLoaderRoute: typeof MainHrEditHrEditImport
+      parentRoute: typeof MainImport
+    }
+    '/_main/hr-view/$id': {
+      id: '/_main/hr-view/$id'
+      path: '/hr-view/$id'
+      fullPath: '/hr-view/$id'
+      preLoaderRoute: typeof MainHrViewIdImport
+      parentRoute: typeof MainImport
+    }
     '/_main/office/$id': {
       id: '/_main/office/$id'
       path: '/office/$id'
@@ -225,6 +253,8 @@ interface MainRouteChildren {
   MainSettingsRoute: typeof MainSettingsRoute
   MainTestRoute: typeof MainTestRoute
   MainIndexRoute: typeof MainIndexRoute
+  MainHrEditHrEditRoute: typeof MainHrEditHrEditRoute
+  MainHrViewIdRoute: typeof MainHrViewIdRoute
   MainOfficeIdRoute: typeof MainOfficeIdRoute
 }
 
@@ -236,6 +266,8 @@ const MainRouteChildren: MainRouteChildren = {
   MainSettingsRoute: MainSettingsRoute,
   MainTestRoute: MainTestRoute,
   MainIndexRoute: MainIndexRoute,
+  MainHrEditHrEditRoute: MainHrEditHrEditRoute,
+  MainHrViewIdRoute: MainHrViewIdRoute,
   MainOfficeIdRoute: MainOfficeIdRoute,
 }
 
@@ -253,6 +285,8 @@ export interface FileRoutesByFullPath {
   '/settings': typeof MainSettingsRoute
   '/test': typeof MainTestRoute
   '/': typeof MainIndexRoute
+  '/hr-edit/$hr-edit': typeof MainHrEditHrEditRoute
+  '/hr-view/$id': typeof MainHrViewIdRoute
   '/office/$id': typeof MainOfficeIdRoute
 }
 
@@ -268,6 +302,8 @@ export interface FileRoutesByTo {
   '/settings': typeof MainSettingsRoute
   '/test': typeof MainTestRoute
   '/': typeof MainIndexRoute
+  '/hr-edit/$hr-edit': typeof MainHrEditHrEditRoute
+  '/hr-view/$id': typeof MainHrViewIdRoute
   '/office/$id': typeof MainOfficeIdRoute
 }
 
@@ -285,6 +321,8 @@ export interface FileRoutesById {
   '/_main/settings': typeof MainSettingsRoute
   '/_main/test': typeof MainTestRoute
   '/_main/': typeof MainIndexRoute
+  '/_main/hr-edit/$hr-edit': typeof MainHrEditHrEditRoute
+  '/_main/hr-view/$id': typeof MainHrViewIdRoute
   '/_main/office/$id': typeof MainOfficeIdRoute
 }
 
@@ -302,6 +340,8 @@ export interface FileRouteTypes {
     | '/settings'
     | '/test'
     | '/'
+    | '/hr-edit/$hr-edit'
+    | '/hr-view/$id'
     | '/office/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -316,6 +356,8 @@ export interface FileRouteTypes {
     | '/settings'
     | '/test'
     | '/'
+    | '/hr-edit/$hr-edit'
+    | '/hr-view/$id'
     | '/office/$id'
   id:
     | '__root__'
@@ -331,6 +373,8 @@ export interface FileRouteTypes {
     | '/_main/settings'
     | '/_main/test'
     | '/_main/'
+    | '/_main/hr-edit/$hr-edit'
+    | '/_main/hr-view/$id'
     | '/_main/office/$id'
   fileRoutesById: FileRoutesById
 }
@@ -377,6 +421,8 @@ export const routeTree = rootRoute
         "/_main/settings",
         "/_main/test",
         "/_main/",
+        "/_main/hr-edit/$hr-edit",
+        "/_main/hr-view/$id",
         "/_main/office/$id"
       ]
     },
@@ -418,6 +464,14 @@ export const routeTree = rootRoute
     },
     "/_main/": {
       "filePath": "_main/index.tsx",
+      "parent": "/_main"
+    },
+    "/_main/hr-edit/$hr-edit": {
+      "filePath": "_main/hr-edit/$hr-edit.tsx",
+      "parent": "/_main"
+    },
+    "/_main/hr-view/$id": {
+      "filePath": "_main/hr-view/$id.tsx",
       "parent": "/_main"
     },
     "/_main/office/$id": {
