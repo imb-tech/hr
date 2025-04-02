@@ -1,6 +1,6 @@
-import { api } from "@/constants/api";
 import { onError } from "@/lib/onError";
 import { onSuccessHandler } from "@/lib/onSuccess";
+import axiosInstance from "@/services/axios-instance";
 import {
   MutateOptions,
   useMutation,
@@ -13,13 +13,13 @@ export const patchRequest = <T>(
   url: string,
   payload: T,
   config?: AxiosRequestConfig,
-) => api.patch(`/${url}/`, payload, config).then((res) => res.data);
+) => axiosInstance.patch(`/${url}/`, payload, config).then((res) => res.data);
 
 export const putRequest = <T>(
   url: string,
   payload: T,
   config?: AxiosRequestConfig,
-) => api.put(`/${url}/`, payload, config).then((res) => res.data);
+) => axiosInstance.put(`/${url}/`, payload, config).then((res) => res.data);
 
 export const usePatch = <P = any, D = any>(
   options?: Partial<UseMutationOptions<D, any, { url: string; payload: P }>> & { queryKeys?: string | string[] | null },

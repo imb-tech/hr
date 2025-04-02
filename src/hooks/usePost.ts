@@ -1,6 +1,6 @@
-import { api } from "@/constants/api";
 import { onError } from "@/lib/onError";
 import { onSuccessHandler } from "@/lib/onSuccess";
+import axiosInstance from "@/services/axios-instance";
 import {
   MutateOptions,
   useMutation,
@@ -14,7 +14,7 @@ export const postRequest = <T>(
   payload: T,
   config: AxiosRequestConfig = {},
 ) =>
-  api
+  axiosInstance
     .post(`/${url}/`, payload, {
       headers: {
         "Content-Type": "application/json",

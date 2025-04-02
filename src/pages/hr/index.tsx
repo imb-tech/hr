@@ -36,7 +36,6 @@ export default function HrPage() {
     setDeleteID(id);
   }
 
-  console.log(data2);
 
   return (
     <div>

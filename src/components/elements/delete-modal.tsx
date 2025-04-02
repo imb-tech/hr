@@ -1,10 +1,10 @@
 import { useModal } from "@/hooks/use-modal";
-import { useDelete } from "@/services/default-requests";
 import { Button } from "@heroui/button";
 import { ModalFooter } from "@heroui/modal";
 import { addToast } from "@heroui/toast";
 import { useQueryClient } from "@tanstack/react-query";
 import Modal from "../ui/modal";
+import { useDelete } from "@/hooks/useDelete";
 
 type Props = {
   modalKey?: string;

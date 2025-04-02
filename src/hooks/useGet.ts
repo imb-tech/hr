@@ -1,4 +1,4 @@
-import { api } from "@/constants/api";
+import axiosInstance from "@/services/axios-instance";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { AxiosRequestConfig } from "axios";
 
@@ -12,7 +12,7 @@ export type UseGetArgs<TData = any, TQueryFnData = unknown, TError = any> = {
 };
 
 export const getRequest = (url: string, config?: AxiosRequestConfig) =>
-  api.get(`/${url}/`, config).then((res) => res.data);
+  axiosInstance.get(`/${url}/`, config).then((res) => res.data);
 
 export const useGet = <TData = any, TQueryFnData = unknown, TError = any>(
   url: string,
