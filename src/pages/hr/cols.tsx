@@ -1,17 +1,36 @@
 import { ColumnDef } from "@/components/ui/table";
+import formatPhoneNumber from "@/lib/formatter-phone";
 import { useMemo } from "react";
 
 export const useHrListCols = () => {
   return useMemo<ColumnDef<Human>[]>(
     () => [
-      { header: "ID", dataKey: "id", sortable: true },
-      { header: "FIO", dataKey: "full_name", sortable: true },
-      { header: "Tel", dataKey: "phone", sortable: true },
-      { header: "Passport", dataKey: "id_card", sortable: true },
-      { header: "Maosh", dataKey: "salary", sortable: true },
-      { header: "Manzil", dataKey: "address", sortable: true },
-      { header: "Yashash joy", dataKey: "location", sortable: true },
-      { header: "Oila a'zolari", dataKey: "family_phone", sortable: true },
+      { header: "ID", dataKey: "id" },
+      { header: "FIO", dataKey: "full_name" },
+      {
+        header: "Telefon",
+        dataKey: "phone",
+        cell: (value) => {
+          return formatPhoneNumber(value);
+        },
+      },
+      {
+        header: "Qo'shimcha raqam",
+        dataKey: "family_phone",
+        cell: (value) => {
+          return formatPhoneNumber(value);
+        },
+      },
+      {
+        header: "Maosh",
+        dataKey: "salary",
+        cell: (salary: number | string | undefined) => {
+          if (typeof salary === 'number') {
+            return salary.toLocaleString();
+          }
+          return salary; 
+        },
+      },
       { header: "Amallar", dataKey: "actions" },
     ],
     [],

@@ -2,10 +2,10 @@ import DeleteModal from "@/components/elements/delete-modal";
 import Modal from "@/components/ui/modal";
 import DataTable from "@/components/ui/table";
 import { useModal } from "@/hooks/use-modal";
-import { POSITION } from "@/lib/api-endpoints";
 import { useState } from "react";
 import { usPostionsCols } from "./cols";
 import CreatePositionsForm from "./create-position-form";
+import { HR_API } from "@/constants/api-endpoints";
 
 export default function PostionsPage() {
   const { openModal: openDeleteModal } = useModal("delete");
@@ -43,7 +43,7 @@ export default function PostionsPage() {
         onEdit={(item) => handleItem(item)}
         onDelete={(item) => handleDelete(item.id)}
       />
-      <DeleteModal id={deleteID} path="ddd" queryKey={POSITION} />
+      <DeleteModal id={deleteID} path="ddd" queryKey={HR_API} />
       <Modal size="3xl" title="Lavozim qo'shish">
         <CreatePositionsForm dataItem={dataItem} />
       </Modal>

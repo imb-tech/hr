@@ -221,7 +221,7 @@ export default function DataTable<TData extends object>({
               key={(item as any).id}
               className={cn(
                 !!onRowClick ? "cursor-pointer" : "",
-                "hover:bg-default-100 rounded-md",
+                "hover:bg-default-100 rounded-md border-b",
               )}
               onClick={() => onRowClick?.(item)}
             >

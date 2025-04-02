@@ -16,9 +16,11 @@ import HeaderBreadvrumb from "./header-breadcrumb";
 export const Navbar = ({
   items,
   rightComponent,
+  leftComponent
 }: {
   items?: string[];
   rightComponent?: ReactNode;
+  leftComponent?: ReactNode;
 }) => {
   const searchInput = (
     <Input
@@ -47,7 +49,10 @@ export const Navbar = ({
       maxWidth="full"
       position="sticky"
     >
-      <HeaderBreadvrumb items={items ?? []} />
+      <div className="flex gap-3 items-center">
+        {!!leftComponent && <div className="flex gap-2">{leftComponent}</div>}
+        <HeaderBreadvrumb items={items ?? []} />
+      </div>
 
       <div className="flex gap-3">
         {!!rightComponent && <div className="flex gap-2">{rightComponent}</div>}

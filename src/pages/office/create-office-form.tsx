@@ -1,15 +1,17 @@
 import ModalFormActions from "@/components/elements/modal-form-actions";
 import FormInput from "@/components/form/input";
-import FormSelect from "@/components/form/select";
 import TimeInput from "@/components/form/time-input";
+import { COMPANIES } from "@/constants/api-endpoints";
 import { useStore } from "@/hooks/use-store";
+import { usePost } from "@/hooks/usePost";
 import { useForm } from "react-hook-form";
 import OfficeLocationSelect from "./office-location";
 
 export default function CreateOfficeForm() {
   const { store } = useStore<Office>("office-data");
+  const { mutate } = usePost();
 
-  const form = useForm<OfficeFields>({
+  const form = useForm<Properties>({
     defaultValues: store
       ? {
           ...store,
@@ -19,12 +21,23 @@ export default function CreateOfficeForm() {
       : undefined,
   });
 
-  const onSubmit = (data: OfficeFields) => {
-    if (!data.locations || data.locations?.length < 3) {
-      form.setError("locations", { type: "required" });
+  const onSubmit = (data: Properties) => {
+
+    if (!data?.polygon && data.polygon?.coordinates?.length < 1) {
+      form.setError("polygon", { type: "required" });
       return;
     }
-    console.log("Login Data:", data);
+
+    const values = {
+      ...data,
+      location: {
+        type: "Point",
+        coordinates: [-122.0838, 37.3861],
+      },
+    };
+
+    mutate(COMPANIES, values);
+    console.log("Login Data:", values);
   };
 
   return (
@@ -50,18 +63,6 @@ export default function CreateOfficeForm() {
         size="lg"
       />
 
-      <FormSelect
-        isRequired
-        // multiple
-        label="Hodimlar"
-        methods={form}
-        name="users"
-        options={[
-          { label: "Doniyor Eshmamatov", key: 1 },
-          { label: "Ozodbek Abdisamatov", key: 2 },
-        ]}
-      />
-
       <div className="grid grid-cols-2 gap-3 py-2">
         <TimeInput
           isRequired
@@ -78,11 +79,11 @@ export default function CreateOfficeForm() {
       </div>
 
       <OfficeLocationSelect
-        setLocations={(pnts) => {
-          form.clearErrors("locations");
-          form.setValue("locations", pnts);
+        handleMapChange={(pnts) => {
+          form.clearErrors("polygon");
+          form.setValue("polygon", pnts);
         }}
-        error={!!form.formState.errors["locations"]}
+        error={!!form.formState.errors["polygon"]}
         required
       />
 

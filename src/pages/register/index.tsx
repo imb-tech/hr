@@ -1,7 +1,7 @@
 import FormInput from "@/components/form/input";
 import { REGISTER } from "@/constants/api-endpoints";
+import { usePost } from "@/hooks/usePost";
 import { setAccessToken, setRefreshToken } from "@/lib/set-token";
-import { usePost } from "@/services/default-requests";
 import { Button } from "@heroui/button";
 import { addToast } from "@heroui/toast";
 import { Link } from "@tanstack/react-router";

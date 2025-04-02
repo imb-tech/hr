@@ -1,3 +1,5 @@
+"use client";
+
 import { darkModeStyle } from "@/constants/map";
 import { useButton } from "@heroui/button";
 import { cn } from "@heroui/theme";
@@ -5,11 +7,17 @@ import { useTheme } from "@heroui/use-theme";
 import {
   CircleF,
   GoogleMap,
-  LoadScriptProps,
-  PolygonF,
+  type LoadScriptProps,
+  Polygon,
   useLoadScript,
 } from "@react-google-maps/api";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+
+declare global {
+  interface Window {
+    google: any;
+  }
+}
 
 const mapContainerStyle = {
   width: "100%",
@@ -21,8 +29,7 @@ const defaultZoom = 17;
 const VITE_GOOGLE_MAP_API_KEY = import.meta.env.VITE_GOOGLE_MAP_API_KEY;
 
 type Props = {
-  locations?: Pin[];
-  setLocations?: (points: Pin[]) => void;
+  handleMapChange?: (geoJSON: any) => void;
   required?: boolean;
   error?: boolean;
 };
@@ -33,8 +40,7 @@ type Pin = {
 };
 
 function OfficeLocationSelect({
-  locations,
-  setLocations,
+  handleMapChange,
   required = false,
   error,
 }: Props) {
@@ -44,13 +50,19 @@ function OfficeLocationSelect({
   } as LoadScriptProps);
 
   const { theme } = useTheme();
-
-  const [polygonCoordinates, setPolygonCoordinates] = useState<Pin[]>(
-    locations ?? [],
+  const [polygonCoordinatesList, setPolygonCoordinatesList] = useState<Pin[][]>(
+    [[]],
   );
+  const [activePolygonIndex, setActivePolygonIndex] = useState(0);
   const [zoomLevel, setZoomLevel] = useState(defaultZoom);
 
   const btn = useButton({ color: "primary", size: "sm" });
+
+  useEffect(() => {
+    if (polygonCoordinatesList[0].length > 2) {
+      updateLocations(polygonCoordinatesList);
+    }
+  }, [polygonCoordinatesList]);
 
   const handleMapLoad = (map: google.maps.Map) => {
     if (map) {
@@ -60,75 +72,144 @@ function OfficeLocationSelect({
         setZoomLevel(map.getZoom() || defaultZoom),
       );
 
-      const clearButton = document.createElement("button");
+      const newPolygonButton = document.createElement("button");
+      newPolygonButton.setAttribute(
+        "class",
+        `${btn.getButtonProps()?.className} ml-2 mt-2 bg-success`,
+      );
+      newPolygonButton.setAttribute("type", "button");
+      newPolygonButton.textContent = "Yangi polygon";
 
-      clearButton.setAttribute(
+      newPolygonButton.addEventListener("click", () => {
+        setPolygonCoordinatesList((prev) => [...prev, []]);
+        setActivePolygonIndex((prev) => prev + 1);
+      });
+
+      const clearAllButton = document.createElement("button");
+      clearAllButton.setAttribute(
         "class",
         `${btn.getButtonProps()?.className} ml-2 mt-2`,
       );
-      clearButton.setAttribute("type", "button");
-      clearButton.textContent = "Tozalash";
+      clearAllButton.setAttribute("type", "button");
+      clearAllButton.textContent = "Hammasini tozalash";
 
-      clearButton.addEventListener("click", () => setPolygonCoordinates([]));
+      clearAllButton.addEventListener("click", () => {
+        setPolygonCoordinatesList([[]]);
+        setActivePolygonIndex(0);
+        handleMapChange?.(null);
+      });
 
-      map.controls[google.maps.ControlPosition.TOP_RIGHT].push(clearButton);
+      map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push(
+        clearAllButton,
+      );
+      map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push(
+        newPolygonButton,
+      );
     }
   };
 
   const circleRadius = useMemo(() => {
-    const baseRadius = 8; // Base radius in meters at zoom 17
+    const baseRadius = 8;
     const baseZoom = 17;
     const scaleFactor = Math.pow(1.5, baseZoom - zoomLevel);
     const newRadius = baseRadius * scaleFactor;
-    return Math.min(Math.max(newRadius, 2), 50); // Min 2m, Max 50m
+    return Math.min(Math.max(newRadius, 2), 50);
   }, [zoomLevel]);
-
-  const coords = useMemo(
-    () => polygonCoordinates,
-    [circleRadius, polygonCoordinates],
-  );
 
   const handleMapClick = (event: google.maps.MapMouseEvent) => {
     if (event.latLng?.lat && event.latLng?.lng()) {
-      setPolygonCoordinates((prev) => {
-        const newCoords = [
-          ...prev,
+      setPolygonCoordinatesList((prev) => {
+        const newList = [...prev];
+        newList[activePolygonIndex] = [
+          ...newList[activePolygonIndex],
           { lat: event.latLng?.lat() || 0, lng: event.latLng?.lng() || 0 },
         ];
-        setLocations?.(newCoords);
-        return newCoords;
+        return newList;
       });
     }
   };
 
   const handleCircleDrag = (
-    index: number,
+    polygonIndex: number,
+    pointIndex: number,
     event: google.maps.MapMouseEvent,
   ) => {
     if (event.latLng) {
-      setPolygonCoordinates((prev) => {
-        const newCoords = [...prev];
+      const newLat = event.latLng.lat();
+      const newLng = event.latLng.lng();
 
-        if (event.latLng) {
-          newCoords[index] = {
-            lat: event.latLng.lat(),
-            lng: event.latLng.lng(),
+      setPolygonCoordinatesList((prev) => {
+        const newList = JSON.parse(JSON.stringify(prev));
+        if (newList[polygonIndex] && newList[polygonIndex][pointIndex]) {
+          newList[polygonIndex][pointIndex] = {
+            lat: newLat,
+            lng: newLng,
           };
         }
-
-        setLocations?.(newCoords);
-        return newCoords;
+        return newList;
       });
     }
   };
 
-  console.log(zoomLevel);
+  const handleCircleDragEnd = (
+    polygonIndex: number,
+    pointIndex: number,
+    event: google.maps.MapMouseEvent,
+  ) => {
+    if (event.latLng) {
+      const newLat = event.latLng.lat();
+      const newLng = event.latLng.lng();
+
+      setPolygonCoordinatesList((prev) => {
+        const newList = JSON.parse(JSON.stringify(prev));
+        if (newList[polygonIndex] && newList[polygonIndex][pointIndex]) {
+          newList[polygonIndex][pointIndex] = {
+            lat: newLat,
+            lng: newLng,
+          };
+        }
+        return newList;
+      });
+
+      setTimeout(() => {
+        updateLocations(polygonCoordinatesList);
+      }, 0);
+    }
+  };
+
+  const updateLocations = (polygons: Pin[][]) => {
+    const geoJSON = {
+      type: "Polygon",
+      coordinates: polygons
+        .map((polygon) => polygon.map((point) => [point.lng, point.lat]))
+        .filter((polygon) => polygon.length > 2),
+    };
+
+    geoJSON.coordinates.forEach((polygon, index) => {
+      if (polygon.length > 2) {
+        const firstPoint = polygon[0];
+        const lastPoint = polygon[polygon.length - 1];
+
+        if (firstPoint[0] !== lastPoint[0] || firstPoint[1] !== lastPoint[1]) {
+          geoJSON.coordinates[index].push(firstPoint);
+        }
+      }
+    });
+
+    if (geoJSON.coordinates.length > 0) {
+      handleMapChange?.(geoJSON);
+    }
+  };
+
+  const handlePolygonClick = (polygonIndex: number) => {
+    setActivePolygonIndex(polygonIndex);
+  };
 
   if (loadError) return <div>Xatolik yuz berdi</div>;
   if (!isLoaded)
     return (
       <div className="flex items-center justify-center w-full h-full">
-        Loading...
+        Yuklanmoqda...
       </div>
     );
 
@@ -143,56 +224,68 @@ function OfficeLocationSelect({
         options={{
           zoomControl: false,
           streetViewControl: false,
-          // mapTypeControl: false,
           fullscreenControl: true,
           styles: theme === "light" ? [] : darkModeStyle,
-          mapTypeControl: true, // Xarita rejimlari tugmasi yoqilgan
+          mapTypeControl: true,
           mapTypeControlOptions: {
             mapTypeIds: [
-              google.maps.MapTypeId.ROADMAP, // Yo'l (Roadmap)
-              google.maps.MapTypeId.SATELLITE, // Sputnik (Satellite)
-              google.maps.MapTypeId.TERRAIN, // Relyef (Terrain)
+              window.google.maps.MapTypeId.ROADMAP,
+              window.google.maps.MapTypeId.SATELLITE,
+              window.google.maps.MapTypeId.TERRAIN,
             ],
-            style: google.maps.MapTypeControlStyle.DEFAULT, // Dropdown menyusi sifatida ko'rsatiladi
+            style: window.google.maps.MapTypeControlStyle.DEFAULT,
           },
           disableDefaultUI: true,
         }}
         zoom={defaultZoom}
         onClick={handleMapClick}
         onLoad={handleMapLoad}
-        onZoomChanged={() => console.log("zoom")}
       >
-        {/* Poligon */}
-        {polygonCoordinates.length > 2 && (
-          <PolygonF
-            options={{
-              fillColor: "#0000FF",
-              fillOpacity: 0.3,
-              strokeColor: "#0000FF",
-              strokeOpacity: 0.8,
-              strokeWeight: 2,
-            }}
-            paths={polygonCoordinates}
-          />
-        )}
+        {polygonCoordinatesList.map((polygonCoordinates, polygonIndex) => (
+          <div key={`polygon-${polygonIndex}`}>
+            {/* Polygon */}
+            {polygonCoordinates.length > 2 && (
+              <Polygon
+                options={{
+                  fillColor:
+                    activePolygonIndex === polygonIndex ? "#FF0000" : "#0000FF",
+                  fillOpacity: 0.3,
+                  strokeColor:
+                    activePolygonIndex === polygonIndex ? "#FF0000" : "#0000FF",
+                  strokeOpacity: 0.8,
+                  strokeWeight: 2,
+                  clickable: true,
+                }}
+                paths={polygonCoordinates}
+                onClick={() => handlePolygonClick(polygonIndex)}
+              />
+            )}
 
-        {/* Har bir tanlangan nuqtani doira shaklida ko‘rsatish va drag qilish */}
-        {coords.map((coord, index) => (
-          <CircleF
-            key={index}
-            center={coord}
-            draggable={true}
-            options={{
-              fillColor: "red",
-              fillOpacity: 1,
-              strokeColor: "black",
-              strokeOpacity: 0.8,
-              strokeWeight: 1,
-              zIndex: 999,
-            }}
-            radius={circleRadius}
-            onDrag={(event) => handleCircleDrag(index, event)}
-          />
+            {/* Points for each polygon */}
+            {polygonCoordinates.map((coord, pointIndex) => (
+              <CircleF
+                key={`polygon-${polygonIndex}-point-${pointIndex}`}
+                center={coord}
+                draggable={true}
+                options={{
+                  fillColor:
+                    activePolygonIndex === polygonIndex ? "red" : "blue",
+                  fillOpacity: 1,
+                  strokeColor: "black",
+                  strokeOpacity: 0.8,
+                  strokeWeight: 1,
+                  zIndex: 1000,
+                }}
+                radius={circleRadius}
+                onDrag={(event) =>
+                  handleCircleDrag(polygonIndex, pointIndex, event)
+                }
+                onDragEnd={(event) =>
+                  handleCircleDragEnd(polygonIndex, pointIndex, event)
+                }
+              />
+            ))}
+          </div>
         ))}
       </GoogleMap>
     </div>

@@ -2,6 +2,7 @@ import Page from "@/layouts/page";
 import CreateHrForm from "@/pages/hr/create-hr-form";
 import { Button } from "@heroui/button";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/_main/hr-create")({
   component: RouteComponent,
@@ -13,8 +14,8 @@ function RouteComponent() {
   return (
     <Page
       breadcrumb={["Xodimlar"]}
-      rightComponent={
-        <Button onPress={() => navigate({ to: "/hr" })}>Ortga</Button>
+      leftComponent={
+        <Button variant="light" className="min-w-4" onPress={() => navigate({ to: "/hr" })}><ArrowLeft className="w-5 h-5" /></Button>
       }
     >
       <CreateHrForm />
