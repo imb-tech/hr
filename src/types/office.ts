@@ -1,40 +1,36 @@
-type TOffice = {
-  id: number;
-  name: string;
+type Geometry = {
+  type: "Point";
+  coordinates: [number, number];
+};
+
+type Polygon = {
+  type: "Polygon";
+  coordinates: number[][][];
+};
+
+
+type Properties ={
   address: string;
   lunch_start_time: string;
   lunch_end_time: string;
-  location: {
-    coordinates: Array<number>
-  },
-  polygon: {
-    coordinates: [
-      // [
-      //   [
-      //     -73.935242,
-      //     40.73061
-      //   ],
-      //   [
-      //     -73.936,
-      //     40.731
-      //   ],
-      //   [
-      //     -73.937,
-      //     40.7305
-      //   ],
-      //   [
-      //     -73.935242,
-      //     40.73061
-      //   ]
-      // ]
-    ]
-  }
+  name: string;
+  polygon: Polygon;
+  users:string;
+  locations: string[];
+}
+
+
+type Office = {
+  type: "Feature";
+  id: number;
+  geometry: Geometry;
+  properties:Properties;
 };
 
-type Pin = { lat: number; lng: number };
-
-type Office = TOffice & { users: number };
-type OfficeFields = TOffice & { users: string, locations: Pin[] };
+type FeatureCollection = {
+  type: "FeatureCollection";
+  features: Office[];
+};
 
 
 type OfficeInfo = {

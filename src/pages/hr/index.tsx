@@ -7,13 +7,13 @@ import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useHrListCols } from "./cols";
 import CreateHrForm from "./create-hr-form";
-import { useGet } from "@/hooks/useGet";
+// import { useGet } from "@/hooks/useGet";
 
 export default function HrPage() {
   const { openModal } = useModal("delete");
   const [deleteID, setDeleteID] = useState<number>(0);
   const navigate = useNavigate();
-  const { data: data2 } = useGet(HR_API);
+  // const { data: data2 } = useGet(HR_API);
 
   const data: Human[] = [
     {
