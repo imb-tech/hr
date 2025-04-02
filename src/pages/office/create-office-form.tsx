@@ -2,19 +2,36 @@ import ModalFormActions from "@/components/elements/modal-form-actions";
 import FormInput from "@/components/form/input";
 import TimeInput from "@/components/form/time-input";
 import { COMPANIES } from "@/constants/api-endpoints";
+import { useModal } from "@/hooks/use-modal";
 import { useStore } from "@/hooks/use-store";
 import { usePost } from "@/hooks/usePost";
+import { addToast } from "@heroui/toast";
+import { useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import OfficeLocationSelect from "./office-location";
 
 export default function CreateOfficeForm() {
   const { store } = useStore<Office>("office-data");
-  const { mutate } = usePost();
+  const { closeModal } = useModal();
+  const queryClient = useQueryClient();
+
+  const { mutate } = usePost({
+    onSuccess: () => {
+      queryClient.refetchQueries({
+        queryKey: [COMPANIES],
+      }),
+        addToast({
+          description: "Muvaffaqiyatli yaratildi",
+        });
+      form.reset();
+      closeModal();
+    },
+  });
 
   const form = useForm<Properties>({
     defaultValues: store
       ? {
-          ...store,
+          ...store.properties,
           users: "1",
           locations: [],
         }
@@ -22,7 +39,6 @@ export default function CreateOfficeForm() {
   });
 
   const onSubmit = (data: Properties) => {
-
     if (!data?.polygon && data.polygon?.coordinates?.length < 1) {
       form.setError("polygon", { type: "required" });
       return;
@@ -37,7 +53,6 @@ export default function CreateOfficeForm() {
     };
 
     mutate(COMPANIES, values);
-    console.log("Login Data:", values);
   };
 
   return (
@@ -79,6 +94,7 @@ export default function CreateOfficeForm() {
       </div>
 
       <OfficeLocationSelect
+        initialValue={store?.properties.polygon.coordinates || []}
         handleMapChange={(pnts) => {
           form.clearErrors("polygon");
           form.setValue("polygon", pnts);

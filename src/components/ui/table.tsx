@@ -141,6 +141,8 @@ export default function DataTable<TData extends object>({
     );
   }, [selectedKeys, data.length]);
 
+  
+
   return (
     <Table
       {...props}
@@ -154,9 +156,9 @@ export default function DataTable<TData extends object>({
       onSortChange={setSortDescriptor}
     >
       <TableHeader>
-        {headerColumns.map((column) => (
+        {headerColumns.map((column, index) => (
           <TableColumn
-            key={column.dataKey as string}
+            key={index}
             align={column.dataKey === "actions" ? "end" : "start"}
             allowsSorting={column.sortable}
           >
@@ -182,12 +184,9 @@ export default function DataTable<TData extends object>({
                         )
                       }
                     >
-                      {columns.map((column) =>
+                      {columns.map((column, index) =>
                         column.dataKey === "actions" ? null : (
-                          <DropdownItem
-                            key={column.dataKey as string}
-                            className="capitalize"
-                          >
+                          <DropdownItem key={index} className="capitalize">
                             {capitalize(column.header)}
                           </DropdownItem>
                         ),

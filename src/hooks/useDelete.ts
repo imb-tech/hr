@@ -1,10 +1,8 @@
 import { onError } from "@/lib/onError";
-import { onSuccessHandler } from "@/lib/onSuccess";
 import axiosInstance from "@/services/axios-instance";
 import {
   useMutation,
   UseMutationOptions,
-  useQueryClient,
 } from "@tanstack/react-query";
 import { AxiosRequestConfig } from "axios";
 
@@ -12,21 +10,11 @@ export const deleteRequest = (url: string, config?: AxiosRequestConfig) =>
   axiosInstance.delete(`/${url}/`, config).then((res) => res.data);
 
 export const useDelete = (
-  options?: Partial<UseMutationOptions<any, any, string>> & { queryKeys?: string | string[] | null },
+  options?: Partial<UseMutationOptions<any, any, string>>,
   config?: AxiosRequestConfig,
 ) => {
-  const queryClient = useQueryClient();
-
   return useMutation<any, any, string>({
     mutationFn: (url) => deleteRequest(url, config),
-    onSuccess: (data, variables, context) => {
-      if (options?.queryKeys) {
-        onSuccessHandler(queryClient, options.queryKeys);
-      }
-      if (options?.onSuccess) {
-        options.onSuccess(data, variables, context);
-      }
-    },
     onError,
     ...(options || {}),
   });

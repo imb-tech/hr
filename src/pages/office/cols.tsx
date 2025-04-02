@@ -7,12 +7,12 @@ export const usOfficeCols = () => {
       { header: "ID", dataKey: "id" },
       {
         header: "Nomi",
-        dataKey: "properties",
+        dataKey: "id",
         cell: (_, item) => <span>{item.properties.name}</span>,
       },
       {
         header: "Manzil",
-        dataKey: "properties",
+        dataKey: "id",
         cell: (_, item) => <span>{item.properties.address}</span>,
       },
       {
@@ -21,12 +21,12 @@ export const usOfficeCols = () => {
       },
       {
         header: "Tushlik boshlanish",
-        dataKey: "properties",
+        dataKey: "id",
         cell: (_, item) => <span>{item.properties.lunch_start_time}</span>,
       },
       {
         header: "Tushlik tugash",
-        dataKey: "properties",
+        dataKey: "id",
         cell: (_, item) => <span>{item.properties.lunch_end_time}</span>,
       },
       { header: "Amallar", dataKey: "actions" },

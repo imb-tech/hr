@@ -9,8 +9,8 @@ import { useDelete } from "@/hooks/useDelete";
 type Props = {
   modalKey?: string;
   path: string;
-  id: number | string;
-  queryKey: string | string[];
+  id: number | string | undefined;
+  queryKey?: string | string[];
 };
 
 export default function DeleteModal({
@@ -21,6 +21,7 @@ export default function DeleteModal({
 }: Props) {
   const { closeModal } = useModal(modalKey);
   const queryClient = useQueryClient();
+  const resolvedQueryKey = queryKey ? (Array.isArray(queryKey) ? queryKey : [queryKey]) : [path];
   const { mutate } = useDelete({
     onSuccess: () => {
       addToast({
@@ -29,13 +30,13 @@ export default function DeleteModal({
       });
       closeModal();
       queryClient.removeQueries({
-        queryKey: Array.isArray(queryKey) ? queryKey : [queryKey],
+        queryKey: resolvedQueryKey,
       });
     },
   });
 
   const handleDelete = () => {
-    mutate(path + `${id}/`);
+    mutate(path + `/${id}`);
   };
 
   return (

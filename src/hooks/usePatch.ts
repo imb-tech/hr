@@ -1,11 +1,9 @@
 import { onError } from "@/lib/onError";
-import { onSuccessHandler } from "@/lib/onSuccess";
 import axiosInstance from "@/services/axios-instance";
 import {
   MutateOptions,
   useMutation,
   UseMutationOptions,
-  useQueryClient,
 } from "@tanstack/react-query";
 import { AxiosRequestConfig } from "axios";
 
@@ -22,21 +20,12 @@ export const putRequest = <T>(
 ) => axiosInstance.put(`/${url}/`, payload, config).then((res) => res.data);
 
 export const usePatch = <P = any, D = any>(
-  options?: Partial<UseMutationOptions<D, any, { url: string; payload: P }>> & { queryKeys?: string | string[] | null },
+  options?: Partial<UseMutationOptions<D, any, { url: string; payload: P }>>,
   config?: AxiosRequestConfig,
 ) => {
-  const queryClient = useQueryClient();
 
   const mutation = useMutation<D, any, { url: string; payload: P }>({
     mutationFn: ({ url, payload }) => patchRequest(url, payload, config),
-    onSuccess: (data, variables, context) => {
-      if (options?.queryKeys) {
-        onSuccessHandler(queryClient, options.queryKeys);
-      }
-      if (options?.onSuccess) {
-        options.onSuccess(data, variables, context);
-      }
-    },
     onError,
     ...(options || {}),
   });

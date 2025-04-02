@@ -32,6 +32,7 @@ type Props = {
   handleMapChange?: (geoJSON: any) => void;
   required?: boolean;
   error?: boolean;
+  initialValue?: any;
 };
 
 type Pin = {
@@ -43,6 +44,7 @@ function OfficeLocationSelect({
   handleMapChange,
   required = false,
   error,
+  initialValue,
 }: Props) {
   const [lat, lng] = [41.200777, 69.236642];
   const { isLoaded, loadError } = useLoadScript({
@@ -57,6 +59,17 @@ function OfficeLocationSelect({
   const [zoomLevel, setZoomLevel] = useState(defaultZoom);
 
   const btn = useButton({ color: "primary", size: "sm" });
+
+  useEffect(() => {
+    if (initialValue && initialValue?.length > 0) {
+      const values = initialValue.map((itemE: any) =>
+        itemE?.map((item: any) => {
+          return { lat: item[1], lng: item[0] };
+        }),
+      );
+      setPolygonCoordinatesList(values);
+    }
+  }, [initialValue]);
 
   useEffect(() => {
     if (polygonCoordinatesList[0].length > 2) {

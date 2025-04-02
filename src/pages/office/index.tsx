@@ -12,7 +12,7 @@ import CreateOfficeForm from "./create-office-form";
 export default function OfficePage() {
   const { openModal } = useModal("delete");
   const { openModal: openEdit } = useModal();
-  const { setStore } = useStore("office-data");
+  const { setStore, store } = useStore<Office>("office-data");
   const navigate = useNavigate();
   const { data: companies, isLoading } = useGet<FeatureCollection>(COMPANIES);
 
@@ -30,9 +30,7 @@ export default function OfficePage() {
     });
   }
 
-   console.log(companies);
    
-
   return (
     <div>
       <DataTable
@@ -44,7 +42,7 @@ export default function OfficePage() {
         onRowClick={onRowClick}
       />
 
-      <DeleteModal id={1} path="ddd" queryKey="office" />
+      <DeleteModal id={store?.id} path={COMPANIES} />
 
       <Modal size="3xl" title="Ofis qo'shish">
         <CreateOfficeForm />
