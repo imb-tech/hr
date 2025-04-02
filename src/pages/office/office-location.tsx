@@ -78,7 +78,7 @@ function OfficeLocationSelect({
         `${btn.getButtonProps()?.className} ml-2 mt-2 bg-success`,
       );
       newPolygonButton.setAttribute("type", "button");
-      newPolygonButton.textContent = "Yangi polygon";
+      newPolygonButton.textContent = "Ofis qo'shish";
 
       newPolygonButton.addEventListener("click", () => {
         setPolygonCoordinatesList((prev) => [...prev, []]);

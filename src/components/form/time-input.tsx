@@ -66,8 +66,8 @@ export default function TimeInput<IForm extends FieldValues>({
         {...props}
         {...reg}
         value={
-          times?.[0]
-            ? new Time(Number(times?.[0]), Number(times?.[0]))
+          times?.[0] && times?.[1]
+            ? new Time(Number(times?.[0]), Number(times?.[1]))
             : undefined
         }
         onChange={(time) => {
