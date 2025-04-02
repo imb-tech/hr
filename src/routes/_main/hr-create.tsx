@@ -14,8 +14,8 @@ function RouteComponent() {
   return (
     <Page
       breadcrumb={["Xodimlar"]}
-      rightComponent={
-        <Button onPress={() => navigate({ to: "/hr" })}><ArrowLeft className="w-4 h-4" />Ortga</Button>
+      leftComponent={
+        <Button variant="light" className="min-w-4" onPress={() => navigate({ to: "/hr" })}><ArrowLeft className="w-5 h-5" /></Button>
       }
     >
       <CreateHrForm />

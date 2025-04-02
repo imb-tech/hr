@@ -1,8 +1,10 @@
 import FormInput from "@/components/form/input";
 import PhoneField from "@/components/form/phone-field";
 import FormSelect from "@/components/form/select";
-import { HR_API } from "@/lib/api-endpoints";
-import { useGet, usePatch, usePost } from "@/services/default-requests";
+import { HR_API } from "@/constants/api-endpoints";
+import { useGet } from "@/hooks/useGet";
+import { usePatch } from "@/hooks/usePatch";
+import { usePost } from "@/hooks/usePost";
 import { Button } from "@heroui/button";
 import { addToast } from "@heroui/toast";
 import { useParams } from "@tanstack/react-router";

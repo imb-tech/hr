@@ -1,17 +1,19 @@
 import DeleteModal from "@/components/elements/delete-modal";
 import Modal from "@/components/ui/modal";
 import DataTable from "@/components/ui/table";
+import { HR_API } from "@/constants/api-endpoints";
 import { useModal } from "@/hooks/use-modal";
-import { HR_API } from "@/lib/api-endpoints";
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useHrListCols } from "./cols";
 import CreateHrForm from "./create-hr-form";
+import { useGet } from "@/hooks/useGet";
 
 export default function HrPage() {
   const { openModal } = useModal("delete");
   const [deleteID, setDeleteID] = useState<number>(0);
   const navigate = useNavigate();
+  const { data: data2 } = useGet(HR_API);
 
   const data: Human[] = [
     {
@@ -33,6 +35,8 @@ export default function HrPage() {
     openModal();
     setDeleteID(id);
   }
+
+  console.log(data2);
 
   return (
     <div>

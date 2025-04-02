@@ -24,7 +24,7 @@ export function setupAxiosInterceptors(queryClient: QueryClient) {
     // Add a request interceptor
     axiosInstance.interceptors.request.use(
         function (config) {
-            const token = getAccessToken()
+            const token = getAccessToken();
             if (token) {
                 config.headers.Authorization = `Bearer ${token}`
             }

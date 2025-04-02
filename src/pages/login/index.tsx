@@ -1,9 +1,10 @@
 import FormInput from "@/components/form/input";
 import { LOGIN } from "@/constants/api-endpoints";
+import { usePost } from "@/hooks/usePost";
 import { setAccessToken, setRefreshToken } from "@/lib/set-token";
-import { usePost } from "@/services/default-requests";
 import { Button } from "@heroui/button";
 import { addToast } from "@heroui/toast";
+import { useNavigate } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 
 type LoginFields = {
@@ -12,6 +13,7 @@ type LoginFields = {
 };
 
 export default function LoginForm() {
+  const navigate = useNavigate();
   const { mutate, isPending } = usePost({
     onSuccess: (data) => {
       const access = data?.access;
@@ -28,14 +30,13 @@ export default function LoginForm() {
       if (refresh) {
         setRefreshToken(refresh);
       }
-      window.location.replace("/");
+      navigate({ to: "/" });
     },
   });
 
   const form = useForm<LoginFields>();
 
   const onSubmit = (data: LoginFields) => {
-    console.log("Login Data:", data);
     mutate(LOGIN, data);
   };
 

@@ -1,8 +1,9 @@
 import ModalFormActions from "@/components/elements/modal-form-actions";
 import FormInput from "@/components/form/input";
 import TimeInput from "@/components/form/time-input";
-import { POSITION } from "@/lib/api-endpoints";
-import { usePatch, usePost } from "@/services/default-requests";
+import { HR_API } from "@/constants/api-endpoints";
+import { usePatch } from "@/hooks/usePatch";
+import { usePost } from "@/hooks/usePost";
 import { addToast } from "@heroui/toast";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -36,9 +37,9 @@ export default function CreatePositionsForm({
 
   const onSubmit = (values: Position) => {
     if (dataItem?.id) {
-      updateMutate(`${POSITION}/${dataItem.id}`, values);
+      updateMutate(`${HR_API}/${dataItem.id}`, values);
     } else {
-      postMutate(POSITION, values);
+      postMutate(HR_API, values);
     }
   };
 
