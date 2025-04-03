@@ -1,10 +1,10 @@
 import { useModal } from "@/hooks/use-modal";
+import { useDelete } from "@/hooks/useDelete";
 import { Button } from "@heroui/button";
 import { ModalFooter } from "@heroui/modal";
 import { addToast } from "@heroui/toast";
 import { useQueryClient } from "@tanstack/react-query";
 import Modal from "../ui/modal";
-import { useDelete } from "@/hooks/useDelete";
 
 type Props = {
   modalKey?: string;
@@ -21,8 +21,12 @@ export default function DeleteModal({
 }: Props) {
   const { closeModal } = useModal(modalKey);
   const queryClient = useQueryClient();
-  const resolvedQueryKey = queryKey ? (Array.isArray(queryKey) ? queryKey : [queryKey]) : [path];
-  const { mutate } = useDelete({
+  const resolvedQueryKey = queryKey
+    ? Array.isArray(queryKey)
+      ? queryKey
+      : [queryKey]
+    : [path];
+  const { mutate, isPending } = useDelete({
     onSuccess: () => {
       addToast({
         description: "Muvaffaqiyatli o'chirildi",
@@ -52,7 +56,12 @@ export default function DeleteModal({
         <Button color="danger" variant="flat" onPress={closeModal}>
           Bekor qilish
         </Button>
-        <Button color="primary" type="submit" onPress={handleDelete}>
+        <Button
+          isLoading={isPending}
+          color="primary"
+          type="submit"
+          onPress={handleDelete}
+        >
           O'chirish
         </Button>
       </ModalFooter>

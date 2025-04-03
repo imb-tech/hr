@@ -9,14 +9,14 @@ export const useHrListCols = () => {
       { header: "FIO", dataKey: "full_name" },
       {
         header: "Telefon",
-        dataKey: "phone",
+        dataKey: "phone_number",
         cell: (value) => {
           return formatPhoneNumber(value);
         },
       },
       {
         header: "Qo'shimcha raqam",
-        dataKey: "family_phone",
+        dataKey: "phone_number2",
         cell: (value) => {
           return formatPhoneNumber(value);
         },
@@ -25,10 +25,10 @@ export const useHrListCols = () => {
         header: "Maosh",
         dataKey: "salary",
         cell: (salary: number | string | undefined) => {
-          if (typeof salary === 'number') {
+          if (typeof salary === "number") {
             return salary.toLocaleString();
           }
-          return salary; 
+          return salary;
         },
       },
       { header: "Amallar", dataKey: "actions" },

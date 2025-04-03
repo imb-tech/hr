@@ -1,12 +1,13 @@
 import FormInput from "@/components/form/input";
 import PhoneField from "@/components/form/phone-field";
 import FormSelect from "@/components/form/select";
-import { HR_API } from "@/constants/api-endpoints";
+import { HR_API, POSITION } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
 import { usePatch } from "@/hooks/usePatch";
 import { usePost } from "@/hooks/usePost";
 import { Button } from "@heroui/button";
 import { addToast } from "@heroui/toast";
+import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -14,25 +15,32 @@ import { useForm } from "react-hook-form";
 export default function CreateHrForm() {
   const form = useForm<Human>();
   const { "hr-edit": id } = useParams({ strict: false });
+  const queryClient = useQueryClient();
+  const { data: dataPosition, isSuccess: successPosition } =
+    useGet<Position[]>(POSITION);
   const { data, isSuccess } = useGet(HR_API, {
     options: { enabled: Boolean(id) },
   });
 
-  const { mutate: postMutate } = usePost({
+  const { mutate: postMutate, isPending: createPending } = usePost({
     onSuccess: () => {
+      queryClient.refetchQueries({ queryKey: [HR_API] });
       addToast({
         description: "Muaffaqiyatli qo'shildi",
         color: "success",
       });
+      form.reset();
     },
   });
 
-  const { mutate: updateMutate } = usePatch({
+  const { mutate: updateMutate, isPending: updatePending } = usePatch({
     onSuccess: () => {
+      queryClient.refetchQueries({ queryKey: [HR_API] });
       addToast({
         description: "Muaffaqiyatli yangilandi",
         color: "success",
       });
+      form.reset();
     },
   });
 
@@ -40,7 +48,7 @@ export default function CreateHrForm() {
     if (id) {
       updateMutate(`${HR_API}/${id}`, values);
     } else {
-      postMutate(HR_API, values);
+      postMutate(HR_API, { ...values, username: values.phone_number });
     }
   };
 
@@ -69,13 +77,13 @@ export default function CreateHrForm() {
           placeholder="+998931203042"
           required
           methods={form}
-          name={"phone"}
+          name={"phone_number"}
         />
         <PhoneField
           label="Qo'shimcha raqam"
           required
           methods={form}
-          name={"family_phone"}
+          name={"phone_number2"}
         />
         <FormInput
           isRequired
@@ -90,7 +98,7 @@ export default function CreateHrForm() {
           isRequired
           label={"Manzil"}
           methods={form}
-          name={"location"}
+          name={"address"}
           size="lg"
           type="text"
           placeholder={"Toshkent shahar"}
@@ -99,7 +107,7 @@ export default function CreateHrForm() {
           isRequired
           label={"Hozir turar joyi"}
           methods={form}
-          name={"address"}
+          name={"residence"}
           size="lg"
           type="text"
           placeholder={"Toshkent shahar, Chilonzor tumani"}
@@ -108,10 +116,11 @@ export default function CreateHrForm() {
           isRequired
           label={"Pasport ma'lumotlari"}
           methods={form}
-          name={"id_card"}
+          name={"id_number"}
           size="lg"
           type="text"
           placeholder={"AB 1234567"}
+          maxLength={9}
         />
 
         <FormSelect
@@ -119,11 +128,16 @@ export default function CreateHrForm() {
           label="O'quv ma'lumoti"
           methods={form}
           name="education"
-          options={[
-            { label: "Oliy ta'lim", key: 1 },
-            { label: "O'rta maxsus", key: 2 },
-            { label: "Tugallanmagan oliy", key: 3 },
-          ]}
+          options={
+            (successPosition &&
+              dataPosition?.map((item) => {
+                return {
+                  label: item.name,
+                  key: item.id,
+                };
+              })) ||
+            []
+          }
           size="lg"
           placeholder="O'rta maxsus"
         />
@@ -153,7 +167,13 @@ export default function CreateHrForm() {
 
         <div className="w-full">
           <span className="opacity-0">button</span>
-          <Button className="w-full" color="primary" size="lg" type="submit">
+          <Button
+            isLoading={createPending || updatePending}
+            className="w-full"
+            color="primary"
+            size="lg"
+            type="submit"
+          >
             Saqlash
           </Button>
         </div>

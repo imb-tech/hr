@@ -22,6 +22,7 @@ export default function CreateOfficeForm() {
       }),
         addToast({
           description: "Muvaffaqiyatli yaratildi",
+          color: "success",
         });
       form.reset();
       closeModal();

@@ -4,8 +4,10 @@ import { ModalFooter } from "@heroui/modal";
 
 export default function ModalFormActions({
   modalKey = "default",
+  isLoading = false,
 }: {
   modalKey?: string;
+  isLoading?: boolean;
 }) {
   const { closeModal } = useModal(modalKey);
 
@@ -14,7 +16,7 @@ export default function ModalFormActions({
       <Button color="danger" variant="light" onPress={closeModal}>
         Orqaga
       </Button>
-      <Button color="primary" type="submit">
+      <Button isLoading={isLoading} color="primary" type="submit">
         Saqlash
       </Button>
     </ModalFooter>

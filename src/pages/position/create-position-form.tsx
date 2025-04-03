@@ -1,10 +1,12 @@
 import ModalFormActions from "@/components/elements/modal-form-actions";
 import FormInput from "@/components/form/input";
 import TimeInput from "@/components/form/time-input";
-import { HR_API } from "@/constants/api-endpoints";
+import { POSITION } from "@/constants/api-endpoints";
+import { useModal } from "@/hooks/use-modal";
 import { usePatch } from "@/hooks/usePatch";
 import { usePost } from "@/hooks/usePost";
 import { addToast } from "@heroui/toast";
+import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
@@ -16,30 +18,39 @@ export default function CreatePositionsForm({
   dataItem,
 }: CreatePositionsFormProps) {
   const form = useForm<Position>();
+  const queryClient = useQueryClient();
+  const { closeModal } = useModal();
+  
 
-  const { mutate: postMutate } = usePost({
+  const { mutate: postMutate, isPending: isPendingCreate } = usePost({
     onSuccess: () => {
+      queryClient.refetchQueries({ queryKey: [POSITION] });
       addToast({
         description: "Muaffaqiyatli qo'shildi",
         color: "success",
       });
+      closeModal();
+      form.reset();
     },
   });
 
-  const { mutate: updateMutate } = usePatch({
+  const { mutate: updateMutate, isPending: isPendingUpdate } = usePatch({
     onSuccess: () => {
+      queryClient.refetchQueries({ queryKey: [POSITION] });
       addToast({
         description: "Muaffaqiyatli yangilandi",
         color: "success",
       });
+      closeModal();
+      form.reset();
     },
   });
 
   const onSubmit = (values: Position) => {
     if (dataItem?.id) {
-      updateMutate(`${HR_API}/${dataItem.id}`, values);
+      updateMutate(`${POSITION}/${dataItem.id}`, values);
     } else {
-      postMutate(HR_API, values);
+      postMutate(POSITION, values);
     }
   };
 
@@ -59,7 +70,7 @@ export default function CreatePositionsForm({
           required
           label="Lavozim"
           methods={form}
-          name="poisiton"
+          name="name"
           size="lg"
         />
 
@@ -68,17 +79,17 @@ export default function CreatePositionsForm({
             isRequired
             label={"Ish boshlanish vaqti"}
             methods={form}
-            name="start_date"
+            name="work_shift_start"
           />
           <TimeInput
             isRequired
             label={"Ish tugash vaqti"}
             methods={form}
-            name="end_date"
+            name="work_shift_end"
           />
         </div>
 
-        <ModalFormActions />
+        <ModalFormActions isLoading={isPendingCreate || isPendingUpdate} />
       </form>
     </div>
   );

@@ -13,7 +13,9 @@ export const useHrListCols = () => {
     [],
   );
 };
+
 function ViewPage() {
+
   const data = {
     id: 1,
     full_name: "Ozodbek Abdisamatov",

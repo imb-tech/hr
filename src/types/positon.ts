@@ -1,6 +1,6 @@
 type Position = {
   id: number;
-  poisiton: string;
-  start_date: string;
-  end_date: string;
+  name: string;
+  work_shift_start: string;
+  work_shift_end: string;
 };

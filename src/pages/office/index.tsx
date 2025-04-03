@@ -30,6 +30,11 @@ export default function OfficePage() {
     });
   }
 
+  function handleDelete(itm: Office) {
+    setStore(itm);
+    openModal();
+  }
+
    
   return (
     <div>
@@ -37,7 +42,7 @@ export default function OfficePage() {
         isLoading={isLoading}
         columns={usOfficeCols()}
         data={companies?.features ?? []}
-        onDelete={openModal}
+        onDelete={handleDelete}
         onEdit={handleEdit}
         onRowClick={onRowClick}
       />

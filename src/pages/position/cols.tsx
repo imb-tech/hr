@@ -5,13 +5,13 @@ export const usPostionsCols = () => {
   return useMemo<ColumnDef<Position>[]>(
     () => [
       { header: "ID", dataKey: "id" },
-      { header: "Lavozim", dataKey: "poisiton" },
+      { header: "Lavozim", dataKey: "name" },
       {
         header: "Ish vaqti",
-        dataKey: "end_date",
+        dataKey: "work_shift_end",
         cell: (_, itm) => (
           <span>
-            {itm.start_date} - {itm.end_date}
+            {itm.work_shift_start} - {itm.work_shift_end}
           </span>
         ),
       },

@@ -1,4 +1,5 @@
 import { useModal } from "@/hooks/use-modal";
+import { useStore } from "@/hooks/use-store";
 import Page from "@/layouts/page";
 import PostionsPage from "@/pages/position";
 import { Button } from "@heroui/button";
@@ -11,11 +12,22 @@ export const Route = createFileRoute("/_main/position")({
 
 function RouteComponent() {
   const { openModal } = useModal();
+  const { remove } = useStore<Position>("position-data");
+
+  function handleClick() {
+    remove();
+    openModal();
+  }
 
   return (
     <Page
       breadcrumb={["Lavozimlar"]}
-      rightComponent={<Button className="flex gap-1" onPress={openModal}><Plus className="w-5 h-5" />Lavozim qo'shish</Button>}
+      rightComponent={
+        <Button className="flex gap-1" onPress={handleClick}>
+          <Plus className="w-5 h-5" />
+          Lavozim qo'shish
+        </Button>
+      }
     >
       <PostionsPage />
     </Page>
