@@ -11,20 +11,20 @@ export const useHrListCols = () => {
         header: "Telefon",
         dataKey: "phone_number",
         cell: (value) => {
-          return formatPhoneNumber(value);
+          return formatPhoneNumber(Number(value));
         },
       },
       {
         header: "Qo'shimcha raqam",
         dataKey: "phone_number2",
         cell: (value) => {
-          return formatPhoneNumber(value);
+          return formatPhoneNumber(Number(value));
         },
       },
       {
         header: "Maosh",
         dataKey: "salary",
-        cell: (salary: number | string | undefined) => {
+        cell: (salary) => {
           if (typeof salary === "number") {
             return salary.toLocaleString();
           }

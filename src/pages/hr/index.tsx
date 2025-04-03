@@ -28,7 +28,7 @@ export default function HrPage() {
         onDelete={(item) => handleDelete(item)}
         onEdit={(item) => {
           if (!item.id) return;
-          navigate({ to: `/hr-edit/$${item.id}` });
+          navigate({ to: `/hr-edit/${item.id}` });
         }}
         onRowClick={(item) => navigate({ to: `/hr-view/${item.id}` })}
       />

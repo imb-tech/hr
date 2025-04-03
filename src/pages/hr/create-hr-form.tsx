@@ -8,7 +8,7 @@ import { usePost } from "@/hooks/usePost";
 import { Button } from "@heroui/button";
 import { addToast } from "@heroui/toast";
 import { useQueryClient } from "@tanstack/react-query";
-import { useParams } from "@tanstack/react-router";
+import { useNavigate, useParams } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
@@ -18,9 +18,10 @@ export default function CreateHrForm() {
   const queryClient = useQueryClient();
   const { data: dataPosition, isSuccess: successPosition } =
     useGet<Position[]>(POSITION);
-  const { data, isSuccess } = useGet(HR_API, {
+  const { data, isSuccess } = useGet<Human>(`${HR_API}/${id}`, {
     options: { enabled: Boolean(id) },
   });
+  const navigate = useNavigate();
 
   const { mutate: postMutate, isPending: createPending } = usePost({
     onSuccess: () => {
@@ -30,6 +31,7 @@ export default function CreateHrForm() {
         color: "success",
       });
       form.reset();
+      navigate({ to: "/hr" });
     },
   });
 
@@ -41,6 +43,7 @@ export default function CreateHrForm() {
         color: "success",
       });
       form.reset();
+      navigate({ to: "/hr" });
     },
   });
 
@@ -48,15 +51,32 @@ export default function CreateHrForm() {
     if (id) {
       updateMutate(`${HR_API}/${id}`, values);
     } else {
-      postMutate(HR_API, { ...values, username: values.phone_number });
+      postMutate(HR_API, {
+        ...values,
+        groups: [values.groups],
+        username: values.phone_number,
+      });
     }
   };
 
   useEffect(() => {
     if (data) {
-      form.reset(data);
+      form.reset({
+        full_name: data.full_name,
+        phone_number: data.phone_number,
+        phone_number2: data.phone_number2,
+        address: data.address,
+        residence: data.residence,
+        id_number: data.id_number,
+        education: data.education,
+        password: data.password,
+        salary: data.salary,
+        // groups: data.groups?.[0] ? data.groups[0] : undefined
+      });
     }
   }, [isSuccess, form, data]);
+
+  console.log(Array.isArray(data?.groups) ? data.groups[0] : "");
 
   return (
     <div>
@@ -122,12 +142,21 @@ export default function CreateHrForm() {
           placeholder={"AB 1234567"}
           maxLength={9}
         />
-
-        <FormSelect
+        <FormInput
           isRequired
           label="O'quv ma'lumoti"
           methods={form}
-          name="education"
+          name={"education"}
+          size="lg"
+          type="text"
+          placeholder="O'rta maxsus"
+        />
+
+        <FormSelect
+          isRequired
+          label="Lavozimi"
+          methods={form}
+          name="groups"
           options={
             (successPosition &&
               dataPosition?.map((item) => {
@@ -138,20 +167,6 @@ export default function CreateHrForm() {
               })) ||
             []
           }
-          size="lg"
-          placeholder="O'rta maxsus"
-        />
-
-        <FormSelect
-          isRequired
-          label="Lavozimi"
-          methods={form}
-          name="positon"
-          options={[
-            { label: "Menejer", key: 1 },
-            { label: "Ish boshqaruvchi", key: 2 },
-            { label: "O'qituvchi", key: 3 },
-          ]}
           size="lg"
           placeholder="Menejer"
         />
