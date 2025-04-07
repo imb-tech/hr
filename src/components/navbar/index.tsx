@@ -9,14 +9,24 @@ import {
 import { SearchIcon } from "@/components/icons";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { siteConfig } from "@/config/site";
+import { GET_ME } from "@/constants/api-endpoints";
+import { useGet } from "@/hooks/useGet";
+import { Avatar } from "@heroui/avatar";
+import {
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+} from "@heroui/dropdown";
 import { Link } from "@tanstack/react-router";
+import { LogOut } from "lucide-react";
 import { ReactNode } from "react";
 import HeaderBreadvrumb from "./header-breadcrumb";
 
 export const Navbar = ({
   items,
   rightComponent,
-  leftComponent
+  leftComponent,
 }: {
   items?: string[];
   rightComponent?: ReactNode;
@@ -42,6 +52,12 @@ export const Navbar = ({
       type="search"
     />
   );
+  const { data } = useGet<{
+    full_name: string;
+    phone_number: string;
+    username: string;
+  }>(GET_ME);
+
 
   return (
     <HeroUINavbar
@@ -57,6 +73,27 @@ export const Navbar = ({
       <div className="flex gap-3">
         {!!rightComponent && <div className="flex gap-2">{rightComponent}</div>}
         <ThemeSwitch />
+        <Dropdown placement="bottom-start">
+          <DropdownTrigger>
+            <Avatar
+              isBordered
+              as="button"
+              className="transition-transform"
+              src={undefined}
+            />
+          </DropdownTrigger>
+          <DropdownMenu aria-label="User Actions" variant="flat">
+            <DropdownItem key="profile" className="h-14 gap-2">
+              <p className="font-bold mb-1">{data?.full_name}</p>
+              <p className="font-bold">{data?.username}</p>
+            </DropdownItem>
+            <DropdownItem key="logout" color="danger">
+              <div className="flex items-center w-full gap-[6px]">
+                <LogOut size={18} /> <span>Chiqish</span>
+              </div>
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
       </div>
 
       <NavbarMenu className="static sm:hidden">

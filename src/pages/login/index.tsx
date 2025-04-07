@@ -41,11 +41,11 @@ export default function LoginForm() {
   };
 
   return (
-    <section className="flex pl-16 justify-center h-full flex-col w-full">
-      <h1 className="text-3xl mb-1">Tizimga kirish</h1>
+    <section className="flex justify-center h-full flex-col w-full">
+      <h1 className="text-3xl text-center mb-5">Tizimga kirish</h1>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-3"
+        className="flex flex-col gap-3 "
       >
         <FormInput isRequired methods={form} name="username" label={"Login"} />
         <FormInput
@@ -55,7 +55,7 @@ export default function LoginForm() {
           label={"Parol"}
           type="password"
         />
-        <Button isLoading={isPending} color="primary" type="submit">
+        <Button isLoading={isPending} className="mt-3" color="primary" type="submit">
           Davom etish
         </Button>
       </form>

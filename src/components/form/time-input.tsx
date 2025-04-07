@@ -1,3 +1,4 @@
+import { REQUIRED_MESSAGE } from "@/constants/components";
 import { TimeInput as HeroTimeInput, TimeInputProps } from "@heroui/date-input";
 import { cn } from "@heroui/theme";
 import { Time } from "@internationalized/date";
@@ -32,7 +33,7 @@ export default function TimeInput<IForm extends FieldValues>({
   const reg = register(name, {
     required: {
       value: required,
-      message: `${label ?? ""} field is required`,
+      message: `${label ?? ""} f${REQUIRED_MESSAGE}`,
     },
   });
 

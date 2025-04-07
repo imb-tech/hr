@@ -1,7 +1,11 @@
 import DataTable, { ColumnDef } from "@/components/ui/table";
+import { HR_API, HR_DETAILS } from "@/constants/api-endpoints";
+import { useGet } from "@/hooks/useGet";
 import formatPassportNumber from "@/lib/formatter-pasport";
 import formatPhoneNumber from "@/lib/formatter-phone";
+import { useParams } from "@tanstack/react-router";
 import { useMemo } from "react";
+import { educationLevels } from "./create-hr-form";
 
 export const useHrListCols = () => {
   return useMemo<ColumnDef<any>[]>(
@@ -15,18 +19,13 @@ export const useHrListCols = () => {
 };
 
 function ViewPage() {
-
-  const data = {
-    id: 1,
-    full_name: "Ozodbek Abdisamatov",
-    phone: "+998931023042",
-    family_phone: "+998881023042",
-    address: "Tashkent, 123 Street",
-    location: "Tashkent, Uzbekistan",
-    id_card: "AB3268079",
-    education: "Bachelor of Science",
-    salary: 50000,
-  };
+  const { id } = useParams({ strict: false });
+  const { data } = useGet<Human>(`${HR_API}/${id}`, {
+    options: { enabled: Boolean(id) },
+  });
+  const { data: dataDetails } = useGet<Human>(`${HR_DETAILS}/${id}`, {
+    options: { enabled: Boolean(id) },
+  });
 
   const dataColumn = [
     {
@@ -67,6 +66,8 @@ function ViewPage() {
     },
   ];
 
+  console.log(dataDetails);
+
   return (
     <div className="py-4">
       <div className="border-divider border rounded-lg  p-4 flex lg:flex-row flex-col gap-5 lg:gap-0 lg:justify-between lg:items-start">
@@ -81,42 +82,49 @@ function ViewPage() {
           <ul className="h-full flex flex-col items-stretch gap-[3px]">
             <li className="flex items-center">
               <span className="block min-w-32">F.I.O:</span>
-              <span>{data.full_name}</span>
+              <span>{data?.full_name}</span>
             </li>
             <li className="flex items-center">
               <span className="block min-w-32">Tel:</span>
-              <span>{formatPhoneNumber(data.phone)}</span>
+              <span>{formatPhoneNumber(data?.phone_number)}</span>
             </li>
             <li className="flex items-center">
-              <span className="block min-w-32">Oila a'zolari:</span>
-              <span>{formatPhoneNumber(data.family_phone)}</span>
+              <span className="block min-w-32">Qo'shimcha raqam:</span>
+              <span>{formatPhoneNumber(data?.phone_number2)}</span>
             </li>
             <li className="flex items-center">
               <span className="block min-w-32">Manzil:</span>
-              <span>{data.address}</span>
+              <span>{data?.address}</span>
             </li>
             <li className="flex items-center">
               <span className="block min-w-32">Yashash joyi:</span>
-              <span>{data.location}</span>
+              <span>{data?.residence}</span>
             </li>
             <li className="flex items-center">
               <span className="block min-w-32">Pasport:</span>
-              <span>{formatPassportNumber(data.id_card)}</span>
+              <span>
+                {data?.id_number ? formatPassportNumber(data?.id_number) : 0}
+              </span>
             </li>
             <li className="flex items-center">
               <span className="block min-w-32">Maosh:</span>
-              <span>{data.salary.toLocaleString()}</span>
+              <span>{data?.salary?.toLocaleString()}</span>
             </li>
             <li className="flex items-center">
-              <span className="block min-w-32">Ta'lim:</span>
-              <span>{data.education}</span>
+              <span className="block min-w-32">O'quv ma'lumoti:</span>
+              <span>
+                {data?.education
+                  ? educationLevels?.find((item) => item.key == data?.education)
+                      ?.label
+                  : null}
+              </span>
             </li>
           </ul>
         </div>
 
         <div className="border border-divider py-3 whitespace-nowrap px-6 rounded-lg flex items-center justify-center gap-1">
           <strong>Balans:</strong>
-          <span>1 000 000 so'm</span>
+          <span>{data?.salary?.toLocaleString()} so'm</span>
         </div>
       </div>
       <div className="mt-8">

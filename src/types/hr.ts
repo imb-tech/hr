@@ -6,9 +6,11 @@ type Human = {
   address: string;
   residence: string;
   id_number: string;
-  groups: string | number[];
+  role: string | number;
   salary: number | string | undefined;
-  education: string;
+  education: string | number;
   password?: string
+  image?: string
   username?: string
+  groups?: { id: number, name: string }[]
 };

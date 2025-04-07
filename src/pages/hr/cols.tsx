@@ -15,20 +15,17 @@ export const useHrListCols = () => {
         },
       },
       {
-        header: "Qo'shimcha raqam",
-        dataKey: "phone_number2",
-        cell: (value) => {
-          return formatPhoneNumber(Number(value));
+        header: "Lavozim",
+        dataKey: "education",
+        cell: (_, item) => {
+          return item.groups?.[0]?.name;
         },
       },
       {
         header: "Maosh",
         dataKey: "salary",
         cell: (salary) => {
-          if (typeof salary === "number") {
-            return salary.toLocaleString();
-          }
-          return salary;
+          return salary?.toLocaleString();
         },
       },
       { header: "Amallar", dataKey: "actions" },

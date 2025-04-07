@@ -1,3 +1,4 @@
+import { REQUIRED_MESSAGE } from "@/constants/components";
 import { Input, InputProps } from "@heroui/input";
 import { cn } from "@heroui/theme";
 import { ReactNode } from "react";
@@ -24,14 +25,16 @@ export default function FormInput<IForm extends FieldValues>({
   const {
     register,
     formState: { errors },
+    watch,
   } = methods;
 
   const reg = register(name, {
     required: {
       value: required,
-      message: `${label ?? ""} field is required`,
+      message: `${label ?? ""} ${REQUIRED_MESSAGE}`,
     },
   });
+
 
   return (
     <fieldset
@@ -51,7 +54,8 @@ export default function FormInput<IForm extends FieldValues>({
         label={label}
         labelPlacement="outside"
         placeholder={props.placeholder ?? label}
-        type={"text"}
+        type={props.type || "text"}
+        value={watch(name)}
         {...props}
         {...reg}
       />

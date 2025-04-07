@@ -16,7 +16,6 @@ import { Route as AuthImport } from './routes/_auth'
 import { Route as MainIndexImport } from './routes/_main/index'
 import { Route as MainTestImport } from './routes/_main/test'
 import { Route as MainSettingsImport } from './routes/_main/settings'
-import { Route as MainProfileImport } from './routes/_main/profile'
 import { Route as MainPositionImport } from './routes/_main/position'
 import { Route as MainHrCreateImport } from './routes/_main/hr-create'
 import { Route as MainHrImport } from './routes/_main/hr'
@@ -54,12 +53,6 @@ const MainTestRoute = MainTestImport.update({
 const MainSettingsRoute = MainSettingsImport.update({
   id: '/settings',
   path: '/settings',
-  getParentRoute: () => MainRoute,
-} as any)
-
-const MainProfileRoute = MainProfileImport.update({
-  id: '/profile',
-  path: '/profile',
   getParentRoute: () => MainRoute,
 } as any)
 
@@ -177,13 +170,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainPositionImport
       parentRoute: typeof MainImport
     }
-    '/_main/profile': {
-      id: '/_main/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof MainProfileImport
-      parentRoute: typeof MainImport
-    }
     '/_main/settings': {
       id: '/_main/settings'
       path: '/settings'
@@ -249,7 +235,6 @@ interface MainRouteChildren {
   MainHrRoute: typeof MainHrRoute
   MainHrCreateRoute: typeof MainHrCreateRoute
   MainPositionRoute: typeof MainPositionRoute
-  MainProfileRoute: typeof MainProfileRoute
   MainSettingsRoute: typeof MainSettingsRoute
   MainTestRoute: typeof MainTestRoute
   MainIndexRoute: typeof MainIndexRoute
@@ -262,7 +247,6 @@ const MainRouteChildren: MainRouteChildren = {
   MainHrRoute: MainHrRoute,
   MainHrCreateRoute: MainHrCreateRoute,
   MainPositionRoute: MainPositionRoute,
-  MainProfileRoute: MainProfileRoute,
   MainSettingsRoute: MainSettingsRoute,
   MainTestRoute: MainTestRoute,
   MainIndexRoute: MainIndexRoute,
@@ -281,7 +265,6 @@ export interface FileRoutesByFullPath {
   '/hr': typeof MainHrRoute
   '/hr-create': typeof MainHrCreateRoute
   '/position': typeof MainPositionRoute
-  '/profile': typeof MainProfileRoute
   '/settings': typeof MainSettingsRoute
   '/test': typeof MainTestRoute
   '/': typeof MainIndexRoute
@@ -298,7 +281,6 @@ export interface FileRoutesByTo {
   '/hr': typeof MainHrRoute
   '/hr-create': typeof MainHrCreateRoute
   '/position': typeof MainPositionRoute
-  '/profile': typeof MainProfileRoute
   '/settings': typeof MainSettingsRoute
   '/test': typeof MainTestRoute
   '/': typeof MainIndexRoute
@@ -317,7 +299,6 @@ export interface FileRoutesById {
   '/_main/hr': typeof MainHrRoute
   '/_main/hr-create': typeof MainHrCreateRoute
   '/_main/position': typeof MainPositionRoute
-  '/_main/profile': typeof MainProfileRoute
   '/_main/settings': typeof MainSettingsRoute
   '/_main/test': typeof MainTestRoute
   '/_main/': typeof MainIndexRoute
@@ -336,7 +317,6 @@ export interface FileRouteTypes {
     | '/hr'
     | '/hr-create'
     | '/position'
-    | '/profile'
     | '/settings'
     | '/test'
     | '/'
@@ -352,7 +332,6 @@ export interface FileRouteTypes {
     | '/hr'
     | '/hr-create'
     | '/position'
-    | '/profile'
     | '/settings'
     | '/test'
     | '/'
@@ -369,7 +348,6 @@ export interface FileRouteTypes {
     | '/_main/hr'
     | '/_main/hr-create'
     | '/_main/position'
-    | '/_main/profile'
     | '/_main/settings'
     | '/_main/test'
     | '/_main/'
@@ -417,7 +395,6 @@ export const routeTree = rootRoute
         "/_main/hr",
         "/_main/hr-create",
         "/_main/position",
-        "/_main/profile",
         "/_main/settings",
         "/_main/test",
         "/_main/",
@@ -448,10 +425,6 @@ export const routeTree = rootRoute
     },
     "/_main/position": {
       "filePath": "_main/position.tsx",
-      "parent": "/_main"
-    },
-    "/_main/profile": {
-      "filePath": "_main/profile.tsx",
       "parent": "/_main"
     },
     "/_main/settings": {

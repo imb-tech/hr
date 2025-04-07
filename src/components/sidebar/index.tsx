@@ -1,5 +1,5 @@
 import { Link, linkOptions } from "@tanstack/react-router";
-import { Building2, CircleUser, SquareUser } from "lucide-react";
+import { Building2, SquareUser } from "lucide-react";
 import { Logo } from "../icons";
 import { UsersIcon } from "../icons/nav-icons";
 import MenuItem from "./menu-item";
@@ -23,12 +23,6 @@ export default function Sidebar() {
       icon: <UsersIcon />,
       enabled: true,
       title: "Hodimlar",
-    }),
-    linkOptions({
-      to: "/profile",
-      icon: <CircleUser />,
-      enabled: true,
-      title: "Profil",
     }),
   ];
 

@@ -12,6 +12,15 @@ import { useNavigate, useParams } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
+export const educationLevels = [
+  { label: "O'rta ta'lim", key: 1 },
+  { label: "O'rta maxsus ta'lim", key: 2 },
+  { label: "Kasb-hunar ta'limi", key: 3 },
+  { label: "Tugallanmagan oliy ta'lim", key: 4 },
+  { label: "Oliy ta'lim", key: 5 },
+  { label: "Magistratura", key: 6 },
+];
+
 export default function CreateHrForm() {
   const form = useForm<Human>();
   const { "hr-edit": id } = useParams({ strict: false });
@@ -53,14 +62,13 @@ export default function CreateHrForm() {
     } else {
       postMutate(HR_API, {
         ...values,
-        groups: [values.groups],
         username: values.phone_number,
       });
     }
   };
 
   useEffect(() => {
-    if (data) {
+    if (data?.id) {
       form.reset({
         full_name: data.full_name,
         phone_number: data.phone_number,
@@ -71,12 +79,13 @@ export default function CreateHrForm() {
         education: data.education,
         password: data.password,
         salary: data.salary,
-        // groups: data.groups?.[0] ? data.groups[0] : undefined
+        role:
+          data?.groups && data.groups.length > 0
+            ? String(data.groups[0].id)
+            : "",
       });
     }
-  }, [isSuccess, form, data]);
-
-  console.log(Array.isArray(data?.groups) ? data.groups[0] : "");
+  }, [isSuccess, data]);
 
   return (
     <div>
@@ -84,6 +93,15 @@ export default function CreateHrForm() {
         className="grid grid-cols-1 gap-4 p-4 mt-6"
         onSubmit={form.handleSubmit(onSubmit)}
       >
+        {/* <FormInput
+          label={"Xodim rasmi"}
+          methods={form}
+          name={"image"}
+          size="lg"
+          type="file"
+          accept="image/*"
+          placeholder={"Xodim"}
+        /> */}
         <FormInput
           isRequired
           label={"F.I.O"}
@@ -142,13 +160,13 @@ export default function CreateHrForm() {
           placeholder={"AB 1234567"}
           maxLength={9}
         />
-        <FormInput
+        <FormSelect
           isRequired
           label="O'quv ma'lumoti"
           methods={form}
-          name={"education"}
+          name="education"
+          options={educationLevels}
           size="lg"
-          type="text"
           placeholder="O'rta maxsus"
         />
 
@@ -156,7 +174,7 @@ export default function CreateHrForm() {
           isRequired
           label="Lavozimi"
           methods={form}
-          name="groups"
+          name="role"
           options={
             (successPosition &&
               dataPosition?.map((item) => {
@@ -171,7 +189,7 @@ export default function CreateHrForm() {
           placeholder="Menejer"
         />
         <FormInput
-          isRequired
+          isRequired={data?.id ? false : true}
           label={"Parol"}
           methods={form}
           name={"password"}

@@ -44,6 +44,7 @@ export default function OfficeDetail() {
   const { id } = useParams({ from: "/_main/office/$id" });
   const search = useSearch({ from: "/_main/office/$id" });
 
+
   function clickAccordion(keys: Selection) {
     navigate({
       to: "/office/$id",
@@ -65,6 +66,7 @@ export default function OfficeDetail() {
   return (
     <div>
       <OfficeProfile />
+
       <Accordion
         selectionMode="multiple"
         variant="light"

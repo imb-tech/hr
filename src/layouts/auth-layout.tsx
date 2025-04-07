@@ -3,9 +3,11 @@ import { Outlet } from "@tanstack/react-router";
 
 export default function AuthLayout() {
   return (
-    <section className="h-screen w-full flex flex-col items-center pt-10">
+    <section className="h-screen w-full flex flex-col items-center lg:p-8 p-4 ">
+      <div className="w-full flex justify-end">
       <ThemeSwitch />
-      <div className="flex flex-1 justify-center w-full max-w-2xl">
+      </div>
+      <div className="flex flex-1 justify-center w-full max-w-xl">
         <Outlet />
       </div>
     </section>

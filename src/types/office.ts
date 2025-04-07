@@ -53,3 +53,12 @@ type WorkerInfo = {
   live_location: string
   left_time: string
 }
+
+
+type Company = {
+  id: number;
+  name: string;
+  users_in_company: number;
+  off_site_users: number;
+  absent_users: number;
+}
