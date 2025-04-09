@@ -9,13 +9,13 @@ type Polygon = {
 };
 
 
-type Properties ={
+type Properties = {
   address: string;
   lunch_start_time: string;
   lunch_end_time: string;
   name: string;
   polygon: Polygon;
-  users:string;
+  users: string;
   locations: string[];
 }
 
@@ -24,7 +24,7 @@ type Office = {
   type: "Feature";
   id: number;
   geometry: Geometry;
-  properties:Properties;
+  properties: Properties;
 };
 
 type FeatureCollection = {
@@ -34,24 +34,23 @@ type FeatureCollection = {
 
 
 type OfficeInfo = {
-  position: string
-  workers: number
-  in_office: number
-  lated: number
-  dont_came: number
-  early_left: number
+  id: number
+  name: string
+  total_workers_count: number
+  checked_in_workers: number
+  absent_users: number
+  early_users: number
+  late_users_count: number
 }
 
 
 type WorkerInfo = {
   id: number
   full_name: string
-  coming_time: string
-  work_duration: string
-  lating_time: string
-  early_left: string
-  live_location: string
-  left_time: string
+  entrance_time: string
+  latency: string
+  check_out_time: string
+  last_company: string
 }
 
 
@@ -59,6 +58,9 @@ type Company = {
   id: number;
   name: string;
   users_in_company: number;
-  off_site_users: number;
   absent_users: number;
+  total_users_count: number;
+  absent_users_with_reason_count: number;
+  absent_users_with_no_reason_count: number;
+  late_users_count: number;
 }

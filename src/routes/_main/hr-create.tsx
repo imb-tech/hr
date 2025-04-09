@@ -13,7 +13,7 @@ function RouteComponent() {
 
   return (
     <Page
-      breadcrumb={["Xodimlar"]}
+      breadcrumb={["Hodimlar"]}
       leftComponent={
         <Button variant="light" className="min-w-4" onPress={() => navigate({ to: "/hr" })}><ArrowLeft className="w-5 h-5" /></Button>
       }

@@ -1,4 +1,5 @@
 import { ColumnDef } from "@/components/ui/table";
+import { formatMoney } from "@/lib/format-money";
 import formatPhoneNumber from "@/lib/formatter-phone";
 import { useMemo } from "react";
 
@@ -25,7 +26,7 @@ export const useHrListCols = () => {
         header: "Maosh",
         dataKey: "salary",
         cell: (salary) => {
-          return salary?.toLocaleString();
+          return formatMoney(Number(salary));
         },
       },
       { header: "Amallar", dataKey: "actions" },

@@ -20,14 +20,13 @@ export const usOfficeCols = () => {
         dataKey: "id",
       },
       {
-        header: "Tushlik boshlanish",
+        header: "Tushlik vaqti",
         dataKey: "id",
-        cell: (_, item) => <span>{item.properties.lunch_start_time}</span>,
-      },
-      {
-        header: "Tushlik tugash",
-        dataKey: "id",
-        cell: (_, item) => <span>{item.properties.lunch_end_time}</span>,
+        cell: (_, itm) => (
+          <span>
+            {itm.properties.lunch_start_time?.slice(0,5)} - {itm.properties.lunch_end_time?.slice(0,5)}
+          </span>
+        ),
       },
       { header: "Amallar", dataKey: "actions" },
     ],

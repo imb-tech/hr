@@ -141,8 +141,6 @@ export default function DataTable<TData extends object>({
     );
   }, [selectedKeys, data.length]);
 
-  
-
   return (
     <Table
       {...props}
@@ -202,7 +200,21 @@ export default function DataTable<TData extends object>({
         ))}
       </TableHeader>
       {isLoading ? (
-        <TableBody emptyContent={"Empty"} items={[{ id: 1 }, { id: 2 }]}>
+        <TableBody
+          emptyContent={"Empty"}
+          items={[
+            { id: 1 },
+            { id: 2 },
+            { id: 3 },
+            { id: 4 },
+            { id: 5 },
+            { id: 6 },
+            { id: 7 },
+            { id: 8 },
+            { id: 9 },
+            { id: 10 },
+          ]}
+        >
           {(item) => (
             <TableRow key={(item as any).id}>
               {headerColumns.map((column) => (
@@ -220,7 +232,7 @@ export default function DataTable<TData extends object>({
               key={(item as any).id}
               className={cn(
                 !!onRowClick ? "cursor-pointer" : "",
-                "hover:bg-default-100 rounded-md border-b dark:border-b-slate-700",
+                "hover:bg-default-100 rounded-md border-b dark:border-b-zinc-700",
               )}
               onClick={() => onRowClick?.(item)}
             >

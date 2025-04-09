@@ -9,7 +9,7 @@ export const Route = createFileRoute("/_main/office/$id")({
 
 function RouteComponent() {
   return (
-    <Page breadcrumb={["Ofislar", "Ofis ma'lumotlari va hodimlar"]}>
+    <Page breadcrumb={["Ofis", "Ofis ma'lumotlari va hodimlar"]}>
       <OfficeDetail />
     </Page>
   );

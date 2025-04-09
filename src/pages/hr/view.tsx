@@ -1,11 +1,13 @@
 import DataTable, { ColumnDef } from "@/components/ui/table";
-import { HR_API, HR_DETAILS } from "@/constants/api-endpoints";
+import { HR_API, OFFICE_DETAILS } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
+import { formatMoney } from "@/lib/format-money";
 import formatPassportNumber from "@/lib/formatter-pasport";
 import formatPhoneNumber from "@/lib/formatter-phone";
 import { useParams } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { educationLevels } from "./create-hr-form";
+import { FileUser, GraduationCap, MapPinCheck, MapPinHouse, Phone, PhoneCall } from "lucide-react";
 
 export const useHrListCols = () => {
   return useMemo<ColumnDef<any>[]>(
@@ -23,7 +25,7 @@ function ViewPage() {
   const { data } = useGet<Human>(`${HR_API}/${id}`, {
     options: { enabled: Boolean(id) },
   });
-  const { data: dataDetails } = useGet<Human>(`${HR_DETAILS}/${id}`, {
+  const { data: dataDetails } = useGet<Human>(`${OFFICE_DETAILS}/${id}`, {
     options: { enabled: Boolean(id) },
   });
 
@@ -80,39 +82,36 @@ function ViewPage() {
             />
           </div>
           <ul className="h-full flex flex-col items-stretch gap-[3px]">
+            <li className="font-bold text-2xl">{data?.full_name}</li>
             <li className="flex items-center">
-              <span className="block min-w-32">F.I.O:</span>
-              <span>{data?.full_name}</span>
+              <div className="flex gap-2 items-center min-w-[240px]"><PhoneCall size={16} /> <span>Telefon raqam:</span></div>
+              <span className="text-gray-500">
+                {formatPhoneNumber(data?.phone_number)}
+              </span>
             </li>
             <li className="flex items-center">
-              <span className="block min-w-32">Tel:</span>
-              <span>{formatPhoneNumber(data?.phone_number)}</span>
+            <div className="flex gap-2 items-center min-w-[240px]"><Phone size={16} /> <span>Qo'shimcha raqam:</span></div>
+              <span className="text-gray-500">
+                {formatPhoneNumber(data?.phone_number2)}
+              </span>
             </li>
             <li className="flex items-center">
-              <span className="block min-w-32">Qo'shimcha raqam:</span>
-              <span>{formatPhoneNumber(data?.phone_number2)}</span>
+            <div className="flex gap-2 items-center min-w-[240px]"><MapPinHouse size={16} /> <span>Doimiy yashash manzili:</span></div>
+              <span className="text-gray-500">{data?.address}</span>
             </li>
             <li className="flex items-center">
-              <span className="block min-w-32">Manzil:</span>
-              <span>{data?.address}</span>
+              <div className="flex gap-2 items-center min-w-[240px]"><MapPinCheck size={16} /> <span>Vaqtinchalik yashash manzili:</span></div>
+              <span className="text-gray-500">{data?.residence}</span>
             </li>
             <li className="flex items-center">
-              <span className="block min-w-32">Yashash joyi:</span>
-              <span>{data?.residence}</span>
-            </li>
-            <li className="flex items-center">
-              <span className="block min-w-32">Pasport:</span>
-              <span>
+            <div className="flex gap-2 items-center min-w-[240px]"><FileUser size={16} /> <span>Pasport ma'lumoti:</span></div>
+              <span className="text-gray-500">
                 {data?.id_number ? formatPassportNumber(data?.id_number) : 0}
               </span>
             </li>
             <li className="flex items-center">
-              <span className="block min-w-32">Maosh:</span>
-              <span>{data?.salary?.toLocaleString()}</span>
-            </li>
-            <li className="flex items-center">
-              <span className="block min-w-32">O'quv ma'lumoti:</span>
-              <span>
+              <div className="flex gap-2 items-center min-w-[240px]"><GraduationCap size={16} /> <span>O'quv ma'lumoti:</span></div>
+              <span className="text-gray-500">
                 {data?.education
                   ? educationLevels?.find((item) => item.key == data?.education)
                       ?.label
@@ -122,9 +121,15 @@ function ViewPage() {
           </ul>
         </div>
 
-        <div className="border border-divider py-3 whitespace-nowrap px-6 rounded-lg flex items-center justify-center gap-1">
-          <strong>Balans:</strong>
-          <span>{data?.salary?.toLocaleString()} so'm</span>
+        <div className=" flex-col border border-divider py-3 whitespace-nowrap px-6 rounded-lg flex items-start justify-center gap-1">
+          <div className="flex items-center">
+            <strong className="min-w-24 text-xl">Balans:</strong>
+            <span className="text-xl">{formatMoney(data?.salary)} so'm</span>
+          </div>
+          <div className="flex items-center">
+            <span className=" min-w-24 font-medium ">Maosh:</span>
+            <span className="text-gray-500 font-medium">{formatMoney(data?.salary)} so'm</span>
+          </div>
         </div>
       </div>
       <div className="mt-8">

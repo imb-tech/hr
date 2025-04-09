@@ -10,7 +10,7 @@ import { useHrListCols } from "./cols";
 export default function HrPage() {
   const { openModal } = useModal("delete");
   const navigate = useNavigate();
-  const { data, isSuccess } = useGet<Human[]>(HR_API);
+  const { data, isSuccess, isLoading } = useGet<Human[]>(HR_API);
   const { store, setStore } = useStore<Human>("hr-data");
 
   function handleDelete(item: Human) {
@@ -22,6 +22,7 @@ export default function HrPage() {
   return (
     <div>
       <DataTable
+        isLoading={isLoading}
         isHeaderSticky
         columns={useHrListCols()}
         data={(isSuccess && data) || []}

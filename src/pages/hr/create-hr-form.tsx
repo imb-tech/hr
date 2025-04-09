@@ -90,18 +90,9 @@ export default function CreateHrForm() {
   return (
     <div>
       <form
-        className="grid grid-cols-1 gap-4 p-4 mt-6"
+        className="grid grid-cols-2 gap-4 p-4 mt-6"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        {/* <FormInput
-          label={"Xodim rasmi"}
-          methods={form}
-          name={"image"}
-          size="lg"
-          type="file"
-          accept="image/*"
-          placeholder={"Xodim"}
-        /> */}
         <FormInput
           isRequired
           label={"F.I.O"}
@@ -109,14 +100,10 @@ export default function CreateHrForm() {
           name={"full_name"}
           size="lg"
           type="text"
+          wrapperClassName="col-span-2"
           placeholder={"Abdisamatov Ozodbek Murod o'g'li"}
         />
-        <PhoneField
-          placeholder="+998931203042"
-          required
-          methods={form}
-          name={"phone_number"}
-        />
+        <PhoneField required methods={form} name={"phone_number"} />
         <PhoneField
           label="Qo'shimcha raqam"
           required
@@ -125,16 +112,7 @@ export default function CreateHrForm() {
         />
         <FormInput
           isRequired
-          label={"Oylik maoshi"}
-          methods={form}
-          name={"salary"}
-          size="lg"
-          type="text"
-          placeholder={"3 000 000"}
-        />
-        <FormInput
-          isRequired
-          label={"Manzil"}
+          label={"Doimiy yashash manzili"}
           methods={form}
           name={"address"}
           size="lg"
@@ -143,7 +121,7 @@ export default function CreateHrForm() {
         />
         <FormInput
           isRequired
-          label={"Hozir turar joyi"}
+          label={"Vaqtinchalik yashash manzili"}
           methods={form}
           name={"residence"}
           size="lg"
@@ -175,6 +153,7 @@ export default function CreateHrForm() {
           label="Lavozimi"
           methods={form}
           name="role"
+          className="col-span-2"
           options={
             (successPosition &&
               dataPosition?.map((item) => {
@@ -189,12 +168,21 @@ export default function CreateHrForm() {
           placeholder="Menejer"
         />
         <FormInput
+          isRequired
+          label={"Oylik maoshi"}
+          methods={form}
+          name={"salary"}
+          size="lg"
+          type="text"
+          placeholder={"3 000 000"}
+          wrapperClassName="col-span-2"
+        />
+        <FormInput
           isRequired={data?.id ? false : true}
           label={"Parol"}
           methods={form}
           name={"password"}
           size="lg"
-          type="password"
           placeholder={"*******"}
         />
 

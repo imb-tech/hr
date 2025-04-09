@@ -45,6 +45,7 @@ export function setupAxiosInterceptors(queryClient: QueryClient) {
         async function (error) {
             const originalRequest = error.config
             const status = error.response?.status
+            const isLoginPage = window.location.pathname === '/login';
 
             if (status === 401 && !originalRequest._retry) {
                 originalRequest._retry = true
@@ -60,17 +61,20 @@ export function setupAxiosInterceptors(queryClient: QueryClient) {
                         const access: string = refreshResponse?.data?.access
                         if (access) {
                             setAccessToken(access)
-                            // Retry the original request
                             originalRequest.headers.Authorization = `Bearer ${access}`
                             return axiosInstance(originalRequest)
                         }
-                    } else {
+                    }
+                    if (!isLoginPage) {
                         location.href = "/login"
                     }
+
                 } catch (refreshError) {
-                    location.href = "/login"
                     localStorage.removeItem(USER_ACCESS_KEY)
                     localStorage.removeItem(USER_REFRESH_KEY)
+                    if (!isLoginPage) {
+                        location.href = '/login';
+                    }
                     return Promise.reject(refreshError)
                 }
             }

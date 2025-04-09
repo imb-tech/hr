@@ -6,12 +6,22 @@ export const useWorkerInfoCols = () => {
     () => [
       { header: "ID", dataKey: "id" },
       { header: "FIO", dataKey: "full_name" },
-      { header: "Kelish vaqt", dataKey: "coming_time" },
-      { header: "Kechikish", dataKey: "lating_time" },
-      { header: "Ish vaqti", dataKey: "work_duration" },
-      { header: "Ketish vaqti", dataKey: "left_time" },
-      { header: "Hozir qayerda", dataKey: "live_location" },
-      { header: "Erta ketish", dataKey: "early_left" },
+      { header: "Kelish vaqt", dataKey: "entrance_time" },
+      { header: "Kechikish", dataKey: "latency" },
+      { header: "Ish vaqti", dataKey: "entrance_time" },
+      { header: "Ketish vaqti", dataKey: "check_out_time" },
+      {
+        header: "Hozir qayerda",
+        dataKey: "last_company",
+        cell(_, item) {
+          return (
+            <span>
+              {item.last_company === null ? "Ofisdan tashqarida" : "Ofisda"}
+            </span>
+          );
+        },
+      },
+      { header: "Erta ketish", dataKey: "check_out_time" },
     ],
     [],
   );

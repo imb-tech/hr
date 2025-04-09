@@ -64,7 +64,7 @@ export default function CreateOfficeForm() {
       <FormInput
         isRequired
         required
-        label="Nomi"
+        label="Ofis nomi"
         methods={form}
         name="name"
         size="lg"

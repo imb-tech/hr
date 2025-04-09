@@ -1,5 +1,5 @@
 import { UsersIcon } from "@/components/icons/nav-icons";
-import { HR_DETAILS } from "@/constants/api-endpoints";
+import { OFFICE_DETAILS } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
 import { Card } from "@heroui/card";
 import { cn } from "@heroui/theme";
@@ -8,39 +8,39 @@ import { ClockFading, UserMinus, UserRoundPen, UserX } from "lucide-react";
 
 export default function OfficeProfile() {
   const { id } = useParams({ from: "/_main/office/$id" });
-  const { data: dataDetails } = useGet<Company>(`${HR_DETAILS}/${id}`, {
+  const { data: dataDetails } = useGet<Company>(`${OFFICE_DETAILS}/${id}`, {
     options: { enabled: Boolean(id) },
   });
 
   const data = [
     {
       title: "Umumiy hodimlar soni",
-      value: dataDetails?.users_in_company || 0,
+      value: dataDetails?.total_users_count || 0,
       changeType: "positive",
     },
     {
       title: "Ishxonadagi hodimalar",
-      value: dataDetails?.off_site_users || 0,
+      value: dataDetails?.users_in_company || 0,
       changeType: "neutral",
     },
     {
       title: "Kech qolganlar",
-      value: dataDetails?.off_site_users || 0,
+      value: dataDetails?.late_users_count || 0,
       changeType: "latecomers",
     },
     {
       title: "Kelmagan hodimlar",
-      value: dataDetails?.off_site_users || 0,
+      value: dataDetails?.absent_users || 0,
       changeType: "negative",
     },
     {
       title: "Sababli kelmagan",
-      value: dataDetails?.off_site_users || 0,
+      value: dataDetails?.absent_users_with_reason_count || 0,
       changeType: "reason",
     },
     {
       title: "Sababsiz kelmagan",
-      value: dataDetails?.off_site_users || 0,
+      value: dataDetails?.absent_users_with_no_reason_count || 0,
       changeType: "because_of",
     },
   ];

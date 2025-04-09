@@ -14,7 +14,7 @@ function RouteComponent() {
 
   return (
     <Page
-      breadcrumb={["Ofislar"]}
+      breadcrumb={["Ofis"]}
       rightComponent={<Button className="flex gap-1" onPress={openModal}><Plus className="w-5 h-5" /> Ofis qo'shish</Button>}
     >
       <OfficePage />

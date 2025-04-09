@@ -10,7 +10,7 @@ export default function Sidebar() {
       to: "/",
       icon: <Building2 />,
       enabled: true,
-      title: "Ofislar",
+      title: "Ofis",
     }),
     linkOptions({
       to: "/position",
@@ -27,7 +27,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <div className="hidden lg:w-72 lg:flex justify-start items-start px-2 flex-col border-r-small border-divider">
+    <div className="hidden lg:max-w-72 lg:flex justify-start items-start px-2 flex-col border-r-small border-divider">
       <div className="sidebar-header py-3">
         <Link
           className="flex justify-start items-center gap-1"

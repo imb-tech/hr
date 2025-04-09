@@ -16,10 +16,11 @@ import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
+  DropdownSection,
   DropdownTrigger,
 } from "@heroui/dropdown";
 import { Link } from "@tanstack/react-router";
-import { LogOut } from "lucide-react";
+import { LogOut, User } from "lucide-react";
 import { ReactNode } from "react";
 import HeaderBreadvrumb from "./header-breadcrumb";
 
@@ -58,7 +59,6 @@ export const Navbar = ({
     username: string;
   }>(GET_ME);
 
-
   return (
     <HeroUINavbar
       className="border-b-small border-divider  "
@@ -72,24 +72,34 @@ export const Navbar = ({
 
       <div className="flex gap-3">
         {!!rightComponent && <div className="flex gap-2">{rightComponent}</div>}
-        <ThemeSwitch />
         <Dropdown placement="bottom-start">
           <DropdownTrigger>
             <Avatar
-              isBordered
+              size={"md"}
               as="button"
               className="transition-transform"
               src={undefined}
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="User Actions" variant="flat">
-            <DropdownItem key="profile" className="h-14 gap-2">
-              <p className="font-bold mb-1">{data?.full_name}</p>
-              <p className="font-bold">{data?.username}</p>
+            <DropdownItem key="profile">
+              <div className="flex items-center gap-2">
+                <User size={18} />{" "}
+                <p className="font-medium ">{data?.username}</p>
+              </div>
             </DropdownItem>
+            <DropdownSection showDivider>
+              <DropdownItem
+                key={"theme"}
+                className="flex items-start justify-center h-8"
+              >
+                <ThemeSwitch className="min-w-full min-h-full" />
+              </DropdownItem>
+            </DropdownSection>
+
             <DropdownItem key="logout" color="danger">
               <div className="flex items-center w-full gap-[6px]">
-                <LogOut size={18} /> <span>Chiqish</span>
+                <LogOut size={16} /> <span>Chiqish</span>
               </div>
             </DropdownItem>
           </DropdownMenu>

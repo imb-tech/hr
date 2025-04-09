@@ -8,6 +8,7 @@ export default function DefaultLayout({
 }) {
   return (
     <div className="relative h-screen">
+      
       <div className="container flex w-full max-w-full mx-auto flex-grow h-full">
         <Sidebar />
         <div className="w-full h-full flex-grow flex flex-col">

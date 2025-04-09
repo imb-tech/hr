@@ -13,10 +13,10 @@ function RouteComponent() {
 
   return (
     <Page
-      breadcrumb={["Xodimlar"]}
+      breadcrumb={["Hodimlar"]}
       rightComponent={
         <Button className="flex gap-1" onPress={() => navigate({ to: "/hr-create" })}>
-          <Plus className="w-5 h-5" /> Xodim qo'shish
+          <Plus className="w-5 h-5" /> Hodim qo'shish
         </Button>
       }
     >

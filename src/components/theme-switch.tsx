@@ -19,21 +19,23 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
 
   const { theme, setTheme } = useTheme();
 
-  const {
-    Component,
-    slots,
-    isSelected,
-    getBaseProps,
-    getInputProps,
-    getWrapperProps,
-  } = useSwitch({
-    isSelected: theme === "light",
-    onChange: () => setTheme(theme === "light" ? "dark" : "light"),
+  const { Component, isSelected, getBaseProps, getInputProps } = useSwitch({
+    isSelected: isMounted && theme === "light",
+    onChange: () => {
+      if (!isMounted) return;
+      setTheme(theme === "light" ? "dark" : "light");
+    },
   });
 
   useEffect(() => {
-    setIsMounted(true);
-  }, [isMounted]);
+    if (typeof window !== "undefined") {
+      const localTheme = localStorage.getItem("theme")
+      if (localTheme) {
+        setTheme(localTheme)
+      }
+      setIsMounted(true)
+    }
+  }, [])
 
   // Prevent Hydration Mismatch
   if (!isMounted) return <div className="w-6 h-6" />;
@@ -43,7 +45,7 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
       aria-label={isSelected ? "Switch to dark mode" : "Switch to light mode"}
       {...getBaseProps({
         className: clsx(
-          "px-px transition-opacity hover:opacity-80 cursor-pointer",
+          "transition-opacity hover:opacity-80 cursor-pointer",
           className,
           classNames?.base,
         ),
@@ -52,29 +54,17 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
       <VisuallyHidden>
         <input {...getInputProps()} />
       </VisuallyHidden>
-      <div
-        {...getWrapperProps()}
-        className={slots.wrapper({
-          class: clsx(
-            [
-              "w-auto h-auto",
-              "bg-transparent",
-              "rounded-lg",
-              "flex items-center justify-center",
-              "group-data-[selected=true]:bg-transparent",
-              "!text-default-500",
-              "pt-px",
-              "px-0",
-              "mx-0",
-            ],
-            classNames?.wrapper,
-          ),
-        })}
-      >
+      <div>
         {isSelected ? (
-          <MoonFilledIcon size={22} />
+          <div className="flex items-center gap-2 !w-full ">
+            <MoonFilledIcon size={18} />
+            <span>Tun</span>
+          </div>
         ) : (
-          <SunFilledIcon size={22} />
+          <div className="flex items-center gap-2 !w-full ">
+            <SunFilledIcon size={18} />
+            <span>Kun</span>
+          </div>
         )}
       </div>
     </Component>

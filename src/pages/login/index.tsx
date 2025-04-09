@@ -41,7 +41,8 @@ export default function LoginForm() {
   };
 
   return (
-    <section className="flex justify-center h-full flex-col w-full">
+    <section className="flex justify-center items-center h-full  w-full">
+      <div className="flex justify-center  flex-col w-full border rounded-2xl shadow-2xl dark:shadow-slate-900 dark:border-slate-900 px-4 py-12 ">
       <h1 className="text-3xl text-center mb-5">Tizimga kirish</h1>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
@@ -59,6 +60,7 @@ export default function LoginForm() {
           Davom etish
         </Button>
       </form>
+    </div>
     </section>
   );
 }
