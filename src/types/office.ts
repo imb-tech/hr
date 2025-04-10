@@ -63,4 +63,5 @@ type Company = {
   absent_users_with_reason_count: number;
   absent_users_with_no_reason_count: number;
   late_users_count: number;
+  arrived_on_time:number;
 }
