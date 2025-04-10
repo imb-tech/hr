@@ -46,7 +46,7 @@ export default function AttendanceDashboard() {
         <CardHeader className="pb-0">
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center gap-3">
-              <div className="bg-[#3B82F6] p-2 rounded-lg">
+              <div className="bg-blue-600 p-2 rounded-lg">
                 <Users className="h-6 w-6 text-white" />
               </div>
               <h1 className="text-2xl font-bold dark:text-gray-300">
@@ -83,7 +83,7 @@ export default function AttendanceDashboard() {
               </div>
             </CardHeader>
             <CardBody>
-              <div className="relative w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div className="relative w-full h-2 dark:bg-zinc-700 rounded-full overflow-hidden">
                 <div
                   className="absolute top-0 left-0 h-full bg-success"
                   style={{ width: `${arrivedPercent}%` }}
@@ -162,7 +162,7 @@ export default function AttendanceDashboard() {
               </div>
             </CardHeader>
             <CardBody>
-              <div className="relative w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div className="relative w-full h-2  dark:bg-zinc-700  rounded-full overflow-hidden">
                 <div
                   className="absolute top-0 left-0 h-full bg-amber-400"
                   style={{ width: `${withReasonPercent}%` }}
