@@ -107,7 +107,7 @@ export default function DaysAccordion() {
             </div>
           ),
         }))}
-        itemProps={{ classNames: { trigger: "p-3 bg-neutral-900 " } }}
+        itemProps={{ classNames: { trigger: "p-3 dark:bg-neutral-900 " } }}
       />
     </div>
   );

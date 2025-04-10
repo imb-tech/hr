@@ -65,6 +65,9 @@ export const Navbar = ({
       maxWidth="full"
       position="sticky"
     >
+      <div className="hidden">
+        <ThemeSwitch className="min-w-full min-h-full" />
+      </div>
       <div className="flex gap-3 items-center">
         {!!leftComponent && <div className="flex gap-2">{leftComponent}</div>}
         <HeaderBreadvrumb items={items ?? []} />

@@ -7,7 +7,18 @@ export const useHrListCols = () => {
   return useMemo<ColumnDef<Human>[]>(
     () => [
       { header: "ID", dataKey: "id" },
-      { header: "FIO", dataKey: "full_name" },
+      {
+        header: "FIO",
+        dataKey: "full_name",
+
+        cell: (_, item) => {
+          return (
+            <span>
+              {item.first_name} {item.last_name} {item.full_name}
+            </span>
+          );
+        },
+      },
       {
         header: "Telefon",
         dataKey: "phone_number",

@@ -101,7 +101,7 @@ export default function MonthAccordion() {
             </div>
           ),
         }))}
-        itemProps={{ classNames: { trigger: "p-3 bg-zinc-900 " } }}
+        itemProps={{ classNames: { trigger: "p-3 dark:bg-zinc-900 bg-zinc-50" } }}
       />
     </div>
   );

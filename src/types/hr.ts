@@ -10,6 +10,8 @@ type Human = {
   salary: number | string | undefined;
   education: string | number;
   password?: string
+  first_name?: string
+  last_name?: string
   image?: string
   username?: string
   groups?: { id: number, name: string }[]
