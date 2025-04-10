@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { useMemo } from "react";
 import { educationLevels } from "../hr/create-hr-form";
-import MonthAccordion from "./month-accordion";
+import YearsAccordion from "./years-accordion";
 
 export const useHrListCols = () => {
   return useMemo<ColumnDef<any>[]>(
@@ -107,7 +107,7 @@ function ViewPage() {
         </div>
       </div>
       <div className="mt-8">
-        <MonthAccordion />
+        <YearsAccordion />
       </div>
     </div>
   );

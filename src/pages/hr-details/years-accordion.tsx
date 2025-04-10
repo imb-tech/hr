@@ -2,29 +2,16 @@ import Accordion from "@/components/ui/accordion";
 import { Selection } from "@react-types/shared";
 import { useNavigate, useParams } from "@tanstack/react-router";
 import { useState } from "react";
-import DaysAccordion from "./days-accordion";
-import MonthTableHeader from "./month-header";
+import MonthAccordion from "./month-accordion";
+import YearsTableHeader from "./years-header";
 
-export default function MonthAccordion() {
+export default function YearsAccordion() {
   const navigate = useNavigate();
   const { id } = useParams({ from: "/_main/hr-view/$id" });
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
   // const { data: info } = useGet<OfficeInfo[]>(`${ROLES_STATISTIC}`);
 
-  const info = [
-    { id: 1 },
-    { id: 2 },
-    { id: 3 },
-    { id: 4 },
-    { id: 5 },
-    { id: 6 },
-    { id: 7 },
-    { id: 8 },
-    { id: 9 },
-    { id: 10 },
-    { id: 11 },
-    { id: 12 },
-  ];
+  const info = [{ id: 2024 }, { id: 2025 }];
 
   function clickAccordion(keys: Selection) {
     const selected = Array.from(keys).filter(Boolean) as string[];
@@ -39,21 +26,6 @@ export default function MonthAccordion() {
     });
   }
 
-  const month: { [key: number]: string } = {
-    1: "Yanvar",
-    2: "Fevral",
-    3: "Mart",
-    4: "Aprel",
-    5: "May",
-    6: "Iyun",
-    7: "Iyul",
-    8: "Avgust",
-    9: "Sentabr",
-    10: "Oktabr",
-    11: "Noyabr",
-    12: "Dekabr",
-  };
-
   return (
     <div>
       <Accordion
@@ -65,7 +37,7 @@ export default function MonthAccordion() {
         items={[
           {
             key: "1",
-            title: <MonthTableHeader />,
+            title: <YearsTableHeader />,
             content: "hidden",
           },
         ]}
@@ -78,9 +50,6 @@ export default function MonthAccordion() {
         }}
       />
       <Accordion
-        style={{
-          padding: "0",
-        }}
         selectionMode="single"
         selectedKeys={selectedKeys}
         onSelectionChange={clickAccordion}
@@ -88,20 +57,20 @@ export default function MonthAccordion() {
           key: item.id.toString(),
           title: (
             <div className="grid grid-cols-5 gap-11 px-1">
-              <p className="text-sm">{month[item.id]}</p>
-              <p className="text-sm">7 soat</p>
-              <p className="text-sm">12 marta</p>
-              <p className="text-sm">15 soat 12 minut</p>
-              <p className="text-sm">1 000 000 so'm</p>
+              <p className="text-sm">{item.id}</p>
+              <p className="text-sm">70 soat</p>
+              <p className="text-sm">120 marta</p>
+              <p className="text-sm">150 soat 12 minut</p>
+              <p className="text-sm">10 000 000 so'm</p>
             </div>
           ),
           content: (
-            <div className="px-2">
-              <DaysAccordion />
+            <div>
+              <MonthAccordion />
             </div>
           ),
         }))}
-        itemProps={{ classNames: { trigger: "p-3 bg-zinc-900 " } }}
+        itemProps={{ classNames: { trigger: "!px-0" } }}
       />
     </div>
   );
