@@ -33,9 +33,10 @@ export default function MonthAccordion() {
     navigate({
       to: "/hr-view/$id",
       params: { id },
-      search: {
+      search: (prev) => ({
+        ...prev,
         month: selected.join(","),
-      },
+      }),
     });
   }
 
@@ -101,7 +102,9 @@ export default function MonthAccordion() {
             </div>
           ),
         }))}
-        itemProps={{ classNames: { trigger: "p-3 dark:bg-zinc-900 bg-zinc-50" } }}
+        itemProps={{
+          classNames: { trigger: "p-3 dark:bg-zinc-900 bg-zinc-50" },
+        }}
       />
     </div>
   );

@@ -21,7 +21,7 @@ export default function YearsAccordion() {
       to: "/hr-view/$id",
       params: { id },
       search: {
-        month: selected.join(","),
+        year: selected.join(","),
       },
     });
   }
