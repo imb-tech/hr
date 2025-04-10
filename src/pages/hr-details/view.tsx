@@ -1,13 +1,21 @@
-import DataTable, { ColumnDef } from "@/components/ui/table";
-import { HR_API, OFFICE_DETAILS } from "@/constants/api-endpoints";
+import { ColumnDef } from "@/components/ui/table";
+import { HR_API } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
 import { formatMoney } from "@/lib/format-money";
 import formatPassportNumber from "@/lib/formatter-pasport";
 import formatPhoneNumber from "@/lib/formatter-phone";
 import { useParams } from "@tanstack/react-router";
+import {
+  FileUser,
+  GraduationCap,
+  MapPinCheck,
+  MapPinHouse,
+  Phone,
+  PhoneCall,
+} from "lucide-react";
 import { useMemo } from "react";
-import { educationLevels } from "./create-hr-form";
-import { FileUser, GraduationCap, MapPinCheck, MapPinHouse, Phone, PhoneCall } from "lucide-react";
+import { educationLevels } from "../hr/create-hr-form";
+import MonthAccordion from "./month-accordion";
 
 export const useHrListCols = () => {
   return useMemo<ColumnDef<any>[]>(
@@ -25,50 +33,6 @@ function ViewPage() {
   const { data } = useGet<Human>(`${HR_API}/${id}`, {
     options: { enabled: Boolean(id) },
   });
-  const { data: dataDetails } = useGet<Human>(`${OFFICE_DETAILS}/${id}`, {
-    options: { enabled: Boolean(id) },
-  });
-
-  const dataColumn = [
-    {
-      id: 1,
-      date_start: "17.03.2025 12:00",
-      status: "Kirdi",
-      date: "15 daqiqa",
-    },
-    {
-      id: 1,
-      date_start: "17.03.2025 12:00",
-      status: "Chiqdi",
-      date: "150 daqiqa",
-    },
-    {
-      id: 3,
-      date_start: "17.03.2025 12:00",
-      status: "Kirdi",
-      date: "4 soat 15 daqiqa",
-    },
-    {
-      id: 4,
-      date_start: "17.03.2025 12:00",
-      status: "Chiqdi",
-      date: "35 daqiqa",
-    },
-    {
-      id: 5,
-      date_start: "17.03.2025 12:00",
-      status: "Kirdi",
-      date: "15 daqiqa",
-    },
-    {
-      id: 6,
-      date_start: "17.03.2025 12:00",
-      status: "Kirdi",
-      date: "45 daqiqa",
-    },
-  ];
-
-  console.log(dataDetails);
 
   return (
     <div className="py-4">
@@ -84,34 +48,42 @@ function ViewPage() {
           <ul className="h-full flex flex-col items-stretch gap-[3px]">
             <li className="font-bold text-2xl">{data?.full_name}</li>
             <li className="flex items-center">
-              <div className="flex gap-2 items-center min-w-[240px]"><PhoneCall size={16} /> <span>Telefon raqam:</span></div>
-              <span className="text-gray-500">
-                {formatPhoneNumber(data?.phone_number)}
-              </span>
+              <div className="flex gap-2 items-center min-w-52 text-foreground-500">
+                <PhoneCall size={16} /> <span>Tel:</span>
+              </div>
+              <span>{formatPhoneNumber(data?.phone_number)}</span>
             </li>
             <li className="flex items-center">
-            <div className="flex gap-2 items-center min-w-[240px]"><Phone size={16} /> <span>Qo'shimcha raqam:</span></div>
-              <span className="text-gray-500">
-                {formatPhoneNumber(data?.phone_number2)}
-              </span>
+              <div className="flex gap-2 items-center min-w-52 text-foreground-500">
+                <Phone size={16} /> <span>Qo'shimcha tel:</span>
+              </div>
+              <span>{formatPhoneNumber(data?.phone_number2)}</span>
             </li>
             <li className="flex items-center">
-            <div className="flex gap-2 items-center min-w-[240px]"><MapPinHouse size={16} /> <span>Doimiy yashash manzili:</span></div>
-              <span className="text-gray-500">{data?.address}</span>
+              <div className="flex gap-2 items-center min-w-52 text-foreground-500">
+                <MapPinHouse size={16} /> <span>Doimiy manzil:</span>
+              </div>
+              <span>{data?.address}</span>
             </li>
             <li className="flex items-center">
-              <div className="flex gap-2 items-center min-w-[240px]"><MapPinCheck size={16} /> <span>Vaqtinchalik yashash manzili:</span></div>
-              <span className="text-gray-500">{data?.residence}</span>
+              <div className="flex gap-2 items-center min-w-52 text-foreground-500">
+                <MapPinCheck size={16} /> <span>Vaqtinchalik manzil:</span>
+              </div>
+              <span>{data?.residence}</span>
             </li>
             <li className="flex items-center">
-            <div className="flex gap-2 items-center min-w-[240px]"><FileUser size={16} /> <span>Pasport ma'lumoti:</span></div>
-              <span className="text-gray-500">
+              <div className="flex gap-2 items-center min-w-52 text-foreground-500">
+                <FileUser size={16} /> <span>Pasport:</span>
+              </div>
+              <span>
                 {data?.id_number ? formatPassportNumber(data?.id_number) : 0}
               </span>
             </li>
             <li className="flex items-center">
-              <div className="flex gap-2 items-center min-w-[240px]"><GraduationCap size={16} /> <span>O'quv ma'lumoti:</span></div>
-              <span className="text-gray-500">
+              <div className="flex gap-2 items-center min-w-52 text-foreground-500">
+                <GraduationCap size={16} /> <span>Ma'lumoti:</span>
+              </div>
+              <span>
                 {data?.education
                   ? educationLevels?.find((item) => item.key == data?.education)
                       ?.label
@@ -128,12 +100,14 @@ function ViewPage() {
           </div>
           <div className="flex items-center">
             <span className=" min-w-24 font-medium ">Maosh:</span>
-            <span className="text-gray-500 font-medium">{formatMoney(data?.salary)} so'm</span>
+            <span className="text-foreground-50-500 font-medium">
+              {formatMoney(data?.salary)} so'm
+            </span>
           </div>
         </div>
       </div>
       <div className="mt-8">
-        <DataTable isHeaderSticky columns={useHrListCols()} data={dataColumn} />
+        <MonthAccordion />
       </div>
     </div>
   );
