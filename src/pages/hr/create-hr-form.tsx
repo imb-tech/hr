@@ -211,11 +211,12 @@ export default function CreateHrForm() {
 
         <div className="w-full flex justify-end items-center gap-3">
           <Button
-            isLoading={createPending || updatePending}
+            disabled={createPending || updatePending}
             color="danger"
             size="lg"
             type="button"
             variant="flat"
+            onPress={() => navigate({ to: "/hr" })}
           >
             Bekor qilish
           </Button>
