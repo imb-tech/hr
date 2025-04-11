@@ -41,26 +41,36 @@ export default function LoginForm() {
   };
 
   return (
-    <section className="flex justify-center items-center h-full  w-full">
-      <div className="flex justify-center  flex-col w-full border rounded-2xl shadow-2xl dark:shadow-slate-900 dark:border-slate-900 px-4 py-12 ">
-      <h1 className="text-3xl text-center mb-5">Tizimga kirish</h1>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-3 "
-      >
-        <FormInput isRequired methods={form} name="username" label={"Login"} />
-        <FormInput
-          isRequired
-          methods={form}
-          name="password"
-          label={"Parol"}
-          type="password"
-        />
-        <Button isLoading={isPending} className="mt-3" color="primary" type="submit">
-          Davom etish
-        </Button>
-      </form>
-    </div>
+    <section className="flex justify-center items-center h-full  w-full ">
+      <div className="flex justify-center  flex-col w-full border rounded-2xl  dark:shadow-slate-900 dark:border-zinc-800 px-4 py-12 ">
+        <h1 className="text-3xl text-center mb-5">Tizimga kirish</h1>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-3 "
+        >
+          <FormInput
+            isRequired
+            methods={form}
+            name="username"
+            label={"Login"}
+          />
+          <FormInput
+            isRequired
+            methods={form}
+            name="password"
+            label={"Parol"}
+            type="password"
+          />
+          <Button
+            isLoading={isPending}
+            className="mt-3"
+            color="primary"
+            type="submit"
+          >
+            Davom etish
+          </Button>
+        </form>
+      </div>
     </section>
   );
 }

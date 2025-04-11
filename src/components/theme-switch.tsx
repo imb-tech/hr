@@ -2,7 +2,7 @@ import { SwitchProps, useSwitch } from "@heroui/switch";
 import { useTheme } from "@heroui/use-theme";
 import { VisuallyHidden } from "@react-aria/visually-hidden";
 import clsx from "clsx";
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 
 import { MoonFilledIcon, SunFilledIcon } from "@/components/icons";
 
@@ -15,30 +15,15 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
   className,
   classNames,
 }) => {
-  const [isMounted, setIsMounted] = useState(false);
-
   const { theme, setTheme } = useTheme();
 
   const { Component, isSelected, getBaseProps, getInputProps } = useSwitch({
-    isSelected: isMounted && theme === "light",
+    isSelected: theme === "light",
     onChange: () => {
-      if (!isMounted) return;
-      setTheme(theme === "light" ? "dark" : "light");
+      const newTheme = theme === "light" ? "dark" : "light";
+      setTheme(newTheme);
     },
   });
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const localTheme = localStorage.getItem("theme")
-      if (localTheme) {
-        setTheme(localTheme)
-      }
-      setIsMounted(true)
-    }
-  }, [])
-
-  // Prevent Hydration Mismatch
-  if (!isMounted) return <div className="w-6 h-6" />;
 
   return (
     <Component

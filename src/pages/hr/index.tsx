@@ -23,7 +23,6 @@ export default function HrPage() {
     <div>
       <DataTable
         isLoading={isLoading}
-        isHeaderSticky
         columns={useHrListCols()}
         data={(isSuccess && data) || []}
         onDelete={(item) => handleDelete(item)}

@@ -1,5 +1,5 @@
 import Page from "@/layouts/page";
-import ViewPage from "@/pages/hr/view";
+import ViewPage from "@/pages/hr-details/view";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_main/hr-view/$id")({

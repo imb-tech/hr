@@ -70,6 +70,8 @@ export default function CreateHrForm() {
   useEffect(() => {
     if (data?.id) {
       form.reset({
+        first_name: data.first_name,
+        last_name: data.last_name,
         full_name: data.full_name,
         phone_number: data.phone_number,
         phone_number2: data.phone_number2,
@@ -89,108 +91,137 @@ export default function CreateHrForm() {
 
   return (
     <div>
-      <form
-        className="grid grid-cols-2 gap-4 p-4 mt-6"
-        onSubmit={form.handleSubmit(onSubmit)}
-      >
-        <FormInput
-          isRequired
-          label={"F.I.O"}
-          methods={form}
-          name={"full_name"}
-          size="lg"
-          type="text"
-          wrapperClassName="col-span-2"
-          placeholder={"Abdisamatov Ozodbek Murod o'g'li"}
-        />
-        <PhoneField required methods={form} name={"phone_number"} />
-        <PhoneField
-          label="Qo'shimcha raqam"
-          required
-          methods={form}
-          name={"phone_number2"}
-        />
-        <FormInput
-          isRequired
-          label={"Doimiy yashash manzili"}
-          methods={form}
-          name={"address"}
-          size="lg"
-          type="text"
-          placeholder={"Toshkent shahar"}
-        />
-        <FormInput
-          isRequired
-          label={"Vaqtinchalik yashash manzili"}
-          methods={form}
-          name={"residence"}
-          size="lg"
-          type="text"
-          placeholder={"Toshkent shahar, Chilonzor tumani"}
-        />
-        <FormInput
-          isRequired
-          label={"Pasport ma'lumotlari"}
-          methods={form}
-          name={"id_number"}
-          size="lg"
-          type="text"
-          placeholder={"AB 1234567"}
-          maxLength={9}
-        />
-        <FormSelect
-          isRequired
-          label="O'quv ma'lumoti"
-          methods={form}
-          name="education"
-          options={educationLevels}
-          size="lg"
-          placeholder="O'rta maxsus"
-        />
+      <form className="my-6 space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+        <div className="grid grid-cols-2 gap-4 px-4 py-6 border dark:border-zinc-700 rounded-2xl">
+          <h1 className="font-bold text-xl col-span-2">Shaxsiy ma'lumotlar</h1>
+          <FormInput
+            isRequired
+            label={"Familiya"}
+            methods={form}
+            name={"first_name"}
+            size="lg"
+            type="text"
+            placeholder={"Familiya"}
+          />
+          <FormInput
+            isRequired
+            label={"Ism"}
+            methods={form}
+            name={"last_name"}
+            size="lg"
+            type="text"
+            placeholder={"Ism"}
+          />
+          <FormInput
+            isRequired
+            label={"Otasining ismi"}
+            methods={form}
+            name={"full_name"}
+            size="lg"
+            type="text"
+            wrapperClassName="col-span-2"
+            placeholder={"Otasining ismi"}
+          />
+          <PhoneField required methods={form} name={"phone_number"} />
+          <PhoneField
+            label="Qo'shimcha raqam"
+            required
+            methods={form}
+            name={"phone_number2"}
+          />
+          <FormInput
+            isRequired
+            label={"Doimiy turar joyi"}
+            methods={form}
+            name={"address"}
+            size="lg"
+            type="text"
+            placeholder={"Toshkent shahar, Chilonzor tumani"}
+          />
+          <FormInput
+            isRequired
+            label={"Vaqtinchalik turar joyi"}
+            methods={form}
+            name={"residence"}
+            size="lg"
+            type="text"
+            placeholder={"Toshkent shahar, Chilonzor tumani"}
+          />
+          <FormInput
+            isRequired
+            label={"Pasport ma'lumoti"}
+            methods={form}
+            name={"id_number"}
+            size="lg"
+            type="text"
+            placeholder={"AB 000 00 00 "}
+            maxLength={9}
+          />
+          <FormSelect
+            isRequired
+            label="O'quv ma'lumoti"
+            methods={form}
+            name="education"
+            options={educationLevels}
+            size="lg"
+            placeholder="O'rta maxsus"
+          />
+        </div>
+        <div className="grid grid-cols-2 gap-4 px-4 py-6 border dark:border-zinc-700 rounded-2xl">
+          <h1 className="font-bold text-xl col-span-2">
+            Ishga oid ma'lumotlar
+          </h1>
+          <FormSelect
+            isRequired
+            label="Lavozimi"
+            methods={form}
+            name="role"
+            options={
+              (successPosition &&
+                dataPosition?.map((item) => {
+                  return {
+                    label: item.name,
+                    key: item.id,
+                  };
+                })) ||
+              []
+            }
+            size="lg"
+            placeholder="Menejer"
+          />
+          <FormInput
+            isRequired
+            label={"Oylik maoshi"}
+            methods={form}
+            name={"salary"}
+            size="lg"
+            type="text"
+            placeholder={"3 000 000"}
+          />
+          <FormInput
+            isRequired={data?.id ? false : true}
+            label={"Parol"}
+            methods={form}
+            name={"password"}
+            size="lg"
+            placeholder={"*******"}
+            wrapperClassName="col-span-2"
+          />
+        </div>
 
-        <FormSelect
-          isRequired
-          label="Lavozimi"
-          methods={form}
-          name="role"
-          className="col-span-2"
-          options={
-            (successPosition &&
-              dataPosition?.map((item) => {
-                return {
-                  label: item.name,
-                  key: item.id,
-                };
-              })) ||
-            []
-          }
-          size="lg"
-          placeholder="Menejer"
-        />
-        <FormInput
-          isRequired
-          label={"Oylik maoshi"}
-          methods={form}
-          name={"salary"}
-          size="lg"
-          type="text"
-          placeholder={"3 000 000"}
-          wrapperClassName="col-span-2"
-        />
-        <FormInput
-          isRequired={data?.id ? false : true}
-          label={"Parol"}
-          methods={form}
-          name={"password"}
-          size="lg"
-          placeholder={"*******"}
-        />
-
-        <div className="w-full">
-          <span className="opacity-0">button</span>
+        <div className="w-full flex justify-end items-center gap-3">
+          <Button
+            disabled={createPending || updatePending}
+            color="danger"
+            size="lg"
+            type="button"
+            variant="flat"
+            onPress={() => navigate({ to: "/hr" })}
+          >
+            Bekor qilish
+          </Button>
           <Button
             isLoading={createPending || updatePending}
-            className="w-full"
             color="primary"
             size="lg"
             type="submit"

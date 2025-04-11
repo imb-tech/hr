@@ -11,7 +11,7 @@ export const usPostionsCols = () => {
         dataKey: "work_shift_end",
         cell: (_, itm) => (
           <span>
-            {itm.work_shift_start} - {itm.work_shift_end}
+            {itm.work_shift_start?.slice(0, 5)} - {itm.work_shift_end?.slice(0, 5)}
           </span>
         ),
       },

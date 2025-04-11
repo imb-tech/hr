@@ -19,7 +19,7 @@ import {
   DropdownSection,
   DropdownTrigger,
 } from "@heroui/dropdown";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { LogOut, User } from "lucide-react";
 import { ReactNode } from "react";
 import HeaderBreadvrumb from "./header-breadcrumb";
@@ -57,7 +57,15 @@ export const Navbar = ({
     full_name: string;
     phone_number: string;
     username: string;
+    first_name: string;
+    last_name?: string;
   }>(GET_ME);
+  const navigate = useNavigate();
+
+  const logOut = () => {
+    localStorage.clear();
+    navigate({ to: "/login" });
+  };
 
   return (
     <HeroUINavbar
@@ -65,6 +73,9 @@ export const Navbar = ({
       maxWidth="full"
       position="sticky"
     >
+      <div className="hidden">
+        <ThemeSwitch className="min-w-full min-h-full" />
+      </div>
       <div className="flex gap-3 items-center">
         {!!leftComponent && <div className="flex gap-2">{leftComponent}</div>}
         <HeaderBreadvrumb items={items ?? []} />
@@ -82,23 +93,32 @@ export const Navbar = ({
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="User Actions" variant="flat">
-            <DropdownItem key="profile">
+            <DropdownItem key="profile" className="h-9">
               <div className="flex items-center gap-2">
                 <User size={18} />{" "}
-                <p className="font-medium ">{data?.username}</p>
+                {data?.first_name && data?.last_name ? (
+                  <p className="font-medium ">
+                    {data?.first_name} {data?.last_name}
+                  </p>
+                ) : (
+                  <p className="font-medium ">{data?.username}</p>
+                )}
               </div>
             </DropdownItem>
             <DropdownSection showDivider>
               <DropdownItem
                 key={"theme"}
-                className="flex items-start justify-center h-8"
+                className="flex items-start justify-center h-9"
               >
                 <ThemeSwitch className="min-w-full min-h-full" />
               </DropdownItem>
             </DropdownSection>
 
             <DropdownItem key="logout" color="danger">
-              <div className="flex items-center w-full gap-[6px]">
+              <div
+                onClick={logOut}
+                className="flex items-center w-full gap-[6px]"
+              >
                 <LogOut size={16} /> <span>Chiqish</span>
               </div>
             </DropdownItem>
