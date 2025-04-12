@@ -1,7 +1,10 @@
 import { ColumnDef } from "@/components/ui/table";
+import { useModal } from "@/hooks/use-modal";
+import { MessageCircle } from "lucide-react";
 import { useMemo } from "react";
-
+ 
 export const useWorkerInfoCols = () => {
+  const { openModal } = useModal();
   return useMemo<ColumnDef<WorkerInfo>[]>(
     () => [
       { header: "ID", dataKey: "id" },
@@ -16,9 +19,17 @@ export const useWorkerInfoCols = () => {
         dataKey: "last_company",
         cell(_, item) {
           return (
-            <span>
-              {item.last_company === null ? "Ofisdan tashqarida" : "Ofisda"}
-            </span>
+            <div className="flex items-center gap-4">
+              <span>
+                {item.last_company === null ? "Ofisdan tashqarida" : "Ofisda"}
+              </span>
+              <span
+                onClick={openModal}
+                className="cursor-pointer hover:text-primary"
+              >
+                <MessageCircle width={18} />
+              </span>
+            </div>
           );
         },
       },
