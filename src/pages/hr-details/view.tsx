@@ -106,7 +106,7 @@ function ViewPage() {
           </div>
         </div>
       </div>
-      <div className="mt-8">
+      <div className="mt-8 ">
         <YearsAccordion />
       </div>
     </div>

@@ -21,29 +21,30 @@ export default function AttendanceDashboard() {
     options: { enabled: Boolean(id) },
   });
 
-  const total = dataDetails?.total_users_count ?? 0;
-  const usersInCompany = dataDetails?.users_in_company ?? 0;
-  const arrivedOnTime = dataDetails?.arrived_on_time ?? 0;
-  const lateUsers = dataDetails?.late_users_count ?? 0;
-  const absentUsers = dataDetails?.absent_users ?? 0;
-  const absentWithReason = dataDetails?.absent_users_with_reason_count ?? 0;
-  const absentWithoutReason =
-    dataDetails?.absent_users_with_no_reason_count ?? 0;
+  // const total = dataDetails?.total_users_count ?? 0;
+  // const usersInCompany = dataDetails?.users_in_company ?? 0;
+  // const arrivedOnTime = dataDetails?.arrived_on_time ?? 0;
+  // const lateUsers = dataDetails?.late_users_count ?? 0;
+  // const absentUsers = dataDetails?.absent_users ?? 0;
+  // const absentWithReason = dataDetails?.absent_users_with_reason_count ?? 0;
+  // const absentWithoutReason =
+  //   dataDetails?.absent_users_with_no_reason_count ?? 0;
 
-  const getPercent = (value: number, total: number): string => {
-    if (total === 0) return "0%";
-    return `${((value / total) * 100).toFixed(0)}%`;
-  };
+  const total = 400;
+  const usersInCompany = 300;
+  const arrivedOnTime = 260;
+  const lateUsers = 40;
+  const absentUsers = 100;
+  const absentWithReason = 70;
+  const absentWithoutReason = 30;
 
-  const arrivedPercent = (arrivedOnTime / usersInCompany) * 100 || 0;
-  const latePercent = (lateUsers / usersInCompany) * 100 || 0;
-  const withReasonPercent = (absentWithReason / absentUsers) * 100 || 0;
-  const withoutReasonPercent = (absentWithoutReason / absentUsers) * 100 || 0;
+  const getPercent = (value: number, total: number): string =>
+    total === 0 ? "0%" : `${((value / total) * 100).toFixed(0)}%`;
 
   return (
     <div className="container mx-auto">
-      <Card className="mb-4 p-2">
-        <CardHeader className="pb-0">
+      <Card className="my-4 p-2">
+        <CardHeader className="p-3">
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center gap-3">
               <div className="bg-blue-600 p-2 rounded-lg">
@@ -58,9 +59,6 @@ export default function AttendanceDashboard() {
             </span>
           </div>
         </CardHeader>
-        <CardBody>
-          <Progress value={total} className="h-2" />
-        </CardBody>
       </Card>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -70,73 +68,77 @@ export default function AttendanceDashboard() {
             <CardHeader className="pb-0">
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center gap-3">
-                  <div className="bg-success p-2 rounded-lg">
+                  <div className="bg-green-600 p-2 rounded-lg">
                     <UserCheck className="h-5 w-5 text-white" />
                   </div>
                   <h1 className="text-2xl font-bold dark:text-gray-300">
                     Ishxonadagi hodimlar
                   </h1>
                 </div>
-                <span className="text-2xl font-bold">
-                  {formatMoney(usersInCompany)}
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl font-bold">
+                    {formatMoney(usersInCompany)}
+                  </span>
+                  <span className="text-lg text-gray-400">
+                    ({getPercent(usersInCompany, total)})
+                  </span>
+                </div>
               </div>
             </CardHeader>
             <CardBody>
-              <div className="relative w-full h-2 dark:bg-zinc-700 rounded-full overflow-hidden">
-                <div
-                  className="absolute top-0 left-0 h-full bg-success"
-                  style={{ width: `${arrivedPercent}%` }}
-                />
-                <div
-                  className="absolute top-0 h-full bg-warning"
-                  style={{ width: `${latePercent}%`, left: `${arrivedPercent}%` }}
-                />
-              </div>
+              <Progress
+                value={(usersInCompany / total) * 100}
+                className="h-2"
+                classNames={{
+                  indicator: "bg-green-600",
+                }}
+              />
 
               <div className="mt-6 space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <Clock className="h-4 w-4 text-success" />
+                    <Clock className="h-4 w-4 text-green-600" />
                     <span className="text-sm dark:text-gray-300">
                       Vaqtida kelganlar
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-base font-semibold text-success">
+                    <span className="text-base font-semibold text-green-600">
                       {formatMoney(arrivedOnTime)}
                     </span>
                     <span className="text-xs text-gray-400">
-                      ({getPercent(arrivedOnTime, usersInCompany)})
+                      ({getPercent(arrivedOnTime, total)})
                     </span>
                   </div>
                 </div>
                 <Progress
-                  value={arrivedOnTime}
+                  value={(arrivedOnTime / total) * 100}
                   className="h-1.5"
                   color="success"
                 />
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <Clock className="h-4 w-4 text-warning" />
+                    <Clock className="h-4 w-4 text-orange-600" />
                     <span className="text-sm dark:text-gray-300">
                       Kech qolganlar
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-base font-semibold text-warning">
+                    <span className="text-base font-semibold text-orange-600">
                       {formatMoney(lateUsers)}
                     </span>
                     <span className="text-xs text-gray-400">
-                      ({getPercent(lateUsers, usersInCompany)})
+                      ({getPercent(lateUsers, total)})
                     </span>
                   </div>
                 </div>
                 <Progress
-                  value={lateUsers}
+                  value={(lateUsers / total) * 100}
                   className="h-1.5"
-                  color="warning"
+                  classNames={{
+                    indicator: "bg-orange-600",
+                  }}
                 />
               </div>
             </CardBody>
@@ -149,69 +151,75 @@ export default function AttendanceDashboard() {
             <CardHeader className="pb-0">
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center gap-3">
-                  <div className="bg-danger p-2 rounded-lg">
+                  <div className="bg-red-600 p-2 rounded-lg">
                     <UserX className="h-5 w-5 text-white" />
                   </div>
                   <h1 className="text-2xl font-bold dark:text-gray-300">
                     Kelmagan hodimlar
                   </h1>
                 </div>
-                <span className="text-2xl font-bold">
-                  {formatMoney(absentUsers)}
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl font-bold">
+                    {formatMoney(absentUsers)}
+                  </span>
+                  <span className="text-lg text-gray-400">
+                    ({getPercent(absentUsers, total)})
+                  </span>
+                </div>
               </div>
             </CardHeader>
             <CardBody>
-              <div className="relative w-full h-2  dark:bg-zinc-700  rounded-full overflow-hidden">
-                <div
-                  className="absolute top-0 left-0 h-full bg-amber-400"
-                  style={{ width: `${withReasonPercent}%` }}
-                />
-                <div
-                  className="absolute top-0 h-full bg-danger"
-                  style={{ width: `${withoutReasonPercent}%`, left: `${withReasonPercent}%` }}
-                />
-              </div>
+              <Progress
+                value={(absentUsers / total) * 100}
+                className="h-2"
+                classNames={{
+                  indicator: "bg-red-600",
+                }}
+              />
 
               <div className="mt-6 space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <AlertCircle className="h-4 w-4 text-amber-400" />
+                    <AlertCircle className="h-4 w-4 text-orange-500" />
                     <span className="text-sm dark:text-gray-300">Sababli</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-base font-semibold text-amber-400">
+                    <span className="text-base font-semibold text-orange-500">
                       {formatMoney(absentWithReason)}
                     </span>
                     <span className="text-xs text-gray-400">
-                      ({getPercent(absentWithReason, absentUsers)})
+                      ({getPercent(absentWithReason, total)})
                     </span>
                   </div>
                 </div>
                 <Progress
-                  value={absentWithReason}
+                  value={(absentWithReason / total) * 100}
                   className="h-1.5"
-                  color="warning"
+                  classNames={{
+                    indicator: "bg-orange-600",
+                  }}
                 />
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <XCircle className="h-4 w-4 text-rose-400" />
+                    <XCircle className="h-4 w-4 text-red-600" />
                     <span className="text-sm dark:text-gray-300">Sababsiz</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-base font-semibold text-rose-400">
+                    <span className="text-base font-semibold text-red-600">
                       {formatMoney(absentWithoutReason)}
                     </span>
                     <span className="text-xs text-gray-400">
-                      ({getPercent(absentWithoutReason, absentUsers)})
+                      ({getPercent(absentWithoutReason, total)})
                     </span>
                   </div>
                 </div>
                 <Progress
-                  value={absentWithoutReason}
+                  value={(absentWithoutReason / total) * 100}
                   className="h-1.5"
-                  color="danger"
+                  classNames={{
+                    indicator: "bg-red-600",
+                  }}
                 />
               </div>
             </CardBody>

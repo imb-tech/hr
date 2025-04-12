@@ -1,7 +1,6 @@
 import Accordion from "@/components/ui/accordion";
 import { Selection } from "@react-types/shared";
 import { useNavigate, useParams } from "@tanstack/react-router";
-import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import MonthAccordion from "./month-accordion";
 import YearsTableHeader from "./years-header";
@@ -52,7 +51,7 @@ export default function YearsAccordion() {
       />
       <Accordion
         style={{
-          padding: "0 0 0 24px",
+          padding: "0",
         }}
         selectionMode="single"
         selectedKeys={selectedKeys}
@@ -69,25 +68,13 @@ export default function YearsAccordion() {
             </div>
           ),
           content: (
-            <div>
+            <div className="pl-6">
               <MonthAccordion />
             </div>
           ),
         }))}
         itemProps={{
-          classNames: {
-            trigger: "!px-0",
-            indicator: "transition-transform duration-200 transform",
-          },
-          indicator: ({ isOpen }) => (
-            <span
-              className={`${
-                isOpen ? "-rotate-180" : "-rotate-90"
-              } transform transition-all duration-300`}
-            >
-              <ChevronDown />
-            </span>
-          ),
+          classNames: { trigger: "!px-3 dark:bg-zinc-900 bg-zinc-50 rounded-b-lg",  indicator: "", },
         }}
       />
     </div>
