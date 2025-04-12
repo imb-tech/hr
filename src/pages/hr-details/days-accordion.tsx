@@ -4,6 +4,10 @@ import { useNavigate, useParams } from "@tanstack/react-router";
 import { useState } from "react";
 import DaysTableHeader from "./days-header";
 import OneDaysAccordion from "./one-day-statistic";
+import Modal from "@/components/ui/modal";
+import { ModalBody, ModalContent, ModalFooter, ModalHeader } from "@heroui/modal";
+import { Textarea } from "@heroui/input";
+import { Button } from "@heroui/button";
 
 export default function DaysAccordion() {
   const navigate = useNavigate();
@@ -104,6 +108,35 @@ export default function DaysAccordion() {
           content: (
             <div className="pl-6  ">
               <OneDaysAccordion />
+              <Modal>
+                <ModalContent>
+                  {(onClose) => (
+                    <>
+                      <ModalHeader className="flex flex-col gap-1">
+                        So'rov tafsiloti
+                      </ModalHeader>
+                      <ModalBody>
+                        <Textarea
+                          isReadOnly
+                          className="w-full"
+                          label="Sabab"
+                          labelPlacement="outside"
+                          placeholder="Sabab..."
+                          variant="flat"
+                        />
+                      </ModalBody>
+                      <ModalFooter>
+                        <Button color="danger" variant="flat" onPress={onClose}>
+                          Rad etish
+                        </Button>
+                        <Button color="primary" onPress={onClose}>
+                          Qabul qilish
+                        </Button>
+                      </ModalFooter>
+                    </>
+                  )}
+                </ModalContent>
+              </Modal>
             </div>
           ),
         }))}

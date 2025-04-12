@@ -11,7 +11,6 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@heroui/modal";
-import { Select, SelectItem } from "@heroui/select";
 import { Selection } from "@react-types/shared";
 import { useNavigate, useParams, useSearch } from "@tanstack/react-router";
 import { useState } from "react";
@@ -98,21 +97,9 @@ export default function OfficeDetail() {
                   {(onClose) => (
                     <>
                       <ModalHeader className="flex flex-col gap-1">
-                        Hodim Statusi
+                        So'rov tafsiloti
                       </ModalHeader>
                       <ModalBody>
-                        <Select
-                          label="Status"
-                          className="w-full"
-                          placeholder="Status"
-                          labelPlacement="outside"
-                        >
-                          {status.map((animal) => (
-                            <SelectItem key={animal.key}>
-                              {animal.label}
-                            </SelectItem>
-                          ))}
-                        </Select>
                         <Textarea
                           isReadOnly
                           className="w-full"
@@ -124,10 +111,10 @@ export default function OfficeDetail() {
                       </ModalBody>
                       <ModalFooter>
                         <Button color="danger" variant="flat" onPress={onClose}>
-                          Yopish
+                          Rad etish
                         </Button>
                         <Button color="primary" onPress={onClose}>
-                          Saqlash
+                          Qabul qilish
                         </Button>
                       </ModalFooter>
                     </>
