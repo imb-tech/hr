@@ -97,8 +97,8 @@ export default function DaysAccordion() {
               <p className="text-sm">20 minut</p>
               <p className="text-sm">09:00</p>
               <p className="text-sm">18:00</p>
-              <p className="text-sm">Ofisda</p>
               <p className="text-sm">10 minut</p>
+              <p className="text-sm">Kech qolgan</p>
             </div>
           ),
           content: (

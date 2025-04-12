@@ -21,22 +21,22 @@ export default function AttendanceDashboard() {
     options: { enabled: Boolean(id) },
   });
 
-  // const total = dataDetails?.total_users_count ?? 0;
-  // const usersInCompany = dataDetails?.users_in_company ?? 0;
-  // const arrivedOnTime = dataDetails?.arrived_on_time ?? 0;
-  // const lateUsers = dataDetails?.late_users_count ?? 0;
-  // const absentUsers = dataDetails?.absent_users ?? 0;
-  // const absentWithReason = dataDetails?.absent_users_with_reason_count ?? 0;
-  // const absentWithoutReason =
-  //   dataDetails?.absent_users_with_no_reason_count ?? 0;
+  const total = dataDetails?.total_users_count ?? 0;
+  const usersInCompany = dataDetails?.users_in_company ?? 0;
+  const arrivedOnTime = dataDetails?.arrived_on_time ?? 0;
+  const lateUsers = dataDetails?.late_users_count ?? 0;
+  const absentUsers = dataDetails?.absent_users ?? 0;
+  const absentWithReason = dataDetails?.absent_users_with_reason_count ?? 0;
+  const absentWithoutReason =
+    dataDetails?.absent_users_with_no_reason_count ?? 0;
 
-  const total = 400;
-  const usersInCompany = 300;
-  const arrivedOnTime = 260;
-  const lateUsers = 40;
-  const absentUsers = 100;
-  const absentWithReason = 70;
-  const absentWithoutReason = 30;
+  // const total = 400;
+  // const usersInCompany = 300;
+  // const arrivedOnTime = 260;
+  // const lateUsers = 40;
+  // const absentUsers = 100;
+  // const absentWithReason = 70;
+  // const absentWithoutReason = 30;
 
   const getPercent = (value: number, total: number): string =>
     total === 0 ? "0%" : `${((value / total) * 100).toFixed(0)}%`;

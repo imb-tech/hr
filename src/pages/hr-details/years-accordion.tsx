@@ -74,7 +74,7 @@ export default function YearsAccordion() {
           ),
         }))}
         itemProps={{
-          classNames: { trigger: "!px-3 dark:bg-zinc-900 bg-zinc-50 rounded-b-lg",  indicator: "", },
+          classNames: { trigger: "!px-3 dark:bg-neutral-900 bg-neutral-50 rounded-b-lg",  indicator: "", },
         }}
       />
     </div>
