@@ -92,38 +92,37 @@ export default function CreateHrForm() {
       <form className="my-6 space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="grid grid-cols-2 gap-4 px-4 py-6 border dark:border-zinc-700 rounded-2xl">
           <h1 className="font-bold text-xl col-span-2">Shaxsiy ma'lumotlar</h1>
-          <FormInput
-            isRequired
-            label={"Familiya"}
-            methods={form}
-            name={"first_name"}
-            size="lg"
-            type="text"
-            placeholder={"Familiya"}
-          />
-          <FormInput
-            isRequired
-            label={"Ism"}
-            methods={form}
-            name={"last_name"}
-            size="lg"
-            type="text"
-            placeholder={"Ism"}
-          />
-          <FormInput
-            isRequired
-            label={"Otasining ismi"}
-            methods={form}
-            name={"full_name"}
-            size="lg"
-            type="text"
-            wrapperClassName="col-span-2"
-            placeholder={"Otasining ismi"}
-          />
+          <div className="col-span-2 grid lg:grid-cols-3 gap-4 grid-cols-1">
+            <FormInput
+              isRequired
+              label={"Familiya"}
+              methods={form}
+              name={"first_name"}
+              size="lg"
+              type="text"
+              placeholder={"Familiya"}
+            />
+            <FormInput
+              isRequired
+              label={"Ism"}
+              methods={form}
+              name={"last_name"}
+              size="lg"
+              type="text"
+              placeholder={"Ism"}
+            />
+            <FormInput
+              label={"Otasining ismi"}
+              methods={form}
+              name={"full_name"}
+              size="lg"
+              type="text"
+              placeholder={"Otasining ismi"}
+            />
+          </div>
           <PhoneField required methods={form} name={"phone_number"} />
           <PhoneField
             label="Qo'shimcha raqam"
-            required
             methods={form}
             name={"phone_number2"}
           />
