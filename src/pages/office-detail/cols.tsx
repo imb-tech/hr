@@ -6,12 +6,13 @@ export const useWorkerInfoCols = () => {
     () => [
       { header: "ID", dataKey: "id" },
       { header: "FIO", dataKey: "full_name" },
-      { header: "Kelish vaqt", dataKey: "entrance_time" },
-      { header: "Kechikish", dataKey: "latency" },
-      { header: "Ish vaqti", dataKey: "entrance_time" },
+      { header: "Kelish vaqti", dataKey: "entrance_time" },
       { header: "Ketish vaqti", dataKey: "check_out_time" },
+      { header: "Kechikish vaqti", dataKey: "latency" },
+      { header: "Erta ketish vaqti", dataKey: "check_out_time" },
+      { header: "Ishxonadagi vaqti", dataKey: "entrance_time" },
       {
-        header: "Hozir qayerda",
+        header: "Status",
         dataKey: "last_company",
         cell(_, item) {
           return (
@@ -21,7 +22,6 @@ export const useWorkerInfoCols = () => {
           );
         },
       },
-      { header: "Erta ketish", dataKey: "check_out_time" },
     ],
     [],
   );

@@ -102,7 +102,7 @@ export default function DaysAccordion() {
             </div>
           ),
           content: (
-            <div className="px-2  ">
+            <div className="pl-6  ">
               <OneDaysAccordion />
             </div>
           ),

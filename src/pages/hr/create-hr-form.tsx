@@ -60,10 +60,7 @@ export default function CreateHrForm() {
     if (id) {
       updateMutate(`${HR_API}/${id}`, values);
     } else {
-      postMutate(HR_API, {
-        ...values,
-        username: values.phone_number,
-      });
+      postMutate(HR_API, values);
     }
   };
 
@@ -81,6 +78,7 @@ export default function CreateHrForm() {
         education: data.education,
         password: data.password,
         salary: data.salary,
+        username: data.username,
         role:
           data?.groups && data.groups.length > 0
             ? String(data.groups[0].id)
@@ -199,13 +197,20 @@ export default function CreateHrForm() {
             placeholder={"3 000 000"}
           />
           <FormInput
+            isRequired
+            label={"Login"}
+            methods={form}
+            name={"username"}
+            size="lg"
+            placeholder={"Login"}
+          />
+          <FormInput
             isRequired={data?.id ? false : true}
             label={"Parol"}
             methods={form}
             name={"password"}
             size="lg"
             placeholder={"*******"}
-            wrapperClassName="col-span-2"
           />
         </div>
 

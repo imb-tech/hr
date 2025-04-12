@@ -32,7 +32,7 @@ export default function AttendanceDashboard() {
 
   const getPercent = (value: number, total: number): string => {
     if (total === 0) return "0%";
-    return `${((value / total) * 100).toFixed(1)}%`;
+    return `${((value / total) * 100).toFixed(0)}%`;
   };
 
   const arrivedPercent = (arrivedOnTime / usersInCompany) * 100 || 0;
@@ -41,7 +41,7 @@ export default function AttendanceDashboard() {
   const withoutReasonPercent = (absentWithoutReason / absentUsers) * 100 || 0;
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="container mx-auto">
       <Card className="mb-4 p-2">
         <CardHeader className="pb-0">
           <div className="flex items-center justify-between w-full">
@@ -168,7 +168,7 @@ export default function AttendanceDashboard() {
                   style={{ width: `${withReasonPercent}%` }}
                 />
                 <div
-                  className="absolute top-0 h-full bg-rose-400"
+                  className="absolute top-0 h-full bg-danger"
                   style={{ width: `${withoutReasonPercent}%`, left: `${withReasonPercent}%` }}
                 />
               </div>
