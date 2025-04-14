@@ -6,8 +6,8 @@ export default function DaysTableHeader() {
         <p className="text-sm">Kechikish</p>
         <p className="text-sm">Ish vaqti</p>
         <p className="text-sm">Ketish vaqti</p>
-        <p className="text-sm">Hozir qayerda</p>
         <p className="text-sm">Erta ketish</p>
+        <p className="text-sm">Status</p>
       </div>
     );
   }

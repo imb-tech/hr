@@ -74,7 +74,7 @@ export default function MonthAccordion() {
           classNames: {
             content: "hidden",
             indicator: "hidden",
-            trigger: "!p-0 !px-0",
+            trigger: "!p-0 !px-0 ",
           },
         }}
       />
@@ -88,7 +88,7 @@ export default function MonthAccordion() {
         items={info?.map((item) => ({
           key: item.id.toString(),
           title: (
-            <div className="grid grid-cols-5 gap-11 px-1">
+            <div className="grid grid-cols-5 gap-11 px-1 ">
               <p className="text-sm">{month[item.id]}</p>
               <p className="text-sm">7 soat</p>
               <p className="text-sm">12 marta</p>
@@ -97,7 +97,7 @@ export default function MonthAccordion() {
             </div>
           ),
           content: (
-            <div className="px-2">
+            <div className="pl-6">
               <DaysAccordion />
             </div>
           ),

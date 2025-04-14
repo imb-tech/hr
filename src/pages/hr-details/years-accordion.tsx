@@ -50,13 +50,16 @@ export default function YearsAccordion() {
         }}
       />
       <Accordion
+        style={{
+          padding: "0",
+        }}
         selectionMode="single"
         selectedKeys={selectedKeys}
         onSelectionChange={clickAccordion}
         items={info?.map((item) => ({
           key: item.id.toString(),
           title: (
-            <div className="grid grid-cols-5 gap-11 px-1">
+            <div className="grid grid-cols-5 gap-11 px-1 ">
               <p className="text-sm">{item.id}</p>
               <p className="text-sm">70 soat</p>
               <p className="text-sm">120 marta</p>
@@ -65,12 +68,14 @@ export default function YearsAccordion() {
             </div>
           ),
           content: (
-            <div>
+            <div className="pl-6">
               <MonthAccordion />
             </div>
           ),
         }))}
-        itemProps={{ classNames: { trigger: "!px-0" } }}
+        itemProps={{
+          classNames: { trigger: "!px-3 dark:bg-neutral-900 bg-neutral-50 rounded-b-lg",  indicator: "", },
+        }}
       />
     </div>
   );
