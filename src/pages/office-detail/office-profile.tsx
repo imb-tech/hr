@@ -23,7 +23,7 @@ export default function AttendanceDashboard() {
 
   const total = dataDetails?.total_users_count ?? 0;
   const usersInCompany = dataDetails?.users_in_company ?? 0;
-  const arrivedOnTime = dataDetails?.arrived_on_time ?? 0;
+  const arrivedOnTime = dataDetails?.in_time_users ?? 0;
   const lateUsers = dataDetails?.late_users_count ?? 0;
   const absentUsers = dataDetails?.absent_users ?? 0;
   const absentWithReason = dataDetails?.absent_users_with_reason_count ?? 0;
@@ -39,7 +39,7 @@ export default function AttendanceDashboard() {
   // const absentWithoutReason = 30;
 
   const getPercent = (value: number, total: number): string =>
-    total === 0 ? "0%" : `${((value / total) * 100).toFixed(0)}%`;
+    total === 0 ? "0%" : `${((value / total) * 100).toFixed(1)}%`;
 
   return (
     <div className="container mx-auto">

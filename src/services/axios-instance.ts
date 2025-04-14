@@ -6,7 +6,7 @@ import { QueryClient } from "@tanstack/react-query"
 import axios from "axios"
 
 // const baseURL = import.meta.env.VITE_DEFAULT_URL
-const baseURL = "https://location.imbtech.uz/api/v1/"
+const baseURL = "http://192.168.43.232:8010/api/v1/"
 
 
 const axiosInstance = axios.create({

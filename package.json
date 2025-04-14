@@ -49,6 +49,7 @@
     "@tanstack/react-router": "^1.114.24",
     "axios": "^1.8.4",
     "clsx": "2.1.1",
+    "date-fns": "^4.1.0",
     "framer-motion": "11.15.0",
     "google-libphonenumber": "^3.2.40",
     "lucide-react": "^0.483.0",
