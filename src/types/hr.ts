@@ -16,3 +16,19 @@ type Human = {
   username?: string
   groups?: { id: number, name: string }[]
 };
+
+type HumanYear = {
+  year: number;
+  late_count: number;
+  fine: string;
+  late_duraction: string
+  month: string
+  user:number
+  salary:number
+  left_time:string
+  attendance_time:string
+  shift_end_time:string
+  shift_start_time:string
+  status:string
+  id:number
+}

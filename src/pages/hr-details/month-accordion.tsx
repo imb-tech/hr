@@ -1,6 +1,8 @@
 import Accordion from "@/components/ui/accordion";
+import { USER_YEAR_TOTAL_MONTH } from "@/constants/api-endpoints";
+import { useGet } from "@/hooks/useGet";
 import { Selection } from "@react-types/shared";
-import { useNavigate, useParams } from "@tanstack/react-router";
+import { useNavigate, useParams, useSearch } from "@tanstack/react-router";
 import { useState } from "react";
 import DaysAccordion from "./days-accordion";
 import MonthTableHeader from "./month-header";
@@ -9,22 +11,11 @@ export default function MonthAccordion() {
   const navigate = useNavigate();
   const { id } = useParams({ from: "/_main/hr-view/$id" });
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
-  // const { data: info } = useGet<OfficeInfo[]>(`${ROLES_STATISTIC}`);
+  const search = useSearch({ strict: false });
+  const { data: info } = useGet<HumanYear[]>(`${USER_YEAR_TOTAL_MONTH}/${id}`, {
+    params: search,
+  });
 
-  const info = [
-    { id: 1 },
-    { id: 2 },
-    { id: 3 },
-    { id: 4 },
-    { id: 5 },
-    { id: 6 },
-    { id: 7 },
-    { id: 8 },
-    { id: 9 },
-    { id: 10 },
-    { id: 11 },
-    { id: 12 },
-  ];
 
   function clickAccordion(keys: Selection) {
     const selected = Array.from(keys).filter(Boolean) as string[];
@@ -86,14 +77,13 @@ export default function MonthAccordion() {
         selectedKeys={selectedKeys}
         onSelectionChange={clickAccordion}
         items={info?.map((item) => ({
-          key: item.id.toString(),
+          key: item.month.toString(),
           title: (
-            <div className="grid grid-cols-5 gap-11 px-1 ">
-              <p className="text-sm">{month[item.id]}</p>
-              <p className="text-sm">7 soat</p>
-              <p className="text-sm">12 marta</p>
-              <p className="text-sm">15 soat 12 minut</p>
-              <p className="text-sm">1 000 000 so'm</p>
+            <div className="grid grid-cols-4 gap-11 px-1 ">
+              <p className="text-sm">{month[item.month as any]}</p>
+              <p className="text-sm">{item.late_count} marta</p>
+              <p className="text-sm">{item.late_duraction} soat</p>
+              <p className="text-sm">{item.fine} so'm</p>
             </div>
           ),
           content: (

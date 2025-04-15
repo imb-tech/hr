@@ -1,7 +1,23 @@
+import { USER_YEAR_TOTAL_MONTH_DAYS_ONE } from "@/constants/api-endpoints";
 import { useModal } from "@/hooks/use-modal";
+import { useGet } from "@/hooks/useGet";
+import { useParams, useSearch } from "@tanstack/react-router";
 import { MessageCircle } from "lucide-react";
 export default function OneDaysAccordion() {
   const { openModal } = useModal();
+  const { id } = useParams({ from: "/_main/hr-view/$id" });
+  const search = useSearch({ strict: false });
+
+  const params = `${(search as any)?.year}-${(search as any)?.month > 9 ? (search as any)?.month : "0" + (search as any)?.day}-${(search as any)?.day > 9 ? (search as any)?.day : "0" + (search as any)?.day}`;
+  const { data: info } = useGet<
+    { first_time: string; second_time: string; status: string | number }[]
+  >(`${USER_YEAR_TOTAL_MONTH_DAYS_ONE}/${id}`, {
+    params: { date: params },
+    options: {
+      enabled: Boolean((search as any)?.day),
+    },
+  });
+
   return (
     <div>
       <div className="grid grid-cols-2 gap-3 bg-foreground-100 p-3 text-foreground-500 rounded-t-lg">
@@ -9,42 +25,25 @@ export default function OneDaysAccordion() {
         <p className="text-sm">Qayerda</p>
       </div>
       <div className="px-3 dark:bg-zinc-900 bg-zinc-50 rounded-b-lg ">
-        <div className="grid grid-cols-2 gap-5 py-3 border-b dark:border-b-zinc-700">
-          <p className="text-sm">09:00- 18:00</p>
-          <div className="text-sm flex items-center gap-3">
-            <p>Ofisda</p>
-            <span
-              onClick={openModal}
-              className="cursor-pointer hover:text-primary"
-            >
-              <MessageCircle width={18} />
-            </span>
+        {info?.map((item, index) => (
+          <div
+            key={index}
+            className="grid grid-cols-2 gap-5 py-3 border-b dark:border-b-zinc-700"
+          >
+            <p className="text-sm">
+              {item.first_time} - {item.second_time}
+            </p>
+            <div className="text-sm flex items-center gap-3">
+              <p>{item.status || "Ofisda"}</p>
+              <span
+                onClick={openModal}
+                className="cursor-pointer hover:text-primary"
+              >
+                <MessageCircle width={18} />
+              </span>
+            </div>
           </div>
-        </div>
-        <div className="grid grid-cols-2 gap-5 py-3 border-b dark:border-b-zinc-700">
-          <p className="text-sm">09:00- 18:00</p>
-          <div className="text-sm flex items-center gap-3">
-            <p>Ofisda</p>
-            <span
-              onClick={openModal}
-              className="cursor-pointer hover:text-primary"
-            >
-              <MessageCircle width={18} />
-            </span>
-          </div>
-        </div>
-        <div className="grid grid-cols-2 gap-5 py-3  ">
-          <p className="text-sm">09:00- 18:00</p>
-          <div className="text-sm flex items-center gap-3">
-            <p>Ofisda</p>
-            <span
-              onClick={openModal}
-              className="cursor-pointer hover:text-primary"
-            >
-              <MessageCircle width={18} />
-            </span>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );

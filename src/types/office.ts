@@ -34,7 +34,7 @@ type FeatureCollection = {
 
 
 type OfficeInfo = {
-  id: number
+  group_id: number
   name: string
   total_workers_count: number
   checked_in_workers: number

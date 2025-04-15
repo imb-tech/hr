@@ -39,7 +39,7 @@ export default function OfficeDetail() {
 
   function clickAccordion(keys: Selection) {
     const selectedIds = Array.from(keys)
-      .map((key) => info?.[Number(key)]?.id)
+      .map((key) => info?.[Number(key)]?.group_id)
       .filter(Boolean);
 
     setSelectedKeys(keys as Set<string>);
