@@ -1,3 +1,5 @@
+import Page from "@/layouts/page";
+import SettingsPage from "@/pages/settings";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_main/settings")({
@@ -5,5 +7,11 @@ export const Route = createFileRoute("/_main/settings")({
 });
 
 function RouteComponent() {
-  return <div>Hello "/_main/settings"!</div>;
+  return (
+    <Page
+      breadcrumb={["So'rovlar"]}
+    >
+      <SettingsPage/>
+    </Page>
+  );
 }

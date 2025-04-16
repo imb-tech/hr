@@ -1,16 +1,7 @@
 import Accordion from "@/components/ui/accordion";
-import Modal from "@/components/ui/modal";
 import DataTable from "@/components/ui/table";
 import { ROLES_STATISTIC, USER_STATISTIC } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
-import { Button } from "@heroui/button";
-import { Textarea } from "@heroui/input";
-import {
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-} from "@heroui/modal";
 import { Selection } from "@react-types/shared";
 import { useNavigate, useParams, useSearch } from "@tanstack/react-router";
 import { useState } from "react";
@@ -19,10 +10,7 @@ import OfficeInfoRow from "./office-info-row";
 import OfficeProfile from "./office-profile";
 import OfficeDetailTableHeader from "./table-header";
 
-export const status = [
-  { key: "cat", label: "Sababli" },
-  { key: "dog", label: "Sababsiz" },
-];
+
 
 export default function OfficeDetail() {
   const navigate = useNavigate();
@@ -92,35 +80,7 @@ export default function OfficeDetail() {
                 columns={columns}
                 data={isSuccess && data.length > 0 ? data : []}
               />
-              <Modal>
-                <ModalContent>
-                  {(onClose) => (
-                    <>
-                      <ModalHeader className="flex flex-col gap-1">
-                        So'rov tafsiloti
-                      </ModalHeader>
-                      <ModalBody>
-                        <Textarea
-                          isReadOnly
-                          className="w-full"
-                          label="Sabab"
-                          labelPlacement="outside"
-                          placeholder="Sabab..."
-                          variant="flat"
-                        />
-                      </ModalBody>
-                      <ModalFooter>
-                        <Button color="danger" variant="flat" onPress={onClose}>
-                          Rad etish
-                        </Button>
-                        <Button color="primary" onPress={onClose}>
-                          Qabul qilish
-                        </Button>
-                      </ModalFooter>
-                    </>
-                  )}
-                </ModalContent>
-              </Modal>
+
             </div>
           ),
         }))}

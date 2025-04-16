@@ -1,21 +1,19 @@
 import Accordion from "@/components/ui/accordion";
-import Modal from "@/components/ui/modal";
 import { USER_YEAR_TOTAL_MONTH_DAYS } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
-import { Button } from "@heroui/button";
-import { Textarea } from "@heroui/input";
-import {
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-} from "@heroui/modal";
 import { Selection } from "@react-types/shared";
 import { useNavigate, useParams, useSearch } from "@tanstack/react-router";
 import { useState } from "react";
 import DaysTableHeader from "./days-header";
 import OneDaysAccordion from "./one-day-statistic";
 import { formatDateTime } from "@/lib/format-date";
+
+
+export const statusData: { [key: number | string]: string } = {
+  0: "Kutilmoqda",
+  1: "Qabul qilingan",
+  2: "Rad etilgan",
+};
 
 export default function DaysAccordion() {
   const navigate = useNavigate();
@@ -82,45 +80,16 @@ export default function DaysAccordion() {
             <div className="grid grid-cols-7 gap-11 rounded-b-lg">
               <p className="text-sm">{item.id > 9 ? item.id : "0" + item.id}</p>
               <p className="text-sm">{formatDateTime(item?.attendance_time)}</p>
-              <p className="text-sm">0</p>
+              <p className="text-sm">{item.late_duration}</p>
               <p className="text-sm">{item?.shift_start_time}</p>
               <p className="text-sm">{item?.shift_end_time}</p>
-              <p className="text-sm">{formatDateTime(item.left_time)}</p>
-              <p className="text-sm">{item.status || "Kech qolgan"}</p>
+              <p className="text-sm">{(item.early_checkout)}</p>
+              <p className="text-sm">{statusData[item.status]}</p>
             </div>
           ),
           content: (
             <div className="pl-6  ">
               <OneDaysAccordion />
-              <Modal>
-                <ModalContent>
-                  {(onClose) => (
-                    <>
-                      <ModalHeader className="flex flex-col gap-1">
-                        So'rov tafsiloti
-                      </ModalHeader>
-                      <ModalBody>
-                        <Textarea
-                          isReadOnly
-                          className="w-full"
-                          label="Sabab"
-                          labelPlacement="outside"
-                          placeholder="Sabab..."
-                          variant="flat"
-                        />
-                      </ModalBody>
-                      <ModalFooter>
-                        <Button color="danger" variant="flat" onPress={onClose}>
-                          Rad etish
-                        </Button>
-                        <Button color="primary" onPress={onClose}>
-                          Qabul qilish
-                        </Button>
-                      </ModalFooter>
-                    </>
-                  )}
-                </ModalContent>
-              </Modal>
             </div>
           ),
         }))}

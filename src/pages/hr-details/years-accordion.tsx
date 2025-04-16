@@ -7,12 +7,12 @@ import { useState } from "react";
 import MonthAccordion from "./month-accordion";
 import YearsTableHeader from "./years-header";
 
+
 export default function YearsAccordion() {
   const navigate = useNavigate();
   const { id } = useParams({ from: "/_main/hr-view/$id" });
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
   const { data: info } = useGet<HumanYear[]>(`${USER_YEAR_TOTAL}/${id}`);
-
 
   function clickAccordion(keys: Selection) {
     const selected = Array.from(keys).filter(Boolean) as string[];

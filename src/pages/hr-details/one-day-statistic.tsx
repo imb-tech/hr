@@ -1,14 +1,12 @@
 import { USER_YEAR_TOTAL_MONTH_DAYS_ONE } from "@/constants/api-endpoints";
-import { useModal } from "@/hooks/use-modal";
 import { useGet } from "@/hooks/useGet";
 import { useParams, useSearch } from "@tanstack/react-router";
-import { MessageCircle } from "lucide-react";
+import { statusData } from "./days-accordion";
 export default function OneDaysAccordion() {
-  const { openModal } = useModal();
   const { id } = useParams({ from: "/_main/hr-view/$id" });
   const search = useSearch({ strict: false });
 
-  const params = `${(search as any)?.year}-${(search as any)?.month > 9 ? (search as any)?.month : "0" + (search as any)?.day}-${(search as any)?.day > 9 ? (search as any)?.day : "0" + (search as any)?.day}`;
+  const params = `${(search as any)?.year}-${(search as any)?.month > 9 ? (search as any)?.month : "0" + (search as any)?.month}-${(search as any)?.day > 9 ? (search as any)?.day : "0" + (search as any)?.day}`;
   const { data: info } = useGet<
     { first_time: string; second_time: string; status: string | number }[]
   >(`${USER_YEAR_TOTAL_MONTH_DAYS_ONE}/${id}`, {
@@ -34,13 +32,7 @@ export default function OneDaysAccordion() {
               {item.first_time} - {item.second_time}
             </p>
             <div className="text-sm flex items-center gap-3">
-              <p>{item.status || "Ofisda"}</p>
-              <span
-                onClick={openModal}
-                className="cursor-pointer hover:text-primary"
-              >
-                <MessageCircle width={18} />
-              </span>
+              <p>{statusData[item.status]}</p>
             </div>
           </div>
         ))}

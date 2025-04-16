@@ -6,7 +6,6 @@ export default function OfficeInfoRow({ data }: { data: OfficeInfo }) {
       <p className="font-light">{data.absent_users || 0}</p>
       <p className="font-light">{data.total_workers_count || 0}</p>
       <p className="font-light">{data.late_users_count || 0}</p>
-      {/* <p className="font-light">{data.early_users || 0}</p> */}
     </div>
   );
 }

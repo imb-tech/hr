@@ -14,8 +14,8 @@ export default function MonthAccordion() {
   const search = useSearch({ strict: false });
   const { data: info } = useGet<HumanYear[]>(`${USER_YEAR_TOTAL_MONTH}/${id}`, {
     params: search,
+    options: { enabled: Boolean((search as any)?.year) },
   });
-
 
   function clickAccordion(keys: Selection) {
     const selected = Array.from(keys).filter(Boolean) as string[];
@@ -82,7 +82,7 @@ export default function MonthAccordion() {
             <div className="grid grid-cols-4 gap-11 px-1 ">
               <p className="text-sm">{month[item.month as any]}</p>
               <p className="text-sm">{item.late_count} marta</p>
-              <p className="text-sm">{item.late_duraction} soat</p>
+              <p className="text-sm">{item.late_duration}</p>
               <p className="text-sm">{item.fine} so'm</p>
             </div>
           ),

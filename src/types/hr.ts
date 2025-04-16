@@ -20,9 +20,11 @@ type Human = {
 type HumanYear = {
   year: number;
   late_count: number;
+  early_checkout:string
   fine: string;
   late_duraction: string
   month: string
+  late_duration:string
   user:number
   salary:number
   left_time:string
