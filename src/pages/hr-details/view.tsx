@@ -96,12 +96,12 @@ function ViewPage() {
         <div className=" flex-col border border-divider py-3 whitespace-nowrap px-6 rounded-lg flex items-start justify-center gap-1">
           <div className="flex items-center">
             <strong className="min-w-24 text-xl">Balans:</strong>
-            <span className="text-xl">{data?.salary ? formatMoney(data?.salary) + " so'm" : "-"}</span>
+            <span className="text-xl">{formatMoney(data?.salary) || 0} so'm</span>
           </div>
           <div className="flex items-center">
             <span className=" min-w-24 font-medium ">Maosh:</span>
             <span className="text-foreground-50-500 font-medium">
-              {data?.salary ? formatMoney(data?.salary) + " so'm" : "-"} 
+              {formatMoney(data?.salary) || 0} so'm
             </span>
           </div>
         </div>
