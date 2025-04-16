@@ -69,7 +69,7 @@ export const usSettingsCols = () => {
               variant="light"
               color={item.status === 2 ? "danger" : "success"}
             >
-              {item.status === 2 ? "Rad etilgan" : "Tasdiqlangan"}
+              {item.status === 2 ? "Rad etilgan" : "Ruxsat berilgan"}
             </Button>
           );
         },
