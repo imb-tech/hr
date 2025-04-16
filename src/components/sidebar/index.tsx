@@ -1,5 +1,5 @@
 import { Link, linkOptions } from "@tanstack/react-router";
-import { Building2, Settings, SquareUser } from "lucide-react";
+import { Building2, ScrollText, SquareUser } from "lucide-react";
 import { Logo } from "../icons";
 import { UsersIcon } from "../icons/nav-icons";
 import MenuItem from "./menu-item";
@@ -26,9 +26,9 @@ export default function Sidebar() {
     }),
     linkOptions({
       to: "/settings",
-      icon: <Settings />,
+      icon: <ScrollText />,
       enabled: true,
-      title: "So'rovlar",
+      title: "Ruxsat so'rash",
     }),
   ];
 

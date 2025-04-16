@@ -1,10 +1,10 @@
 import { ColumnDef } from "@/components/ui/table";
 import { useModal } from "@/hooks/use-modal";
 import { useStore } from "@/hooks/use-store";
-import { formatDateTime } from "@/lib/format-date";
 import { Button } from "@heroui/button";
 import { Check, X } from "lucide-react";
 import { useMemo } from "react";
+import { format } from "date-fns"
 
 export const usSettingsCols = () => {
   const { openModal } = useModal();
@@ -24,12 +24,12 @@ export const usSettingsCols = () => {
       { header: "ID", dataKey: "id" },
       { header: "FIO", dataKey: "full_name" },
       {
-        header: "So'ralgan sana",
+        header: "So'ralgan kunlar",
         dataKey: "start",
         cell(_, item) {
           return (
             <span>
-              {formatDateTime(item.start)} - {formatDateTime(item.end)}
+              {format(new Date(item.start), "HH:mm")} - {format(new Date(item.end), "HH:mm")}
             </span>
           );
         },
@@ -41,7 +41,7 @@ export const usSettingsCols = () => {
         dataKey: "id",
         cell(_, item) {
           return item.status === 0 ? (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center justify-end">
               <Button
                 size="sm"
                 className="min-w-4 "
@@ -49,6 +49,7 @@ export const usSettingsCols = () => {
                   handleItem(item), setStatus({ status: 2 });
                 }}
                 color="danger"
+                variant="light"
               >
                 <X size={20} />
               </Button>
@@ -58,7 +59,7 @@ export const usSettingsCols = () => {
                 onPress={() => {
                   handleItem(item), setStatus({ status: 1 });
                 }}
-                variant="solid"
+                variant="light"
                 color="success"
               >
                 <Check size={20} />

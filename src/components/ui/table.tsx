@@ -159,10 +159,11 @@ export default function DataTable<TData extends object>({
             key={index}
             align={column.dataKey === "actions" ? "end" : "start"}
             allowsSorting={column.sortable}
+            className="last:text-center"
           >
             {column.dataKey === "actions" ? (
               <div className="flex items-center justify-end py-1 gap-2">
-                {column.header}
+                {column.header} 
                 {showColumnFilter && (
                   <Dropdown>
                     <DropdownTrigger className="hidden sm:flex">
@@ -194,7 +195,7 @@ export default function DataTable<TData extends object>({
                 )}
               </div>
             ) : (
-              column.header
+              column.header 
             )}
           </TableColumn>
         ))}

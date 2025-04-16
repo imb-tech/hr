@@ -8,10 +8,8 @@ export const Route = createFileRoute("/_main/settings")({
 
 function RouteComponent() {
   return (
-    <Page
-      breadcrumb={["So'rovlar"]}
-    >
-      <SettingsPage/>
+    <Page breadcrumb={["So'rovlar ro'yxati"]}>
+      <SettingsPage />
     </Page>
   );
 }

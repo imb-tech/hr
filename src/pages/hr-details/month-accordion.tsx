@@ -1,6 +1,7 @@
 import Accordion from "@/components/ui/accordion";
 import { USER_YEAR_TOTAL_MONTH } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
+import { Skeleton } from "@heroui/skeleton";
 import { Selection } from "@react-types/shared";
 import { useNavigate, useParams, useSearch } from "@tanstack/react-router";
 import { useState } from "react";
@@ -12,9 +13,16 @@ export default function MonthAccordion() {
   const { id } = useParams({ from: "/_main/hr-view/$id" });
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
   const search = useSearch({ strict: false });
-  const { data: info } = useGet<HumanYear[]>(`${USER_YEAR_TOTAL_MONTH}/${id}`, {
+  const {
+    data: info,
+    isSuccess,
+    isLoading,
+  } = useGet<HumanYear[]>(`${USER_YEAR_TOTAL_MONTH}/${id}`, {
     params: search,
-    options: { enabled: Boolean((search as any)?.year) },
+    options: {
+      enabled:
+        Boolean((search as any)?.year) || Boolean((search as any)?.month),
+    },
   });
 
   function clickAccordion(keys: Selection) {
@@ -46,6 +54,52 @@ export default function MonthAccordion() {
     12: "Dekabr",
   };
 
+  const accordionItems = isLoading
+    ? [
+        {
+          key: "loading",
+          title: (
+            <div className="grid grid-cols-4 gap-11 px-1">
+              <Skeleton className="h-10 rounded-md" />
+              <Skeleton className="h-10 rounded-md" />
+              <Skeleton className="h-10 rounded-md" />
+              <Skeleton className="h-10 rounded-md" />
+            </div>
+          ),
+          content: "",
+        },
+      ]
+    : isSuccess && info.length === 0
+      ? [
+          {
+            key: "empty",
+            title: (
+              <div className="px-3 text-sm text-zinc-500 text-center">
+                Ma'lumot topilmadi
+              </div>
+            ),
+            content: "",
+          },
+        ]
+      : isSuccess &&
+        info?.map((item) => ({
+          key: item.month.toString(),
+          title: (
+            <div className="grid grid-cols-4 gap-11 px-1 ">
+              <p className="text-sm">{month[item.month as any]}</p>
+              <p className="text-sm">{item.late_count} marta</p>
+              <p className="text-sm">{item.late_duration?.slice(0, 5)}</p>
+              <p className="text-sm">{item.fine} so'm</p>
+            </div>
+          ),
+          content: (
+            <div className="pl-6">
+              <DaysAccordion />
+            </div>
+          ),
+        }));
+
+
   return (
     <div>
       <Accordion
@@ -76,22 +130,7 @@ export default function MonthAccordion() {
         selectionMode="single"
         selectedKeys={selectedKeys}
         onSelectionChange={clickAccordion}
-        items={info?.map((item) => ({
-          key: item.month.toString(),
-          title: (
-            <div className="grid grid-cols-4 gap-11 px-1 ">
-              <p className="text-sm">{month[item.month as any]}</p>
-              <p className="text-sm">{item.late_count} marta</p>
-              <p className="text-sm">{item.late_duration}</p>
-              <p className="text-sm">{item.fine} so'm</p>
-            </div>
-          ),
-          content: (
-            <div className="pl-6">
-              <DaysAccordion />
-            </div>
-          ),
-        }))}
+        items={accordionItems || []}
         itemProps={{
           classNames: { trigger: "p-3 dark:bg-zinc-900 bg-zinc-50" },
         }}

@@ -8,7 +8,7 @@ export const Route = createFileRoute("/_main/hr-view/$id")({
 
 function RouteComponent() {
   return (
-    <Page breadcrumb={["Hodim haqida to'liq ma'lumot"]}>
+    <Page breadcrumb={["Hodim ma'lumoti"]}>
       <ViewPage/>
     </Page>
   );

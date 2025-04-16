@@ -51,32 +51,32 @@ function ViewPage() {
               <div className="flex gap-2 items-center min-w-52 text-foreground-500">
                 <PhoneCall size={16} /> <span>Tel:</span>
               </div>
-              <span>{formatPhoneNumber(data?.phone_number)}</span>
+              <span>{data?.phone_number ?  formatPhoneNumber(data?.phone_number) : "-"}</span>
             </li>
             <li className="flex items-center">
               <div className="flex gap-2 items-center min-w-52 text-foreground-500">
                 <Phone size={16} /> <span>Qo'shimcha tel:</span>
               </div>
-              <span>{formatPhoneNumber(data?.phone_number2)}</span>
+              <span>{ data?.phone_number2 ? formatPhoneNumber(data?.phone_number2) : "-"}</span>
             </li>
             <li className="flex items-center">
               <div className="flex gap-2 items-center min-w-52 text-foreground-500">
                 <MapPinHouse size={16} /> <span>Doimiy manzil:</span>
               </div>
-              <span>{data?.address}</span>
+              <span>{data?.address ? data?.address : "-"}</span>
             </li>
             <li className="flex items-center">
               <div className="flex gap-2 items-center min-w-52 text-foreground-500">
                 <MapPinCheck size={16} /> <span>Vaqtinchalik manzil:</span>
               </div>
-              <span>{data?.residence}</span>
+              <span>{data?.residence ? data?.residence : "-"}</span>
             </li>
             <li className="flex items-center">
               <div className="flex gap-2 items-center min-w-52 text-foreground-500">
                 <FileUser size={16} /> <span>Pasport:</span>
               </div>
               <span>
-                {data?.id_number ? formatPassportNumber(data?.id_number) : 0}
+                {data?.id_number ? formatPassportNumber(data?.id_number) : "-"}
               </span>
             </li>
             <li className="flex items-center">
@@ -87,7 +87,7 @@ function ViewPage() {
                 {data?.education
                   ? educationLevels?.find((item) => item.key == data?.education)
                       ?.label
-                  : null}
+                  : "-"}
               </span>
             </li>
           </ul>
@@ -96,12 +96,12 @@ function ViewPage() {
         <div className=" flex-col border border-divider py-3 whitespace-nowrap px-6 rounded-lg flex items-start justify-center gap-1">
           <div className="flex items-center">
             <strong className="min-w-24 text-xl">Balans:</strong>
-            <span className="text-xl">{formatMoney(data?.salary)} so'm</span>
+            <span className="text-xl">{data?.salary ? formatMoney(data?.salary) + " so'm" : "-"}</span>
           </div>
           <div className="flex items-center">
             <span className=" min-w-24 font-medium ">Maosh:</span>
             <span className="text-foreground-50-500 font-medium">
-              {formatMoney(data?.salary)} so'm
+              {data?.salary ? formatMoney(data?.salary) + " so'm" : "-"} 
             </span>
           </div>
         </div>
