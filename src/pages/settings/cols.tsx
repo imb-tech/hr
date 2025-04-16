@@ -66,12 +66,14 @@ export const usSettingsCols = () => {
               </Button>
             </div>
           ) : (
-            <Button
+            <div className="flex w-full justify-end">
+              <Button
               variant="light"
               color={item.status === 2 ? "danger" : "success"}
             >
               {item.status === 2 ? "Rad etilgan" : "Ruxsat berilgan"}
             </Button>
+            </div>
           );
         },
       },
