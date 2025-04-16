@@ -68,6 +68,7 @@ export const usSettingsCols = () => {
           ) : (
             <div className="flex w-full justify-end">
               <Button
+              className="flex justify-start min-w-[132px]"
               variant="light"
               color={item.status === 2 ? "danger" : "success"}
             >
