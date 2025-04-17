@@ -18,10 +18,10 @@ export default function MonthAccordion() {
     isSuccess,
     isLoading,
   } = useGet<HumanYear[]>(`${USER_YEAR_TOTAL_MONTH}/${id}`, {
-    params: search,
+    params: { year: (search as any)?.year},
     options: {
       enabled:
-        Boolean((search as any)?.year) || Boolean((search as any)?.month),
+        Boolean((search as any)?.year),
     },
   });
 
@@ -38,6 +38,7 @@ export default function MonthAccordion() {
       }),
     });
   }
+
 
   const month: { [key: number]: string } = {
     1: "Yanvar",
@@ -98,7 +99,6 @@ export default function MonthAccordion() {
             </div>
           ),
         }));
-
 
   return (
     <div>

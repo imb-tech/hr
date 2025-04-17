@@ -21,6 +21,8 @@ export default function OneDaysAccordion() {
     },
   });
 
+  console.log("one-days", search);
+
   return (
     <div>
       <div className="grid grid-cols-2 gap-3 bg-foreground-100 p-3 text-foreground-500 rounded-t-lg">

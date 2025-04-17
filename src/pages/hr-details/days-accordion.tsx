@@ -25,7 +25,7 @@ export default function DaysAccordion() {
     isSuccess,
     isLoading,
   } = useGet<HumanYear[]>(`${USER_YEAR_TOTAL_MONTH_DAYS}/${id}`, {
-    params: search,
+    params: { year: (search as any)?.year, month: (search as any)?.month },
     options: {
       enabled: Boolean((search as any)?.month),
     },
@@ -44,6 +44,7 @@ export default function DaysAccordion() {
       }),
     });
   }
+
 
   const accordionItems = isLoading
     ? [
