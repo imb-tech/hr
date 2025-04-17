@@ -4,7 +4,7 @@ import { useStore } from "@/hooks/use-store";
 import { Button } from "@heroui/button";
 import { Check, X } from "lucide-react";
 import { useMemo } from "react";
-import { format } from "date-fns"
+import { formatDateTime } from "@/lib/format-date";
 
 export const usSettingsCols = () => {
   const { openModal } = useModal();
@@ -28,8 +28,8 @@ export const usSettingsCols = () => {
         dataKey: "start",
         cell(_, item) {
           return (
-            <span>
-              {format(new Date(item.start), "HH:mm")} - {format(new Date(item.end), "HH:mm")}
+            <span className="whitespace-nowrap">
+              {formatDateTime((item.start))} - {formatDateTime((item.end))}
             </span>
           );
         },
