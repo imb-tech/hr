@@ -20,6 +20,7 @@ import { useState } from "react";
 import { usSettingsCols } from "./cols";
 
 const tabOptions = [
+  { key: "0", label: "So'rovlar" },
   { key: "1", label: "Ruxsat berilganlar" },
   { key: "2", label: "Rad etilganlar" },
 ];

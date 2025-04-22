@@ -153,7 +153,7 @@ export default function AttendanceDashboard() {
             <CardHeader className="pb-0">
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center gap-3">
-                  <div className="bg-[#F87171] p-2 rounded-lg">
+                  <div className="bg-[#DC2626] p-2 rounded-lg">
                     <UserX className="h-5 w-5 text-white" />
                   </div>
                   <h1 className="text-2xl font-bold dark:text-gray-300">
@@ -175,7 +175,7 @@ export default function AttendanceDashboard() {
                 value={(absentUsers / total) * 100}
                 className="h-2"
                 classNames={{
-                  indicator: "bg-[#F87171]",
+                  indicator: "bg-[#DC2626]",
                 }}
               />
 
@@ -204,11 +204,11 @@ export default function AttendanceDashboard() {
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <XCircle className="h-4 w-4 text-[#F87171]" />
+                    <XCircle className="h-4 w-4 text-[#DC2626]" />
                     <span className="text-sm dark:text-gray-300">Sababsiz</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-base font-semibold text-[#F87171]">
+                    <span className="text-base font-semibold text-[#DC2626]">
                       {formatMoney(absentWithoutReason)}
                     </span>
                     <span className="text-xs text-gray-400">
@@ -220,7 +220,7 @@ export default function AttendanceDashboard() {
                   value={(absentWithoutReason / total) * 100}
                   className="h-1.5"
                   classNames={{
-                    indicator: "bg-[#F87171]",
+                    indicator: "bg-[#DC2626]",
                   }}
                 />
               </div>

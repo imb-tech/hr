@@ -1,10 +1,10 @@
 import { ColumnDef } from "@/components/ui/table";
 import { useModal } from "@/hooks/use-modal";
 import { useStore } from "@/hooks/use-store";
+import { formatDateTime } from "@/lib/format-date";
 import { Button } from "@heroui/button";
 import { Check, X } from "lucide-react";
 import { useMemo } from "react";
-import { formatDateTime } from "@/lib/format-date";
 
 export const usSettingsCols = () => {
   const { openModal } = useModal();
@@ -29,7 +29,7 @@ export const usSettingsCols = () => {
         cell(_, item) {
           return (
             <span className="whitespace-nowrap">
-              {formatDateTime((item.start))} - {formatDateTime((item.end))}
+              {formatDateTime(item.start)} - {formatDateTime(item.end)}
             </span>
           );
         },
@@ -66,14 +66,14 @@ export const usSettingsCols = () => {
               </Button>
             </div>
           ) : (
-            <div className="flex w-full justify-end">
+            <div className={"flex w-full justify-end"}>
               <Button
-              className="flex justify-start min-w-[132px]"
-              variant="light"
-              color={item.status === 2 ? "danger" : "success"}
-            >
-              {item.status === 2 ? "Rad etilgan" : "Ruxsat berilgan"}
-            </Button>
+                className={`flex  min-w-[132px] ${item.status === 2 ? "justify-end" : "justify-start"}`}
+                variant="light"
+                color={item.status === 2 ? "danger" : "success"}
+              >
+                {item.status === 2 ? "Rad etilgan" : "Ruxsat berilgan"}
+              </Button>
             </div>
           );
         },
