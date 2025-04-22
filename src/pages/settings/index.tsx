@@ -67,7 +67,9 @@ export default function SettingsPage() {
 
   return (
     <div>
+      <div className="mt-4">
       <ParamTabs tabs={tabOptions} paramName="status" clearOther={false} />
+      </div>
 
       <DataTable
         isLoading={isLoading}
