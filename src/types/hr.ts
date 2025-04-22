@@ -14,6 +14,7 @@ type Human = {
   last_name?: string
   image?: string
   username?: string
+  company?:string | number
   groups?: { id: number, name: string }[]
 };
 

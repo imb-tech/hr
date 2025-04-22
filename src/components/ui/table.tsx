@@ -56,6 +56,8 @@ type Props<TData extends object> = {
   onView?: (item: TData) => void;
   onRowClick?: (item: TData) => void;
   isLoading?: boolean;
+  onSelectionChange?: (keys: Selection) => void;
+  selectedKeys?: Selection;
 };
 
 export default function DataTable<TData extends object>({
@@ -67,7 +69,9 @@ export default function DataTable<TData extends object>({
   onEdit,
   onView,
   onRowClick,
+  onSelectionChange,
   isLoading,
+  selectedKeys,
   ...props
 }: Props<TData> & TableProps) {
   type ColumnKey = DataKey<TData>;
@@ -75,7 +79,6 @@ export default function DataTable<TData extends object>({
   const [visibleColumns, setVisibleColumns] = useState<ColumnKey[]>(
     initialVisibleColumns ?? columns.map((col) => col.dataKey),
   );
-  const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]));
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
     direction: "ascending",
     column: "id",
@@ -133,9 +136,9 @@ export default function DataTable<TData extends object>({
     return (
       <div className="py-2 px-2 flex justify-between items-center">
         <span className="w-[30%] text-small text-default-400">
-          {selectedKeys === "all"
-            ? "All items selected"
-            : `${selectedKeys.size} of ${data.length} selected`}
+          {selectedKeys && selectedKeys === "all"
+            ? "Barcha elementlar tanlangan"
+            : `${data.length} dan ${selectedKeys?.size} tanlangan`}
         </span>
       </div>
     );
@@ -150,7 +153,9 @@ export default function DataTable<TData extends object>({
       selectedKeys={selectedKeys}
       sortDescriptor={sortDescriptor}
       topContentPlacement="outside"
-      onSelectionChange={setSelectedKeys}
+      onSelectionChange={(item) => {
+        onSelectionChange?.(item);
+      }}
       onSortChange={setSortDescriptor}
     >
       <TableHeader>
@@ -163,7 +168,7 @@ export default function DataTable<TData extends object>({
           >
             {column.dataKey === "actions" ? (
               <div className="flex items-center justify-end py-1 gap-2">
-                {column.header} 
+                {column.header}
                 {showColumnFilter && (
                   <Dropdown>
                     <DropdownTrigger className="hidden sm:flex">
@@ -195,7 +200,7 @@ export default function DataTable<TData extends object>({
                 )}
               </div>
             ) : (
-              column.header 
+              column.header
             )}
           </TableColumn>
         ))}

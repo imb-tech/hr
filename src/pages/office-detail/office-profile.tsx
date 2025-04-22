@@ -38,8 +38,14 @@ export default function AttendanceDashboard() {
   // const absentWithReason = 70;
   // const absentWithoutReason = 30;
 
-  const getPercent = (value: number, total: number): string =>
-    total === 0 ? "0%" : `${((value / total) * 100).toFixed(1)}%`;
+  const getPercent = (value: number, total: number): string => {
+    if (total === 0) return "0%";
+
+    const percent = (value / total) * 100;
+    return percent % 1 === 0
+      ? `${percent.toFixed(0)}%`
+      : `${percent.toFixed(1)}%`;
+  };
 
   return (
     <div className="container mx-auto">
