@@ -1,3 +1,4 @@
+import ParamTabs from "@/components/param/tabs";
 import Modal from "@/components/ui/modal";
 import DataTable from "@/components/ui/table";
 import { EXCUSE } from "@/constants/api-endpoints";
@@ -14,11 +15,23 @@ import {
 } from "@heroui/modal";
 import { addToast } from "@heroui/toast";
 import { useQueryClient } from "@tanstack/react-query";
+import { useSearch } from "@tanstack/react-router";
 import { useState } from "react";
 import { usSettingsCols } from "./cols";
 
+const tabOptions = [
+  { key: "1", label: "Ruxsat berilganlar" },
+  { key: "2", label: "Rad etilganlar" },
+];
+
 export default function SettingsPage() {
-  const { data: data, isSuccess, isLoading } = useGet<StatusType[]>(EXCUSE);
+  const search = useSearch({ strict: false });
+
+  const {
+    data: data,
+    isSuccess,
+    isLoading,
+  } = useGet<StatusType[]>(EXCUSE, { params: search });
   const { store } = useStore<StatusType>("status-data");
   const queryClient = useQueryClient();
   const { store: status } = useStore<{ status: number | string }>("status");
@@ -54,6 +67,8 @@ export default function SettingsPage() {
 
   return (
     <div>
+      <ParamTabs tabs={tabOptions} paramName="status" clearOther={false} />
+
       <DataTable
         isLoading={isLoading}
         columns={usSettingsCols()}
@@ -66,16 +81,18 @@ export default function SettingsPage() {
               <ModalHeader className="flex flex-col gap-1 text-xl">
                 {status?.status == 2 ? "Rad etilsinmi?" : "Ruxsat berilsinmi?"}
               </ModalHeader>
-             {status?.status===2 ? <ModalBody>
-                <Textarea
-                  onChange={(e) => setComment(e.target.value)}
-                  className="w-full"
-                  label="Sabab"
-                  labelPlacement="outside"
-                  placeholder="Sabab..."
-                  variant="flat"
-                />
-              </ModalBody> : null}
+              {status?.status === 2 ? (
+                <ModalBody>
+                  <Textarea
+                    onChange={(e) => setComment(e.target.value)}
+                    className="w-full"
+                    label="Sabab"
+                    labelPlacement="outside"
+                    placeholder="Sabab..."
+                    variant="flat"
+                  />
+                </ModalBody>
+              ) : null}
               <ModalFooter>
                 {status?.status === 2 ? (
                   <Button
