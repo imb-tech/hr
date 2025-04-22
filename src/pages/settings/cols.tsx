@@ -22,7 +22,13 @@ export const usSettingsCols = () => {
   return useMemo<ColumnDef<StatusType>[]>(
     () => [
       { header: "ID", dataKey: "id" },
-      { header: "FIO", dataKey: "full_name" },
+      {
+        header: "FIO",
+        dataKey: "full_name",
+        cell(value) {
+          return <span className="whitespace-nowrap">{value}</span>;
+        },
+      },
       {
         header: "So'ralgan kunlar",
         dataKey: "start",
@@ -68,7 +74,7 @@ export const usSettingsCols = () => {
           ) : (
             <div className={"flex w-full justify-end"}>
               <Button
-                className={`flex  min-w-[132px] ${item.status === 2 ? "justify-end" : "justify-start"}`}
+                className={`flex  ${item.status === 2 ? "justify-end" : "justify-start"}`}
                 variant="light"
                 color={item.status === 2 ? "danger" : "success"}
               >
