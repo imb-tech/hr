@@ -26,9 +26,9 @@ export default function OfficeDetail() {
   const navigate = useNavigate();
   const { id } = useParams({ from: "/_main/office/$id" });
   const search = useSearch({ from: "/_main/office/$id" });
+  const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
   const { data: info } = useGet<OfficeInfo[]>(`${ROLES_STATISTIC}`);
-  const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]));
-  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const { closeModal } = useModal();
   const queryClient = useQueryClient();
 
@@ -74,12 +74,12 @@ export default function OfficeDetail() {
   const handleSelectionChange = (keys: Selection) => {
     if (keys === "all") {
       const allIds =
-        successHr &&
-        dataHr?.length > 0 &&
-        dataHr?.map((item) => (item as any).id);
-      setSelectedIds(allIds || []);
+        successHr && dataHr?.length > 0
+          ? dataHr?.map((item) => (item as any).id)
+          : [];
+      setSelectedIds(allIds);
     } else {
-      const selected = Array.from(keys) as number[];
+      const selected = Array.from(keys) as string[];
       setSelectedIds(selected);
     }
   };
@@ -93,13 +93,15 @@ export default function OfficeDetail() {
 
   useEffect(() => {
     if (id && successHr && dataHr.length > 0) {
-      const matchingItems = dataHr.filter(
-        (item) => String(item.company) === String(id),
-      );
-      const matchingIds = matchingItems.map((item) => String(item.company));
-      setSelectedKeys(new Set(matchingIds));
+      const matchingItems = dataHr.filter((item) => {
+        const companiesContainId = item.companies?.includes(Number(id));
+        return companiesContainId;
+      });
+      const matchingIds = matchingItems.map((item: any) => String(item.id));
+      setSelectedIds(matchingIds);
     }
   }, [id, successHr, dataHr]);
+
 
   return (
     <div>
@@ -147,8 +149,8 @@ export default function OfficeDetail() {
       <Modal size="4xl" title="Hodimlar ro'yxati">
         <DataTable
           shadow="none"
+          selectedKeys={new Set(selectedIds)}
           selectionMode="multiple"
-          selectedKeys={selectedKeys}
           isHeaderSticky
           columns={columnsHr}
           onSelectionChange={handleSelectionChange}
