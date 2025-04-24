@@ -4,6 +4,7 @@ import TimeInput from "@/components/form/time-input";
 import { COMPANIES } from "@/constants/api-endpoints";
 import { useModal } from "@/hooks/use-modal";
 import { useStore } from "@/hooks/use-store";
+import { usePatch } from "@/hooks/usePatch";
 import { usePost } from "@/hooks/usePost";
 import { addToast } from "@heroui/toast";
 import { useQueryClient } from "@tanstack/react-query";
@@ -15,13 +16,27 @@ export default function CreateOfficeForm() {
   const { closeModal } = useModal();
   const queryClient = useQueryClient();
 
-  const { mutate } = usePost({
+  const { mutate: mutatePost } = usePost({
     onSuccess: () => {
       queryClient.refetchQueries({
         queryKey: [COMPANIES],
       }),
         addToast({
           description: "Muvaffaqiyatli yaratildi",
+          color: "success",
+        });
+      form.reset();
+      closeModal();
+    },
+  });
+
+  const { mutate: mutatePatch } = usePatch({
+    onSuccess: () => {
+      queryClient.refetchQueries({
+        queryKey: [COMPANIES],
+      }),
+        addToast({
+          description: "Muvaffaqiyatli yangilandi",
           color: "success",
         });
       form.reset();
@@ -53,7 +68,11 @@ export default function CreateOfficeForm() {
       },
     };
 
-    mutate(COMPANIES, values);
+    if (store?.id) {
+      mutatePatch(`${COMPANIES}/${store.id}`, values);
+    } else {
+      mutatePost(COMPANIES, values);
+    }
   };
 
   return (
