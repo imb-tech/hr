@@ -8,12 +8,12 @@ export const useHrListColsOffice = () => {
       { header: "ID", dataKey: "id" },
       {
         header: "FIO",
-        dataKey: "full_name",
+        dataKey: "middle_name",
 
         cell: (_, item) => {
           return (
             <span>
-              {item.first_name} {item.last_name} {item.full_name}
+              {item.first_name} {item.last_name} {item.middle_name}
             </span>
           );
         },

@@ -46,18 +46,28 @@ function ViewPage() {
             />
           </div>
           <ul className="h-full flex flex-col items-stretch gap-[3px]">
-            <li className="font-bold text-2xl">{data?.full_name}</li>
+            <li className="font-bold text-2xl">
+              {data?.first_name} {data?.last_name} {data?.middle_name}
+            </li>
             <li className="flex items-center">
               <div className="flex gap-2 items-center min-w-52 text-foreground-500">
                 <PhoneCall size={16} /> <span>Tel:</span>
               </div>
-              <span>{data?.phone_number ?  formatPhoneNumber(data?.phone_number) : "-"}</span>
+              <span>
+                {data?.phone_number
+                  ? formatPhoneNumber(data?.phone_number)
+                  : "-"}
+              </span>
             </li>
             <li className="flex items-center">
               <div className="flex gap-2 items-center min-w-52 text-foreground-500">
                 <Phone size={16} /> <span>Qo'shimcha tel:</span>
               </div>
-              <span>{ data?.phone_number2 ? formatPhoneNumber(data?.phone_number2) : "-"}</span>
+              <span>
+                {data?.phone_number2
+                  ? formatPhoneNumber(data?.phone_number2)
+                  : "-"}
+              </span>
             </li>
             <li className="flex items-center">
               <div className="flex gap-2 items-center min-w-52 text-foreground-500">
@@ -96,7 +106,9 @@ function ViewPage() {
         <div className=" flex-col border border-divider py-3 whitespace-nowrap px-6 rounded-lg flex items-start justify-center gap-1">
           <div className="flex items-center">
             <strong className="min-w-24 text-xl">Balans:</strong>
-            <span className="text-xl">{formatMoney(data?.salary) || 0} so'm</span>
+            <span className="text-xl">
+              {formatMoney(data?.salary) || 0} so'm
+            </span>
           </div>
           <div className="flex items-center">
             <span className=" min-w-24 font-medium ">Maosh:</span>

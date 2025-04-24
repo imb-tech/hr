@@ -54,7 +54,6 @@ export const Navbar = ({
     />
   );
   const { data } = useGet<{
-    full_name: string;
     phone_number: string;
     username: string;
     first_name: string;

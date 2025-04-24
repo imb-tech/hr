@@ -69,7 +69,7 @@ export default function CreateHrForm() {
       form.reset({
         first_name: data.first_name,
         last_name: data.last_name,
-        full_name: data.full_name,
+        middle_name: data.middle_name,
         phone_number: data.phone_number,
         phone_number2: data.phone_number2,
         address: data.address,
@@ -114,7 +114,7 @@ export default function CreateHrForm() {
             <FormInput
               label={"Otasining ismi"}
               methods={form}
-              name={"full_name"}
+              name={"middle_name"}
               size="lg"
               type="text"
               placeholder={"Otasining ismi"}
