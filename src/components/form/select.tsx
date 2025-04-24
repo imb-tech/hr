@@ -44,7 +44,7 @@ export default function FormSelect<IForm extends FieldValues>({
           name={name}
           placeholder={`Select ${props.label}`}
           // @ts-ignore
-          selectedKeys={field.value ? (field.value as string) : undefined}
+          selectedKeys={field.value ? new Set([field.value]) : new Set()}
           selectionMode={multiple ? "multiple" : "single"}
           size="lg"
           value={field.value}
