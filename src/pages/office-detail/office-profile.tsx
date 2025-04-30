@@ -78,7 +78,7 @@ export default function AttendanceDashboard() {
                     <UserCheck className="h-5 w-5 text-white" />
                   </div>
                   <h1 className="text-2xl font-bold dark:text-gray-300">
-                    Ishxonadagi hodimlar
+                    Kelganlar
                   </h1>
                 </div>
                 <div className="flex items-center gap-2">
@@ -163,7 +163,7 @@ export default function AttendanceDashboard() {
                     <UserX className="h-5 w-5 text-white" />
                   </div>
                   <h1 className="text-2xl font-bold dark:text-gray-300">
-                    Kelmagan hodimlar
+                    Kelmaganlar
                   </h1>
                 </div>
                 <div className="flex items-center gap-2">
