@@ -18,6 +18,11 @@ export const usOfficeCols = () => {
       {
         header: "Hodimlar soni",
         dataKey: "id",
+        cell: (_, itm) => (
+          <span>
+            {itm.properties.employee_count}
+          </span>
+        ),
       },
       {
         header: "Tushlik vaqti",

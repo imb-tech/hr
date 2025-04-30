@@ -17,6 +17,7 @@ type Properties = {
   polygon: Polygon;
   users: string;
   locations: string[];
+  employee_count?:number
 }
 
 
