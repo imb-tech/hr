@@ -10,6 +10,7 @@ export const Route = createFileRoute("/_main/hr")({
 
 function RouteComponent() {
   const navigate = useNavigate();
+  
 
   return (
     <Page

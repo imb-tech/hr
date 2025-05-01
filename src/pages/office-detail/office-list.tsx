@@ -3,63 +3,103 @@ import { useGet } from "@/hooks/useGet";
 import { Card, CardBody } from "@heroui/card";
 import { cn } from "@heroui/theme";
 import { Link, useParams } from "@tanstack/react-router";
-import { Building2, ChevronRight, MapPin } from "lucide-react";
+import { Building2, CirclePlus, MapPin, Pencil } from "lucide-react";
 
-type Props = {};
-
-function OfficeList({}: Props) {
+function OfficeList() {
   const { id } = useParams({ from: "/_main/office/$id" });
   const { data: companies } = useGet<FeatureCollection>(COMPANIES);
   return (
-    <div className="flex gap-3  w-full  overflow-x-auto my-3">
-      {companies?.features?.map((item) => (
-        <Card
-          key={item.id}
-          className={cn(
-            "min-w-[300px] max-w-[300px] cursor-pointer  h-[178px]",
-            item.id == id
-              ? "border border-blue-400 "
-              : "border border-transparent",
-          )}
-        >
-          <CardBody
+    <div className="w-full">
+      <div className="flex flex-nowrap   gap-3 overflow-x-auto    py-1  my-3 scrollbar-hide">
+        {companies?.features?.map((item) => (
+          <Link key={item.id} to="/office/$id" params={{ id: String(item.id) }}>
+            <Card
+              className={cn(
+                "min-w-[300px] relative max-w-[300px] transition-all cursor-pointer  h-[148px] shadow-none",
+                item.id == id
+                  ? "border border-blue-400 "
+                  : "border dark:border-zinc-800",
+              )}
+            >
+              <CardBody
+                className={cn(
+                  "font-semibold py-4",
+                  item.id == id && " text-blue-400 ",
+                )}
+              >
+                <Link
+                  key={item.id}
+                  to="/office-edit/$id"
+                  params={{ id: String(item.id) }}
+                  className="dark:bg-zinc-800 bg-zinc-100  p-[10px] hover:text-primary rounded-full absolute top-2 right-2"
+                >
+                  <Pencil size={14} />
+                </Link>
+                <div className="flex items-center mb-4">
+                  <Building2 className="h-10 w-10 text-blue-400 mr-3" />
+                  <h2
+                    className="text-lg font-bold line-clamp-1 uppercase"
+                    title={item.properties.name}
+                  >
+                    {item.properties.name}
+                  </h2>
+                </div>
+
+                <div className="flex items-start mt-4">
+                  <MapPin
+                    className={cn(
+                      "h-5 w-5 mr-2 mt-0.5 flex-shrink-0",
+                      item.id == id ? "text-blue-400" : "dark:text-gray-400",
+                    )}
+                  />
+                  <div>
+                    <p
+                      className="text-sm dark:text-gray-300 line-clamp-2"
+                      title={item.properties.address}
+                    >
+                      {item.properties.address}
+                    </p>
+                  </div>
+                </div>
+              </CardBody>
+            </Card>
+          </Link>
+        ))}
+        <Link to="/office/create">
+          <Card
             className={cn(
-              "font-semibold py-4",
-              item.id == id && " text-blue-400 ",
+              "min-w-[300px] max-w-[300px] cursor-pointer dark:border-zinc-800 h-[148px] border",
             )}
           >
-            <div className="flex items-center mb-4">
-              <Building2 className="h-10 w-10 text-blue-400 mr-3" />
-              <h2
-                className="text-lg font-bold line-clamp-1 uppercase"
-                title={item.properties.name}
-              >
-                {item.properties.name}
-              </h2>
-            </div>
-            <div className="flex items-start mt-4">
-              <MapPin className={cn("h-5 w-5 mr-2 mt-0.5 flex-shrink-0",
-                item.id==id ? "text-blue-400" :"text-gray-400"
-              )} />
-              <div>
-                <p
-                  className="text-sm text-gray-300 line-clamp-2"
-                  title={item.properties.address}
-                >
-                  {item.properties.address}
+            <CardBody className={cn("font-semibold py-4")}>
+              <div className="flex items-center justify-center gap-2 h-full ">
+                <p className=" dark:text-gray-300 line-clamp-2 text-lg">
+                  Ofis qo'shish
                 </p>
-                <Link
-                  to="/office/$id"
-                  params={{ id: String(item.id) }}
-                  className="text-blue-400 p-0 flex items-center mt-3 text-sm"
-                >
-                  Ko'proq <ChevronRight className="h-4 w-4 ml-1" />
-                </Link>
+                <CirclePlus />
               </div>
-            </div>
-          </CardBody>
-        </Card>
-      ))}
+            </CardBody>
+          </Card>
+        </Link>
+      </div>
+      <div
+        className={`grid gap-1 grid-cols-${Number(companies?.features?.length) + 1}`}
+      >
+        {companies?.features?.map((item, index) => (
+          <div
+            key={index}
+            className={cn(
+              "h-1  w-full transition-all duration-300 rounded-full",
+              item.id == id ? "bg-blue-400" : "bg-default",
+            )}
+          ></div>
+        ))}
+        <div
+          className={cn(
+            "h-1  w-full transition-all duration-300 rounded-full bg-default",
+          )}
+        ></div>
+      </div>
     </div>
   );
 }

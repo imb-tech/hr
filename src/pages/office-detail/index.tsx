@@ -19,16 +19,18 @@ import { useEffect, useState } from "react";
 import { useHrListColsOffice } from "../hr/cols2";
 import { useWorkerInfoCols } from "./cols";
 import OfficeInfoRow from "./office-info-row";
+import OfficeList from "./office-list";
 import OfficeProfile from "./office-profile";
 import OfficeDetailTableHeader from "./table-header";
-import OfficeList from "./office-list";
 
 export default function OfficeDetail() {
   const navigate = useNavigate();
   const { id } = useParams({ from: "/_main/office/$id" });
   const search = useSearch({ from: "/_main/office/$id" });
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
-  const { data: info } = useGet<OfficeInfo[]>(`${ROLES_STATISTIC}`);
+  const { data: info } = useGet<OfficeInfo[]>(`${ROLES_STATISTIC}/${id}`, {
+    options: { enabled: Boolean(id) },
+  });
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const { closeModal } = useModal();
   const queryClient = useQueryClient();
@@ -103,50 +105,53 @@ export default function OfficeDetail() {
     }
   }, [id, successHr, dataHr]);
 
-
   return (
     <div>
-      <OfficeList/>
+      <OfficeList />
       <OfficeProfile />
 
-      <Accordion
-        selectionMode="single"
-        variant="light"
-        items={[
-          {
-            key: "1",
-            title: <OfficeDetailTableHeader />,
-            content: null,
-          },
-        ]}
-        itemProps={{
-          classNames: {
-            content: "hidden",
-            indicator: "opacity-0",
-            trigger: "!pb-0",
-          },
-        }}
-      />
-      <Accordion
-        selectionMode="single"
-        selectedKeys={selectedKeys}
-        onSelectionChange={clickAccordion}
-        items={info?.map((c, i) => ({
-          key: i.toString(),
-          title: <OfficeInfoRow data={c} />,
-          content: (
-            <div>
-              <DataTable
-                shadow="none"
-                isHeaderSticky
-                columns={columns}
-                data={isSuccess && data.length > 0 ? data : []}
-              />
-            </div>
-          ),
-        }))}
-        itemProps={{ classNames: { trigger: "!px-0 py-1" } }}
-      />
+      <div className="overflow-x-auto">
+        <div className="min-w-[1024px]">
+          <Accordion
+            selectionMode="single"
+            variant="light"
+            items={[
+              {
+                key: "1",
+                title: <OfficeDetailTableHeader />,
+                content: null,
+              },
+            ]}
+            itemProps={{
+              classNames: {
+                content: "hidden",
+                indicator: "opacity-0",
+                trigger: "!pb-0",
+              },
+            }}
+          />
+          <Accordion
+            selectionMode="single"
+            selectedKeys={selectedKeys}
+            onSelectionChange={clickAccordion}
+            items={info?.map((c, i) => ({
+              key: i.toString(),
+              title: <OfficeInfoRow data={c} />,
+              content: (
+                <div>
+                  <DataTable
+                    shadow="none"
+                    isHeaderSticky
+                    columns={columns}
+                    data={isSuccess && data.length > 0 ? data : []}
+                  />
+                </div>
+              ),
+            }))}
+            itemProps={{ classNames: { trigger: "!px-0 py-1" } }}
+          />
+        </div>
+      </div>
 
       <Modal size="4xl" title="Hodimlar ro'yxati">
         <DataTable

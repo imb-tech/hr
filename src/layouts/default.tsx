@@ -1,5 +1,5 @@
-
-import Sidebar from "@/components/sidebar";
+import Sidebar, { links } from "@/components/sidebar";
+import MenuItemMobile from "@/components/sidebar/menu-mobile";
 
 export default function DefaultLayout({
   children,
@@ -8,21 +8,13 @@ export default function DefaultLayout({
 }) {
   return (
     <div className="relative h-screen">
-      
-      <div className="container flex w-full max-w-full mx-auto flex-grow h-full">
+      <div className="flex h-full">
         <Sidebar />
-        <div className="w-full h-full flex-grow flex flex-col">
+        <div className="w-full lg:pl-44">
           {children}
-          {/* <footer className="w-full flex items-center justify-center py-3">
-            <Link
-              isExternal
-              className="flex items-center gap-1 text-current"
-              href="https://heroui.com"
-              title="heroui.com homepage"
-            >
-              
-            </Link>
-          </footer> */}
+          <nav className="flex lg:hidden h-16 justify-between items-center px-2 border-t border-t-default w-full">
+            {links?.map((link, i) => <MenuItemMobile key={i} {...link} />)}
+          </nav>
         </div>
       </div>
     </div>

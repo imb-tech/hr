@@ -1,22 +1,27 @@
-import ModalFormActions from "@/components/elements/modal-form-actions";
 import FormInput from "@/components/form/input";
 import TimeInput from "@/components/form/time-input";
 import { COMPANIES } from "@/constants/api-endpoints";
-import { useModal } from "@/hooks/use-modal";
-import { useStore } from "@/hooks/use-store";
+import { useGet } from "@/hooks/useGet";
 import { usePatch } from "@/hooks/usePatch";
 import { usePost } from "@/hooks/usePost";
+import { Button } from "@heroui/button";
 import { addToast } from "@heroui/toast";
 import { useQueryClient } from "@tanstack/react-query";
+import { useNavigate, useParams } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import OfficeLocationSelect from "./office-location";
 
 export default function CreateOfficeForm() {
-  const { store } = useStore<Office>("office-data");
-  const { closeModal } = useModal();
   const queryClient = useQueryClient();
+  const { id } = useParams({ strict: false });
+  const navigate = useNavigate();
 
-  const { mutate: mutatePost } = usePost({
+  const { data: store } = useGet<Office>(`${COMPANIES}/${id}`, {
+    options: { enabled: Boolean(id) },
+  });
+
+  const { mutate: mutatePost, isPending } = usePost({
     onSuccess: () => {
       queryClient.refetchQueries({
         queryKey: [COMPANIES],
@@ -26,7 +31,7 @@ export default function CreateOfficeForm() {
           color: "success",
         });
       form.reset();
-      closeModal();
+      navigate({ to: "/" });
     },
   });
 
@@ -40,12 +45,12 @@ export default function CreateOfficeForm() {
           color: "success",
         });
       form.reset();
-      closeModal();
+      navigate({ to: "/" });
     },
   });
 
   const form = useForm<Properties>({
-    defaultValues: store
+    defaultValues: store?.properties
       ? {
           ...store.properties,
           users: "1",
@@ -75,9 +80,13 @@ export default function CreateOfficeForm() {
     }
   };
 
+  useEffect(() => {
+    form.reset(store?.properties);
+  }, [store]);
+
   return (
     <form
-      className="flex flex-col gap-2"
+      className="flex flex-col gap-2 mt-5"
       onSubmit={form.handleSubmit(onSubmit)}
     >
       <FormInput
@@ -123,7 +132,11 @@ export default function CreateOfficeForm() {
         required
       />
 
-      <ModalFormActions />
+      <div className="flex justify-end mt-3">
+        <Button isLoading={isPending} color="primary" type="submit">
+          Saqlash
+        </Button>
+      </div>
     </form>
   );
 }

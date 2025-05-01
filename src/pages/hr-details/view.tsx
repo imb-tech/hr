@@ -49,7 +49,7 @@ function ViewPage() {
             <li className="font-bold text-2xl">
               {data?.first_name} {data?.last_name} {data?.middle_name}
             </li>
-            <li className="flex items-center">
+            <li className="flex flex-col sm:flex-row gap-2 sm:items-center">
               <div className="flex gap-2 items-center min-w-52 text-foreground-500">
                 <PhoneCall size={16} /> <span>Tel:</span>
               </div>
@@ -59,7 +59,7 @@ function ViewPage() {
                   : "-"}
               </span>
             </li>
-            <li className="flex items-center">
+            <li className="flex flex-col sm:flex-row gap-2 sm:items-center">
               <div className="flex gap-2 items-center min-w-52 text-foreground-500">
                 <Phone size={16} /> <span>Qo'shimcha tel:</span>
               </div>
@@ -69,19 +69,19 @@ function ViewPage() {
                   : "-"}
               </span>
             </li>
-            <li className="flex items-center">
+            <li className="flex flex-col sm:flex-row gap-2 sm:items-center">
               <div className="flex gap-2 items-center min-w-52 text-foreground-500">
                 <MapPinHouse size={16} /> <span>Doimiy manzil:</span>
               </div>
               <span>{data?.address ? data?.address : "-"}</span>
             </li>
-            <li className="flex items-center">
+            <li className="flex flex-col sm:flex-row gap-2 sm:items-center">
               <div className="flex gap-2 items-center min-w-52 text-foreground-500">
                 <MapPinCheck size={16} /> <span>Vaqtinchalik manzil:</span>
               </div>
               <span>{data?.residence ? data?.residence : "-"}</span>
             </li>
-            <li className="flex items-center">
+            <li className="flex flex-col sm:flex-row gap-2 sm:items-center">
               <div className="flex gap-2 items-center min-w-52 text-foreground-500">
                 <FileUser size={16} /> <span>Pasport:</span>
               </div>
@@ -89,7 +89,7 @@ function ViewPage() {
                 {data?.id_number ? formatPassportNumber(data?.id_number) : "-"}
               </span>
             </li>
-            <li className="flex items-center">
+            <li className="flex flex-col sm:flex-row gap-2 sm:items-center">
               <div className="flex gap-2 items-center min-w-52 text-foreground-500">
                 <GraduationCap size={16} /> <span>Ma'lumoti:</span>
               </div>
@@ -118,8 +118,10 @@ function ViewPage() {
           </div>
         </div>
       </div>
-      <div className="mt-8 ">
-        <YearsAccordion />
+      <div className="mt-8 overflow-x-auto ">
+       <div className="min-w-[1024px]">
+       <YearsAccordion />
+       </div>
       </div>
     </div>
   );

@@ -35,7 +35,6 @@ export default function OfficePage() {
     openModal();
   }
 
-   
   return (
     <div>
       <DataTable

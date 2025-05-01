@@ -91,7 +91,9 @@ export default function CreateHrForm() {
     <div>
       <form className="my-6 space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="grid md:grid-cols-2 grid-cols-1 gap-4 px-4 py-6 border dark:border-zinc-700 rounded-2xl">
-          <h1 className="font-bold text-xl md:col-span-2 col-span-1">Shaxsiy ma'lumotlar</h1>
+          <h1 className="font-bold text-xl md:col-span-2 col-span-1">
+            Shaxsiy ma'lumotlar
+          </h1>
           <div className="md:col-span-2 grid lg:grid-cols-3 gap-4 grid-cols-1">
             <FormInput
               isRequired

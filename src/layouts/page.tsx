@@ -12,9 +12,10 @@ export default function Page({ children, breadcrumb, rightComponent, leftCompone
   return (
     <>
       <Navbar items={breadcrumb} rightComponent={rightComponent} leftComponent={leftComponent} />
-      <main className="container flex-grow w-full max-w-full mx-auto px-6 py-2 overflow-y-auto">
+      <main className=" mx-auto p-4 h-full overflow-y-auto  ">
         {children}
       </main>
     </>
   );
 }
+

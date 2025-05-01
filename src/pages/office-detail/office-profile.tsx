@@ -48,7 +48,7 @@ export default function AttendanceDashboard() {
   };
 
   return (
-    <div className="container mx-auto">
+    <div className="mx-auto">
       <Card className="my-4 p-2">
         <CardHeader className="p-3">
           <div className="flex items-center justify-between w-full">

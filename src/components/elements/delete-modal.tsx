@@ -4,6 +4,7 @@ import { Button } from "@heroui/button";
 import { ModalFooter } from "@heroui/modal";
 import { addToast } from "@heroui/toast";
 import { useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
 import Modal from "../ui/modal";
 
 type Props = {
@@ -11,6 +12,7 @@ type Props = {
   path: string;
   id: number | string | undefined;
   queryKey?: string | string[];
+  url?: string;
 };
 
 export default function DeleteModal({
@@ -18,9 +20,11 @@ export default function DeleteModal({
   path,
   id,
   queryKey,
+  url,
 }: Props) {
   const { closeModal } = useModal(modalKey);
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const resolvedQueryKey = queryKey
     ? Array.isArray(queryKey)
       ? queryKey
@@ -33,6 +37,9 @@ export default function DeleteModal({
         color: "success",
       });
       closeModal();
+      if (url) {
+        navigate({ to: url });
+      }
       queryClient.removeQueries({
         queryKey: resolvedQueryKey,
       });
@@ -53,12 +60,9 @@ export default function DeleteModal({
       </div>
 
       <ModalFooter className="px-0">
-        <Button color="danger" variant="flat" onPress={closeModal}>
-          Bekor qilish
-        </Button>
         <Button
           isLoading={isPending}
-          color="primary"
+          color="danger"
           type="submit"
           onPress={handleDelete}
         >
