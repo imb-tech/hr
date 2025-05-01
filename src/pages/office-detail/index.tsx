@@ -21,6 +21,7 @@ import { useWorkerInfoCols } from "./cols";
 import OfficeInfoRow from "./office-info-row";
 import OfficeProfile from "./office-profile";
 import OfficeDetailTableHeader from "./table-header";
+import OfficeList from "./office-list";
 
 export default function OfficeDetail() {
   const navigate = useNavigate();
@@ -105,6 +106,7 @@ export default function OfficeDetail() {
 
   return (
     <div>
+      <OfficeList/>
       <OfficeProfile />
 
       <Accordion

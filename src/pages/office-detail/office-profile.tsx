@@ -57,7 +57,7 @@ export default function AttendanceDashboard() {
                 <Users className="h-6 w-6 text-white" />
               </div>
               <h1 className="text-2xl font-bold dark:text-gray-300">
-                Umumiy hodimlar soni
+                Hodimlar soni
               </h1>
             </div>
             <span className="text-3xl font-bold dark:text-gray-300">

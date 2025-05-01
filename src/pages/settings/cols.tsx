@@ -40,8 +40,20 @@ export const usSettingsCols = () => {
           );
         },
       },
-      { header: "Sababi", dataKey: "comment" },
-      { header: "Rad etish sababi", dataKey: "response_comment" },
+      {
+        header: "Sababi",
+        dataKey: "comment",
+        cell(value) {
+          return <span className="whitespace-nowrap lg:break-all">{value}</span>;
+        },
+      },
+      {
+        header: "Rad etish sababi",
+        dataKey: "response_comment",
+        cell(value) {
+          return <span className="whitespace-nowrap lg:break-all">{value}</span>;
+        },
+      },
       {
         header: "Holat",
         dataKey: "id",

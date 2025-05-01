@@ -13,7 +13,7 @@ export const useHrListCols = () => {
 
         cell: (_, item) => {
           return (
-            <span>
+            <span className="whitespace-nowrap lg:break-all">
               {item.first_name} {item.last_name} {item.middle_name}
             </span>
           );
@@ -23,14 +23,22 @@ export const useHrListCols = () => {
         header: "Telefon",
         dataKey: "phone_number",
         cell: (value) => {
-          return formatPhoneNumber(Number(value));
+          return (
+            <span className="whitespace-nowrap lg:break-all">
+              {formatPhoneNumber(Number(value))}
+            </span>
+          );
         },
       },
       {
         header: "Lavozim",
         dataKey: "education",
         cell: (_, item) => {
-          return item.groups?.[0]?.name;
+          return (
+            <span className="whitespace-nowrap lg:break-all">
+              {item.groups?.[0]?.name}
+            </span>
+          );
         },
       },
       {

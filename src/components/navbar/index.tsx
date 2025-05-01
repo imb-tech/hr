@@ -6,7 +6,7 @@ import {
   NavbarMenuItem,
 } from "@heroui/navbar";
 
-import { SearchIcon } from "@/components/icons";
+import { Logo, SearchIcon } from "@/components/icons";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { siteConfig } from "@/config/site";
 import { GET_ME } from "@/constants/api-endpoints";
@@ -76,6 +76,14 @@ export const Navbar = ({
         <ThemeSwitch className="min-w-full min-h-full" />
       </div>
       <div className="flex gap-3 items-center">
+        <Link
+          className="flex justify-start lg:hidden items-center gap-1"
+          color="foreground"
+          to="/"
+        >
+          <Logo />
+          <p className="font-bold text-inherit">ACME</p>
+        </Link>
         {!!leftComponent && <div className="flex gap-2">{leftComponent}</div>}
         <HeaderBreadvrumb items={items ?? []} />
       </div>

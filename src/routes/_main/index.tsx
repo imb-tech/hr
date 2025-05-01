@@ -12,6 +12,7 @@ export const Route = createFileRoute("/_main/")({
 function RouteComponent() {
   const { openModal } = useModal();
 
+  
   return (
     <Page
       breadcrumb={["Ofis"]}
