@@ -1,11 +1,9 @@
-import Accordion from "@/components/ui/accordion";
 import Modal from "@/components/ui/modal";
 import DataTable from "@/components/ui/table";
 import {
   ASSIGN_COMPANIES,
   HR_API,
   ROLES_STATISTIC,
-  USER_STATISTIC,
 } from "@/constants/api-endpoints";
 import { useModal } from "@/hooks/use-modal";
 import { useGet } from "@/hooks/useGet";
@@ -14,28 +12,24 @@ import { Button } from "@heroui/button";
 import { addToast } from "@heroui/toast";
 import { Selection } from "@react-types/shared";
 import { useQueryClient } from "@tanstack/react-query";
-import { useNavigate, useParams, useSearch } from "@tanstack/react-router";
+import { useParams } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useHrListColsOffice } from "../hr/cols2";
-import { useWorkerInfoCols } from "./cols";
-import OfficeInfoRow from "./office-info-row";
 import OfficeList from "./office-list";
 import OfficeProfile from "./office-profile";
-import OfficeDetailTableHeader from "./table-header";
+import PositionAccordion from "./position-accordion";
+import PositonCard from "./positon-card";
 
 export default function OfficeDetail() {
-  const navigate = useNavigate();
   const { id } = useParams({ from: "/_main/office/$id" });
-  const search = useSearch({ from: "/_main/office/$id" });
-  const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
   const { data: info } = useGet<OfficeInfo[]>(`${ROLES_STATISTIC}/${id}`, {
     options: { enabled: Boolean(id) },
   });
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const { closeModal } = useModal();
   const queryClient = useQueryClient();
-
   const { data: dataHr, isSuccess: successHr } = useGet<Human[]>(HR_API);
+
   const { mutate, isPending } = usePost({
     onSuccess: () => {
       addToast({
@@ -49,29 +43,6 @@ export default function OfficeDetail() {
     },
   });
 
-  const { data, isSuccess } = useGet<WorkerInfo[]>(
-    `${USER_STATISTIC}/${search?.tab}/${id}`,
-    {
-      options: { enabled: Boolean(id) && Boolean(search?.tab) },
-    },
-  );
-
-  function clickAccordion(keys: Selection) {
-    const selectedIds = Array.from(keys)
-      .map((key) => info?.[Number(key)]?.group_id)
-      .filter(Boolean);
-
-    setSelectedKeys(keys as Set<string>);
-
-    navigate({
-      to: "/office/$id",
-      params: { id },
-      search: {
-        tab: selectedIds.join(","),
-      },
-    });
-  }
-  const columns = useWorkerInfoCols();
   const columnsHr = useHrListColsOffice();
 
   const handleSelectionChange = (keys: Selection) => {
@@ -105,53 +76,17 @@ export default function OfficeDetail() {
     }
   }, [id, successHr, dataHr]);
 
+
+
   return (
     <div>
       <OfficeList />
       <OfficeProfile />
 
-      <div className="overflow-x-auto">
-        <div className="min-w-[1024px]">
-          <Accordion
-            selectionMode="single"
-            variant="light"
-            items={[
-              {
-                key: "1",
-                title: <OfficeDetailTableHeader />,
-                content: null,
-              },
-            ]}
-            itemProps={{
-              classNames: {
-                content: "hidden",
-                indicator: "opacity-0",
-                trigger: "!pb-0",
-              },
-            }}
-          />
-          <Accordion
-            selectionMode="single"
-            selectedKeys={selectedKeys}
-            onSelectionChange={clickAccordion}
-            items={info?.map((c, i) => ({
-              key: i.toString(),
-              title: <OfficeInfoRow data={c} />,
-              content: (
-                <div>
-                  <DataTable
-                    shadow="none"
-                    isHeaderSticky
-                    columns={columns}
-                    data={isSuccess && data.length > 0 ? data : []}
-                  />
-                </div>
-              ),
-            }))}
-            itemProps={{ classNames: { trigger: "!px-0 py-1" } }}
-          />
-        </div>
+      <div className="lg:hidden grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-4 mt-5">
+        {info?.map((item, index) => <PositonCard item={item} key={index} />)}
       </div>
+      <PositionAccordion info={info} />
 
       <Modal size="4xl" title="Hodimlar ro'yxati">
         <DataTable
