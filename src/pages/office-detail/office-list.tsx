@@ -83,7 +83,10 @@ function OfficeList() {
         </Link>
       </div>
       <div
-        className={`grid gap-1 grid-cols-${Number(companies?.features?.length) + 1}`}
+        className={`grid gap-1 `}
+        style={{
+          gridTemplateColumns: `repeat(${(companies?.features?.length || 0) + 1}, minmax(0, 1fr))`,
+        }}
       >
         {companies?.features?.map((item, index) => (
           <div
