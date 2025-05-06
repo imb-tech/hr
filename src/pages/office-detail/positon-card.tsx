@@ -21,18 +21,19 @@ function PositonCard({ item }: Props) {
         </CardHeader>
         <CardBody>
           <div className="grid grid-cols-2 gap-2">
-            <div className="bg-gray-100 dark:bg-zinc-800 p-3 rounded">
+            <div className="bg-gray-100 dark:bg-zinc-800 p-3 rounded col-span-2 flex items-center justify-between">
+              <p className="text-sm text-gray-400">Jami ishchilar</p>
+              <p className="font-medium">{item.total_workers_count || 0}</p>
+            </div>
+
+            {/* <div className="bg-gray-100 dark:bg-zinc-800 p-3 rounded">
               <p className="text-sm text-gray-400">Kelganlar</p>
               <p className="font-medium">{item.checked_in_workers || 0}</p>
-            </div>
+            </div> */}
+
             <div className="bg-gray-100 dark:bg-zinc-800 p-3 rounded">
               <p className="text-sm text-gray-400">Kelmaganlar</p>
               <p className="font-medium">{item.absent_users || 0}</p>
-            </div>
-
-            <div className="bg-gray-100 dark:bg-zinc-800 p-3 rounded">
-              <p className="text-sm text-gray-400">Jami ishchilar</p>
-              <p className="font-medium">{item.total_workers_count || 0}</p>
             </div>
 
             <div className="bg-gray-100 dark:bg-zinc-800 p-3 rounded">
