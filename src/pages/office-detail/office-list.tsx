@@ -86,19 +86,27 @@ function OfficeList() {
         className={`grid gap-1 grid-cols-${Number(companies?.features?.length) + 1}`}
       >
         {companies?.features?.map((item, index) => (
-          <div
+          <Link
+            to="/office/$id"
+            params={{ id: String(item.id) }}
             key={index}
+            className="w-full py-1"
+          >
+            <div
+              className={cn(
+                "h-1  w-full transition-all duration-300 rounded-full cursor-pointer",
+                item.id == id ? "bg-blue-400" : "bg-default",
+              )}
+            ></div>
+          </Link>
+        ))}
+        <Link to="/office/create" className="w-full py-1">
+          <div
             className={cn(
-              "h-1  w-full transition-all duration-300 rounded-full",
-              item.id == id ? "bg-blue-400" : "bg-default",
+              "h-1  w-full transition-all duration-300 rounded-full bg-default",
             )}
           ></div>
-        ))}
-        <div
-          className={cn(
-            "h-1  w-full transition-all duration-300 rounded-full bg-default",
-          )}
-        ></div>
+        </Link>
       </div>
     </div>
   );

@@ -76,15 +76,19 @@ export default function OfficeDetail() {
     }
   }, [id, successHr, dataHr]);
 
-
-
   return (
     <div>
       <OfficeList />
       <OfficeProfile />
 
-      <div className="lg:hidden grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-4 mt-5">
-        {info?.map((item, index) => <PositonCard item={item} key={index} />)}
+      <div className="lg:hidden grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-4 mt-5 max-w-full overflow-x-auto">
+        <div className="flex gap-3">
+          {info?.map((item, index) => (
+            <div key={index} className="min-w-[350px]">
+              <PositonCard item={item} />
+            </div>
+          ))}
+        </div>
       </div>
       <PositionAccordion info={info} />
 

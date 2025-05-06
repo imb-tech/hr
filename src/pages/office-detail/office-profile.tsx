@@ -82,11 +82,11 @@ export default function AttendanceDashboard() {
                   </h1>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-2xl font-bold">
-                    {formatMoney(usersInCompany)}
-                  </span>
                   <span className="text-lg text-gray-400">
                     ({getPercent(usersInCompany, total)})
+                  </span>
+                  <span className="text-2xl font-bold">
+                    {formatMoney(usersInCompany)}
                   </span>
                 </div>
               </div>
@@ -109,11 +109,11 @@ export default function AttendanceDashboard() {
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-base font-semibold text-[#34D399]">
-                      {formatMoney(arrivedOnTime)}
-                    </span>
                     <span className="text-xs text-gray-400">
                       ({getPercent(arrivedOnTime, total)})
+                    </span>
+                    <span className="text-base font-semibold text-[#34D399]">
+                      {formatMoney(arrivedOnTime)}
                     </span>
                   </div>
                 </div>
@@ -133,11 +133,11 @@ export default function AttendanceDashboard() {
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-base font-semibold text-[#FDBA74]">
-                      {formatMoney(lateUsers)}
-                    </span>
                     <span className="text-xs text-gray-400">
                       ({getPercent(lateUsers, total)})
+                    </span>
+                    <span className="text-base font-semibold text-[#FDBA74]">
+                      {formatMoney(lateUsers)}
                     </span>
                   </div>
                 </div>
@@ -167,11 +167,11 @@ export default function AttendanceDashboard() {
                   </h1>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-2xl font-bold">
-                    {formatMoney(absentUsers)}
-                  </span>
                   <span className="text-lg text-gray-400">
                     ({getPercent(absentUsers, total)})
+                  </span>
+                  <span className="text-2xl font-bold">
+                    {formatMoney(absentUsers)}
                   </span>
                 </div>
               </div>
@@ -192,11 +192,11 @@ export default function AttendanceDashboard() {
                     <span className="text-sm dark:text-gray-300">Sababli</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-base font-semibold text-[#FBBF24]">
-                      {formatMoney(absentWithReason)}
-                    </span>
                     <span className="text-xs text-gray-400">
                       ({getPercent(absentWithReason, total)})
+                    </span>
+                    <span className="text-base font-semibold text-[#FBBF24]">
+                      {formatMoney(absentWithReason)}
                     </span>
                   </div>
                 </div>
@@ -214,11 +214,11 @@ export default function AttendanceDashboard() {
                     <span className="text-sm dark:text-gray-300">Sababsiz</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-base font-semibold text-[#DC2626]">
-                      {formatMoney(absentWithoutReason)}
-                    </span>
                     <span className="text-xs text-gray-400">
                       ({getPercent(absentWithoutReason, total)})
+                    </span>
+                    <span className="text-base font-semibold text-[#DC2626]">
+                      {formatMoney(absentWithoutReason)}
                     </span>
                   </div>
                 </div>
