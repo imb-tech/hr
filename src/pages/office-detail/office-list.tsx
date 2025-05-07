@@ -23,6 +23,7 @@ function OfficeList() {
   };
 
   useEffect(() => {
+    if (window.innerWidth > 768) return
     if (!id || !companies?.features || !scrollbarRef.current) return;
 
     // ID string sifatida keladi, shuning uchun to'g'ri taqqoslash uchun String() ishlatamiz
