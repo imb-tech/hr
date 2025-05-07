@@ -26,20 +26,20 @@ function PositonCard({ item }: Props) {
               <p className="font-medium">{item.total_workers_count || 0}</p>
             </div>
 
-            {/* <div className="bg-gray-100 dark:bg-zinc-800 p-3 rounded">
+            <div className="bg-gray-100 dark:bg-zinc-800 p-3 rounded">
               <p className="text-sm text-gray-400">Kelganlar</p>
               <p className="font-medium">{item.checked_in_workers || 0}</p>
-            </div> */}
+            </div>
 
             <div className="bg-gray-100 dark:bg-zinc-800 p-3 rounded">
               <p className="text-sm text-gray-400">Kelmaganlar</p>
               <p className="font-medium">{item.absent_users || 0}</p>
             </div>
 
-            <div className="bg-gray-100 dark:bg-zinc-800 p-3 rounded">
+            {/* <div className="bg-gray-100 dark:bg-zinc-800 p-3 rounded">
               <p className="text-sm text-gray-400">Kech qolganlar</p>
               <p className="font-medium">{item.late_users_count || 0}</p>
-            </div>
+            </div> */}
           </div>
         </CardBody>
       </Card>
