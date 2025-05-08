@@ -2,7 +2,7 @@ import { Tabs as HeroTabs, Tab, TabsProps } from "@heroui/tabs";
 import { ReactNode } from "react";
 
 type Props = {
-  tabs: { key: string; label: string; content?: ReactNode }[];
+  tabs: { key: string; label: string | ReactNode; content?: ReactNode }[];
   contentClassName?: string;
 };
 
@@ -14,7 +14,7 @@ export default function Tabs({
   return (
     <HeroTabs aria-label="Options" {...props}>
       {tabs?.map((tb) => (
-        <Tab key={tb.key} title={tb.label}>
+        <Tab key={tb.key} title={tb.label} className="py-2">
           <div className={contentClassName}>{tb.content}</div>
         </Tab>
       ))}
