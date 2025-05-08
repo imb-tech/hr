@@ -22,7 +22,7 @@ import PositonCard from "./positon-card";
 
 export default function OfficeDetail() {
   const { id } = useParams({ from: "/_main/office/$id" });
-  const { data: info } = useGet<OfficeInfo[]>(`${ROLES_STATISTIC}/${id}`, {
+  const { data: info } = useGet<CompanyStats[]>(`${ROLES_STATISTIC}/${id}`, {
     options: { enabled: Boolean(id) },
   });
   const [selectedIds, setSelectedIds] = useState<string[]>([]);

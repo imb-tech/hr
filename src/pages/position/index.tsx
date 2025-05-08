@@ -11,7 +11,7 @@ import CreatePositionsForm from "./create-position-form";
 export default function PostionsPage() {
   const { openModal: openDeleteModal } = useModal("delete");
   const { openModal: openUpdateModal } = useModal();
-  const { data, isSuccess,isLoading } = useGet<Position[]>(POSITION);
+  const { data, isSuccess, isLoading } = useGet<Position[]>(POSITION);
   const { store, setStore } = useStore<Position>("position-data");
 
   function handleItem(item: Position) {
@@ -30,7 +30,7 @@ export default function PostionsPage() {
   return (
     <div>
       <DataTable
-      isLoading={isLoading}
+        isLoading={isLoading}
         columns={usPostionsCols()}
         data={(isSuccess && data) || []}
         onEdit={(item) => handleItem(item)}

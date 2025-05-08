@@ -1,13 +1,13 @@
 const USERS = "users/"
 const HR = "hr/"
 
-export const GET_ME = USERS + "getme"
+export const GET_ME = USERS + "admin-getme"
 export const REFRESH_TOKEN = "refresh_token"
 export const REGISTER = "register"
-export const LOGIN = USERS + "login"
+export const LOGIN = USERS + "login/admin"
 export const COMPANIES = HR + 'companies'
-export const HR_API = USERS + 'auth'
-export const POSITION = USERS + 'role'
+export const HR_API = 'users'
+export const POSITION = USERS + 'roles'
 export const ENTRANCE_LOG = 'location/entrance-log'
 export const ENTRANCE_WORKING = 'location/working_hourse'
 export const OFFICE_DETAILS = HR + 'company-statistics'

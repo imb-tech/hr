@@ -144,9 +144,6 @@ export default function DataTable<TData extends object>({
     );
   }, [selectedKeys, data.length]);
 
-   console.log(selectedKeys);
-   
-
   return (
     <Table
       {...props}

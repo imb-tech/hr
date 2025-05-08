@@ -8,6 +8,7 @@ import { Progress } from "@heroui/progress";
 import { useParams } from "@tanstack/react-router";
 import {
   AlertCircle,
+  ChevronRight,
   Clock,
   UserCheck,
   Users,
@@ -17,18 +18,22 @@ import {
 
 export default function AttendanceDashboard() {
   const { id } = useParams({ from: "/_main/office/$id" });
-  const { data: dataDetails } = useGet<Company>(`${OFFICE_DETAILS}/${id}`, {
-    options: { enabled: Boolean(id) },
-  });
+  const { data: dataDetails } = useGet<CompanyStats>(
+    `${OFFICE_DETAILS}/${id}`,
+    {
+      options: { enabled: Boolean(id) },
+    },
+  );
 
-  const total = dataDetails?.total_users_count ?? 0;
-  const usersInCompany = dataDetails?.users_in_company ?? 0;
-  const arrivedOnTime = dataDetails?.in_time_users ?? 0;
-  const lateUsers = dataDetails?.late_users_count ?? 0;
-  const absentUsers = dataDetails?.absent_users ?? 0;
-  const absentWithReason = dataDetails?.absent_users_with_reason_count ?? 0;
-  const absentWithoutReason =
-    dataDetails?.absent_users_with_no_reason_count ?? 0;
+  const total = dataDetails?.total ?? 0;
+  const usersInCompany =
+    Number(dataDetails?.in_time) + Number(dataDetails?.late);
+  const arrivedOnTime = dataDetails?.in_time ?? 0;
+  const lateUsers = dataDetails?.late ?? 0;
+  const absentUsers =
+    Number(dataDetails?.excused) + Number(dataDetails?.absent);
+  const absentWithReason = dataDetails?.excused ?? 0;
+  const absentWithoutReason = dataDetails?.absent ?? 0;
 
   // const total = 400;
   // const usersInCompany = 300;
@@ -50,9 +55,9 @@ export default function AttendanceDashboard() {
   return (
     <div className="mx-auto">
       <Card className="my-4 p-2">
-        <CardHeader className="p-3">
-          <div className="flex items-center justify-between w-full">
-            <div className="flex items-center gap-3">
+        <CardHeader className="p-3 hover:pr-12 group transition-all duration-300 cursor-pointer">
+          <div className="flex items-center w-full relative">
+            <div className="flex items-center gap-3 flex-1">
               <div className="bg-blue-600 p-2 rounded-lg">
                 <Users className="h-6 w-6 text-white" />
               </div>
@@ -60,8 +65,11 @@ export default function AttendanceDashboard() {
                 Hodimlar soni
               </h1>
             </div>
-            <span className="text-3xl font-bold dark:text-gray-300">
+            <span className="text-3xl font-bold dark:text-gray-300 ">
               {formatMoney(total)}
+            </span>
+            <span className="ml-4 absolute [transform:rotateY(90deg)] -right-6 group-hover:-right-12 group-hover:[transform:rotateY(0deg)] transition-all duration-300 text-gray-700">
+              <ChevronRight size={32} />
             </span>
           </div>
         </CardHeader>

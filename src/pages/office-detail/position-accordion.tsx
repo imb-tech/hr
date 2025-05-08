@@ -9,7 +9,7 @@ import { useWorkerInfoCols } from "./cols";
 import OfficeInfoRow from "./office-info-row";
 import OfficeDetailTableHeader from "./table-header";
 type Props = {
-  info: OfficeInfo[] | undefined;
+  info: CompanyStats[] | undefined;
 };
 
 function PositionAccordion({ info }: Props) {
@@ -28,7 +28,7 @@ function PositionAccordion({ info }: Props) {
 
   function clickAccordion(keys: Selection) {
     const selectedIds = Array.from(keys)
-      .map((key) => info?.[Number(key)]?.group_id)
+      .map((key) => info?.[Number(key)]?.id)
       .filter(Boolean);
 
     setSelectedKeys(keys as Set<string>);

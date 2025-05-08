@@ -1,6 +1,8 @@
 import ModalFormActions from "@/components/elements/modal-form-actions";
 import FormInput from "@/components/form/input";
+import { FormNumberInput } from "@/components/form/number-input";
 import TimeInput from "@/components/form/time-input";
+import WeekdaysFields from "@/components/form/weekdays-fields";
 import { POSITION } from "@/constants/api-endpoints";
 import { useModal } from "@/hooks/use-modal";
 import { usePatch } from "@/hooks/usePatch";
@@ -8,7 +10,7 @@ import { usePost } from "@/hooks/usePost";
 import { addToast } from "@heroui/toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 
 interface CreatePositionsFormProps {
   dataItem?: Position;
@@ -20,7 +22,6 @@ export default function CreatePositionsForm({
   const form = useForm<Position>();
   const queryClient = useQueryClient();
   const { closeModal } = useModal();
-  
 
   const { mutate: postMutate, isPending: isPendingCreate } = usePost({
     onSuccess: () => {
@@ -47,21 +48,26 @@ export default function CreatePositionsForm({
   });
 
   const onSubmit = (values: Position) => {
+    const nd = {
+      ...values,
+    };
     if (dataItem?.id) {
-      updateMutate(`${POSITION}/${dataItem.id}`, values);
+      updateMutate(`${POSITION}/${dataItem.id}`, nd);
     } else {
-      postMutate(POSITION, values);
+      postMutate(POSITION, nd);
     }
   };
 
   useEffect(() => {
     if (dataItem) {
+      console.log(dataItem);
+
       form.reset(dataItem);
     }
   }, [dataItem, form]);
 
   return (
-    <div>
+    <FormProvider {...form}>
       <form
         className="flex flex-col gap-2"
         onSubmit={form.handleSubmit(onSubmit)}
@@ -72,6 +78,16 @@ export default function CreatePositionsForm({
           methods={form}
           name="name"
           size="lg"
+        />
+
+        <FormNumberInput
+          required
+          label="Oylik maosh"
+          control={form.control}
+          thousandSeparator=","
+          size={"lg" as any}
+          name="salary"
+          placeholder="Ex: 123000"
         />
 
         <div className="grid md:grid-cols-2 grid-cols-1 gap-3 py-2">
@@ -89,8 +105,14 @@ export default function CreatePositionsForm({
           />
         </div>
 
+        <WeekdaysFields<Position>
+          name="work_days"
+          label="Ish kunlari"
+          required
+        />
+
         <ModalFormActions isLoading={isPendingCreate || isPendingUpdate} />
       </form>
-    </div>
+    </FormProvider>
   );
 }

@@ -32,11 +32,6 @@ export const useHrListColsOffice = () => {
       {
         header: "Lavozim",
         dataKey: "education",
-        cell: (_, item) => {
-          return (
-            <span className="whitespace-nowrap">{item.groups?.[0]?.name}</span>
-          );
-        },
       },
     ],
     [],

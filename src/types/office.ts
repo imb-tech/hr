@@ -17,7 +17,7 @@ type Properties = {
   polygon: Polygon;
   users: string;
   locations: string[];
-  employee_count?:number
+  employee_count?: number
 }
 
 
@@ -64,5 +64,16 @@ type Company = {
   absent_users_with_reason_count: number;
   absent_users_with_no_reason_count: number;
   late_users_count: number;
-  in_time_users:number;
+  in_time_users: number;
+}
+
+
+type CompanyStats = {
+  id: number
+  in_time: number
+  late: number
+  excused: number
+  absent: number
+  total: number
+  role: string
 }

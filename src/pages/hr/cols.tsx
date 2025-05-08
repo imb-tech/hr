@@ -10,7 +10,6 @@ export const useHrListCols = () => {
       {
         header: "FIO",
         dataKey: "middle_name",
-
         cell: (_, item) => {
           return (
             <span className="whitespace-nowrap lg:break-all">
@@ -32,14 +31,7 @@ export const useHrListCols = () => {
       },
       {
         header: "Lavozim",
-        dataKey: "education",
-        cell: (_, item) => {
-          return (
-            <span className="whitespace-nowrap lg:break-all">
-              {item.groups?.[0]?.name}
-            </span>
-          );
-        },
+        dataKey: "role_name",
       },
       {
         header: "Maosh",

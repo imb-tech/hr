@@ -1,11 +1,12 @@
-export default function OfficeInfoRow({ data }: { data: OfficeInfo }) {
+export default function OfficeInfoRow({ data }: { data: CompanyStats }) {
   return (
-    <div className="grid grid-cols-5 py-2">
-      <p className="font-light">{data.name || 0}</p>
-      <p className="font-light">{data.checked_in_workers || 0}</p>
-      <p className="font-light">{data.absent_users || 0}</p>
-      <p className="font-light">{data.total_workers_count || 0}</p>
-      <p className="font-light">{data.late_users_count || 0}</p>
+    <div className="grid grid-cols-6 py-2">
+      <p className="font-light">{data.role || 0}</p>
+      <p className="font-light">{data.in_time || 0}</p>
+      <p className="font-light">{data.absent || 0}</p>
+      <p className="font-light">{data.excused || 0}</p>
+      <p className="font-light">{data.total || 0}</p>
+      <p className="font-light">{data.late || 0}</p>
     </div>
   );
 }

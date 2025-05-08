@@ -3,4 +3,6 @@ type Position = {
   name: string;
   work_shift_start: string;
   work_shift_end: string;
+  work_days: number[]
+  salary: number
 };

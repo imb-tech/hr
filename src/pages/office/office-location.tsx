@@ -11,7 +11,7 @@ import {
   Polygon,
   useLoadScript,
 } from "@react-google-maps/api";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 declare global {
   interface Window {
@@ -55,7 +55,7 @@ function OfficeLocationSelect({
   const [polygonCoordinatesList, setPolygonCoordinatesList] = useState<Pin[][]>(
     [[]],
   );
-  const [activePolygonIndex, setActivePolygonIndex] = useState(0);
+  const [activePolygonIndex, setActivePolygonIndex] = useState(-1);
   const [zoomLevel, setZoomLevel] = useState(defaultZoom);
 
   const btn = useButton({ color: "primary", size: "sm" });
@@ -74,52 +74,90 @@ function OfficeLocationSelect({
   useEffect(() => {
     if (polygonCoordinatesList[0].length > 2) {
       updateLocations(polygonCoordinatesList);
+      setActivePolygonIndex(polygonCoordinatesList?.length - 1)
     }
   }, [polygonCoordinatesList]);
 
-  const handleMapLoad = (map: google.maps.Map) => {
-    if (map) {
-      map.panTo({ lat: +lat, lng: +lng });
-      map.setZoom(defaultZoom);
-      map.addListener("zoom_changed", () =>
-        setZoomLevel(map.getZoom() || defaultZoom),
-      );
+  const handleMapLoad = useCallback(
+    (map: google.maps.Map) => {
+      if (map) {
+        map.panTo({ lat: +lat, lng: +lng });
+        map.setZoom(defaultZoom);
+        map.addListener("zoom_changed", () =>
+          setZoomLevel(map.getZoom() || defaultZoom),
+        );
 
-      const newPolygonButton = document.createElement("button");
-      newPolygonButton.setAttribute(
-        "class",
-        `${btn.getButtonProps()?.className} ml-2 mt-2 bg-success`,
-      );
-      newPolygonButton.setAttribute("type", "button");
-      newPolygonButton.textContent = "Ofis qo'shish";
+        const newPolygonButton = document.createElement("button");
+        newPolygonButton.setAttribute(
+          "class",
+          `${btn.getButtonProps()?.className} ml-2 mt-2 bg-success`,
+        );
+        newPolygonButton.setAttribute("type", "button");
+        newPolygonButton.textContent = "Ofis qo'shish";
 
-      newPolygonButton.addEventListener("click", () => {
-        setPolygonCoordinatesList((prev) => [...prev, []]);
-        setActivePolygonIndex((prev) => prev + 1);
-      });
+        newPolygonButton.addEventListener("click", () => {
+          setPolygonCoordinatesList((prev) => [...prev, []]);
+          setActivePolygonIndex((prev) => prev + 1);
+        });
 
-      const clearAllButton = document.createElement("button");
-      clearAllButton.setAttribute(
-        "class",
-        `${btn.getButtonProps()?.className} ml-2 mt-2`,
-      );
-      clearAllButton.setAttribute("type", "button");
-      clearAllButton.textContent = "Hammasini tozalash";
+        const clearAllButton = document.createElement("button");
+        clearAllButton.setAttribute(
+          "class",
+          `${btn.getButtonProps()?.className} ml-2 mt-2`,
+        );
+        clearAllButton.setAttribute("type", "button");
+        clearAllButton.textContent = "Hammasini tozalash";
 
-      clearAllButton.addEventListener("click", () => {
-        setPolygonCoordinatesList([[]]);
-        setActivePolygonIndex(0);
-        handleMapChange?.(null);
-      });
+        clearAllButton.addEventListener("click", () => {
+          setPolygonCoordinatesList([[]]);
+          setActivePolygonIndex(0);
+          handleMapChange?.(null);
+        });
 
-      map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push(
-        clearAllButton,
-      );
-      map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push(
-        newPolygonButton,
-      );
-    }
-  };
+        map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push(
+          clearAllButton,
+        );
+        map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push(
+          newPolygonButton,
+        );
+
+        // my location
+
+        const myLocationButton = document.createElement("div");
+        myLocationButton.setAttribute(
+          "class",
+          ` ml-2 mt-2 bg-primary size-8 flex items-center justify-center rounded-md cursor-pointer`,
+        );
+        myLocationButton.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M2.385 12.42l16.01-7.614a.6.6 0 0 1 .8.8l-7.616 16.009a.6.6 0 0 1-1.11-.068l-2.005-6.012-6.01-2.003a.6.6 0 0 1-.069-1.111z" fill="currentColor"></path></svg>`;
+
+        myLocationButton.addEventListener("click", () => {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              (position) => {
+                const pos = {
+                  lat: position.coords.latitude,
+                  lng: position.coords.longitude,
+                };
+                animatePanTo(map, pos); // Animate qilingan pan
+                map.setZoom(defaultZoom); // Zoom ni sozlaymiz
+              },
+              () => {
+                alert("Joylashuvni aniqlab bo‘lmadi.");
+              },
+              { enableHighAccuracy: true }, // Maksimal aniqlik
+            );
+          } else {
+            alert("Brauzeringiz joylashuvni qo‘llamaydi.");
+          }
+        });
+
+        map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push(
+          myLocationButton,
+        );
+      }
+    },
+    [polygonCoordinatesList],
+  );
 
   const circleRadius = useMemo(() => {
     const baseRadius = 8;
@@ -306,3 +344,35 @@ function OfficeLocationSelect({
 }
 
 export default OfficeLocationSelect;
+
+function animatePanTo(
+  map: google.maps.Map,
+  target: google.maps.LatLngLiteral,
+  duration = 1000,
+) {
+  const start = map.getCenter();
+  if (!start) return;
+
+  const startLat = start.lat();
+  const startLng = start.lng();
+  const targetLat = target.lat;
+  const targetLng = target.lng;
+
+  const startTime = performance.now();
+
+  function animate(time: number) {
+    const elapsed = time - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+
+    const currentLat = startLat + (targetLat - startLat) * progress;
+    const currentLng = startLng + (targetLng - startLng) * progress;
+
+    map.setCenter({ lat: currentLat, lng: currentLng });
+
+    if (progress < 1) {
+      requestAnimationFrame(animate);
+    }
+  }
+
+  requestAnimationFrame(animate);
+}
