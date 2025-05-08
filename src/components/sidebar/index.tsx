@@ -41,7 +41,7 @@ export default function Sidebar() {
           to="/"
         >
           <Logo />
-          <p className="font-bold text-inherit">ACME</p>
+          <p className="font-bold text-inherit">HR DEMO</p>
         </Link>
       </div>
       <nav className="flex flex-col gap-0.5 pt-2 w-full">
