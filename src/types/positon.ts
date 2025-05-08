@@ -5,4 +5,5 @@ type Position = {
   work_shift_end: string;
   work_days: number[]
   salary: number
+  fine_per_minute: number
 };

@@ -8,8 +8,13 @@ import axios from "axios"
 const baseURL = import.meta.env.VITE_DEFAULT_URL
 // const baseURL = "https://location.imbtech.uz/api/v1/"
 
+const url = window.location.hostname
+
+console.log(url);
+
+
 const axiosInstance = axios.create({
-    baseURL,
+    baseURL: baseURL,
     headers: {
         "Content-Type": "application/json",
     },

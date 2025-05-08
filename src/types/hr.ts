@@ -27,6 +27,7 @@ type Human = {
   work_shift_start: string,
   work_shift_end: string,
   work_days: number[],
+  fine_per_minute: number
 };
 
 type HumanYear = {

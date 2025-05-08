@@ -188,9 +188,9 @@ export default function DataTable<TData extends object>({
                         )
                       }
                     >
-                      {columns.map((column, index) =>
+                      {columns.map((column, i) =>
                         column.dataKey === "actions" ? null : (
-                          <DropdownItem key={index} className="capitalize">
+                          <DropdownItem key={index + i} className="capitalize">
                             {capitalize(column.header)}
                           </DropdownItem>
                         ),

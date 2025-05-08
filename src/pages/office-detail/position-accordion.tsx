@@ -17,9 +17,8 @@ function PositionAccordion({ info }: Props) {
   const search = useSearch({ from: "/_main/office/$id" });
   const navigate = useNavigate();
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
-  console.log(info);
 
-  const { data, isSuccess } = useGet<WorkerInfo[]>(
+  const { data, isSuccess } = useGet<WorkerAttendance[]>(
     `${USER_STATISTIC}/${search?.tab}/${id}`,
     {
       options: { enabled: Boolean(id) && Boolean(search?.tab) },
@@ -31,6 +30,8 @@ function PositionAccordion({ info }: Props) {
       .map((key) => info?.[Number(key)]?.id)
       .filter(Boolean);
 
+      console.log(selectedIds);
+      
     setSelectedKeys(keys as Set<string>);
 
     navigate({

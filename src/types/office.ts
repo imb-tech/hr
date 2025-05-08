@@ -54,6 +54,19 @@ type WorkerInfo = {
   last_company: string
 }
 
+interface WorkerAttendance {
+  id: number
+  full_name: string
+  entry_log_status: number
+  work_shift_start: string
+  attendance: {
+    status: 0 | 1
+    duration: string
+    left_time: string
+    attendance_time: string
+  } | null
+}
+
 
 type Company = {
   id: number;

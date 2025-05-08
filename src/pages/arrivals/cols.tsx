@@ -32,7 +32,7 @@ export const useArrivalsListCols = () => {
       },
       {
         header: "Lavozim",
-        dataKey: "role",
+        dataKey: "role_name",
       },
       {
         header: "Maosh",
@@ -43,7 +43,7 @@ export const useArrivalsListCols = () => {
       },
       {
         header: "Status",
-        dataKey: "salary",
+        dataKey: "username",
         cell: () => {
           return (
             <div className="flex justify-center items-center">

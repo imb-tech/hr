@@ -54,8 +54,8 @@ function ViewPage() {
                 <PhoneCall size={16} /> <span>Tel:</span>
               </div>
               <span>
-                {data?.phone_number
-                  ? formatPhoneNumber(data?.phone_number)
+                {data?.profile?.phone_number
+                  ? formatPhoneNumber(data?.profile?.phone_number)
                   : "-"}
               </span>
             </li>
@@ -64,8 +64,8 @@ function ViewPage() {
                 <Phone size={16} /> <span>Qo'shimcha tel:</span>
               </div>
               <span>
-                {data?.phone_number2
-                  ? formatPhoneNumber(data?.phone_number2)
+                {data?.profile?.phone_number2
+                  ? formatPhoneNumber(data?.profile?.phone_number2)
                   : "-"}
               </span>
             </li>
@@ -73,20 +73,20 @@ function ViewPage() {
               <div className="flex gap-2 items-center min-w-52 text-foreground-500">
                 <MapPinHouse size={16} /> <span>Doimiy manzil:</span>
               </div>
-              <span>{data?.address ? data?.address : "-"}</span>
+              <span>{data?.profile?.address ? data?.profile?.address : "-"}</span>
             </li>
             <li className="flex flex-col sm:flex-row gap-2 sm:items-center">
               <div className="flex gap-2 items-center min-w-52 text-foreground-500">
                 <MapPinCheck size={16} /> <span>Vaqtinchalik manzil:</span>
               </div>
-              <span>{data?.residence ? data?.residence : "-"}</span>
+              <span>{data?.profile?.residence ? data?.profile?.residence : "-"}</span>
             </li>
             <li className="flex flex-col sm:flex-row gap-2 sm:items-center">
               <div className="flex gap-2 items-center min-w-52 text-foreground-500">
                 <FileUser size={16} /> <span>Pasport:</span>
               </div>
               <span>
-                {data?.id_number ? formatPassportNumber(data?.id_number) : "-"}
+                {data?.profile?.id_number ? formatPassportNumber(data?.profile?.id_number) : "-"}
               </span>
             </li>
             <li className="flex flex-col sm:flex-row gap-2 sm:items-center">
@@ -94,8 +94,8 @@ function ViewPage() {
                 <GraduationCap size={16} /> <span>Ma'lumoti:</span>
               </div>
               <span>
-                {data?.education
-                  ? educationLevels?.find((item) => item.key == data?.education)
+                {data?.profile?.education
+                  ? educationLevels?.find((item) => item.key == data?.profile?.education)
                       ?.label
                   : "-"}
               </span>

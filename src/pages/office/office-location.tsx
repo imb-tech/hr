@@ -1,5 +1,3 @@
-"use client";
-
 import { darkModeStyle } from "@/constants/map";
 import { useButton } from "@heroui/button";
 import { cn } from "@heroui/theme";
@@ -55,7 +53,7 @@ function OfficeLocationSelect({
   const [polygonCoordinatesList, setPolygonCoordinatesList] = useState<Pin[][]>(
     [[]],
   );
-  const [activePolygonIndex, setActivePolygonIndex] = useState(-1);
+  const [activePolygonIndex, setActivePolygonIndex] = useState(0);
   const [zoomLevel, setZoomLevel] = useState(defaultZoom);
 
   const btn = useButton({ color: "primary", size: "sm" });

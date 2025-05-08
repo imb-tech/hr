@@ -82,6 +82,7 @@ export default function CreateHrForm() {
       work_days: values.work_days,
       role: values.role,
       companies: values.companies?.split(","),
+      fine_per_minute: values.fine_per_minute,
     };
 
     if (id) {
@@ -106,6 +107,7 @@ export default function CreateHrForm() {
         work_shift_end: data.work_shift_end,
         work_days: data.work_days,
         companies: data.companies?.join(","),
+        fine_per_minute: data.fine_per_minute,
       });
     }
   }, [isSuccess, data]);
@@ -241,15 +243,6 @@ export default function CreateHrForm() {
               }
             }}
           />
-          <FormNumberInput
-            required
-            label="Oylik maosh"
-            control={form.control}
-            thousandSeparator=","
-            size={"lg" as any}
-            name="salary"
-            placeholder="Ex: 123000"
-          />
 
           <WeekdaysFields<Human>
             name="work_days"
@@ -275,6 +268,26 @@ export default function CreateHrForm() {
               size="lg"
             />
           </div>
+
+          <FormNumberInput
+            required
+            label="Oylik maosh"
+            control={form.control}
+            thousandSeparator=","
+            size={"lg" as any}
+            name="salary"
+            placeholder="Ex: 123000"
+          />
+
+          <FormNumberInput
+            required
+            label="Jarima (1 daqiqa uchun)"
+            control={form.control}
+            thousandSeparator=","
+            size={"lg" as any}
+            name="fine_per_minute"
+            placeholder="Ex: 300"
+          />
 
           <FormInput
             isRequired

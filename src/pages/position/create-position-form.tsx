@@ -80,14 +80,10 @@ export default function CreatePositionsForm({
           size="lg"
         />
 
-        <FormNumberInput
+        <WeekdaysFields<Position>
+          name="work_days"
+          label="Ish kunlari"
           required
-          label="Oylik maosh"
-          control={form.control}
-          thousandSeparator=","
-          size={"lg" as any}
-          name="salary"
-          placeholder="Ex: 123000"
         />
 
         <div className="grid md:grid-cols-2 grid-cols-1 gap-3 py-2">
@@ -96,20 +92,37 @@ export default function CreatePositionsForm({
             label={"Ish boshlanish vaqti"}
             methods={form}
             name="work_shift_start"
+            size="lg"
           />
           <TimeInput
             isRequired
             label={"Ish tugash vaqti"}
             methods={form}
             name="work_shift_end"
+            size="lg"
           />
         </div>
 
-        <WeekdaysFields<Position>
-          name="work_days"
-          label="Ish kunlari"
-          required
-        />
+        <div className="grid md:grid-cols-2 grid-cols-1 gap-3">
+          <FormNumberInput
+            required
+            label="Oylik maosh"
+            control={form.control}
+            thousandSeparator=","
+            size={"lg" as any}
+            name="salary"
+            placeholder="Ex: 123000"
+          />
+          <FormNumberInput
+            required
+            label="Jarima (1 daqiqa uchun)"
+            control={form.control}
+            thousandSeparator=","
+            size={"lg" as any}
+            name="fine_per_minute"
+            placeholder="Ex: 250"
+          />
+        </div>
 
         <ModalFormActions isLoading={isPendingCreate || isPendingUpdate} />
       </form>
