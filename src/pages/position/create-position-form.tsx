@@ -19,7 +19,9 @@ interface CreatePositionsFormProps {
 export default function CreatePositionsForm({
   dataItem,
 }: CreatePositionsFormProps) {
-  const form = useForm<Position>();
+  const form = useForm<Position>({
+    defaultValues: { work_days: [1, 2, 3, 4, 5] },
+  });
   const queryClient = useQueryClient();
   const { closeModal } = useModal();
 
@@ -108,7 +110,7 @@ export default function CreatePositionsForm({
             required
             label="Oylik maosh"
             control={form.control}
-            thousandSeparator=","
+            thousandSeparator=" "
             size={"lg" as any}
             name="salary"
             placeholder="Ex: 123000"
@@ -117,7 +119,7 @@ export default function CreatePositionsForm({
             required
             label="Jarima (1 daqiqa uchun)"
             control={form.control}
-            thousandSeparator=","
+            thousandSeparator=" "
             size={"lg" as any}
             name="fine_per_minute"
             placeholder="Ex: 250"

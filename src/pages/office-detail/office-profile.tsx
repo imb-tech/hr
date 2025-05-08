@@ -80,8 +80,8 @@ export default function AttendanceDashboard() {
         <div className="space-y-4">
           <Link to="/arrivals" search={{ id: String(id) }}>
             <Card className="p-2">
-              <CardHeader className="pb-0">
-                <div className="flex items-center justify-between w-full">
+              <CardHeader className="pb-0 hover:pr-12 group transition-all duration-300 cursor-pointer">
+                <div className="flex items-center justify-between w-full relative">
                   <div className="flex items-center gap-3">
                     <div className="bg-[#10B981] p-2 rounded-lg">
                       <UserCheck className="h-5 w-5 text-white" />
@@ -98,6 +98,10 @@ export default function AttendanceDashboard() {
                       {formatMoney(usersInCompany)}
                     </span>
                   </div>
+
+                  <span className="ml-4 absolute [transform:rotateY(90deg)] -right-6 group-hover:-right-12 group-hover:[transform:rotateY(0deg)] transition-all duration-300 text-gray-700">
+                    <ChevronRight size={24} />
+                  </span>
                 </div>
               </CardHeader>
               <CardBody>
@@ -110,7 +114,7 @@ export default function AttendanceDashboard() {
                 />
 
                 <div className="mt-6 space-y-4">
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center relative justify-between hover:pr-12 group transition-all duration-300 cursor-pointer">
                     <div className="flex items-center gap-2">
                       <Clock className="h-4 w-4 text-[#34D399]" />
                       <span className="text-sm dark:text-gray-300">
@@ -125,6 +129,10 @@ export default function AttendanceDashboard() {
                         {formatMoney(arrivedOnTime)}
                       </span>
                     </div>
+
+                    <span className="ml-4 absolute [transform:rotateY(90deg)] -right-6 group-hover:right-0 group-hover:[transform:rotateY(0deg)] transition-all duration-300 text-gray-700">
+                      <ChevronRight size={24} />
+                    </span>
                   </div>
                   <Progress
                     value={(arrivedOnTime / total) * 100}
@@ -134,8 +142,8 @@ export default function AttendanceDashboard() {
                     }}
                   />
 
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
+                  <div className="flex items-center justify-between relative hover:pr-12 group transition-all duration-300">
+                    <div className="flex items-center gap-2 cursor-pointer">
                       <Clock className="h-4 w-4 text-[#FDBA74]" />
                       <span className="text-sm dark:text-gray-300">
                         Kech qolganlar
@@ -149,6 +157,10 @@ export default function AttendanceDashboard() {
                         {formatMoney(lateUsers)}
                       </span>
                     </div>
+
+                    <span className="ml-4 absolute [transform:rotateY(90deg)] -right-6 group-hover:right-0 group-hover:[transform:rotateY(0deg)] transition-all duration-300 text-gray-700">
+                      <ChevronRight size={24} />
+                    </span>
                   </div>
                   <Progress
                     value={(lateUsers / total) * 100}
@@ -167,7 +179,7 @@ export default function AttendanceDashboard() {
         <div className="space-y-4">
           <Link to="/absent" search={{ id: String(id) }}>
             <Card className="p-2">
-              <CardHeader className="pb-0">
+              <CardHeader className="pb-0 relative hover:pr-12 group transition-all duration-300">
                 <div className="flex items-center justify-between w-full">
                   <div className="flex items-center gap-3">
                     <div className="bg-[#DC2626] p-2 rounded-lg">
@@ -185,6 +197,10 @@ export default function AttendanceDashboard() {
                       {formatMoney(absentUsers)}
                     </span>
                   </div>
+
+                  <span className="ml-4 absolute [transform:rotateY(90deg)] -right-6 group-hover:right-0 group-hover:[transform:rotateY(0deg)] transition-all duration-300 text-gray-700">
+                    <ChevronRight size={24} />
+                  </span>
                 </div>
               </CardHeader>
               <CardBody>
@@ -197,7 +213,7 @@ export default function AttendanceDashboard() {
                 />
 
                 <div className="mt-6 space-y-4">
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between relative hover:pr-12 group transition-all duration-300">
                     <div className="flex items-center gap-2">
                       <AlertCircle className="h-4 w-4 text-[#FBBF24]" />
                       <span className="text-sm dark:text-gray-300">
@@ -212,7 +228,11 @@ export default function AttendanceDashboard() {
                         {formatMoney(absentWithReason)}
                       </span>
                     </div>
+                    <span className="ml-4 absolute [transform:rotateY(90deg)] -right-6 group-hover:right-0 group-hover:[transform:rotateY(0deg)] transition-all duration-300 text-gray-700">
+                      <ChevronRight size={24} />
+                    </span>
                   </div>
+
                   <Progress
                     value={(absentWithReason / total) * 100}
                     className="h-1.5"
@@ -221,7 +241,7 @@ export default function AttendanceDashboard() {
                     }}
                   />
 
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between relative hover:pr-12 group transition-all duration-300">
                     <div className="flex items-center gap-2">
                       <XCircle className="h-4 w-4 text-[#DC2626]" />
                       <span className="text-sm dark:text-gray-300">
@@ -236,6 +256,9 @@ export default function AttendanceDashboard() {
                         {formatMoney(absentWithoutReason)}
                       </span>
                     </div>
+                    <span className="ml-4 absolute [transform:rotateY(90deg)] -right-6 group-hover:right-0 group-hover:[transform:rotateY(0deg)] transition-all duration-300 text-gray-700">
+                      <ChevronRight size={24} />
+                    </span>
                   </div>
                   <Progress
                     value={(absentWithoutReason / total) * 100}

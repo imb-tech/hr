@@ -1,3 +1,4 @@
+import ParamPagination from "@/components/param/pagination";
 import ParamTabs from "@/components/param/tabs";
 import DataTable from "@/components/ui/table";
 import Tabs from "@/components/ui/tabs";
@@ -14,7 +15,7 @@ type ViewMode = "table" | "card";
 const tabOptions = [
   { key: "0", label: "Barchasi" },
   { key: "1", label: "Sababli" },
-  { key: "2", label: "Sabablisiz" },
+  { key: "2", label: "Sababsiz" },
 ];
 const tabs = [
   { key: "table", label: <Table /> },
@@ -31,11 +32,9 @@ export default function AbsentPage() {
     }
   }
 
-  const {
-    data: data,
-    isSuccess,
-    isLoading,
-  } = useGet<Human[]>(HR_API, { params: search });
+  const { data: data, isLoading } = useGet<ListResponse<Human>>(HR_API, {
+    params: search,
+  });
   const columns = useArrivalsListCols();
 
   const renderCardView = () => (
@@ -69,8 +68,9 @@ export default function AbsentPage() {
             <DataTable
               isLoading={isLoading}
               columns={columns}
-              data={(isSuccess && data) || []}
+              data={data?.results || []}
             />
+            <ParamPagination total={data?.total_pages} />
           </div>
           <div className="md:hidden">{renderCardView()}</div>
         </>

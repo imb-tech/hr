@@ -47,11 +47,9 @@ export const useWorkerInfoCols = () => {
         dataKey: "entry_log_status",
         cell(_, item) {
           return (
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 justify-center">
               <span>
-                {item.attendance?.status === 0
-                  ? "Ofisdan tashqarida"
-                  : "Ofisda"}
+                {item.entry_log_status === 1 ? "Ofisda" : "Ofisdan tashqarida"}
               </span>
             </div>
           );

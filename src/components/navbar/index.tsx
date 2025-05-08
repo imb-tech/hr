@@ -6,7 +6,7 @@ import {
   NavbarMenuItem,
 } from "@heroui/navbar";
 
-import { Logo, SearchIcon } from "@/components/icons";
+import { SearchIcon } from "@/components/icons";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { siteConfig } from "@/config/site";
 import { GET_ME } from "@/constants/api-endpoints";
@@ -53,12 +53,7 @@ export const Navbar = ({
       type="search"
     />
   );
-  const { data } = useGet<{
-    phone_number: string;
-    username: string;
-    first_name: string;
-    last_name?: string;
-  }>(GET_ME);
+  const { data } = useGet<Profile>(GET_ME);
   const navigate = useNavigate();
 
   const logOut = () => {
@@ -68,7 +63,7 @@ export const Navbar = ({
 
   return (
     <HeroUINavbar
-      className="border-b-small border-divider  "
+      className="border-b-small border-divider"
       maxWidth="full"
       position="sticky"
     >
@@ -81,8 +76,8 @@ export const Navbar = ({
           color="foreground"
           to="/"
         >
-          <Logo />
-          <p className="font-bold text-inherit">ACME</p>
+          <img src="/images/logo.png" alt="" width={30} />
+          <p className="font-bold text-inherit">HR DEMO</p>
         </Link>
         {!!leftComponent && <div className="flex gap-2">{leftComponent}</div>}
         <HeaderBreadvrumb items={items ?? []} />

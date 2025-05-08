@@ -48,9 +48,11 @@ export default function FormSelect<IForm extends FieldValues>({
           selectionMode={multiple ? "multiple" : "single"}
           size="lg"
           value={field.value}
-          onSelectionChange={(keys) =>
+          onSelectionChange={(keys) => {
+            console.log(multiple ? Array.from(keys) : Array.from(keys)[0]);
+            
             field.onChange(multiple ? Array.from(keys) : Array.from(keys)[0])
-          }
+          }}
           {...props}
         >
           {options?.length

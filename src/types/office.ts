@@ -23,7 +23,7 @@ type Properties = {
 
 type Office = {
   type: "Feature";
-  id: number | string;
+  id: number;
   geometry: Geometry;
   properties: Properties;
 };

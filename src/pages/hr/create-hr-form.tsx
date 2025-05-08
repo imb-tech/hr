@@ -25,7 +25,11 @@ export const educationLevels = [
 ];
 
 export default function CreateHrForm() {
-  const form = useForm<Human>();
+  const form = useForm<Human>({
+    defaultValues: {
+      work_days: [1, 2, 3, 4, 5],
+    },
+  });
   const { "hr-edit": id } = useParams({ strict: false });
   const queryClient = useQueryClient();
   const { data: dataPosition, isSuccess: successPosition } =
@@ -200,12 +204,13 @@ export default function CreateHrForm() {
             isRequired
             label="Ofis"
             methods={form}
+            selectedKeys={new Set(form.watch("companies"))}
             name="companies"
-            multiple
+            // multiple
             options={
               companies?.features?.map((item) => ({
                 label: item.properties.name,
-                key: +item.id,
+                key: item.id,
               })) ?? []
             }
             size="lg"
@@ -273,7 +278,7 @@ export default function CreateHrForm() {
             required
             label="Oylik maosh"
             control={form.control}
-            thousandSeparator=","
+            thousandSeparator=" "
             size={"lg" as any}
             name="salary"
             placeholder="Ex: 123000"
@@ -283,7 +288,7 @@ export default function CreateHrForm() {
             required
             label="Jarima (1 daqiqa uchun)"
             control={form.control}
-            thousandSeparator=","
+            thousandSeparator=" "
             size={"lg" as any}
             name="fine_per_minute"
             placeholder="Ex: 300"
