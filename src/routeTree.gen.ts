@@ -18,6 +18,8 @@ import { Route as MainSettingsImport } from './routes/_main/settings'
 import { Route as MainPositionImport } from './routes/_main/position'
 import { Route as MainHrCreateImport } from './routes/_main/hr-create'
 import { Route as MainHrImport } from './routes/_main/hr'
+import { Route as MainArrivalsImport } from './routes/_main/arrivals'
+import { Route as MainAbsentImport } from './routes/_main/absent'
 import { Route as AuthRegisterImport } from './routes/_auth/register'
 import { Route as AuthLoginImport } from './routes/_auth/login'
 import { Route as AuthForgotPasswordImport } from './routes/_auth/forgot-password'
@@ -67,6 +69,18 @@ const MainHrCreateRoute = MainHrCreateImport.update({
 const MainHrRoute = MainHrImport.update({
   id: '/hr',
   path: '/hr',
+  getParentRoute: () => MainRoute,
+} as any)
+
+const MainArrivalsRoute = MainArrivalsImport.update({
+  id: '/arrivals',
+  path: '/arrivals',
+  getParentRoute: () => MainRoute,
+} as any)
+
+const MainAbsentRoute = MainAbsentImport.update({
+  id: '/absent',
+  path: '/absent',
   getParentRoute: () => MainRoute,
 } as any)
 
@@ -162,6 +176,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/register'
       preLoaderRoute: typeof AuthRegisterImport
       parentRoute: typeof AuthImport
+    }
+    '/_main/absent': {
+      id: '/_main/absent'
+      path: '/absent'
+      fullPath: '/absent'
+      preLoaderRoute: typeof MainAbsentImport
+      parentRoute: typeof MainImport
+    }
+    '/_main/arrivals': {
+      id: '/_main/arrivals'
+      path: '/arrivals'
+      fullPath: '/arrivals'
+      preLoaderRoute: typeof MainArrivalsImport
+      parentRoute: typeof MainImport
     }
     '/_main/hr': {
       id: '/_main/hr'
@@ -260,6 +288,8 @@ const AuthRouteChildren: AuthRouteChildren = {
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface MainRouteChildren {
+  MainAbsentRoute: typeof MainAbsentRoute
+  MainArrivalsRoute: typeof MainArrivalsRoute
   MainHrRoute: typeof MainHrRoute
   MainHrCreateRoute: typeof MainHrCreateRoute
   MainPositionRoute: typeof MainPositionRoute
@@ -274,6 +304,8 @@ interface MainRouteChildren {
 }
 
 const MainRouteChildren: MainRouteChildren = {
+  MainAbsentRoute: MainAbsentRoute,
+  MainArrivalsRoute: MainArrivalsRoute,
   MainHrRoute: MainHrRoute,
   MainHrCreateRoute: MainHrCreateRoute,
   MainPositionRoute: MainPositionRoute,
@@ -294,6 +326,8 @@ export interface FileRoutesByFullPath {
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
+  '/absent': typeof MainAbsentRoute
+  '/arrivals': typeof MainArrivalsRoute
   '/hr': typeof MainHrRoute
   '/hr-create': typeof MainHrCreateRoute
   '/position': typeof MainPositionRoute
@@ -312,6 +346,8 @@ export interface FileRoutesByTo {
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
+  '/absent': typeof MainAbsentRoute
+  '/arrivals': typeof MainArrivalsRoute
   '/hr': typeof MainHrRoute
   '/hr-create': typeof MainHrCreateRoute
   '/position': typeof MainPositionRoute
@@ -332,6 +368,8 @@ export interface FileRoutesById {
   '/_auth/forgot-password': typeof AuthForgotPasswordRoute
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/register': typeof AuthRegisterRoute
+  '/_main/absent': typeof MainAbsentRoute
+  '/_main/arrivals': typeof MainArrivalsRoute
   '/_main/hr': typeof MainHrRoute
   '/_main/hr-create': typeof MainHrCreateRoute
   '/_main/position': typeof MainPositionRoute
@@ -352,6 +390,8 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/register'
+    | '/absent'
+    | '/arrivals'
     | '/hr'
     | '/hr-create'
     | '/position'
@@ -369,6 +409,8 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/register'
+    | '/absent'
+    | '/arrivals'
     | '/hr'
     | '/hr-create'
     | '/position'
@@ -387,6 +429,8 @@ export interface FileRouteTypes {
     | '/_auth/forgot-password'
     | '/_auth/login'
     | '/_auth/register'
+    | '/_main/absent'
+    | '/_main/arrivals'
     | '/_main/hr'
     | '/_main/hr-create'
     | '/_main/position'
@@ -436,6 +480,8 @@ export const routeTree = rootRoute
     "/_main": {
       "filePath": "_main.tsx",
       "children": [
+        "/_main/absent",
+        "/_main/arrivals",
         "/_main/hr",
         "/_main/hr-create",
         "/_main/position",
@@ -460,6 +506,14 @@ export const routeTree = rootRoute
     "/_auth/register": {
       "filePath": "_auth/register.tsx",
       "parent": "/_auth"
+    },
+    "/_main/absent": {
+      "filePath": "_main/absent.tsx",
+      "parent": "/_main"
+    },
+    "/_main/arrivals": {
+      "filePath": "_main/arrivals.tsx",
+      "parent": "/_main"
     },
     "/_main/hr": {
       "filePath": "_main/hr.tsx",
