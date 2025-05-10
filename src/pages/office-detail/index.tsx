@@ -1,7 +1,7 @@
 import Tabs from "@/components/ui/tabs";
 import { ROLES_STATISTIC } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
-import { useParams } from "@tanstack/react-router";
+import { useParams, useSearch } from "@tanstack/react-router";
 import { Key, useState } from "react";
 import { tabs, ViewMode } from "../absent";
 import OfficeList from "./office-list";
@@ -11,6 +11,7 @@ import PositonCard from "./positon-card";
 
 export default function OfficeDetail() {
   const [view, setView] = useState<ViewMode>("table");
+  const search = useSearch({ from: "__root__" });
 
   function handleChange(val: Key) {
     if (val === "table" || val === "card") {
@@ -22,7 +23,10 @@ export default function OfficeDetail() {
   const { data: info, isSuccess } = useGet<CompanyStats[]>(
     `${ROLES_STATISTIC}/${id}`,
     {
-      options: { enabled: Boolean(id) },
+      params: search,
+      options: {
+        enabled: Boolean(id),
+      },
     },
   );
 

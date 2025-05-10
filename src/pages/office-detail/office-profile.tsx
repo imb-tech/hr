@@ -5,7 +5,7 @@ import { useGet } from "@/hooks/useGet";
 import { formatMoney } from "@/lib/format-money";
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Progress } from "@heroui/progress";
-import { Link, useParams } from "@tanstack/react-router";
+import { Link, useParams, useSearch } from "@tanstack/react-router";
 import {
   AlertCircle,
   ChevronRight,
@@ -17,12 +17,11 @@ import {
 } from "lucide-react";
 
 export default function AttendanceDashboard() {
+  const search = useSearch({ from: "__root__" });
   const { id } = useParams({ from: "/_main/office/$id" });
   const { data: dataDetails } = useGet<CompanyStats>(
     `${OFFICE_DETAILS}/${id}`,
-    {
-      options: { enabled: Boolean(id) },
-    },
+    { params: search, options: { enabled: Boolean(id) } },
   );
 
   const total = dataDetails?.total ?? 0;

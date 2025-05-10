@@ -3,7 +3,7 @@ import { ParamInputSearch } from "@/components/param/search-input";
 import ParamTabs from "@/components/param/tabs";
 import DataTable from "@/components/ui/table";
 import Tabs from "@/components/ui/tabs";
-import { HR_ABSENTS } from "@/constants/api-endpoints";
+import { HR_ABSENTS, POSITION } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
 import { Card, CardBody } from "@heroui/card";
 import { useSearch } from "@tanstack/react-router";
@@ -11,6 +11,7 @@ import { Grid2x2, Table } from "lucide-react";
 import { Key, useState } from "react";
 import EmployeeCard from "../arrivals/employee-card";
 import { useAbsentListCols } from "./cols";
+import ParamSelect from "@/components/param/param-select";
 
 export type ViewMode = "table" | "card";
 
@@ -28,6 +29,7 @@ export default function AbsentPage() {
   const search = useSearch({ strict: false });
   const { id, ...otherParams } = search as { id: string; [key: string]: any };
   const [view, setView] = useState<ViewMode>("table");
+  const { data: dataPosition } = useGet<Position[]>(POSITION);
 
   function handleChange(val: Key) {
     if (val === "table" || val === "card") {
@@ -76,8 +78,16 @@ export default function AbsentPage() {
           />
         </div>
       </div>
-      <div className="flex justify-between items-center gap-3 w-full mb-3">
+      <div className="flex flex-col sm:flex-row justify-between items-center gap-3 w-full mb-3">
         <ParamInputSearch />
+        <ParamSelect
+          className="max-w-full"
+          paramName="role_id"
+          optionLabelKey="name"
+          optionValueKey="id"
+          options={dataPosition}
+          placeholder="Lavozimlar"
+        />
       </div>
 
       {view === "card" ? (

@@ -4,4 +4,6 @@ type SearchParams = {
     year?: string
     id?: string
     position?: string | number
+    role_id?: string | number
+    status?: string,
 };

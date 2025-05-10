@@ -1,8 +1,9 @@
 import DeleteModal from "@/components/elements/delete-modal";
 import ParamPagination from "@/components/param/pagination";
+import ParamSelect from "@/components/param/param-select";
 import { ParamInputSearch } from "@/components/param/search-input";
 import DataTable from "@/components/ui/table";
-import { HR_API } from "@/constants/api-endpoints";
+import { HR_API, POSITION } from "@/constants/api-endpoints";
 import { useModal } from "@/hooks/use-modal";
 import { useStore } from "@/hooks/use-store";
 import { useGet } from "@/hooks/useGet";
@@ -13,6 +14,7 @@ export default function HrPage() {
   const { openModal } = useModal("delete");
   const navigate = useNavigate();
   const params = useSearch({ strict: false });
+  const { data: dataPosition } = useGet<Position[]>(POSITION);
   const { data, isLoading, isSuccess } = useGet<ListResponse<Human>>(HR_API, {
     params,
   });
@@ -26,7 +28,17 @@ export default function HrPage() {
 
   return (
     <div>
-      <ParamInputSearch className="mb-3" />
+      <div className="flex flex-col sm:flex-row justify-between items-center gap-3 w-full mb-3">
+        <ParamInputSearch />
+        <ParamSelect
+          className="max-w-full"
+          paramName="role_id"
+          optionLabelKey="name"
+          optionValueKey="id"
+          options={dataPosition}
+          placeholder="Lavozimlar"
+        />
+      </div>
       <DataTable
         isLoading={isLoading}
         columns={useHrListCols()}
