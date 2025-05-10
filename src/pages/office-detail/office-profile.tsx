@@ -48,7 +48,7 @@ export default function AttendanceDashboard() {
     const percent = (value / total) * 100;
     return percent % 1 === 0
       ? `${percent.toFixed(0)}%`
-      : `${percent.toFixed(1)}%`;
+      : `${percent.toFixed(2)}%`;
   };
 
   return (
