@@ -1,7 +1,7 @@
 import { GET_ME } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
 import { Link, linkOptions } from "@tanstack/react-router";
-import { Building2, ScrollText, SquareUser } from "lucide-react";
+import { Building2, MapPinned, ScrollText, SquareUser } from "lucide-react";
 import { UsersIcon } from "../icons/nav-icons";
 import MenuItem from "./menu-item";
 
@@ -11,6 +11,12 @@ export const links = [
     icon: <Building2 />,
     enabled: true,
     title: "Ofis",
+  }),
+  linkOptions({
+    to: "/map",
+    icon: <MapPinned />,
+    enabled: true,
+    title: "Xarita",
   }),
   linkOptions({
     to: "/position",

@@ -23,6 +23,7 @@ import { Route as MainAbsentImport } from './routes/_main/absent'
 import { Route as AuthRegisterImport } from './routes/_auth/register'
 import { Route as AuthLoginImport } from './routes/_auth/login'
 import { Route as AuthForgotPasswordImport } from './routes/_auth/forgot-password'
+import { Route as MainMapIndexImport } from './routes/_main/map/index'
 import { Route as MainPositionHrViewIdImport } from './routes/_main/position-hr-view/$id'
 import { Route as MainOfficeCreateImport } from './routes/_main/office/create'
 import { Route as MainOfficeIdImport } from './routes/_main/office/$id'
@@ -100,6 +101,12 @@ const AuthForgotPasswordRoute = AuthForgotPasswordImport.update({
   id: '/forgot-password',
   path: '/forgot-password',
   getParentRoute: () => AuthRoute,
+} as any)
+
+const MainMapIndexRoute = MainMapIndexImport.update({
+  id: '/map/',
+  path: '/map/',
+  getParentRoute: () => MainRoute,
 } as any)
 
 const MainPositionHrViewIdRoute = MainPositionHrViewIdImport.update({
@@ -268,6 +275,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainPositionHrViewIdImport
       parentRoute: typeof MainImport
     }
+    '/_main/map/': {
+      id: '/_main/map/'
+      path: '/map'
+      fullPath: '/map'
+      preLoaderRoute: typeof MainMapIndexImport
+      parentRoute: typeof MainImport
+    }
   }
 }
 
@@ -301,6 +315,7 @@ interface MainRouteChildren {
   MainOfficeIdRoute: typeof MainOfficeIdRoute
   MainOfficeCreateRoute: typeof MainOfficeCreateRoute
   MainPositionHrViewIdRoute: typeof MainPositionHrViewIdRoute
+  MainMapIndexRoute: typeof MainMapIndexRoute
 }
 
 const MainRouteChildren: MainRouteChildren = {
@@ -317,6 +332,7 @@ const MainRouteChildren: MainRouteChildren = {
   MainOfficeIdRoute: MainOfficeIdRoute,
   MainOfficeCreateRoute: MainOfficeCreateRoute,
   MainPositionHrViewIdRoute: MainPositionHrViewIdRoute,
+  MainMapIndexRoute: MainMapIndexRoute,
 }
 
 const MainRouteWithChildren = MainRoute._addFileChildren(MainRouteChildren)
@@ -339,6 +355,7 @@ export interface FileRoutesByFullPath {
   '/office/$id': typeof MainOfficeIdRoute
   '/office/create': typeof MainOfficeCreateRoute
   '/position-hr-view/$id': typeof MainPositionHrViewIdRoute
+  '/map': typeof MainMapIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -359,6 +376,7 @@ export interface FileRoutesByTo {
   '/office/$id': typeof MainOfficeIdRoute
   '/office/create': typeof MainOfficeCreateRoute
   '/position-hr-view/$id': typeof MainPositionHrViewIdRoute
+  '/map': typeof MainMapIndexRoute
 }
 
 export interface FileRoutesById {
@@ -381,6 +399,7 @@ export interface FileRoutesById {
   '/_main/office/$id': typeof MainOfficeIdRoute
   '/_main/office/create': typeof MainOfficeCreateRoute
   '/_main/position-hr-view/$id': typeof MainPositionHrViewIdRoute
+  '/_main/map/': typeof MainMapIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -403,6 +422,7 @@ export interface FileRouteTypes {
     | '/office/$id'
     | '/office/create'
     | '/position-hr-view/$id'
+    | '/map'
   fileRoutesByTo: FileRoutesByTo
   to:
     | ''
@@ -422,6 +442,7 @@ export interface FileRouteTypes {
     | '/office/$id'
     | '/office/create'
     | '/position-hr-view/$id'
+    | '/map'
   id:
     | '__root__'
     | '/_auth'
@@ -442,6 +463,7 @@ export interface FileRouteTypes {
     | '/_main/office/$id'
     | '/_main/office/create'
     | '/_main/position-hr-view/$id'
+    | '/_main/map/'
   fileRoutesById: FileRoutesById
 }
 
@@ -492,7 +514,8 @@ export const routeTree = rootRoute
         "/_main/office-edit/$id",
         "/_main/office/$id",
         "/_main/office/create",
-        "/_main/position-hr-view/$id"
+        "/_main/position-hr-view/$id",
+        "/_main/map/"
       ]
     },
     "/_auth/forgot-password": {
@@ -557,6 +580,10 @@ export const routeTree = rootRoute
     },
     "/_main/position-hr-view/$id": {
       "filePath": "_main/position-hr-view/$id.tsx",
+      "parent": "/_main"
+    },
+    "/_main/map/": {
+      "filePath": "_main/map/index.tsx",
       "parent": "/_main"
     }
   }
