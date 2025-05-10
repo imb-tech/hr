@@ -63,7 +63,7 @@ export const Navbar = ({
 
   return (
     <HeroUINavbar
-      className="border-b-small border-divider fixed left-0 lg:left-52"
+      className="border-b-small border-divider"
       maxWidth="full"
       position="sticky"
     >
