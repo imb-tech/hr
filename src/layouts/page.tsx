@@ -12,7 +12,7 @@ export default function Page({ children, breadcrumb, rightComponent, leftCompone
   return (
     <>
       <Navbar items={breadcrumb} rightComponent={rightComponent} leftComponent={leftComponent} />
-      <main className=" mx-auto p-4 h-full overflow-y-auto  ">
+      <main className=" mx-auto p-4 h-full overflow-y-auto pt-[80px]">
         {children}
       </main>
     </>
