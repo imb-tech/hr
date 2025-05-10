@@ -52,6 +52,7 @@ type WorkerInfo = {
   latency: string
   check_out_time: string
   last_company: string
+  entry_log_status:string
 }
 
 interface WorkerAttendance {

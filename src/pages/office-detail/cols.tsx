@@ -2,6 +2,7 @@ import { ColumnDef } from "@/components/ui/table";
 import { formatDateTime } from "@/lib/format-date";
 import { useMemo } from "react";
 
+
 export const useWorkerInfoCols = () => {
   return useMemo<ColumnDef<WorkerAttendance>[]>(
     () => [
@@ -60,7 +61,7 @@ export const useWorkerInfoCols = () => {
   );
 };
 
-function calculateTimeDifference(
+ export function calculateTimeDifference(
   workShiftStart: string,
   attendanceTime: string,
 ): string {
