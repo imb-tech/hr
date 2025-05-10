@@ -1,7 +1,9 @@
 import DeleteModal from "@/components/elements/delete-modal";
 import ParamPagination from "@/components/param/pagination";
+import ParamSelect from "@/components/param/param-select";
+import { ParamInputSearch } from "@/components/param/search-input";
 import DataTable from "@/components/ui/table";
-import { HR_API } from "@/constants/api-endpoints";
+import { HR_API, POSITION } from "@/constants/api-endpoints";
 import { useModal } from "@/hooks/use-modal";
 import { useStore } from "@/hooks/use-store";
 import { useGet } from "@/hooks/useGet";
@@ -12,7 +14,10 @@ export default function HrPage() {
   const { openModal } = useModal("delete");
   const navigate = useNavigate();
   const params = useSearch({ strict: false });
-  const { data, isLoading } = useGet<ListResponse<Human>>(HR_API, { params });
+  const { data: dataPosition } = useGet<Position[]>(POSITION);
+  const { data, isLoading, isSuccess } = useGet<ListResponse<Human>>(HR_API, {
+    params,
+  });
   const { store, setStore } = useStore<Human>("hr-data");
 
   function handleDelete(item: Human) {
@@ -23,6 +28,17 @@ export default function HrPage() {
 
   return (
     <div>
+      <div className="flex flex-col sm:flex-row justify-between items-center gap-3 w-full mb-3">
+        <ParamInputSearch />
+        <ParamSelect
+          className="max-w-full"
+          paramName="role_id"
+          optionLabelKey="name"
+          optionValueKey="id"
+          options={dataPosition}
+          placeholder="Lavozimlar"
+        />
+      </div>
       <DataTable
         isLoading={isLoading}
         columns={useHrListCols()}
@@ -34,7 +50,9 @@ export default function HrPage() {
         }}
         onRowClick={(item) => navigate({ to: `/hr-view/${item.id}` })}
       />
-      <ParamPagination total={data?.total_pages ?? 0} />
+      {isSuccess && data?.total_pages > 1 ? (
+        <ParamPagination total={data?.total_pages ?? 0} />
+      ) : null}
       <DeleteModal id={store?.id} path={HR_API} />
     </div>
   );

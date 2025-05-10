@@ -1,6 +1,7 @@
 import { COMPANIES } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
 import { Card, CardBody } from "@heroui/card";
+import { Skeleton } from "@heroui/skeleton";
 import { cn } from "@heroui/theme";
 import { Link, useNavigate, useParams } from "@tanstack/react-router";
 import { Building2, CirclePlus, MapPin, Pencil } from "lucide-react";
@@ -8,7 +9,7 @@ import { useEffect, useRef } from "react";
 
 function OfficeList() {
   const { id } = useParams({ from: "/_main/office/$id" });
-  const { data: companies } = useGet<FeatureCollection>(COMPANIES);
+  const { data: companies, isSuccess } = useGet<FeatureCollection>(COMPANIES);
   const navigate = useNavigate();
 
   const scrollbarRef = useRef<HTMLDivElement | null>(null);
@@ -23,7 +24,7 @@ function OfficeList() {
   };
 
   useEffect(() => {
-    if (window.innerWidth > 768) return
+    if (window.innerWidth > 768) return;
     if (!id || !companies?.features || !scrollbarRef.current) return;
 
     // ID string sifatida keladi, shuning uchun to'g'ri taqqoslash uchun String() ishlatamiz
@@ -52,63 +53,80 @@ function OfficeList() {
         className="flex flex-nowrap gap-3 overflow-x-auto py-1 my-3 scrollbar-hide"
         ref={scrollbarRef}
       >
-        {companies?.features?.map((item) => (
-          <Link key={item.id} to="/office/$id" params={{ id: String(item.id) }}>
-            <Card
-              ref={(el) => setCardRef(String(item.id), el)} // ID ni string ga aylantiramiz
-              className={cn(
-                "min-w-[300px] relative max-w-[300px] transition-all cursor-pointer h-[148px] shadow-none",
-                String(item.id) === id
-                  ? "border border-blue-400"
-                  : "border dark:border-zinc-800",
-              )}
-            >
-              <CardBody
-                className={cn(
-                  "font-semibold py-4",
-                  String(item.id) === id && "text-blue-400",
-                )}
+        {isSuccess && companies?.features?.length > 0
+          ? companies?.features?.map((item) => (
+              <Link
+                key={item.id}
+                to="/office/$id"
+                params={{ id: String(item.id) }}
               >
-                <Link
-                  key={item.id}
-                  to="/office-edit/$id"
-                  params={{ id: String(item.id) }}
-                  className="dark:bg-zinc-800 bg-zinc-100 p-[10px] hover:text-primary rounded-full absolute top-2 right-2"
+                <Card
+                  ref={(el) => setCardRef(String(item.id), el)}
+                  className={cn(
+                    "min-w-[300px] relative max-w-[300px] transition-all cursor-pointer h-[148px] shadow-none",
+                    String(item.id) === id
+                      ? "border border-blue-400"
+                      : "border dark:border-zinc-800",
+                  )}
                 >
-                  <Pencil size={14} />
-                </Link>
-                <div className="flex items-center mb-4">
-                  <Building2 className="h-10 w-10 text-blue-400 mr-3" />
-                  <h2
-                    className="text-lg font-bold line-clamp-1 uppercase"
-                    title={item.properties.name}
-                  >
-                    {item.properties.name}
-                  </h2>
-                </div>
-
-                <div className="flex items-start mt-4">
-                  <MapPin
+                  <CardBody
                     className={cn(
-                      "h-5 w-5 mr-2 mt-0.5 flex-shrink-0",
-                      String(item.id) === id
-                        ? "text-blue-400"
-                        : "dark:text-gray-400",
+                      "font-semibold py-4",
+                      String(item.id) === id && "text-blue-400",
                     )}
-                  />
-                  <div>
-                    <p
-                      className="text-sm dark:text-gray-300 line-clamp-2"
-                      title={item.properties.address}
+                  >
+                    <Link
+                      key={item.id}
+                      to="/office-edit/$id"
+                      params={{ id: String(item.id) }}
+                      className="dark:bg-zinc-800 bg-zinc-100 p-[10px] hover:text-primary rounded-full absolute top-2 right-2"
                     >
-                      {item.properties.address}
-                    </p>
-                  </div>
-                </div>
-              </CardBody>
-            </Card>
-          </Link>
-        ))}
+                      <Pencil size={14} />
+                    </Link>
+                    <div className="flex items-center mb-4">
+                      <Building2 className="h-10 w-10 text-blue-400 mr-3" />
+                      <h2
+                        className="text-lg font-bold line-clamp-1 uppercase"
+                        title={item.properties.name}
+                      >
+                        {item.properties.name}
+                      </h2>
+                    </div>
+
+                    <div className="flex items-start mt-4">
+                      <MapPin
+                        className={cn(
+                          "h-5 w-5 mr-2 mt-0.5 flex-shrink-0",
+                          String(item.id) === id
+                            ? "text-blue-400"
+                            : "dark:text-gray-400",
+                        )}
+                      />
+                      <div>
+                        <p
+                          className="text-sm dark:text-gray-300 line-clamp-2"
+                          title={item.properties.address}
+                        >
+                          {item.properties.address}
+                        </p>
+                      </div>
+                    </div>
+                  </CardBody>
+                </Card>
+              </Link>
+            ))
+          : Array.from({ length: 5 })?.map((_, index) => (
+              <Card
+                key={index}
+                className="max-w-[300px] min-w-[300px] h-[148px] space-y-5 p-2"
+                radius="lg"
+              >
+                <Skeleton className="rounded-lg">
+                  <div className="h-[135px] rounded-lg bg-default-300" />
+                </Skeleton>
+              </Card>
+            ))}
+
         <Link to="/office/create">
           <Card
             className={cn(

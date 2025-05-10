@@ -3,10 +3,9 @@ import { formatMoney } from "@/lib/format-money";
 import formatPassportNumber from "@/lib/formatter-pasport";
 import formatPhoneNumber from "@/lib/formatter-phone";
 import { cn } from "@heroui/theme";
-import { format } from "date-fns";
 import { useMemo } from "react";
 
-export const useArrivalsListCols = () => {
+export const useAbsentListCols = () => {
   return useMemo<ColumnDef<Human>[]>(
     () => [
       { header: "ID", dataKey: "id" },
@@ -28,19 +27,6 @@ export const useArrivalsListCols = () => {
       {
         header: "Lavozim",
         dataKey: "role_name",
-      },
-      {
-        header: "Kelish va Ketish",
-        dataKey: "id",
-        cell: (_, item) => {
-          return item.attendance_json?.attendance_time &&
-            item.attendance_json?.left_time ? (
-            <span className="whitespace-nowrap lg:break-all">
-              {format(item.attendance_json?.attendance_time, "HH:mm")} -
-              {format(item.attendance_json?.left_time, "HH:mm")}
-            </span>
-          ) : null;
-        },
       },
       {
         header: "Ish vaqti",
@@ -75,17 +61,17 @@ export const useArrivalsListCols = () => {
       },
       {
         header: "Status",
-        dataKey: "attendance_status",
+        dataKey: "excuses_status",
         cell: (value) => {
           return (
             <div className="flex justify-center items-center">
               <span
                 className={cn(
-                  "text-center whitespace-nowrap",
-                  value == 1 ? "text-green-400 " : "text-orange-300 ",
+                  "text-center",
+                  value == 1 ? "text-orange-400 " : "text-red-500 ",
                 )}
               >
-                {value == 1 ? "Vaqtida kelgan" : "Kech qolgan"}
+                {value == 1 ? "Sababli" : "Sababsiz"}
               </span>
             </div>
           );

@@ -11,7 +11,7 @@ import OfficeDetailTableHeader from "./table-header";
 type Props = {
   info: CompanyStats[] | undefined;
 };
-
+ 
 function PositionAccordion({ info }: Props) {
   const { id } = useParams({ from: "/_main/office/$id" });
   const search = useSearch({ from: "/_main/office/$id" });
@@ -30,8 +30,6 @@ function PositionAccordion({ info }: Props) {
       .map((key) => info?.[Number(key)]?.id)
       .filter(Boolean);
 
-      console.log(selectedIds);
-      
     setSelectedKeys(keys as Set<string>);
 
     navigate({
@@ -45,8 +43,7 @@ function PositionAccordion({ info }: Props) {
   const columns = useWorkerInfoCols();
 
   return (
-    <div className="pt-4">
-      <h2 className="text-xl">Ish vaqtlari lavozimlar kesimida</h2>
+    <div>
       {info?.length ? (
         <div className="overflow-x-auto hidden lg:block">
           <div className="min-w-[1024px]">
@@ -91,7 +88,7 @@ function PositionAccordion({ info }: Props) {
           </div>
         </div>
       ) : (
-        <div className="flex items-center h-28 w-full justify-center bg-gray-500/20 rounded-md my-2">
+        <div className="flex items-center h-48 w-full justify-center bg-gray-500/20 rounded-md my-2">
           <p className="text-gray-500/95">Lavozimlar ma'lumoti topilmadi</p>
         </div>
       )}

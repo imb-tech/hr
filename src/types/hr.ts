@@ -7,9 +7,15 @@ type Human = {
     residence: string;
     education: string | number;
   }
+  phone: string | number;
+  attendance_json?:{
+    attendance_time?: string
+    left_time?: string
+  }
   phone_number: string | number;
   phone_number2: string;
   id_number: string;
+  attendance_status?: number
   address: string;
   residence: string;
   education: string | number;
@@ -21,12 +27,16 @@ type Human = {
   first_name?: string
   last_name?: string
   image?: string
+  full_name?: string
   username?: string
   companies?: any
   role_name?: string
   work_shift_start: string,
   work_shift_end: string,
+  has_attendance?:boolean
   work_days: number[],
+  excuses_status?: string | number
+  status?:boolean
   fine_per_minute: number
 };
 
