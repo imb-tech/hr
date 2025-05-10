@@ -9,7 +9,7 @@ function PositionHrView({}: Props) {
   const { id } = useParams({ from: "/_main/position-hr-view/$id" });
   const search = useSearch({ from: "/_main/position-hr-view/$id" });
 
-  const { data, isSuccess } = useGet<WorkerInfo[]>(
+  const { data, isSuccess } = useGet<WorkerAttendance[]>(
     `${USER_STATISTIC}/${(search as { position: string })?.position}/${id}`,
     {
       options: {
