@@ -76,7 +76,7 @@ export default function AllEmployeesPage() {
 
   return (
     <div>
-      <div className="flex justify-between items-center gap-3 w-full">
+      <div className="flex justify-between items-center gap-3 w-full mb-3">
         <div>
           <ParamTabs
             tabs={tabOptions}
@@ -84,7 +84,7 @@ export default function AllEmployeesPage() {
             clearOther={false}
           />
         </div>
-        <div className="hidden md:block">
+        <div className="hidden lg:block">
           <Tabs
             aria-label="Options"
             tabs={tabs}
@@ -92,7 +92,7 @@ export default function AllEmployeesPage() {
           />
         </div>
       </div>
-      <div className="flex justify-between items-center gap-3 w-full mb-4">
+      <div className="flex justify-between items-center gap-3 w-full mb-3">
         <ParamInputSearch />
       </div>
 
@@ -115,7 +115,7 @@ export default function AllEmployeesPage() {
         </div>
       ) : (
         <>
-          <div className="hidden md:block">
+          <div className="hidden lg:block">
             <DataTable
               isLoading={isLoading}
               columns={columns}
@@ -125,7 +125,7 @@ export default function AllEmployeesPage() {
               <ParamPagination total={data?.total_pages} />
             ) : null}
           </div>
-          <div className="md:hidden">{renderCardView()}</div>
+          <div className="lg:hidden">{renderCardView()}</div>
         </>
       )}
     </div>

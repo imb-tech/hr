@@ -66,11 +66,11 @@ export default function ArrivalsPage() {
 
   return (
     <div>
-      <div className="flex justify-between items-center gap-3 w-full">
+      <div className="flex justify-between items-center gap-3 w-full mb-3">
         <div>
           <ParamTabs tabs={tabOptions} paramName="status" clearOther={false} />
         </div>
-        <div className="hidden md:block">
+        <div className="hidden lg:block">
           <Tabs
             aria-label="Options"
             tabs={tabs}
@@ -79,7 +79,7 @@ export default function ArrivalsPage() {
         </div>
       </div>
 
-      <div className="flex justify-between items-center gap-3 w-full mb-4">
+      <div className="flex justify-between items-center gap-3 w-full mb-3">
         <ParamInputSearch />
       </div>
 
@@ -102,7 +102,7 @@ export default function ArrivalsPage() {
         </>
       ) : (
         <>
-          <div className="hidden md:block">
+          <div className="hidden lg:block">
             <DataTable
               isLoading={isLoading}
               columns={columns}
@@ -112,7 +112,7 @@ export default function ArrivalsPage() {
               <ParamPagination total={data?.total_pages} />
             ) : null}
           </div>
-          <div className="md:hidden">{renderCardView()}</div>
+          <div className="lg:hidden">{renderCardView()}</div>
         </>
       )}
     </div>

@@ -12,14 +12,14 @@ import { Key, useState } from "react";
 import EmployeeCard from "../arrivals/employee-card";
 import { useAbsentListCols } from "./cols";
 
-type ViewMode = "table" | "card";
+export type ViewMode = "table" | "card";
 
 const tabOptions = [
   { key: "", label: "Barchasi" },
   { key: "1", label: "Sababli" },
   { key: "0", label: "Sababsiz" },
 ];
-const tabs = [
+export const tabs = [
   { key: "table", label: <Table /> },
   { key: "card", label: <Grid2x2 /> },
 ];
@@ -64,11 +64,11 @@ export default function AbsentPage() {
 
   return (
     <div>
-      <div className="flex justify-between items-center gap-3 w-full">
+      <div className="flex justify-between items-center gap-3 w-full mb-3">
         <div>
           <ParamTabs tabs={tabOptions} paramName="status" clearOther={false} />
         </div>
-        <div className="hidden md:block">
+        <div className="hidden lg:block">
           <Tabs
             aria-label="Options"
             tabs={tabs}
@@ -76,7 +76,7 @@ export default function AbsentPage() {
           />
         </div>
       </div>
-      <div className="flex justify-between items-center gap-3 w-full mb-4">
+      <div className="flex justify-between items-center gap-3 w-full mb-3">
         <ParamInputSearch />
       </div>
 
@@ -99,7 +99,7 @@ export default function AbsentPage() {
         </div>
       ) : (
         <>
-          <div className="hidden md:block">
+          <div className="hidden lg:block">
             <DataTable
               isLoading={isLoading}
               columns={columns}
@@ -109,7 +109,7 @@ export default function AbsentPage() {
               <ParamPagination total={data?.total_pages} />
             ) : null}
           </div>
-          <div className="md:hidden">{renderCardView()}</div>
+          <div className="lg:hidden">{renderCardView()}</div>
         </>
       )}
     </div>
