@@ -6,7 +6,7 @@ import { cn } from "@heroui/theme";
 import { format } from "date-fns";
 import { useMemo } from "react";
 
-export const useArrivalsListCols = () => {
+export const useAllEmployeesListCols = () => {
   return useMemo<ColumnDef<Human>[]>(
     () => [
       { header: "ID", dataKey: "id" },
@@ -75,17 +75,29 @@ export const useArrivalsListCols = () => {
       },
       {
         header: "Status",
-        dataKey: "attendance_status",
-        cell: (value) => {
+        dataKey: "status",
+        cell: (_, item) => {
           return (
             <div className="flex justify-center items-center">
               <span
                 className={cn(
                   "text-center whitespace-nowrap",
-                  value == 1 ? "text-green-400 " : "text-orange-300 ",
+                  item.has_attendance
+                    ? item.attendance_status == 1
+                      ? "text-green-400"
+                      : "text-orange-300"
+                    : item.excuses_status == 1
+                      ? "text-orange-400"
+                      : "text-red-500",
                 )}
               >
-                {value == 1 ? "Vaqtida kelgan" : "Kech qolgan"}
+                {item.has_attendance
+                  ? item.attendance_status == 1
+                    ? "Vaqtida kelgan"
+                    : "Kech qolgan"
+                  : item.excuses_status == 1
+                    ? "Sababli"
+                    : "Sababsiz"}
               </span>
             </div>
           );

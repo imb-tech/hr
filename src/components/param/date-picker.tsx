@@ -33,7 +33,6 @@ export function DatePickerWithURL({ paramName = "date" }: Props) {
       className="max-w-[284px]"
       defaultValue={defaultDate}
       onChange={handleChange}
-      
     />
   );
 }

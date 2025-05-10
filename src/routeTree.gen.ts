@@ -19,6 +19,7 @@ import { Route as MainPositionImport } from './routes/_main/position'
 import { Route as MainHrCreateImport } from './routes/_main/hr-create'
 import { Route as MainHrImport } from './routes/_main/hr'
 import { Route as MainArrivalsImport } from './routes/_main/arrivals'
+import { Route as MainAllEmployeesImport } from './routes/_main/all-employees'
 import { Route as MainAbsentImport } from './routes/_main/absent'
 import { Route as AuthRegisterImport } from './routes/_auth/register'
 import { Route as AuthLoginImport } from './routes/_auth/login'
@@ -75,6 +76,12 @@ const MainHrRoute = MainHrImport.update({
 const MainArrivalsRoute = MainArrivalsImport.update({
   id: '/arrivals',
   path: '/arrivals',
+  getParentRoute: () => MainRoute,
+} as any)
+
+const MainAllEmployeesRoute = MainAllEmployeesImport.update({
+  id: '/all-employees',
+  path: '/all-employees',
   getParentRoute: () => MainRoute,
 } as any)
 
@@ -184,6 +191,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainAbsentImport
       parentRoute: typeof MainImport
     }
+    '/_main/all-employees': {
+      id: '/_main/all-employees'
+      path: '/all-employees'
+      fullPath: '/all-employees'
+      preLoaderRoute: typeof MainAllEmployeesImport
+      parentRoute: typeof MainImport
+    }
     '/_main/arrivals': {
       id: '/_main/arrivals'
       path: '/arrivals'
@@ -289,6 +303,7 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface MainRouteChildren {
   MainAbsentRoute: typeof MainAbsentRoute
+  MainAllEmployeesRoute: typeof MainAllEmployeesRoute
   MainArrivalsRoute: typeof MainArrivalsRoute
   MainHrRoute: typeof MainHrRoute
   MainHrCreateRoute: typeof MainHrCreateRoute
@@ -305,6 +320,7 @@ interface MainRouteChildren {
 
 const MainRouteChildren: MainRouteChildren = {
   MainAbsentRoute: MainAbsentRoute,
+  MainAllEmployeesRoute: MainAllEmployeesRoute,
   MainArrivalsRoute: MainArrivalsRoute,
   MainHrRoute: MainHrRoute,
   MainHrCreateRoute: MainHrCreateRoute,
@@ -327,6 +343,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
   '/absent': typeof MainAbsentRoute
+  '/all-employees': typeof MainAllEmployeesRoute
   '/arrivals': typeof MainArrivalsRoute
   '/hr': typeof MainHrRoute
   '/hr-create': typeof MainHrCreateRoute
@@ -347,6 +364,7 @@ export interface FileRoutesByTo {
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
   '/absent': typeof MainAbsentRoute
+  '/all-employees': typeof MainAllEmployeesRoute
   '/arrivals': typeof MainArrivalsRoute
   '/hr': typeof MainHrRoute
   '/hr-create': typeof MainHrCreateRoute
@@ -369,6 +387,7 @@ export interface FileRoutesById {
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/register': typeof AuthRegisterRoute
   '/_main/absent': typeof MainAbsentRoute
+  '/_main/all-employees': typeof MainAllEmployeesRoute
   '/_main/arrivals': typeof MainArrivalsRoute
   '/_main/hr': typeof MainHrRoute
   '/_main/hr-create': typeof MainHrCreateRoute
@@ -391,6 +410,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/absent'
+    | '/all-employees'
     | '/arrivals'
     | '/hr'
     | '/hr-create'
@@ -410,6 +430,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/absent'
+    | '/all-employees'
     | '/arrivals'
     | '/hr'
     | '/hr-create'
@@ -430,6 +451,7 @@ export interface FileRouteTypes {
     | '/_auth/login'
     | '/_auth/register'
     | '/_main/absent'
+    | '/_main/all-employees'
     | '/_main/arrivals'
     | '/_main/hr'
     | '/_main/hr-create'
@@ -481,6 +503,7 @@ export const routeTree = rootRoute
       "filePath": "_main.tsx",
       "children": [
         "/_main/absent",
+        "/_main/all-employees",
         "/_main/arrivals",
         "/_main/hr",
         "/_main/hr-create",
@@ -509,6 +532,10 @@ export const routeTree = rootRoute
     },
     "/_main/absent": {
       "filePath": "_main/absent.tsx",
+      "parent": "/_main"
+    },
+    "/_main/all-employees": {
+      "filePath": "_main/all-employees.tsx",
       "parent": "/_main"
     },
     "/_main/arrivals": {

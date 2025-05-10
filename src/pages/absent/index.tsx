@@ -1,21 +1,23 @@
 import ParamPagination from "@/components/param/pagination";
+import { ParamInputSearch } from "@/components/param/search-input";
 import ParamTabs from "@/components/param/tabs";
 import DataTable from "@/components/ui/table";
 import Tabs from "@/components/ui/tabs";
-import { HR_API } from "@/constants/api-endpoints";
+import { HR_ABSENTS } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
+import { Card, CardBody } from "@heroui/card";
 import { useSearch } from "@tanstack/react-router";
 import { Grid2x2, Table } from "lucide-react";
 import { Key, useState } from "react";
-import { useArrivalsListCols } from "../arrivals/cols";
 import EmployeeCard from "../arrivals/employee-card";
+import { useAbsentListCols } from "./cols";
 
 type ViewMode = "table" | "card";
 
 const tabOptions = [
-  { key: "0", label: "Barchasi" },
+  { key: "", label: "Barchasi" },
   { key: "1", label: "Sababli" },
-  { key: "2", label: "Sababsiz" },
+  { key: "0", label: "Sababsiz" },
 ];
 const tabs = [
   { key: "table", label: <Table /> },
@@ -24,6 +26,7 @@ const tabs = [
 
 export default function AbsentPage() {
   const search = useSearch({ strict: false });
+  const { id, ...otherParams } = search as { id: string; [key: string]: any };
   const [view, setView] = useState<ViewMode>("table");
 
   function handleChange(val: Key) {
@@ -32,15 +35,29 @@ export default function AbsentPage() {
     }
   }
 
-  const { data: data, isLoading } = useGet<ListResponse<Human>>(HR_API, {
-    params: search,
+  const {
+    data: data,
+    isLoading,
+    isSuccess,
+  } = useGet<ListResponse<Human>>(`${HR_ABSENTS}/${id}`, {
+    params: { ...otherParams, page_size: 48 },
+    options: { enabled: Boolean(id) },
   });
-  const columns = useArrivalsListCols();
+  const columns = useAbsentListCols();
 
   const renderCardView = () => (
     <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3 mb-5">
-      {Array.from({ length: 9 }).map((_, index) => (
-        <EmployeeCard key={index} />
+      {data?.results?.map((item, index) => (
+        <EmployeeCard
+          item={item}
+          status={item.excuses_status == 1 ? "Sababli" : "Sababsiz"}
+          color={
+            item.excuses_status == 1
+              ? "bg-orange-200 text-orange-400"
+              : "bg-red-200 text-red-600"
+          }
+          key={index}
+        />
       ))}
     </div>
   );
@@ -59,9 +76,27 @@ export default function AbsentPage() {
           />
         </div>
       </div>
+      <div className="flex justify-between items-center gap-3 w-full mb-4">
+        <ParamInputSearch />
+      </div>
 
       {view === "card" ? (
-        renderCardView()
+        <div className="space-y-3">
+          {isSuccess && data?.results?.length > 0 ? (
+            <>
+              {renderCardView()}
+              {data?.total_pages > 1 && (
+                <ParamPagination total={data?.total_pages} />
+              )}
+            </>
+          ) : (
+            <Card>
+              <CardBody className="h-72 flex items-center justify-center text-gray-400">
+                Ma'lumot topilmadi
+              </CardBody>
+            </Card>
+          )}
+        </div>
       ) : (
         <>
           <div className="hidden md:block">
@@ -70,7 +105,9 @@ export default function AbsentPage() {
               columns={columns}
               data={data?.results || []}
             />
-            <ParamPagination total={data?.total_pages} />
+            {isSuccess && data?.total_pages > 1 ? (
+              <ParamPagination total={data?.total_pages} />
+            ) : null}
           </div>
           <div className="md:hidden">{renderCardView()}</div>
         </>

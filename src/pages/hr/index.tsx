@@ -1,5 +1,6 @@
 import DeleteModal from "@/components/elements/delete-modal";
 import ParamPagination from "@/components/param/pagination";
+import { ParamInputSearch } from "@/components/param/search-input";
 import DataTable from "@/components/ui/table";
 import { HR_API } from "@/constants/api-endpoints";
 import { useModal } from "@/hooks/use-modal";
@@ -12,7 +13,9 @@ export default function HrPage() {
   const { openModal } = useModal("delete");
   const navigate = useNavigate();
   const params = useSearch({ strict: false });
-  const { data, isLoading } = useGet<ListResponse<Human>>(HR_API, { params });
+  const { data, isLoading, isSuccess } = useGet<ListResponse<Human>>(HR_API, {
+    params,
+  });
   const { store, setStore } = useStore<Human>("hr-data");
 
   function handleDelete(item: Human) {
@@ -23,6 +26,7 @@ export default function HrPage() {
 
   return (
     <div>
+      <ParamInputSearch className="mb-3" />
       <DataTable
         isLoading={isLoading}
         columns={useHrListCols()}
@@ -34,7 +38,9 @@ export default function HrPage() {
         }}
         onRowClick={(item) => navigate({ to: `/hr-view/${item.id}` })}
       />
-      <ParamPagination total={data?.total_pages ?? 0} />
+      {isSuccess && data?.total_pages > 1 ? (
+        <ParamPagination total={data?.total_pages ?? 0} />
+      ) : null}
       <DeleteModal id={store?.id} path={HR_API} />
     </div>
   );
