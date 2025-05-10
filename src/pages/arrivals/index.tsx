@@ -31,11 +31,9 @@ export default function ArrivalsPage() {
     }
   }
 
-  const {
-    data: data,
-    isSuccess,
-    isLoading,
-  } = useGet<Human[]>(HR_API, { params: search });
+  const { data, isLoading } = useGet<ListResponse<Human>>(HR_API, {
+    params: search,
+  });
   const columns = useArrivalsListCols();
 
   const renderCardView = () => (
@@ -69,7 +67,7 @@ export default function ArrivalsPage() {
             <DataTable
               isLoading={isLoading}
               columns={columns}
-              data={(isSuccess && data) || []}
+              data={data?.results ?? []}
             />
           </div>
           <div className="md:hidden">{renderCardView()}</div>
