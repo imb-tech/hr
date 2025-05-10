@@ -78,3 +78,9 @@ export const darkModeStyle = [
     stylers: [{ color: "#17263c" }],
   },
 ];
+
+
+
+
+export const MAPBOX_TOKEN =
+  "pk.eyJ1IjoiZG9uaXlvcmVzaG1hbWF0b3YiLCJhIjoiY201bmc4aXJrMDgxbDJqczloNWp0eHd0aCJ9.VfRptL_wDHlXRmOGZepbCw"; // Set your mapbox token here
