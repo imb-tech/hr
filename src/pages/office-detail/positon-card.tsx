@@ -15,7 +15,7 @@ function PositonCard({ item }: Props) {
     >
       <Card className="min-w-[300px] relative  transition-all cursor-pointer  shadow-none">
         <CardHeader className="pb-0">
-          <h3 className="text-lg font-bold  text-center">
+          <h3 className="text-[16px] line-clamp-1 font-bold  text-center">
             {item?.role || "Ma'lumot topilmadi"}
           </h3>
         </CardHeader>

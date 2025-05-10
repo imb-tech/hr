@@ -57,8 +57,12 @@ export default function OfficeDetail() {
 
       {view === "card" ? (
         isSuccess && info?.length > 0 ? (
-          <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-4 my-4 max-w-full overflow-x-auto">
-            {positionCard()}
+          <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-4 my-4 max-w-full">
+            {info?.map((item, index) => (
+              <div key={index}>
+                <PositonCard item={item} />
+              </div>
+            ))}
           </div>
         ) : (
           <div className="flex items-center h-48 w-full justify-center bg-gray-500/20 rounded-md my-2">
