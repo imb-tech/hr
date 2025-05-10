@@ -68,7 +68,7 @@ export default function SettingsPage() {
 
   return (
     <div>
-      <div>
+      <div className="mb-3">
       <ParamTabs tabs={tabOptions} paramName="status" clearOther={false} />
       </div>
 

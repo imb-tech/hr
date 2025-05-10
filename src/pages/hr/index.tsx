@@ -16,7 +16,7 @@ export default function HrPage() {
   const params = useSearch({ strict: false });
   const { data: dataPosition } = useGet<Position[]>(POSITION);
   const { data, isLoading, isSuccess } = useGet<ListResponse<Human>>(HR_API, {
-    params,
+    params: { ...params, page_size: 48 },
   });
   const { store, setStore } = useStore<Human>("hr-data");
 
