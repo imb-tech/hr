@@ -1,4 +1,5 @@
 import TestMap from "@/components/map/test-map";
+import ParamSelect from "@/components/param/param-select";
 import SearchableSelect from "@/components/param/searchable-select";
 
 const locations = Array.from({ length: 15 }, () => [
@@ -67,6 +68,7 @@ export default function MapPage() {
 
   return (
     <div className="h-full bottom-0">
+      <ParamSelect options={users} optionLabelKey="name" optionValueKey="id" paramName="filter" />
       <SearchableSelect
         options={users}
         optionLabelKey="name"

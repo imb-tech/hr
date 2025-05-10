@@ -5,7 +5,7 @@ import {
 } from "@heroui/react";
 import { cn } from "@heroui/theme";
 
-type Props<T extends object> = Omit<AutocompleteProps<T>, "children"> & {
+export type SearchSelectProps<T extends object> = Omit<AutocompleteProps<T>, "children"> & {
   options?: T[];
   optionLabelKey?: keyof T;
   optionValueKey?: keyof T;
@@ -19,7 +19,7 @@ export default function SearchableSelect<T extends object>({
   renderOption,
   className,
   ...props
-}: Props<T>) {
+}: SearchSelectProps<T>) {
   function getValue<T extends object>(item: T, key?: keyof T) {
     return key && item[key] !== undefined ? String(item[key]) : "";
   }
@@ -29,6 +29,7 @@ export default function SearchableSelect<T extends object>({
       className={cn("max-w-xs", className)}
       defaultItems={options}
       placeholder="Select a user"
+      aria-label={'Select a user'}
       variant="flat"
       size="md"
       {...props}
