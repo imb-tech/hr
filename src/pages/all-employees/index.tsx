@@ -7,7 +7,7 @@ import Tabs from "@/components/ui/tabs";
 import { ALL_EMPLOYEES, POSITION } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
 import { Card, CardBody } from "@heroui/card";
-import { useSearch } from "@tanstack/react-router";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { Grid2x2, Table } from "lucide-react";
 import { Key, useState } from "react";
 import EmployeeCard from "../arrivals/employee-card";
@@ -26,6 +26,7 @@ const tabs = [
 ];
 
 export default function AllEmployeesPage() {
+  const navigate = useNavigate();
   const search = useSearch({ from: "__root__" });
   const { id, ...otherParams } = search as { id: string; [key: string]: any };
   const [view, setView] = useState<ViewMode>("table");
@@ -130,6 +131,12 @@ export default function AllEmployeesPage() {
               isLoading={isLoading}
               columns={columns}
               data={data?.results || []}
+              onRowClick={(item) =>
+                navigate({
+                  to: "/hr-view/$id",
+                  params: { id: item?.id.toString() },
+                })
+              }
             />
             {isSuccess && data?.total_pages > 1 ? (
               <ParamPagination total={data?.total_pages} />

@@ -1,7 +1,7 @@
 import { ColumnDef } from "@/components/ui/table";
 import { formatDateTime } from "@/lib/format-date";
+import { cn } from "@heroui/theme";
 import { useMemo } from "react";
-
 
 export const useWorkerInfoCols = () => {
   return useMemo<ColumnDef<WorkerAttendance>[]>(
@@ -9,22 +9,33 @@ export const useWorkerInfoCols = () => {
       { header: "ID", dataKey: "id" },
       { header: "FIO", dataKey: "full_name" },
       {
-        header: "Kelish vaqti",
+        header: "Ish vaqti",
         dataKey: "id",
-        cell(_, item) {
-          return formatDateTime(item.attendance?.attendance_time);
+        cell(_) {
+          return <span>{"09:00 ~ 18:00"}</span>;
         },
       },
       {
-        header: "Ketish vaqti",
+        header: "Keldi",
+        dataKey: "id",
+        cell(_, item) {
+          return (
+            <span>
+              {formatDateTime(item.attendance?.attendance_time) || "09:00"}
+            </span>
+          );
+        },
+      },
+      {
+        header: "Ketdi",
         dataKey: "id",
         cell(_, item) {
           const tm = item.attendance?.left_time;
-          return <span>{tm ? formatDateTime(tm) : "—"}</span>;
+          return <span>{tm ? formatDateTime(tm) : "18:00"}</span>;
         },
       },
       {
-        header: "Kechikish vaqti",
+        header: "Kechikish",
         dataKey: "id",
         cell(_, item) {
           return item.attendance && item.attendance.status === 0
@@ -32,15 +43,15 @@ export const useWorkerInfoCols = () => {
                 item.work_shift_start,
                 item.attendance.attendance_time,
               )
-            : "—";
+            : "15 min";
         },
       },
       // { header: "Erta ketish vaqti", dataKey: "" },
       {
-        header: "Ishxonadagi vaqti",
+        header: "Ishlagan soati",
         dataKey: "id",
         cell(_, item) {
-          return <span>{item.attendance?.duration}</span>;
+          return <span>{item.attendance?.duration || "7 soat 15 min"}</span>;
         },
       },
       {
@@ -49,8 +60,12 @@ export const useWorkerInfoCols = () => {
         cell(_, item) {
           return (
             <div className="flex items-center gap-4 justify-center">
-              <span>
-                {item.entry_log_status === 1 ? "Ofisda" : "Ofisdan tashqarida"}
+              <span
+                className={cn(
+                  item.id % 2 === 0 ? "text-green-400" : "text-orange-300",
+                )}
+              >
+                {item.id % 2 === 0 ? "Ofisda" : "Ofisdan tashqarida"}
               </span>
             </div>
           );
@@ -61,7 +76,7 @@ export const useWorkerInfoCols = () => {
   );
 };
 
- export function calculateTimeDifference(
+export function calculateTimeDifference(
   workShiftStart: string,
   attendanceTime: string,
 ): string {

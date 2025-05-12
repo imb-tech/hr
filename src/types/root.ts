@@ -5,5 +5,6 @@ type SearchParams = {
     id?: string
     position?: string | number
     role_id?: string | number
-    status?: string,
+    status?: string
+    date?:string
 };

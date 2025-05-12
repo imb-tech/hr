@@ -21,7 +21,7 @@ export default function AttendanceDashboard() {
   const { id } = useParams({ from: "/_main/office/$id" });
   const { data: dataDetails } = useGet<CompanyStats>(
     `${OFFICE_DETAILS}/${id}`,
-    { params: search, options: { enabled: Boolean(id) } },
+    { params: {date:search.date}, options: { enabled: Boolean(id) } },
   );
 
   const total = dataDetails?.total ?? 0;

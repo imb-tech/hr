@@ -13,7 +13,7 @@ function PositonCard({ item }: Props) {
       params={{ id: String(id) }}
       search={{ position: item.id }}
     >
-      <Card className="min-w-[300px] relative  transition-all cursor-pointer  shadow-none">
+      <Card className="min-w-[300px] relative  hover:scale-105 transition-all cursor-pointer  shadow-none">
         <CardHeader className="pb-0">
           <h3 className="text-[16px] line-clamp-1 font-bold  text-center">
             {item?.role || "Ma'lumot topilmadi"}

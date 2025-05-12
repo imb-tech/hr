@@ -11,7 +11,7 @@ import OfficeDetailTableHeader from "./table-header";
 type Props = {
   info: CompanyStats[] | undefined;
 };
- 
+
 function PositionAccordion({ info }: Props) {
   const { id } = useParams({ from: "/_main/office/$id" });
   const search = useSearch({ from: "/_main/office/$id" });
@@ -79,6 +79,12 @@ function PositionAccordion({ info }: Props) {
                       isHeaderSticky
                       columns={columns}
                       data={isSuccess && data.length > 0 ? data : []}
+                      onRowClick={(item) =>
+                        navigate({
+                          to: "/hr-view/$id",
+                          params: { id: item.id.toString() },
+                        })
+                      }
                     />
                   </div>
                 ),

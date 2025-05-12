@@ -7,7 +7,7 @@ import Tabs from "@/components/ui/tabs";
 import { HR_ATTENDED, POSITION } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
 import { Card, CardBody } from "@heroui/card";
-import { useSearch } from "@tanstack/react-router";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { Grid2x2, Table } from "lucide-react";
 import { Key, useState } from "react";
 import { useArrivalsListCols } from "./cols";
@@ -27,6 +27,7 @@ const tabs = [
 ];
 
 export default function ArrivalsPage() {
+  const navigate = useNavigate();
   const search = useSearch({ strict: false });
   const { id, ...otherParams } = search as { id: string; [key: string]: any };
   const [view, setView] = useState<ViewMode>("table");
@@ -117,6 +118,12 @@ export default function ArrivalsPage() {
               isLoading={isLoading}
               columns={columns}
               data={data?.results ?? []}
+              onRowClick={(item) =>
+                navigate({
+                  to: "/hr-view/$id",
+                  params: { id: item?.id.toString() },
+                })
+              }
             />
             {isSuccess && data?.total_pages > 1 ? (
               <ParamPagination total={data?.total_pages} />
