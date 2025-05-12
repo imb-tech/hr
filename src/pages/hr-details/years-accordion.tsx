@@ -20,6 +20,7 @@ export default function YearsAccordion() {
 
   function clickAccordion(keys: Selection) {
     const selected = Array.from(keys).filter(Boolean) as string[];
+
     setSelectedKeys(new Set(selected));
 
     navigate({
@@ -79,18 +80,6 @@ export default function YearsAccordion() {
   return (
     <div>
       <Accordion
-        selectionMode="single"
-        style={{
-          padding: "0",
-        }}
-        variant="light"
-        items={[
-          {
-            key: "1",
-            title: <YearsTableHeader />,
-            content: "hidden",
-          },
-        ]}
         itemProps={{
           classNames: {
             content: "hidden",
@@ -98,21 +87,33 @@ export default function YearsAccordion() {
             trigger: "!p-0 !px-0",
           },
         }}
-      />
-      <Accordion
+        items={[
+          {
+            key: "1",
+            title: <YearsTableHeader />,
+            content: "hidden",
+          },
+        ]}
+        selectionMode="single"
         style={{
           padding: "0",
         }}
-        selectionMode="single"
-        selectedKeys={selectedKeys}
-        onSelectionChange={clickAccordion}
-        items={accordionItems || []}
+        variant="light"
+      />
+      <Accordion
         itemProps={{
           classNames: {
             trigger: "!px-3 dark:bg-neutral-900 bg-neutral-50 rounded-b-lg",
             indicator: "",
           },
         }}
+        items={accordionItems || []}
+        selectedKeys={selectedKeys}
+        selectionMode="single"
+        style={{
+          padding: "0",
+        }}
+        onSelectionChange={clickAccordion}
       />
     </div>
   );

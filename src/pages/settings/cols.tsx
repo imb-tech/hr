@@ -21,7 +21,7 @@ export const usSettingsCols = () => {
 
   return useMemo<ColumnDef<StatusType>[]>(
     () => [
-      { header: "ID", dataKey: "id" },
+      // { header: "ID", dataKey: "id" },
       {
         header: "FIO",
         dataKey: "full_name",
@@ -44,14 +44,18 @@ export const usSettingsCols = () => {
         header: "Sababi",
         dataKey: "comment",
         cell(value) {
-          return <span className="whitespace-nowrap lg:break-all">{value}</span>;
+          return (
+            <span className="whitespace-nowrap lg:break-all">{value}</span>
+          );
         },
       },
       {
         header: "Rad etish sababi",
         dataKey: "response_comment",
         cell(value) {
-          return <span className="whitespace-nowrap lg:break-all">{value}</span>;
+          return (
+            <span className="whitespace-nowrap lg:break-all">{value}</span>
+          );
         },
       },
       {
@@ -61,24 +65,24 @@ export const usSettingsCols = () => {
           return item.status === 0 ? (
             <div className="flex items-center justify-end">
               <Button
-                size="sm"
                 className="min-w-4 "
+                color="danger"
+                size="sm"
+                variant="light"
                 onPress={() => {
                   handleItem(item), setStatus({ status: 2 });
                 }}
-                color="danger"
-                variant="light"
               >
                 <X size={20} />
               </Button>
               <Button
-                size="sm"
                 className="min-w-4 "
+                color="success"
+                size="sm"
+                variant="light"
                 onPress={() => {
                   handleItem(item), setStatus({ status: 1 });
                 }}
-                variant="light"
-                color="success"
               >
                 <Check size={20} />
               </Button>
@@ -87,8 +91,8 @@ export const usSettingsCols = () => {
             <div className={"flex w-full justify-end"}>
               <Button
                 className={`flex  ${item.status === 2 ? "justify-end" : "justify-start"}`}
-                variant="light"
                 color={item.status === 2 ? "danger" : "success"}
+                variant="light"
               >
                 {item.status === 2 ? "Rad etilgan" : "Ruxsat berilgan"}
               </Button>

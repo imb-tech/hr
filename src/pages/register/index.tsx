@@ -53,19 +53,19 @@ export default function RegisterForm() {
         </Link>
       </div>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-3"
+        onSubmit={form.handleSubmit(onSubmit)}
       >
-        <FormInput isRequired methods={form} name="full_name" label={"Ism"} />
-        <FormInput isRequired methods={form} name="username" label={"Login"} />
+        <FormInput isRequired label={"Ism"} methods={form} name="full_name" />
+        <FormInput isRequired label={"Login"} methods={form} name="username" />
         <FormInput
           isRequired
+          label={"Parol"}
           methods={form}
           name="password"
-          label={"Parol"}
           type="password"
         />
-        <Button isLoading={isPending} color="primary">
+        <Button color="primary" isLoading={isPending}>
           Davom etish
         </Button>
       </form>

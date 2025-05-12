@@ -20,6 +20,7 @@ const tabOptions = [
   { key: "1", label: "Sababli (5)" },
   { key: "0", label: "Sababsiz (3)" },
 ];
+
 export const tabs = [
   { key: "table", label: <Table /> },
   { key: "card", label: <Grid2x2 /> },
@@ -52,14 +53,14 @@ export default function AbsentPage() {
     <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3 mb-5">
       {data?.results?.map((item, index) => (
         <EmployeeCard
-          item={item}
-          status={item.excuses_status == 1 ? "Sababli" : "Sababsiz"}
+          key={index}
           color={
             item.excuses_status == 1
               ? "bg-orange-200 text-orange-400"
               : "bg-red-200 text-red-600"
           }
-          key={index}
+          item={item}
+          status={item.excuses_status == 1 ? "Sababli" : "Sababsiz"}
         />
       ))}
     </div>
@@ -69,7 +70,7 @@ export default function AbsentPage() {
     <div>
       <div className="flex justify-between items-center gap-3 w-full mb-3">
         <div>
-          <ParamTabs tabs={tabOptions} paramName="status" clearOther={false} />
+          <ParamTabs clearOther={false} paramName="status" tabs={tabOptions} />
         </div>
         <div className="hidden lg:block">
           <Tabs
@@ -83,10 +84,10 @@ export default function AbsentPage() {
         <ParamInputSearch />
         <ParamSelect
           className="max-w-full"
-          paramName="role_id"
           optionLabelKey="name"
           optionValueKey="id"
           options={dataPosition}
+          paramName="role_id"
           placeholder="Lavozimlar"
         />
       </div>
@@ -112,9 +113,10 @@ export default function AbsentPage() {
         <>
           <div className="hidden lg:block">
             <DataTable
-              isLoading={isLoading}
+              indexing
               columns={columns}
               data={data?.results || []}
+              isLoading={isLoading}
               onRowClick={(item) =>
                 navigate({
                   to: "/hr-view/$id",

@@ -1,19 +1,46 @@
 import ParamSelect from "@/components/param/param-select";
+import { COMPANIES, POSITION } from "@/constants/api-endpoints";
+import { useGet } from "@/hooks/useGet";
 import { HTMLProps } from "react";
 
 export default function MapFilters(props: HTMLProps<HTMLDivElement>) {
+  const { data: oficeData } = useGet<GeoJSON.FeatureCollection>(COMPANIES);
+  const { data: positions } = useGet<Position[]>(POSITION);
+
+  console.log(oficeData?.features);
+
   return (
     <div {...props}>
       <ParamSelect
-        options={users}
         optionLabelKey="full_name"
         optionValueKey="id"
+        options={users}
         paramName="filter"
-        className="max-w-full sm:max-w-sm"
+        placeholder="Hodim"
+      />
+
+      <ParamSelect
+        optionLabelKey="name"
+        optionValueKey="id"
+        options={positions}
+        paramName="employee"
+        placeholder="Lavozimlar"
+      />
+
+      <ParamSelect
+        optionLabelKey="name"
+        optionValueKey="id"
+        options={oficeData?.features?.map((el) => ({
+          id: el.id,
+          name: (el.properties as Company).name,
+        }))}
+        paramName="id"
+        placeholder="Ofis"
       />
     </div>
   );
 }
+
 const users = [
   {
     id: 1,

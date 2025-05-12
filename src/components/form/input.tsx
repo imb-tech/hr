@@ -35,7 +35,6 @@ export default function FormInput<IForm extends FieldValues>({
     },
   });
 
-
   return (
     <fieldset
       className={cn(

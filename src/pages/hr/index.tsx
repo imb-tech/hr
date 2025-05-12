@@ -32,17 +32,18 @@ export default function HrPage() {
         <ParamInputSearch />
         <ParamSelect
           className="max-w-full"
-          paramName="role_id"
           optionLabelKey="name"
           optionValueKey="id"
           options={dataPosition}
+          paramName="role_id"
           placeholder="Lavozimlar"
         />
       </div>
       <DataTable
-        isLoading={isLoading}
+        indexing
         columns={useHrListCols()}
         data={data?.results || []}
+        isLoading={isLoading}
         onDelete={(item) => handleDelete(item)}
         onEdit={(item) => {
           if (!item.id) return;

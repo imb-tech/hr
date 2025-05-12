@@ -8,28 +8,33 @@ export const usOfficeCols = () => {
       {
         header: "Nomi",
         dataKey: "id",
-        cell: (_, item) => <span className="whitespace-nowrap lg:break-all">{item.properties.name}</span>,
+        cell: (_, item) => (
+          <span className="whitespace-nowrap lg:break-all">
+            {item.properties.name}
+          </span>
+        ),
       },
       {
         header: "Manzil",
         dataKey: "id",
-        cell: (_, item) => <span className="whitespace-nowrap lg:break-all">{item.properties.address}</span>,
+        cell: (_, item) => (
+          <span className="whitespace-nowrap lg:break-all">
+            {item.properties.address}
+          </span>
+        ),
       },
       {
         header: "Hodimlar soni",
         dataKey: "id",
-        cell: (_, itm) => (
-          <span >
-            {itm.properties.employee_count}
-          </span>
-        ),
+        cell: (_, itm) => <span>{itm.properties.employee_count}</span>,
       },
       {
         header: "Tushlik vaqti",
         dataKey: "id",
         cell: (_, itm) => (
           <span className="whitespace-nowrap lg:break-all">
-            {itm.properties.lunch_start_time?.slice(0,5)} - {itm.properties.lunch_end_time?.slice(0,5)}
+            {itm.properties.lunch_start_time?.slice(0, 5)} -{" "}
+            {itm.properties.lunch_end_time?.slice(0, 5)}
           </span>
         ),
       },

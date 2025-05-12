@@ -10,6 +10,7 @@ export const Route = createFileRoute("/_main/")({
 function RouteComponent() {
   const navigate = useNavigate();
   const { data, isLoading } = useGet<FeatureCollection>(COMPANIES);
+
   useEffect(() => {
     if (data?.features?.[0]?.id) {
       navigate({

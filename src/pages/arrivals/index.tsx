@@ -52,16 +52,16 @@ export default function ArrivalsPage() {
     <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3 mb-5">
       {data?.results?.map((item, index) => (
         <EmployeeCard
-          item={item}
+          key={index}
           color={
             item.attendance_status == 1
               ? "bg-green-200 text-green-400"
               : "bg-orange-200 text-orange-300"
           }
+          item={item}
           status={
             item.attendance_status == 1 ? "Vaqtida kelgan" : "Kech qolgan"
           }
-          key={index}
         />
       ))}
     </div>
@@ -71,7 +71,7 @@ export default function ArrivalsPage() {
     <div>
       <div className="flex justify-between items-center gap-3 w-full mb-3">
         <div>
-          <ParamTabs tabs={tabOptions} paramName="status" clearOther={false} />
+          <ParamTabs clearOther={false} paramName="status" tabs={tabOptions} />
         </div>
         <div className="hidden lg:block">
           <Tabs
@@ -86,10 +86,10 @@ export default function ArrivalsPage() {
         <ParamInputSearch />
         <ParamSelect
           className="max-w-full"
-          paramName="role_id"
           optionLabelKey="name"
           optionValueKey="id"
           options={dataPosition}
+          paramName="role_id"
           placeholder="Lavozimlar"
         />
       </div>
@@ -115,9 +115,10 @@ export default function ArrivalsPage() {
         <>
           <div className="hidden lg:block">
             <DataTable
-              isLoading={isLoading}
+              indexing
               columns={columns}
               data={data?.results ?? []}
+              isLoading={isLoading}
               onRowClick={(item) =>
                 navigate({
                   to: "/hr-view/$id",

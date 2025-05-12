@@ -32,8 +32,8 @@ export default function ParamTabs({
   return (
     <Tabs
       aria-label="Options"
-      tabs={tabs}
       defaultSelectedKey={search[paramName]}
+      tabs={tabs}
       onSelectionChange={handleChange}
       {...props}
     />

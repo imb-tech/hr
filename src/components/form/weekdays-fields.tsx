@@ -21,7 +21,7 @@ export default function WeekdaysFields<T extends FieldValues>({
   label,
   wrapperClassName,
   required = false,
-  itemClassName
+  itemClassName,
 }: Props<T>) {
   type Value = PathValue<T, Path<T> & (string | undefined)>;
   const methods = useFormContext<T>();
@@ -51,6 +51,7 @@ export default function WeekdaysFields<T extends FieldValues>({
       }
 
       const value = Array.from(set) as Value;
+
       methods.setValue(name, value);
     },
     [currentValue],
@@ -70,7 +71,6 @@ export default function WeekdaysFields<T extends FieldValues>({
       <div className="flex gap-2" id={name}>
         {[1, 2, 3, 4, 5, 6, 7]?.map((v) => (
           <button
-            type="button"
             key={v}
             className={cn(
               "cursor-pointer bg-default-100 py-1 rounded-md select-none w-12 text-center capitalize",
@@ -82,6 +82,7 @@ export default function WeekdaysFields<T extends FieldValues>({
                 : "",
               itemClassName,
             )}
+            type="button"
             onClick={() => handleChange(v)}
           >
             {work_days[v - 1]}

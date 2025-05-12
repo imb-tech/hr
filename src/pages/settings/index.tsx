@@ -1,3 +1,4 @@
+import { ParamDatePicker } from "@/components/param/date-picker";
 import ParamTabs from "@/components/param/tabs";
 import Modal from "@/components/ui/modal";
 import DataTable from "@/components/ui/table";
@@ -68,14 +69,16 @@ export default function SettingsPage() {
 
   return (
     <div>
-      <div className="mb-3">
-      <ParamTabs tabs={tabOptions} paramName="status" clearOther={false} />
+      <div className="mb-3 flex items-center justify-between">
+        <ParamTabs clearOther={false} paramName="status" tabs={tabOptions} />
+        <ParamDatePicker className="w-auto" />
       </div>
 
       <DataTable
-        isLoading={isLoading}
+        indexing
         columns={usSettingsCols()}
         data={(isSuccess && data) || []}
+        isLoading={isLoading}
       />
       <Modal>
         <ModalContent>
@@ -87,20 +90,20 @@ export default function SettingsPage() {
               {status?.status === 2 ? (
                 <ModalBody>
                   <Textarea
-                    onChange={(e) => setComment(e.target.value)}
                     className="w-full"
                     label="Sabab"
                     labelPlacement="outside"
                     placeholder="Sabab..."
                     variant="flat"
+                    onChange={(e) => setComment(e.target.value)}
                   />
                 </ModalBody>
               ) : null}
               <ModalFooter>
                 {status?.status === 2 ? (
                   <Button
-                    disabled={Boolean(!comment)}
                     color="danger"
+                    disabled={Boolean(!comment)}
                     variant="flat"
                     onPress={() => {
                       updatesStatus(), onClose();

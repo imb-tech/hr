@@ -1,14 +1,17 @@
+
+
+type HumanProfile = {
+  phone_number: string | number;
+  phone_number2: string;
+  id_number: string;
+  address: string;
+  residence: string;
+  education: string | number;
+}
 type Human = {
-  profile: {
-    phone_number: string | number;
-    phone_number2: string;
-    id_number: string;
-    address: string;
-    residence: string;
-    education: string | number;
-  }
+  profile: HumanProfile
   phone: string | number;
-  attendance_json?:{
+  attendance_json?: {
     attendance_time?: string
     left_time?: string
   }
@@ -33,12 +36,14 @@ type Human = {
   role_name?: string
   work_shift_start: string,
   work_shift_end: string,
-  has_attendance?:boolean
+  has_attendance?: boolean
   work_days: number[],
   excuses_status?: string | number
-  status?:boolean
+  status?: boolean
   fine_per_minute: number
 };
+
+type HumanInMap = {}
 
 type HumanYear = {
   year: number;

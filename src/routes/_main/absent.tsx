@@ -10,18 +10,19 @@ export const Route = createFileRoute("/_main/absent")({
 
 function RouteComponent() {
   const navigate = useNavigate();
+
   return (
     <Page
+      breadcrumb={["Kelmaganlar ro'yxati"]}
       leftComponent={
         <Button
-          variant="flat"
           className="min-w-4"
+          variant="flat"
           onPress={() => navigate({ to: "/" })}
         >
           <ArrowLeft className="w-5 h-5" />
         </Button>
       }
-      breadcrumb={["Kelmaganlar ro'yxati"]}
     >
       <AbsentPage />
     </Page>

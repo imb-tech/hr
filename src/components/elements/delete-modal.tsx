@@ -61,8 +61,8 @@ export default function DeleteModal({
 
       <ModalFooter className="px-0">
         <Button
-          isLoading={isPending}
           color="danger"
+          isLoading={isPending}
           type="submit"
           onPress={handleDelete}
         >

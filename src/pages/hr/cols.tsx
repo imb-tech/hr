@@ -6,7 +6,6 @@ import { useMemo } from "react";
 export const useHrListCols = () => {
   return useMemo<ColumnDef<Human>[]>(
     () => [
-      { header: "ID", dataKey: "id" },
       {
         header: "FIO",
         dataKey: "middle_name",

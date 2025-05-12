@@ -38,9 +38,9 @@ export default function OfficePage() {
   return (
     <div>
       <DataTable
-        isLoading={isLoading}
         columns={usOfficeCols()}
         data={companies?.features ?? []}
+        isLoading={isLoading}
         onDelete={handleDelete}
         onEdit={handleEdit}
         onRowClick={onRowClick}

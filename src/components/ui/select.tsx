@@ -19,9 +19,9 @@ export default function Select({
   className,
   value,
   onSelectionChange,
-  placeholder="",
+  placeholder = "",
   labelPlacement,
-  size="lg",
+  size = "lg",
 }: SelectProps) {
   const filteredProps: Partial<HeroSelectProps> = {
     label,

@@ -6,7 +6,7 @@ import { useMemo } from "react";
 export const useWorkerInfoCols = () => {
   return useMemo<ColumnDef<WorkerAttendance>[]>(
     () => [
-      { header: "ID", dataKey: "id" },
+      // { header: "ID", dataKey: "id" },
       { header: "FIO", dataKey: "full_name" },
       {
         header: "Ish vaqti",
@@ -31,6 +31,7 @@ export const useWorkerInfoCols = () => {
         dataKey: "id",
         cell(_, item) {
           const tm = item.attendance?.left_time;
+
           return <span>{tm ? formatDateTime(tm) : "18:00"}</span>;
         },
       },

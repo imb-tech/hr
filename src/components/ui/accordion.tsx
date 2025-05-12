@@ -4,7 +4,7 @@ import {
   AccordionProps,
   Accordion as HAccordion,
 } from "@heroui/accordion";
-import { ChevronDown,  ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import { ReactNode } from "react";
 
 type Props = Omit<AccordionProps, "items" | "children"> & {
@@ -17,9 +17,15 @@ export default function Accordion({ items, itemProps, ...props }: Props) {
     <HAccordion {...props}>
       {items?.map((el) => (
         <AccordionItem
-          indicator={({ isOpen }) => (isOpen ? <ChevronRight className="text-zinc-500" /> : <ChevronDown className="text-zinc-500" />)}
           key={el.key}
           aria-label={el.title?.toString()}
+          indicator={({ isOpen }) =>
+            isOpen ? (
+              <ChevronRight className="text-zinc-500" />
+            ) : (
+              <ChevronDown className="text-zinc-500" />
+            )
+          }
           title={el.title}
           {...itemProps}
           classNames={{

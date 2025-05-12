@@ -62,6 +62,7 @@ export default function CreateOfficeForm() {
   const onSubmit = (data: Properties) => {
     if (!data?.polygon && data.polygon?.coordinates?.length < 1) {
       form.setError("polygon", { type: "required" });
+
       return;
     }
 
@@ -123,17 +124,17 @@ export default function CreateOfficeForm() {
       </div>
 
       <OfficeLocationSelect
-        initialValue={store?.properties.polygon.coordinates || []}
+        required
+        error={!!form.formState.errors["polygon"]}
         handleMapChange={(pnts) => {
           form.clearErrors("polygon");
           form.setValue("polygon", pnts);
         }}
-        error={!!form.formState.errors["polygon"]}
-        required
+        initialValue={store?.properties.polygon.coordinates || []}
       />
 
       <div className="flex justify-end mt-3">
-        <Button isLoading={isPending} color="primary" type="submit">
+        <Button color="primary" isLoading={isPending} type="submit">
           Saqlash
         </Button>
       </div>

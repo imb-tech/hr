@@ -24,7 +24,7 @@ function OfficeList() {
   };
 
   useEffect(() => {
-    if (window.innerWidth > 768) return;
+    // if (window.innerWidth > 768) return;
     if (!id || !companies?.features || !scrollbarRef.current) return;
 
     // ID string sifatida keladi, shuning uchun to'g'ri taqqoslash uchun String() ishlatamiz
@@ -34,7 +34,7 @@ function OfficeList() {
     if (targetCard && scrollbarRef.current) {
       // Scrollni chapga taqash uchun offsetLeft ishlatamiz
       scrollbarRef.current.scrollTo({
-        left: targetCard.offsetLeft - 50, // 10px margin uchun qo'shimcha
+        left: targetCard.offsetLeft - (window.innerWidth > 768 ? 300 : 50), // 10px margin uchun qo'shimcha
         behavior: "smooth",
       });
     }
@@ -50,15 +50,15 @@ function OfficeList() {
   return (
     <div className="w-full">
       <div
-        className="flex flex-nowrap gap-3 overflow-x-auto py-1 my-3 scrollbar-hide"
         ref={scrollbarRef}
+        className="flex flex-nowrap gap-3 overflow-x-auto py-1 my-3 scrollbar-hide"
       >
         {isSuccess && companies?.features?.length > 0
           ? companies?.features?.map((item) => (
               <Link
                 key={item.id}
-                to="/office/$id"
                 params={{ id: String(item.id) }}
+                to="/office/$id"
               >
                 <Card
                   ref={(el) => setCardRef(String(item.id), el)}
@@ -77,9 +77,9 @@ function OfficeList() {
                   >
                     <Link
                       key={item.id}
-                      to="/office-edit/$id"
-                      params={{ id: String(item.id) }}
                       className="dark:bg-zinc-800 bg-zinc-100 p-[10px] hover:text-primary rounded-full absolute top-2 right-2"
+                      params={{ id: String(item.id) }}
+                      to="/office-edit/$id"
                     >
                       <Pencil size={14} />
                     </Link>
@@ -151,7 +151,7 @@ function OfficeList() {
         }}
       >
         {companies?.features?.map((item, index) => (
-          <div
+          <button
             key={index}
             className="w-full py-1"
             onClick={() => handleNavigate(item.id)}
@@ -161,15 +161,15 @@ function OfficeList() {
                 "h-1 w-full transition-all duration-300 rounded-full cursor-pointer",
                 String(item.id) === id ? "bg-blue-400" : "bg-default",
               )}
-            ></div>
-          </div>
+            />
+          </button>
         ))}
-        <Link to="/office/create" className="w-full py-1">
+        <Link className="w-full py-1" to="/office/create">
           <div
             className={cn(
               "h-1 w-full transition-all duration-300 rounded-full bg-default",
             )}
-          ></div>
+          />
         </Link>
       </div>
     </div>

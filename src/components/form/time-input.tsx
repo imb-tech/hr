@@ -22,7 +22,6 @@ export default function TimeInput<IForm extends FieldValues>({
   fullWidth = false,
   wrapperClassName,
   required = false,
-  value,
   ...props
 }: TimeInputProps & IProps<IForm>) {
   const {

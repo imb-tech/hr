@@ -52,6 +52,16 @@ export default function AllEmployeesPage() {
     <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3 mb-5">
       {data?.results?.map((item, index) => (
         <EmployeeCard
+          key={index}
+          color={
+            item.has_attendance
+              ? item.attendance_status == 1
+                ? "text-green-400 bg-green-200"
+                : "text-orange-300 bg-orange-200"
+              : item.excuses_status == 1
+                ? "text-orange-400 bg-orange-200"
+                : "text-red-500 bg-red-200"
+          }
           item={item}
           status={
             item.has_attendance
@@ -62,16 +72,6 @@ export default function AllEmployeesPage() {
                 ? "Sababli"
                 : "Sababsiz"
           }
-          color={
-            item.has_attendance
-              ? item.attendance_status == 1
-                ? "text-green-400 bg-green-200"
-                : "text-orange-300 bg-orange-200"
-              : item.excuses_status == 1
-                ? "text-orange-400 bg-orange-200"
-                : "text-red-500 bg-red-200"
-          }
-          key={index}
         />
       ))}
     </div>
@@ -82,9 +82,9 @@ export default function AllEmployeesPage() {
       <div className="flex justify-between items-center gap-3 w-full mb-3">
         <div>
           <ParamTabs
-            tabs={tabOptions}
-            paramName="has_attendance"
             clearOther={false}
+            paramName="has_attendance"
+            tabs={tabOptions}
           />
         </div>
         <div className="hidden lg:block">
@@ -99,10 +99,10 @@ export default function AllEmployeesPage() {
         <ParamInputSearch />
         <ParamSelect
           className="max-w-full"
-          paramName="role_id"
           optionLabelKey="name"
           optionValueKey="id"
           options={dataPosition}
+          paramName="role_id"
           placeholder="Lavozimlar"
         />
       </div>
@@ -128,9 +128,10 @@ export default function AllEmployeesPage() {
         <>
           <div className="hidden lg:block">
             <DataTable
-              isLoading={isLoading}
+              indexing
               columns={columns}
               data={data?.results || []}
+              isLoading={isLoading}
               onRowClick={(item) =>
                 navigate({
                   to: "/hr-view/$id",

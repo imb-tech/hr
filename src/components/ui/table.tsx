@@ -31,6 +31,7 @@ import {
 import { capitalize } from "../icons/table-icons";
 
 import { cn } from "@heroui/theme";
+import { useSearch } from "@tanstack/react-router";
 import { SlidersVertical } from "lucide-react";
 import TableActions from "../elements/table-actions";
 
@@ -58,6 +59,9 @@ type Props<TData extends object> = {
   isLoading?: boolean;
   onSelectionChange?: (keys: Selection) => void;
   selectedKeys?: Selection;
+  indexing?: boolean;
+  pageKey?: keyof SearchParams;
+  pageSize?: number;
 };
 
 export default function DataTable<TData extends object>({
@@ -72,6 +76,9 @@ export default function DataTable<TData extends object>({
   onSelectionChange,
   isLoading,
   selectedKeys,
+  indexing = false,
+  pageKey = "page",
+  pageSize = 48,
   ...props
 }: Props<TData> & TableProps) {
   type ColumnKey = DataKey<TData>;
@@ -84,19 +91,41 @@ export default function DataTable<TData extends object>({
     column: "id",
   });
 
+  const search = useSearch({ from: "__root__" });
+
   const headerColumns = useMemo(() => {
-    return columns.filter((column) => visibleColumns.includes(column.dataKey));
-  }, [visibleColumns, columns]);
+    const cls = columns.filter((column) =>
+      visibleColumns.includes(column.dataKey),
+    );
+
+    if (indexing) {
+      cls.unshift({
+        header: "#",
+        dataKey: "index" as DataKey<TData>,
+      });
+    }
+
+    return cls;
+  }, [visibleColumns, columns, indexing]);
 
   const sortedItems = useMemo(() => {
-    return [...data].sort((a: TData, b: TData) => {
+    const d = [...data].sort((a: TData, b: TData) => {
       const first = a[sortDescriptor.column as keyof TData] as number;
       const second = b[sortDescriptor.column as keyof TData] as number;
       const cmp = first < second ? -1 : first > second ? 1 : 0;
 
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
-  }, [sortDescriptor, data]);
+
+    if (indexing) {
+      const page = search[pageKey];
+      const offset = Number(page) > 1 ? (Number(page) - 1) * pageSize + 1 : 1;
+
+      return d.map((el, i) => ({ ...el, index: offset + i }));
+    }
+
+    return d;
+  }, [sortDescriptor, data, indexing]);
 
   const isSelectable = useMemo(
     () =>
@@ -188,9 +217,12 @@ export default function DataTable<TData extends object>({
                         )
                       }
                     >
-                      {columns.map((column, i) =>
+                      {columns.map((column) =>
                         column.dataKey === "actions" ? null : (
-                          <DropdownItem key={index + i} className="capitalize">
+                          <DropdownItem
+                            key={column.dataKey as string}
+                            className="capitalize"
+                          >
                             {capitalize(column.header)}
                           </DropdownItem>
                         ),

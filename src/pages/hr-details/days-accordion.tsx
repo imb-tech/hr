@@ -33,6 +33,7 @@ export default function DaysAccordion() {
 
   function clickAccordion(keys: Selection) {
     const selected = Array.from(keys).filter(Boolean) as string[];
+
     setSelectedKeys(new Set(selected));
 
     navigate({
@@ -44,7 +45,6 @@ export default function DaysAccordion() {
       }),
     });
   }
-
 
   const accordionItems = isLoading
     ? [
@@ -102,10 +102,12 @@ export default function DaysAccordion() {
   return (
     <div>
       <Accordion
-        selectionMode="single"
-        variant="light"
-        style={{
-          padding: "0",
+        itemProps={{
+          classNames: {
+            content: "hidden",
+            indicator: "hidden",
+            trigger: "!p-0 !px-0",
+          },
         }}
         items={[
           {
@@ -114,23 +116,21 @@ export default function DaysAccordion() {
             content: "hidden",
           },
         ]}
-        itemProps={{
-          classNames: {
-            content: "hidden",
-            indicator: "hidden",
-            trigger: "!p-0 !px-0",
-          },
-        }}
-      />
-      <Accordion
+        selectionMode="single"
         style={{
           padding: "0",
         }}
-        selectionMode="single"
-        selectedKeys={selectedKeys}
-        onSelectionChange={clickAccordion}
-        items={accordionItems || []}
+        variant="light"
+      />
+      <Accordion
         itemProps={{ classNames: { trigger: "p-3 dark:bg-neutral-900 " } }}
+        items={accordionItems || []}
+        selectedKeys={selectedKeys}
+        selectionMode="single"
+        style={{
+          padding: "0",
+        }}
+        onSelectionChange={clickAccordion}
       />
     </div>
   );

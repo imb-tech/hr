@@ -31,13 +31,10 @@ export function FormNumberInput<IForm extends FieldValues>({
   name,
   label,
   required = false,
-  registerOptions,
   wrapperClassName,
   className,
-  formatOptions,
   thousandSeparator,
   decimalSeparator,
-  hideError = true,
   ...props
 }: IProps<IForm> & NumericFormatProps) {
   const {
@@ -45,35 +42,38 @@ export function FormNumberInput<IForm extends FieldValues>({
   } = useController({
     name,
     control,
+    rules: {
+      required,
+    },
   });
 
   return (
     <fieldset className={cn("flex flex-col w-full", wrapperClassName)}>
       {label && (
-        <label htmlFor={name} className="mb-1">
+        <label className="mb-1" htmlFor={name}>
           {label}
         </label>
       )}
 
-      <label className="relative flex items-center">
-        <NumericFormat
-          id={name}
-          customInput={Input as ComponentType<InputAttributes> | undefined}
-          inputMode="decimal"
-          className={cn(className, "border-none focus:border-none")}
-          thousandSeparator={thousandSeparator}
-          decimalSeparator={decimalSeparator}
-          getInputRef={ref}
-          {...props}
-          {...field}
-          autoComplete="off"
-          onValueChange={(val) => {
-            onChange(val.value);
-          }}
-          placeholder={props.placeholder || label}
-          disabled={field.disabled || props.disabled}
-        />
-      </label>
+      {/* <label className="relative flex items-center"> */}
+      <NumericFormat
+        className={cn(className, "border-none focus:border-none")}
+        customInput={Input as ComponentType<InputAttributes> | undefined}
+        decimalSeparator={decimalSeparator}
+        getInputRef={ref}
+        id={name}
+        inputMode="decimal"
+        thousandSeparator={thousandSeparator}
+        {...props}
+        {...field}
+        autoComplete="off"
+        disabled={field.disabled || props.disabled}
+        placeholder={props.placeholder || label}
+        onValueChange={(val) => {
+          onChange(val.value);
+        }}
+      />
+      {/* </label> */}
     </fieldset>
   );
 }

@@ -9,4 +9,4 @@ export default function OfficeInfoRow({ data }: { data: CompanyStats }) {
       <p className="font-light">{data.total || 0}</p>
     </div>
   );
-} 
+}

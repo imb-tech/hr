@@ -23,6 +23,7 @@ export function ParamInputSearch({
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       const searchVal = inputRef.current?.value;
+
       navigate({
         search: {
           ...params,
@@ -60,10 +61,10 @@ export function ParamInputSearch({
 
   return (
     <Input
+      ref={inputRef}
       defaultValue={params[searchKey]}
       placeholder={"Qidiruv..."}
       type="search"
-      ref={inputRef}
       onChange={handleInputChange}
       onKeyDown={handleKeyDown}
       {...props}

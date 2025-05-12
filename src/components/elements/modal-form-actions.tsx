@@ -16,7 +16,7 @@ export default function ModalFormActions({
       <Button color="danger" variant="light" onPress={closeModal}>
         Orqaga
       </Button>
-      <Button isLoading={isLoading} color="primary" type="submit">
+      <Button color="primary" isLoading={isLoading} type="submit">
         Saqlash
       </Button>
     </ModalFooter>

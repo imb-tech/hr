@@ -4,13 +4,16 @@ import { useMemo } from "react";
 
 type Props = {
   total?: number;
-  paramName?: string;
+  paramName?: keyof SearchParams;
 };
 
 export default function ParamPagination({ total, paramName = "page" }: Props) {
-  const search: any = useSearch({ strict: false });
+  const search = useSearch({ from: "__root__" });
   const location = useLocation();
-  const activePage = useMemo(() => search?.[paramName] ?? 1, [search]);
+  const activePage = useMemo(
+    () => (!!search?.[paramName] ? Number(search?.[paramName]) : 1),
+    [search],
+  );
 
   const navigate = useNavigate();
 
@@ -22,8 +25,8 @@ export default function ParamPagination({ total, paramName = "page" }: Props) {
     <div className="my-2">
       {total ? (
         <Pagination
-          total={total ?? 0}
           initialPage={activePage}
+          total={total ?? 0}
           onChange={handlePaginate}
         />
       ) : (

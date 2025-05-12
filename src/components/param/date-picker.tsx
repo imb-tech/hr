@@ -1,15 +1,18 @@
-import { DatePicker } from "@heroui/react";
+import { DatePicker, DatePickerProps } from "@heroui/react";
 import { parseDate } from "@internationalized/date";
-import { useNavigate, useSearch } from "@tanstack/react-router";
+import { useLocation, useNavigate, useSearch } from "@tanstack/react-router";
 
 type Props = {
-  paramName?: string;
+  paramName?: keyof SearchParams;
 };
 
-
-export function DatePickerWithURL({ paramName = "date" }: Props) {
-  const search: any = useSearch({ strict: false });
+export function ParamDatePicker({
+  paramName = "date",
+  ...props
+}: Props & DatePickerProps) {
+  const search = useSearch({ from: "__root__" });
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const handleChange = (date: any) => {
     if (!date) return;
@@ -17,6 +20,7 @@ export function DatePickerWithURL({ paramName = "date" }: Props) {
     const isoDate = date.toString();
 
     navigate({
+      to: pathname,
       search: {
         ...search,
         [paramName]: isoDate,
@@ -24,14 +28,14 @@ export function DatePickerWithURL({ paramName = "date" }: Props) {
     });
   };
 
-  const defaultDate: any = search[paramName]
-    ? parseDate(search[paramName])
-    : null;
+  const defaultDate =
+    typeof search[paramName] === "string" ? parseDate(search[paramName]) : null;
 
   return (
     <DatePicker
       className="max-w-[284px]"
-      defaultValue={defaultDate}
+      {...props}
+      defaultValue={defaultDate as DatePickerProps["defaultValue"]}
       onChange={handleChange}
     />
   );

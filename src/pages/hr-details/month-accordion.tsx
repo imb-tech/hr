@@ -18,15 +18,15 @@ export default function MonthAccordion() {
     isSuccess,
     isLoading,
   } = useGet<HumanYear[]>(`${USER_YEAR_TOTAL_MONTH}/${id}`, {
-    params: { year: (search as any)?.year},
+    params: { year: (search as any)?.year },
     options: {
-      enabled:
-        Boolean((search as any)?.year),
+      enabled: Boolean((search as any)?.year),
     },
   });
 
   function clickAccordion(keys: Selection) {
     const selected = Array.from(keys).filter(Boolean) as string[];
+
     setSelectedKeys(new Set(selected));
 
     navigate({
@@ -38,7 +38,6 @@ export default function MonthAccordion() {
       }),
     });
   }
-
 
   const month: { [key: number]: string } = {
     1: "Yanvar",
@@ -103,18 +102,6 @@ export default function MonthAccordion() {
   return (
     <div>
       <Accordion
-        selectionMode="single"
-        style={{
-          padding: "0",
-        }}
-        variant="light"
-        items={[
-          {
-            key: "1",
-            title: <MonthTableHeader />,
-            content: "hidden",
-          },
-        ]}
         itemProps={{
           classNames: {
             content: "hidden",
@@ -122,18 +109,30 @@ export default function MonthAccordion() {
             trigger: "!p-0 !px-0 ",
           },
         }}
-      />
-      <Accordion
+        items={[
+          {
+            key: "1",
+            title: <MonthTableHeader />,
+            content: "hidden",
+          },
+        ]}
+        selectionMode="single"
         style={{
           padding: "0",
         }}
-        selectionMode="single"
-        selectedKeys={selectedKeys}
-        onSelectionChange={clickAccordion}
-        items={accordionItems || []}
+        variant="light"
+      />
+      <Accordion
         itemProps={{
           classNames: { trigger: "p-3 dark:bg-zinc-900 bg-zinc-50" },
         }}
+        items={accordionItems || []}
+        selectedKeys={selectedKeys}
+        selectionMode="single"
+        style={{
+          padding: "0",
+        }}
+        onSelectionChange={clickAccordion}
       />
     </div>
   );

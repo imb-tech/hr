@@ -18,9 +18,9 @@ export default function MenuItem({ to, title, icon, badge }: Props) {
 
   return (
     <Button
+      className="relative"
       color="default"
       variant={isActive ? "flat" : "light"}
-      className="relative"
     >
       <Link className="w-full h-full flex items-center justify-start" to={to}>
         {icon}

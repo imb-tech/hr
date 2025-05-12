@@ -118,7 +118,7 @@ export const ChevronDownIcon = ({
 };
 
 export const ViewIcon = ({
-  strokeWidth = 1.5,
+  strokeWidth = "1.5",
   ...otherProps
 }: IconSvgProps) => {
   return (
@@ -128,6 +128,7 @@ export const ViewIcon = ({
       focusable="false"
       height="20"
       role="presentation"
+      strokeWidth={strokeWidth}
       type="button"
       viewBox="0 0 24 24"
       width="20"
@@ -146,7 +147,7 @@ export const ViewIcon = ({
 };
 
 export const EditIcon = ({
-  strokeWidth = 1.5,
+  strokeWidth = "1.5",
   ...otherProps
 }: IconSvgProps) => {
   return (
@@ -156,6 +157,7 @@ export const EditIcon = ({
       focusable="false"
       height="20"
       role="presentation"
+      strokeWidth={strokeWidth}
       type="button"
       viewBox="0 0 20 20"
       width="20"
@@ -190,7 +192,7 @@ export const EditIcon = ({
 };
 
 export const DeleteIcon = ({
-  strokeWidth = 1.5,
+  strokeWidth = "1.5",
   ...otherProps
 }: IconSvgProps) => {
   return (
@@ -200,6 +202,7 @@ export const DeleteIcon = ({
       focusable="false"
       height="20"
       role="presentation"
+      strokeWidth={strokeWidth}
       type="button"
       viewBox="0 0 18 19"
       width="20"

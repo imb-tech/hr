@@ -30,11 +30,12 @@ export default function PostionsPage() {
   return (
     <div>
       <DataTable
-        isLoading={isLoading}
+        indexing
         columns={usPostionsCols()}
         data={(isSuccess && data) || []}
-        onEdit={(item) => handleItem(item)}
+        isLoading={isLoading}
         onDelete={(item) => handleDelete(item)}
+        onEdit={(item) => handleItem(item)}
       />
       <DeleteModal id={store?.id} path={POSITION} />
       <Modal

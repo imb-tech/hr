@@ -58,6 +58,7 @@ export default function PhoneField<IForm extends FieldValues>({
         const v = val ? (val.startsWith("+") ? val : `+${val}`) : "";
         let err = "";
         let isValid = true;
+
         if (required) {
           isValid = isPhoneValid(v);
           if (!isValid) {
@@ -84,8 +85,8 @@ export default function PhoneField<IForm extends FieldValues>({
     >
       {label && (
         <label
-          htmlFor={name}
           className={cn(labelClass, !!error && "text-[#F31260] ")}
+          htmlFor={name}
         >
           {label} {required && <span className="text-[#F31260]">*</span>}
         </label>
@@ -95,16 +96,17 @@ export default function PhoneField<IForm extends FieldValues>({
           "w-full h-12 rounded-lg has-[input:focus]:ring-0 has-[input:focus]:ring-ring has-[input:focus]:ring-offset-0 !outline-none",
           className,
         )}
+        countrySelectorStyleProps={{
+          ...countrySelectorStyleProps,
+          buttonClassName: "!hidden",
+        }}
+        defaultCountry="uz"
         inputClassName={cn(
           "w-full !h-full !text-foreground !rounded-2xl !px-3 !bg-default-100  !border-none !text-sm",
           inputClassName,
         )}
-        countrySelectorStyleProps={{
-            buttonClassName: "!hidden",
-          }}
-        value={val}
-        defaultCountry="uz"
         placeholder={props.placeholder || label}
+        value={val}
         {...field}
         {...props}
       />

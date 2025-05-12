@@ -49,7 +49,7 @@ export default function Sidebar() {
           color="foreground"
           to="/"
         >
-          <img src="/images/logo.png" alt="" width={30} />
+          <img alt="" src="/images/logo.png" width={30} />
           <p className="font-bold text-inherit">HR DEMO</p>
         </Link>
       </div>

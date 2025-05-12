@@ -14,7 +14,7 @@ export default function Tabs({
   return (
     <HeroTabs aria-label="Options" {...props}>
       {tabs?.map((tb) => (
-        <Tab key={tb.key} title={tb.label} className="py-0">
+        <Tab key={tb.key} className="py-0" title={tb.label}>
           <div className={contentClassName}>{tb.content}</div>
         </Tab>
       ))}

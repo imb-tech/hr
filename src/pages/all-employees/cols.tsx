@@ -9,7 +9,7 @@ import { useMemo } from "react";
 export const useAllEmployeesListCols = () => {
   return useMemo<ColumnDef<Human>[]>(
     () => [
-      { header: "ID", dataKey: "id" },
+      // { header: "ID", dataKey: "id" },
       {
         header: "FIO",
         dataKey: "full_name",

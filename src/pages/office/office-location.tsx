@@ -65,6 +65,7 @@ function OfficeLocationSelect({
           return { lat: item[1], lng: item[0] };
         }),
       );
+
       setPolygonCoordinatesList(values);
     }
   }, [initialValue]);
@@ -72,7 +73,7 @@ function OfficeLocationSelect({
   useEffect(() => {
     if (polygonCoordinatesList[0].length > 2) {
       updateLocations(polygonCoordinatesList);
-      setActivePolygonIndex(polygonCoordinatesList?.length - 1)
+      setActivePolygonIndex(polygonCoordinatesList?.length - 1);
     }
   }, [polygonCoordinatesList]);
 
@@ -86,6 +87,7 @@ function OfficeLocationSelect({
         );
 
         const newPolygonButton = document.createElement("button");
+
         newPolygonButton.setAttribute(
           "class",
           `${btn.getButtonProps()?.className} ml-2 mt-2 bg-success`,
@@ -99,6 +101,7 @@ function OfficeLocationSelect({
         });
 
         const clearAllButton = document.createElement("button");
+
         clearAllButton.setAttribute(
           "class",
           `${btn.getButtonProps()?.className} ml-2 mt-2`,
@@ -122,6 +125,7 @@ function OfficeLocationSelect({
         // my location
 
         const myLocationButton = document.createElement("div");
+
         myLocationButton.setAttribute(
           "class",
           ` ml-2 mt-2 bg-primary size-8 flex items-center justify-center rounded-md cursor-pointer`,
@@ -136,6 +140,7 @@ function OfficeLocationSelect({
                   lat: position.coords.latitude,
                   lng: position.coords.longitude,
                 };
+
                 animatePanTo(map, pos); // Animate qilingan pan
                 map.setZoom(defaultZoom); // Zoom ni sozlaymiz
               },
@@ -162,6 +167,7 @@ function OfficeLocationSelect({
     const baseZoom = 17;
     const scaleFactor = Math.pow(1.5, baseZoom - zoomLevel);
     const newRadius = baseRadius * scaleFactor;
+
     return Math.min(Math.max(newRadius, 2), 50);
   }, [zoomLevel]);
 
@@ -169,10 +175,12 @@ function OfficeLocationSelect({
     if (event.latLng?.lat && event.latLng?.lng()) {
       setPolygonCoordinatesList((prev) => {
         const newList = [...prev];
+
         newList[activePolygonIndex] = [
           ...newList[activePolygonIndex],
           { lat: event.latLng?.lat() || 0, lng: event.latLng?.lng() || 0 },
         ];
+
         return newList;
       });
     }
@@ -189,12 +197,14 @@ function OfficeLocationSelect({
 
       setPolygonCoordinatesList((prev) => {
         const newList = JSON.parse(JSON.stringify(prev));
+
         if (newList[polygonIndex] && newList[polygonIndex][pointIndex]) {
           newList[polygonIndex][pointIndex] = {
             lat: newLat,
             lng: newLng,
           };
         }
+
         return newList;
       });
     }
@@ -211,12 +221,14 @@ function OfficeLocationSelect({
 
       setPolygonCoordinatesList((prev) => {
         const newList = JSON.parse(JSON.stringify(prev));
+
         if (newList[polygonIndex] && newList[polygonIndex][pointIndex]) {
           newList[polygonIndex][pointIndex] = {
             lat: newLat,
             lng: newLng,
           };
         }
+
         return newList;
       });
 
@@ -349,6 +361,7 @@ function animatePanTo(
   duration = 1000,
 ) {
   const start = map.getCenter();
+
   if (!start) return;
 
   const startLat = start.lat();

@@ -129,26 +129,26 @@ export default function CreateHrForm() {
               label={"Familiya"}
               methods={form}
               name={"first_name"}
+              placeholder={"Familiya"}
               size="lg"
               type="text"
-              placeholder={"Familiya"}
             />
             <FormInput
               isRequired
               label={"Ism"}
               methods={form}
               name={"last_name"}
+              placeholder={"Ism"}
               size="lg"
               type="text"
-              placeholder={"Ism"}
             />
             <FormInput
               label={"Otasining ismi"}
               methods={form}
               name={"middle_name"}
+              placeholder={"Otasining ismi"}
               size="lg"
               type="text"
-              placeholder={"Otasining ismi"}
             />
           </div>
           <PhoneField required methods={form} name={"profile.phone_number"} />
@@ -162,28 +162,28 @@ export default function CreateHrForm() {
             label={"Doimiy turar joyi"}
             methods={form}
             name={"profile.address"}
+            placeholder={"Toshkent shahar, Chilonzor tumani"}
             size="lg"
             type="text"
-            placeholder={"Toshkent shahar, Chilonzor tumani"}
           />
           <FormInput
             isRequired
             label={"Vaqtinchalik turar joyi"}
             methods={form}
             name={"profile.residence"}
+            placeholder={"Toshkent shahar, Chilonzor tumani"}
             size="lg"
             type="text"
-            placeholder={"Toshkent shahar, Chilonzor tumani"}
           />
           <FormInput
             isRequired
             label={"Pasport ma'lumoti"}
+            maxLength={9}
             methods={form}
             name={"profile.id_number"}
+            placeholder={"AB 000 00 00 "}
             size="lg"
             type="text"
-            placeholder={"AB 000 00 00 "}
-            maxLength={9}
           />
           <FormSelect
             isRequired
@@ -191,8 +191,8 @@ export default function CreateHrForm() {
             methods={form}
             name="profile.education"
             options={educationLevels}
-            size="lg"
             placeholder="O'rta maxsus"
+            size="lg"
           />
         </div>
 
@@ -204,17 +204,17 @@ export default function CreateHrForm() {
             isRequired
             label="Ofis"
             methods={form}
-            selectedKeys={new Set(form.watch("companies"))}
             name="companies"
-            // multiple
             options={
               companies?.features?.map((item) => ({
                 label: item.properties.name,
                 key: item.id,
               })) ?? []
             }
-            size="lg"
             placeholder="Tanlang"
+            selectedKeys={new Set(form.watch("companies"))}
+            size="lg"
+            // multiple
           />
           <FormSelect
             isRequired
@@ -231,11 +231,12 @@ export default function CreateHrForm() {
                 })) ||
               []
             }
-            size="lg"
             placeholder="Menejer"
+            size="lg"
             onSelectionChange={(v) => {
               const id = Number(v.anchorKey);
               const selectedRole = dataPosition?.find((el) => el.id === id);
+
               form.setValue("role", id);
               if (selectedRole) {
                 form.setValue("salary", selectedRole?.salary);
@@ -250,11 +251,11 @@ export default function CreateHrForm() {
           />
 
           <WeekdaysFields<Human>
-            name="work_days"
-            label="Ish kunlari"
-            itemClassName="text-lg py-[9px] w-16 rounded-xl"
-            wrapperClassName="gap-1"
             required
+            itemClassName="text-lg py-[9px] w-16 rounded-xl"
+            label="Ish kunlari"
+            name="work_days"
+            wrapperClassName="gap-1"
           />
 
           <div className="grid md:grid-cols-2 grid-cols-1 gap-3">
@@ -276,22 +277,22 @@ export default function CreateHrForm() {
 
           <FormNumberInput
             required
-            label="Oylik maosh"
             control={form.control}
-            thousandSeparator=" "
-            size={"lg" as any}
+            label="Oylik maosh"
             name="salary"
             placeholder="Ex: 123000"
+            size={"lg" as any}
+            thousandSeparator=" "
           />
 
           <FormNumberInput
             required
-            label="Jarima (1 daqiqa uchun)"
             control={form.control}
-            thousandSeparator=" "
-            size={"lg" as any}
+            label="Jarima (1 daqiqa uchun)"
             name="fine_per_minute"
             placeholder="Ex: 300"
+            size={"lg" as any}
+            thousandSeparator=" "
           />
 
           <FormInput
@@ -299,8 +300,8 @@ export default function CreateHrForm() {
             label={"Login"}
             methods={form}
             name={"username"}
-            size="lg"
             placeholder={"Login"}
+            size="lg"
             wrapperClassName="pt-1"
           />
           <FormInput
@@ -308,15 +309,15 @@ export default function CreateHrForm() {
             label={"Parol"}
             methods={form}
             name={"password"}
-            size="lg"
             placeholder={"*******"}
+            size="lg"
           />
         </div>
 
         <div className="w-full flex justify-end items-center gap-3">
           <Button
-            disabled={createPending || updatePending}
             color="danger"
+            disabled={createPending || updatePending}
             size="lg"
             type="button"
             variant="flat"
@@ -325,8 +326,8 @@ export default function CreateHrForm() {
             Bekor qilish
           </Button>
           <Button
-            isLoading={createPending || updatePending}
             color="primary"
+            isLoading={createPending || updatePending}
             size="lg"
             type="submit"
           >

@@ -63,7 +63,7 @@ export const Navbar = ({
 
   return (
     <HeroUINavbar
-      className="border-b-small border-divider"
+      className="border-b-small border-divider fixed left-0 lg:left-52 w-auto right-0"
       maxWidth="full"
       position="sticky"
     >
@@ -76,7 +76,7 @@ export const Navbar = ({
           color="foreground"
           to="/"
         >
-          <img src="/images/logo.png" alt="" width={30} />
+          <img alt="" src="/images/logo.png" width={30} />
           <p className="font-bold text-inherit">HR DEMO</p>
         </Link>
         {!!leftComponent && <div className="flex gap-2">{leftComponent}</div>}
@@ -88,9 +88,9 @@ export const Navbar = ({
         <Dropdown placement="bottom-start">
           <DropdownTrigger>
             <Avatar
-              size={"md"}
               as="button"
               className="transition-transform"
+              size={"md"}
               src={undefined}
             />
           </DropdownTrigger>
@@ -117,12 +117,12 @@ export const Navbar = ({
             </DropdownSection>
 
             <DropdownItem key="logout" color="danger">
-              <div
-                onClick={logOut}
+              <button
                 className="flex items-center w-full gap-[6px]"
+                onClick={logOut}
               >
                 <LogOut size={16} /> <span>Chiqish</span>
-              </div>
+              </button>
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>

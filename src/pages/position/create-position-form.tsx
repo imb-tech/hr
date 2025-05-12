@@ -53,6 +53,7 @@ export default function CreatePositionsForm({
     const nd = {
       ...values,
     };
+
     if (dataItem?.id) {
       updateMutate(`${POSITION}/${dataItem.id}`, nd);
     } else {
@@ -83,9 +84,9 @@ export default function CreatePositionsForm({
         />
 
         <WeekdaysFields<Position>
-          name="work_days"
-          label="Ish kunlari"
           required
+          label="Ish kunlari"
+          name="work_days"
         />
 
         <div className="grid md:grid-cols-2 grid-cols-1 gap-3 py-2">
@@ -108,21 +109,21 @@ export default function CreatePositionsForm({
         <div className="grid md:grid-cols-2 grid-cols-1 gap-3">
           <FormNumberInput
             required
-            label="Oylik maosh"
             control={form.control}
-            thousandSeparator=" "
-            size={"lg" as any}
+            label="Oylik maosh"
             name="salary"
             placeholder="Ex: 123000"
+            size={"lg" as any}
+            thousandSeparator=" "
           />
           <FormNumberInput
             required
-            label="Jarima (1 daqiqa uchun)"
             control={form.control}
-            thousandSeparator=" "
-            size={"lg" as any}
+            label="Jarima (1 daqiqa uchun)"
             name="fine_per_minute"
             placeholder="Ex: 250"
+            size={"lg" as any}
+            thousandSeparator=" "
           />
         </div>
 

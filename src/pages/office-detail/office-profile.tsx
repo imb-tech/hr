@@ -21,7 +21,7 @@ export default function AttendanceDashboard() {
   const { id } = useParams({ from: "/_main/office/$id" });
   const { data: dataDetails } = useGet<CompanyStats>(
     `${OFFICE_DETAILS}/${id}`,
-    { params: {date:search.date}, options: { enabled: Boolean(id) } },
+    { params: { date: search.date }, options: { enabled: Boolean(id) } },
   );
 
   const total = dataDetails?.total ?? 0;
@@ -46,6 +46,7 @@ export default function AttendanceDashboard() {
     if (total === 0) return "0%";
 
     const percent = (value / total) * 100;
+
     return percent % 1 === 0
       ? `${percent.toFixed(0)}%`
       : `${percent.toFixed(2)}%`;
@@ -56,9 +57,9 @@ export default function AttendanceDashboard() {
       <Card className="my-4 p-2">
         <CardHeader className="p-3 hover:pr-12 group transition-all duration-300 cursor-pointer">
           <Link
-            to="/all-employees"
-            search={{ id: String(id) }}
             className="flex items-center w-full relative"
+            search={{ id: String(id) }}
+            to="/all-employees"
           >
             <div className="flex items-center gap-3 flex-1">
               <div className="bg-blue-600 p-2 rounded-lg">
@@ -84,9 +85,9 @@ export default function AttendanceDashboard() {
           <Card className="p-2">
             <CardHeader className="pb-0 hover:pr-12 group transition-all duration-300 cursor-pointer">
               <Link
-                to="/arrivals"
-                search={{ id: String(id) }}
                 className="flex items-center justify-between w-full relative"
+                search={{ id: String(id) }}
+                to="/arrivals"
               >
                 <div className="flex items-center gap-3">
                   <div className="bg-[#10B981] p-2 rounded-lg">
@@ -112,18 +113,18 @@ export default function AttendanceDashboard() {
             </CardHeader>
             <CardBody>
               <Progress
-                value={(usersInCompany / total) * 100}
                 className="h-2"
                 classNames={{
                   indicator: "bg-[#10B981]",
                 }}
+                value={(usersInCompany / total) * 100}
               />
 
               <div className="mt-6 space-y-4">
                 <Link
-                  to="/arrivals"
-                  search={{ id: String(id), status: "1" }}
                   className="flex items-center relative justify-between hover:pr-12 group transition-all duration-300 cursor-pointer"
+                  search={{ id: String(id), status: "1" }}
+                  to="/arrivals"
                 >
                   <div className="flex items-center gap-2">
                     <Clock className="h-4 w-4 text-[#34D399]" />
@@ -145,17 +146,17 @@ export default function AttendanceDashboard() {
                   </span>
                 </Link>
                 <Progress
-                  value={(arrivedOnTime / total) * 100}
                   className="h-1.5"
                   classNames={{
                     indicator: "bg-[#34D399]",
                   }}
+                  value={(arrivedOnTime / total) * 100}
                 />
 
                 <Link
-                  to="/arrivals"
-                  search={{ id: String(id), status: "0" }}
                   className="flex items-center justify-between relative hover:pr-12 group transition-all duration-300"
+                  search={{ id: String(id), status: "0" }}
+                  to="/arrivals"
                 >
                   <div className="flex items-center gap-2 cursor-pointer">
                     <Clock className="h-4 w-4 text-[#FDBA74]" />
@@ -177,11 +178,11 @@ export default function AttendanceDashboard() {
                   </span>
                 </Link>
                 <Progress
-                  value={(lateUsers / total) * 100}
                   className="h-1.5"
                   classNames={{
                     indicator: "bg-[#FDBA74]",
                   }}
+                  value={(lateUsers / total) * 100}
                 />
               </div>
             </CardBody>
@@ -193,9 +194,9 @@ export default function AttendanceDashboard() {
           <Card className="p-2">
             <CardHeader className="pb-0 relative hover:pr-12 group transition-all duration-300">
               <Link
-                to="/absent"
-                search={{ id: String(id) }}
                 className="flex items-center justify-between w-full"
+                search={{ id: String(id) }}
+                to="/absent"
               >
                 <div className="flex items-center gap-3">
                   <div className="bg-[#DC2626] p-2 rounded-lg">
@@ -221,18 +222,18 @@ export default function AttendanceDashboard() {
             </CardHeader>
             <CardBody>
               <Progress
-                value={(absentUsers / total) * 100}
                 className="h-2"
                 classNames={{
                   indicator: "bg-[#DC2626]",
                 }}
+                value={(absentUsers / total) * 100}
               />
 
               <div className="mt-6 space-y-4">
                 <Link
-                  to="/absent"
-                  search={{ id: String(id), status: "1" }}
                   className="flex items-center justify-between relative hover:pr-12 group transition-all duration-300"
+                  search={{ id: String(id), status: "1" }}
+                  to="/absent"
                 >
                   <div className="flex items-center gap-2">
                     <AlertCircle className="h-4 w-4 text-[#FBBF24]" />
@@ -252,17 +253,17 @@ export default function AttendanceDashboard() {
                 </Link>
 
                 <Progress
-                  value={(absentWithReason / total) * 100}
                   className="h-1.5"
                   classNames={{
                     indicator: "bg-[#FBBF24]",
                   }}
+                  value={(absentWithReason / total) * 100}
                 />
 
                 <Link
-                  to="/absent"
-                  search={{ id: String(id), status: "0" }}
                   className="flex items-center justify-between relative hover:pr-12 group transition-all duration-300"
+                  search={{ id: String(id), status: "0" }}
+                  to="/absent"
                 >
                   <div className="flex items-center gap-2">
                     <XCircle className="h-4 w-4 text-[#DC2626]" />
@@ -281,11 +282,11 @@ export default function AttendanceDashboard() {
                   </span>
                 </Link>
                 <Progress
-                  value={(absentWithoutReason / total) * 100}
                   className="h-1.5"
                   classNames={{
                     indicator: "bg-[#DC2626]",
                   }}
+                  value={(absentWithoutReason / total) * 100}
                 />
               </div>
             </CardBody>

@@ -7,11 +7,12 @@ type Props = {
 
 function PositonCard({ item }: Props) {
   const { id } = useParams({ from: "/_main/office/$id" });
+
   return (
     <Link
-      to="/position-hr-view/$id"
       params={{ id: String(id) }}
       search={{ position: item.id }}
+      to="/position-hr-view/$id"
     >
       <Card className="min-w-[300px] relative  hover:scale-105 transition-all cursor-pointer  shadow-none">
         <CardHeader className="pb-0">

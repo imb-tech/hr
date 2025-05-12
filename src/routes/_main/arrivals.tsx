@@ -10,18 +10,19 @@ export const Route = createFileRoute("/_main/arrivals")({
 
 function RouteComponent() {
   const navigate = useNavigate();
+
   return (
     <Page
+      breadcrumb={["Kelganlar ro'yxati"]}
       leftComponent={
         <Button
-          variant="flat"
           className="min-w-4"
+          variant="flat"
           onPress={() => navigate({ to: "/" })}
         >
           <ArrowLeft className="w-5 h-5" />
         </Button>
       }
-      breadcrumb={["Kelganlar ro'yxati"]}
     >
       <ArrivalsPage />
     </Page>

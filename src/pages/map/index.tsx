@@ -1,22 +1,28 @@
 import TestMap from "@/components/map/test-map";
+import { COMPANIES } from "@/constants/api-endpoints";
+import { useGet } from "@/hooks/useGet";
 import { useSearch } from "@tanstack/react-router";
 import { useEffect, useRef } from "react";
 import { MapRef } from "react-map-gl/mapbox";
 import MapFilters from "./map-filters";
 
+// FAKE DATA
 const locations = Array.from({ length: 15 }, () => [
-  +(69.15 + Math.random() * (69.4 - 69.15)).toFixed(6), // longitude
-  +(41.2 + Math.random() * (41.4 - 41.2)).toFixed(6), // latitude
+  +(69.15 + Math.random() * (69.4 - 69.15)).toFixed(6),
+  +(41.2 + Math.random() * (41.4 - 41.2)).toFixed(6),
 ]);
 
+// FAKE DATA
 const locations2 = Array.from({ length: 15 }, () => [
-  +(69.15 + Math.random() * (69.4 - 69.15)).toFixed(6), // longitude
-  +(41.2 + Math.random() * (41.4 - 41.2)).toFixed(6), // latitude
+  +(69.15 + Math.random() * (69.4 - 69.15)).toFixed(6),
+  +(41.2 + Math.random() * (41.4 - 41.2)).toFixed(6),
 ]);
 
+// FAKE DATA
 const center = { lat: 41.20066, lon: 69.236537 };
-const offset = 0.0009; // taxminan 100 metr
+const offset = 0.0009;
 
+// FAKE DATA
 const locations3 = Array.from({ length: 10 }, () => [
   +(center.lon + (Math.random() * 2 - 1) * offset).toFixed(6),
   +(center.lat + (Math.random() * 2 - 1) * offset).toFixed(6),
@@ -69,6 +75,7 @@ export default function MapPage() {
   ];
   const search = useSearch({ from: "__root__" });
 
+  const { data: companies } = useGet<FeatureCollection>(COMPANIES);
   const ref = useRef<MapRef | null>(null);
 
   useEffect(() => {
@@ -82,10 +89,32 @@ export default function MapPage() {
     }
   }, [search]);
 
+  const convertedPolygons: GeoJSON.FeatureCollection[] =
+    companies?.features.map((feature, i) => ({
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          geometry: feature.properties.polygon,
+          properties: {
+            id: feature.id,
+            name: feature.properties.name,
+            colorIndex: i,
+            lat: feature.geometry.coordinates[0],
+            lon: feature.geometry.coordinates[1],
+          },
+        },
+      ],
+    })) ?? [];
+
   return (
     <div className="h-[90%] w-full bottom-0">
-      <MapFilters className="mb-3" />
-      <TestMap data={data} ref={ref} />
+      <MapFilters className="mb-3 flex items-center gap-3" />
+      <TestMap
+        ref={ref}
+        points={data}
+        polygons={companies ? convertedPolygons : []}
+      />
     </div>
   );
 }

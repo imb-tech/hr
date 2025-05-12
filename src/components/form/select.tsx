@@ -50,8 +50,8 @@ export default function FormSelect<IForm extends FieldValues>({
           value={field.value}
           onSelectionChange={(keys) => {
             console.log(multiple ? Array.from(keys) : Array.from(keys)[0]);
-            
-            field.onChange(multiple ? Array.from(keys) : Array.from(keys)[0])
+
+            field.onChange(multiple ? Array.from(keys) : Array.from(keys)[0]);
           }}
           {...props}
         >

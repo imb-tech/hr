@@ -18,13 +18,13 @@ const EmployeeCard = ({
   color: string;
 }) => {
   return (
-    <Link to="/hr-view/$id" params={{ id: item.id.toString() }}>
+    <Link params={{ id: item.id.toString() }} to="/hr-view/$id">
       <Card>
         <CardHeader className="flex flex-row items-center gap-4 pb-2">
           <Avatar
             showFallback
-            src="https://images.unsplash.com/broken"
             className="h-14 w-14"
+            src="https://images.unsplash.com/broken"
           />
           <div>
             <h3 className="font-semibold">{item.full_name}</h3>

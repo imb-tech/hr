@@ -2,6 +2,7 @@ import Accordion from "@/components/ui/accordion";
 import DataTable from "@/components/ui/table";
 import { USER_STATISTIC } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
+import { Skeleton } from "@heroui/skeleton";
 import { Selection } from "@react-types/shared";
 import { useNavigate, useParams, useSearch } from "@tanstack/react-router";
 import { useState } from "react";
@@ -48,15 +49,6 @@ function PositionAccordion({ info }: Props) {
         <div className="overflow-x-auto hidden lg:block">
           <div className="min-w-[1024px]">
             <Accordion
-              selectionMode="single"
-              variant="light"
-              items={[
-                {
-                  key: "1",
-                  title: <OfficeDetailTableHeader />,
-                  content: null,
-                },
-              ]}
               itemProps={{
                 classNames: {
                   content: "hidden",
@@ -64,21 +56,29 @@ function PositionAccordion({ info }: Props) {
                   trigger: "!pb-0",
                 },
               }}
+              items={[
+                {
+                  key: "1",
+                  title: <OfficeDetailTableHeader />,
+                  content: null,
+                },
+              ]}
+              selectionMode="single"
+              variant="light"
             />
             <Accordion
-              selectionMode="single"
-              selectedKeys={selectedKeys}
-              onSelectionChange={clickAccordion}
+              itemProps={{ classNames: { trigger: "!px-0 py-1" } }}
               items={info?.map((c, i) => ({
                 key: i.toString(),
                 title: <OfficeInfoRow data={c} />,
                 content: (
                   <div>
                     <DataTable
-                      shadow="none"
+                      indexing
                       isHeaderSticky
                       columns={columns}
                       data={isSuccess && data.length > 0 ? data : []}
+                      shadow="none"
                       onRowClick={(item) =>
                         navigate({
                           to: "/hr-view/$id",
@@ -89,13 +89,18 @@ function PositionAccordion({ info }: Props) {
                   </div>
                 ),
               }))}
-              itemProps={{ classNames: { trigger: "!px-0 py-1" } }}
+              selectedKeys={selectedKeys}
+              selectionMode="single"
+              onSelectionChange={clickAccordion}
             />
           </div>
         </div>
       ) : (
-        <div className="flex items-center h-48 w-full justify-center bg-gray-500/20 rounded-md my-2">
-          <p className="text-gray-500/95">Lavozimlar ma'lumoti topilmadi</p>
+        <div className="flex items-center flex-col gap-3 w-full justify-center bg-gray-500/20 rounded-md my-2">
+          <Skeleton className="h-8 w-full rounded-md" />
+          <Skeleton className="h-8 w-full rounded-md" />
+          <Skeleton className="h-8 w-full rounded-md" />
+          <Skeleton className="h-8 w-full rounded-md" />
         </div>
       )}
     </div>

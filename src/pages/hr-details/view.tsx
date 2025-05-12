@@ -40,9 +40,9 @@ function ViewPage() {
         <div className="flex flex-col sm:flex-row items-start gap-6 h-full">
           <div className="border border-divider  h-[200px] sm:h-full sm:w-[215px] rounded-lg">
             <img
+              alt="blah blah"
               className="w-full h-full object-cover rounded-lg"
               src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-              alt="Profile picture"
             />
           </div>
           <ul className="h-full flex flex-col items-stretch gap-[3px]">
@@ -73,20 +73,26 @@ function ViewPage() {
               <div className="flex gap-2 items-center min-w-52 text-foreground-500">
                 <MapPinHouse size={16} /> <span>Doimiy manzil:</span>
               </div>
-              <span>{data?.profile?.address ? data?.profile?.address : "-"}</span>
+              <span>
+                {data?.profile?.address ? data?.profile?.address : "-"}
+              </span>
             </li>
             <li className="flex flex-col sm:flex-row gap-2 sm:items-center">
               <div className="flex gap-2 items-center min-w-52 text-foreground-500">
                 <MapPinCheck size={16} /> <span>Vaqtinchalik manzil:</span>
               </div>
-              <span>{data?.profile?.residence ? data?.profile?.residence : "-"}</span>
+              <span>
+                {data?.profile?.residence ? data?.profile?.residence : "-"}
+              </span>
             </li>
             <li className="flex flex-col sm:flex-row gap-2 sm:items-center">
               <div className="flex gap-2 items-center min-w-52 text-foreground-500">
                 <FileUser size={16} /> <span>Pasport:</span>
               </div>
               <span>
-                {data?.profile?.id_number ? formatPassportNumber(data?.profile?.id_number) : "-"}
+                {data?.profile?.id_number
+                  ? formatPassportNumber(data?.profile?.id_number)
+                  : "-"}
               </span>
             </li>
             <li className="flex flex-col sm:flex-row gap-2 sm:items-center">
@@ -95,8 +101,9 @@ function ViewPage() {
               </div>
               <span>
                 {data?.profile?.education
-                  ? educationLevels?.find((item) => item.key == data?.profile?.education)
-                      ?.label
+                  ? educationLevels?.find(
+                      (item) => item.key == data?.profile?.education,
+                    )?.label
                   : "-"}
               </span>
             </li>
@@ -119,9 +126,9 @@ function ViewPage() {
         </div>
       </div>
       <div className="mt-8 overflow-x-auto ">
-       <div className="min-w-[1024px]">
-       <YearsAccordion />
-       </div>
+        <div className="min-w-[1024px]">
+          <YearsAccordion />
+        </div>
       </div>
     </div>
   );
