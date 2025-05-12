@@ -16,9 +16,9 @@ import { useAllEmployeesListCols } from "./cols";
 type ViewMode = "table" | "card";
 
 const tabOptions = [
-  { key: "", label: "Barchasi" },
-  { key: "1", label: "Kelganlar" },
-  { key: "0", label: "Kelmaganlar" },
+  { key: "", label: "Barchasi (312)" },
+  { key: "1", label: "Kelganlar (308)" },
+  { key: "0", label: "Kelmaganlar (4)" },
 ];
 const tabs = [
   { key: "table", label: <Table /> },
