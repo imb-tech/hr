@@ -16,9 +16,9 @@ import { useAbsentListCols } from "./cols";
 export type ViewMode = "table" | "card";
 
 const tabOptions = [
-  { key: "", label: "Barchasi" },
-  { key: "1", label: "Sababli" },
-  { key: "0", label: "Sababsiz" },
+  { key: "", label: "Barchasi (8)" },
+  { key: "1", label: "Sababli (5)" },
+  { key: "0", label: "Sababsiz (3)" },
 ];
 export const tabs = [
   { key: "table", label: <Table /> },

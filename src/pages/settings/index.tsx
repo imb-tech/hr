@@ -20,9 +20,9 @@ import { useState } from "react";
 import { usSettingsCols } from "./cols";
 
 const tabOptions = [
-  { key: "0", label: "So'rovlar" },
-  { key: "1", label: "Ruxsat berilganlar" },
-  { key: "2", label: "Rad etilganlar" },
+  { key: "0", label: "So'rovlar (4)" },
+  { key: "1", label: "Ruxsat berilganlar (129)" },
+  { key: "2", label: "Rad etilganlar (7)" },
 ];
 
 export default function SettingsPage() {

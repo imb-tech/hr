@@ -16,9 +16,9 @@ import EmployeeCard from "./employee-card";
 type ViewMode = "table" | "card";
 
 const tabOptions = [
-  { key: "", label: "Barchasi" },
-  { key: "1", label: "Vaqtida kelganlar" },
-  { key: "0", label: "Kech qolganlar" },
+  { key: "", label: "Barchasi (304)" },
+  { key: "1", label: "Vaqtida kelganlar (299)" },
+  { key: "0", label: "Kech qolganlar (5)" },
 ];
 
 const tabs = [
