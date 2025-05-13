@@ -45,7 +45,7 @@ export default function OfficeDetail() {
       <OfficeList />
       <OfficeProfile />
       <div className="flex justify-between items-center gap-3 mt-4">
-        <h2 className="text-xl">Batafsil</h2>
+        <h2 className="text-xl">Lavozimlar bo'yicha yo'qlama</h2>
         <div className="hidden lg:block">
           <Tabs
             aria-label="Options"

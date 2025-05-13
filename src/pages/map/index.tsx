@@ -112,6 +112,7 @@ export default function MapPage() {
       <MapFilters className="mb-3 flex items-center gap-3" />
       <TestMap
         ref={ref}
+        defaultZoom={17}
         points={data}
         polygons={companies ? convertedPolygons : []}
       />

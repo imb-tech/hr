@@ -34,7 +34,7 @@ export const links = [
     to: "/settings",
     icon: <ScrollText />,
     enabled: true,
-    title: "Ruxsat so'rash",
+    title: "So'rov",
   }),
 ];
 

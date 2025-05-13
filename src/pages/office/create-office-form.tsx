@@ -1,5 +1,6 @@
 import FormInput from "@/components/form/input";
 import TimeInput from "@/components/form/time-input";
+import DrawPolygonMap from "@/components/map/draw-polygon-map";
 import { COMPANIES } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
 import { usePatch } from "@/hooks/usePatch";
@@ -9,8 +10,7 @@ import { addToast } from "@heroui/toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import OfficeLocationSelect from "./office-location";
+import { FormProvider, useForm } from "react-hook-form";
 
 export default function CreateOfficeForm() {
   const queryClient = useQueryClient();
@@ -70,7 +70,7 @@ export default function CreateOfficeForm() {
       ...data,
       location: {
         type: "Point",
-        coordinates: [-122.0838, 37.3861],
+        coordinates: [41.20066, 69.236537],
       },
     };
 
@@ -86,44 +86,47 @@ export default function CreateOfficeForm() {
   }, [store]);
 
   return (
-    <form
-      className="flex flex-col gap-2 mt-5"
-      onSubmit={form.handleSubmit(onSubmit)}
-    >
-      <FormInput
-        isRequired
-        required
-        label="Ofis nomi"
-        methods={form}
-        name="name"
-        size="lg"
-      />
-
-      <FormInput
-        isRequired
-        required
-        label="Manzil"
-        methods={form}
-        name="address"
-        size="lg"
-      />
-
-      <div className="grid grid-cols-2 gap-3 py-2">
-        <TimeInput
+    <FormProvider {...form}>
+      <form
+        className="flex flex-col gap-2 mt-5"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
+        <FormInput
           isRequired
-          label={"Tushlik boshlanish vaqti"}
+          required
+          label="Ofis nomi"
           methods={form}
-          name="lunch_start_time"
+          name="name"
+          size="lg"
         />
-        <TimeInput
-          isRequired
-          label={"Tushlik tugash vaqti"}
-          methods={form}
-          name="lunch_end_time"
-        />
-      </div>
 
-      <OfficeLocationSelect
+        <FormInput
+          isRequired
+          required
+          label="Manzil"
+          methods={form}
+          name="address"
+          size="lg"
+        />
+
+        <div className="grid grid-cols-2 gap-3 py-2">
+          <TimeInput
+            isRequired
+            label={"Tushlik boshlanish vaqti"}
+            methods={form}
+            name="lunch_start_time"
+          />
+          <TimeInput
+            isRequired
+            label={"Tushlik tugash vaqti"}
+            methods={form}
+            name="lunch_end_time"
+          />
+        </div>
+
+        <DrawPolygonMap defaultValues={store} name="polygon" />
+
+        {/* <OfficeLocationSelect
         required
         error={!!form.formState.errors["polygon"]}
         handleMapChange={(pnts) => {
@@ -131,13 +134,14 @@ export default function CreateOfficeForm() {
           form.setValue("polygon", pnts);
         }}
         initialValue={store?.properties.polygon.coordinates || []}
-      />
+      /> */}
 
-      <div className="flex justify-end mt-3">
-        <Button color="primary" isLoading={isPending} type="submit">
-          Saqlash
-        </Button>
-      </div>
-    </form>
+        <div className="flex justify-end mt-3">
+          <Button color="primary" isLoading={isPending} type="submit">
+            Saqlash
+          </Button>
+        </div>
+      </form>
+    </FormProvider>
   );
 }
