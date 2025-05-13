@@ -62,6 +62,8 @@ type Props<TData extends object> = {
   indexing?: boolean;
   pageKey?: keyof SearchParams;
   pageSize?: number;
+  skeletonRows?: number;
+  skeletonClassName?: string;
 };
 
 export default function DataTable<TData extends object>({
@@ -79,6 +81,8 @@ export default function DataTable<TData extends object>({
   indexing = false,
   pageKey = "page",
   pageSize = 48,
+  skeletonRows = 10,
+  skeletonClassName,
   ...props
 }: Props<TData> & TableProps) {
   type ColumnKey = DataKey<TData>;
@@ -240,24 +244,17 @@ export default function DataTable<TData extends object>({
       {isLoading ? (
         <TableBody
           emptyContent={"Empty"}
-          items={[
-            { id: 1 },
-            { id: 2 },
-            { id: 3 },
-            { id: 4 },
-            { id: 5 },
-            { id: 6 },
-            { id: 7 },
-            { id: 8 },
-            { id: 9 },
-            { id: 10 },
-          ]}
+          items={Array(skeletonRows)
+            .fill(0)
+            .map((_, index) => ({ id: index + 1 }))}
         >
           {(item) => (
             <TableRow key={(item as any).id}>
               {headerColumns.map((column) => (
                 <TableCell key={column.dataKey as string}>
-                  <Skeleton className="h-10 rounded-md" />
+                  <Skeleton
+                    className={cn("h-10 rounded-md", skeletonClassName)}
+                  />
                 </TableCell>
               ))}
             </TableRow>

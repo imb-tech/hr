@@ -35,7 +35,7 @@ export default function CreateOfficeForm() {
     },
   });
 
-  const { mutate: mutatePatch } = usePatch({
+  const { mutate: mutatePatch, isPending: isEditing } = usePatch({
     onSuccess: () => {
       queryClient.refetchQueries({
         queryKey: [COMPANIES],
@@ -137,7 +137,11 @@ export default function CreateOfficeForm() {
       /> */}
 
         <div className="flex justify-end mt-3">
-          <Button color="primary" isLoading={isPending} type="submit">
+          <Button
+            color="primary"
+            isLoading={isPending || isEditing}
+            type="submit"
+          >
             Saqlash
           </Button>
         </div>

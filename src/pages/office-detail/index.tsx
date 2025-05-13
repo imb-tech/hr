@@ -23,7 +23,9 @@ export default function OfficeDetail() {
   const { data: info, isSuccess } = useGet<CompanyStats[]>(
     `${ROLES_STATISTIC}/${id}`,
     {
-      params: search,
+      params: {
+        date: search?.date,
+      },
       options: {
         enabled: Boolean(id),
       },

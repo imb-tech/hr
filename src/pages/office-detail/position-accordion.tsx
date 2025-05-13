@@ -19,7 +19,7 @@ function PositionAccordion({ info }: Props) {
   const navigate = useNavigate();
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
 
-  const { data, isSuccess } = useGet<WorkerAttendance[]>(
+  const { data, isSuccess, isLoading } = useGet<WorkerAttendance[]>(
     `${USER_STATISTIC}/${search?.tab}/${id}`,
     {
       options: { enabled: Boolean(id) && Boolean(search?.tab) },
@@ -72,21 +72,22 @@ function PositionAccordion({ info }: Props) {
                 key: i.toString(),
                 title: <OfficeInfoRow data={c} />,
                 content: (
-                  <div>
-                    <DataTable
-                      indexing
-                      isHeaderSticky
-                      columns={columns}
-                      data={isSuccess && data.length > 0 ? data : []}
-                      shadow="none"
-                      onRowClick={(item) =>
-                        navigate({
-                          to: "/hr-view/$id",
-                          params: { id: item.id.toString() },
-                        })
-                      }
-                    />
-                  </div>
+                  <DataTable
+                    indexing
+                    isHeaderSticky
+                    columns={columns}
+                    data={isSuccess && data.length > 0 ? data : []}
+                    isLoading={isLoading}
+                    shadow="none"
+                    skeletonClassName="h-6 !p-0"
+                    skeletonRows={c.total > 15 ? 10 : c.total}
+                    onRowClick={(item) =>
+                      navigate({
+                        to: "/hr-view/$id",
+                        params: { id: item.id.toString() },
+                      })
+                    }
+                  />
                 ),
               }))}
               selectedKeys={selectedKeys}
