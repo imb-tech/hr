@@ -7,19 +7,19 @@ export default function MapFilters(props: HTMLProps<HTMLDivElement>) {
   const { data: oficeData } = useGet<GeoJSON.FeatureCollection>(COMPANIES);
   const { data: positions } = useGet<Position[]>(POSITION);
 
-  console.log(oficeData?.features);
-
   return (
     <div {...props}>
       <ParamSelect
+        clearOther
         optionLabelKey="full_name"
         optionValueKey="id"
         options={users}
-        paramName="filter"
+        paramName="id"
         placeholder="Hodim"
       />
 
       <ParamSelect
+        clearOther
         optionLabelKey="name"
         optionValueKey="id"
         options={positions}
@@ -28,13 +28,14 @@ export default function MapFilters(props: HTMLProps<HTMLDivElement>) {
       />
 
       <ParamSelect
+        clearOther
         optionLabelKey="name"
         optionValueKey="id"
         options={oficeData?.features?.map((el) => ({
           id: el.id,
           name: (el.properties as Company).name,
         }))}
-        paramName="id"
+        paramName="office"
         placeholder="Ofis"
       />
     </div>

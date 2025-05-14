@@ -8,4 +8,5 @@ type SearchParams = {
     status?: string
     date?:string
     employee?: number
+    office?: number
 };

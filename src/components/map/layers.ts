@@ -47,7 +47,7 @@ export const clusterCountLayer = ({
       "text-size": 16,
     },
     paint: {
-      "text-color": "#fff",
+      "text-color": "#000",
     },
   };
 };
@@ -75,22 +75,23 @@ export const unclusteredPointLayer = ({
   };
 };
 
-export const polygonFillLayer = (id: string): LayerProps => ({
+export const polygonFillLayer = (id: string, color: string): LayerProps => ({
   id: `polygon-fill-${id}`,
   type: "fill",
   source: `polygon-source-${id}`,
   paint: {
-    "fill-color": "#11b4da",
-    "fill-opacity": 0.1,
+    "fill-color": color,
+    "fill-opacity": 0.04,
   },
 });
 
-export const polygonLineLayer = (id: string): LayerProps => ({
+export const polygonLineLayer = (id: string, color: string): LayerProps => ({
   id: `polygon-line-${id}`,
   type: "line",
   source: `polygon-source-${id}`,
   paint: {
-    "line-color": "#11b4da",
-    "line-width": 1,
+    "line-color": color,
+    "line-width": 2,
+    "line-opacity": 0.6,
   },
 });

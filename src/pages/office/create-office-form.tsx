@@ -124,7 +124,7 @@ export default function CreateOfficeForm() {
           />
         </div>
 
-        <DrawPolygonMap defaultValues={store} name="polygon" />
+        <DrawPolygonMap defaultValues={store} defaultZoom={16} name="polygon" />
 
         {/* <OfficeLocationSelect
         required

@@ -252,7 +252,7 @@ export default function CreateHrForm() {
 
           <WeekdaysFields<Human>
             required
-            itemClassName="text-lg py-[9px] w-16 rounded-xl"
+            itemClassName="text-lg py-[3px] w-10 rounded-xl sm:py-[9px] sm:w-16"
             label="Ish kunlari"
             name="work_days"
             wrapperClassName="gap-1"

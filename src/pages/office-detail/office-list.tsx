@@ -118,12 +118,25 @@ function OfficeList() {
           : Array.from({ length: 5 })?.map((_, index) => (
               <Card
                 key={index}
-                className="max-w-[300px] min-w-[300px] h-[148px] space-y-5 p-2"
+                className="max-w-[300px] min-w-[300px] h-[148px] space-y-5 p-4"
                 radius="lg"
               >
-                <Skeleton className="rounded-lg">
-                  <div className="h-[135px] rounded-lg bg-default-300" />
-                </Skeleton>
+                <div className="flex items-center gap-2">
+                  <Skeleton className="rounded-lg w-12 flex">
+                    <div className="h-12 rounded-lg bg-default-300" />
+                  </Skeleton>
+                  <Skeleton className="rounded-lg w-1/2 flex">
+                    <div className="h-4 w-full rounded-lg bg-default-200" />
+                  </Skeleton>
+                </div>
+                <div className="space-y-3">
+                  <Skeleton className="w-4/5 rounded-lg">
+                    <div className="h-3 w-4/5 rounded-lg bg-default-200" />
+                  </Skeleton>
+                  <Skeleton className="w-3/5 rounded-lg">
+                    <div className="h-3 w-3/5 rounded-lg bg-default-200" />
+                  </Skeleton>
+                </div>
               </Card>
             ))}
 

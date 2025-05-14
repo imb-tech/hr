@@ -24,10 +24,13 @@ import {
 
 import { MAPBOX_TOKEN } from "@/constants/map";
 import { useTheme } from "@heroui/use-theme";
-import { Building2 } from "lucide-react";
+// import { Building2 } from "lucide-react";
+import { useSearch } from "@tanstack/react-router";
 import type { GeoJSONSource, MapMouseEvent } from "mapbox-gl";
 import type { MapRef } from "react-map-gl/mapbox";
 import { CustomPopup } from "./custom-popup";
+import { MapStyleSwitcher } from "./map-swticher";
+import { getPolygonCentroid, polygonColors } from "./util";
 
 type TPoint = {
   latitude: number;
@@ -49,13 +52,17 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
   const internalMapRef = useRef<MapRef | null>(null);
   const { theme } = useTheme();
   const [isLoaded, setIsLoaded] = useState(false);
+  const [mapStyleId, setMapStyleId] = useState(
+    theme === "dark" ? "dark-v11" : "light-v11",
+  );
+
+  const search = useSearch({ from: "__root__" });
 
   const [activePopup, setActivePopup] = useState<{
     lngLat: [number, number];
     properties: any;
   } | null>(null);
 
-  // Ref orqali tashqi kirish uchun mapRef ni expose qilish
   useImperativeHandle(ref, () => internalMapRef.current as MapRef, [
     internalMapRef.current,
   ]);
@@ -72,7 +79,6 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
         ? (feature.geometry.coordinates as [number, number])
         : (event.lngLat.toArray() as [number, number]);
 
-    // Agar cluster bo‘lsa – zoom qilish
     if (cluster_id) {
       const mapboxSource = internalMapRef.current?.getSource(
         "earthquakes",
@@ -105,6 +111,25 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
   };
 
   useEffect(() => {
+    if (search.id && points) {
+      const usr = (points?.[0] as FeatureCollection)?.features[
+        Number(search.id ?? 0)
+      ];
+
+      console.log(usr);
+
+      if (usr) {
+        setActivePopup({
+          lngLat: usr.geometry.coordinates,
+          properties: usr.properties,
+        });
+      }
+    } else {
+      setActivePopup(null);
+    }
+  }, [search, points]);
+
+  useEffect(() => {
     if (isLoaded && internalMapRef.current) {
       const geolocateControl = new mapboxgl.GeolocateControl({
         positionOptions: {
@@ -122,8 +147,6 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
       };
     }
   }, [isLoaded]);
-
-  const colors = ["#11b4da", "#ff0000", "#008000", "#ff0000", "#ff0000"];
 
   return (
     <Map
@@ -144,13 +167,18 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
           ?.flat() ?? []),
       ]}
       language="uz-UZ"
-      mapStyle={`mapbox://styles/mapbox/${theme}-v9`}
+      mapStyle={`mapbox://styles/mapbox/${mapStyleId}`}
       mapboxAccessToken={MAPBOX_TOKEN}
       style={{ borderRadius: "10px" }}
       onClick={onClick}
       onLoad={() => setIsLoaded(true)}
     >
       <FullscreenControl />
+      <MapStyleSwitcher
+        initial={theme === "dark" ? "dark-v11" : "light-v11"}
+        onChange={(id) => setMapStyleId(id)}
+      />
+
       {points?.map((el, i) => (
         <Source
           key={i}
@@ -165,7 +193,7 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
             {...clusterLayer({
               source: `earthquakes_${i}`,
               id: i.toString(),
-              color: colors[i],
+              color: polygonColors[i],
             })}
           />
           <Layer
@@ -178,7 +206,7 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
             {...unclusteredPointLayer({
               source: `earthquakes_${i}`,
               id: i.toString(),
-              color: colors[i],
+              color: polygonColors[i],
             })}
           />
         </Source>
@@ -191,8 +219,8 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
           id={`polygon-source-${i}`}
           type="geojson"
         >
-          <Layer {...polygonFillLayer(i.toString())} />
-          <Layer {...polygonLineLayer(i.toString())} />
+          <Layer {...polygonFillLayer(i.toString(), polygonColors[i])} />
+          <Layer {...polygonLineLayer(i.toString(), polygonColors[i])} />
         </Source>
       ))}
 
@@ -211,7 +239,7 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
             ).x
           }
         >
-          <Building2 />
+          {/* <Building2 /> */}
         </Marker>
       ))}
 
@@ -228,39 +256,3 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
 });
 
 export default TestMap;
-
-function getPolygonCentroid(coordinates: number[][][]): {
-  x: number;
-  y: number;
-} {
-  const polygon = coordinates[0]; // faqat tashqi ringni olamiz
-  let area = 0;
-  let x = 0;
-  let y = 0;
-
-  for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-    const [x0, y0] = polygon[i];
-    const [x1, y1] = polygon[j];
-    const f = x0 * y1 - x1 * y0;
-
-    area += f;
-    x += (x0 + x1) * f;
-    y += (y0 + y1) * f;
-  }
-
-  area *= 0.5;
-  if (area === 0) {
-    // fallback: o‘rtacha nuqta
-    const total = polygon.reduce(
-      (acc, coord) => [acc[0] + coord[0], acc[1] + coord[1]],
-      [0, 0],
-    );
-
-    return { x: total[0] / polygon.length, y: total[1] / polygon.length };
-  }
-
-  x /= 6 * area;
-  y /= 6 * area;
-
-  return { x, y };
-}

@@ -21,6 +21,10 @@ export const usPostionsCols = () => {
           </span>
         ),
       },
+      {
+        header: "Hodimlar soni",
+        dataKey: "count",
+      },
       { header: "Amallar", dataKey: "actions" },
     ],
     [],

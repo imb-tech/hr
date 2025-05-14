@@ -6,4 +6,5 @@ type Position = {
   work_days: number[]
   salary: number
   fine_per_minute: number
+  count: number
 };

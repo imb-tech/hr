@@ -34,6 +34,10 @@ export function ParamDatePicker({
   return (
     <DatePicker
       className="max-w-[284px]"
+      classNames={{
+        input: "w-0 overflow-hidden",
+        inputWrapper: "pl-1",
+      }}
       {...props}
       defaultValue={defaultDate as DatePickerProps["defaultValue"]}
       onChange={handleChange}

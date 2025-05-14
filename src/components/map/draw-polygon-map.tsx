@@ -13,10 +13,12 @@ import {
 } from "react";
 
 import { MAPBOX_TOKEN } from "@/constants/map";
+import { useTheme } from "@heroui/use-theme";
 import { useLocation } from "@tanstack/react-router";
 import { useFormContext } from "react-hook-form";
 import type { MapRef } from "react-map-gl/mapbox";
 import { FullscreenControl, Map } from "react-map-gl/mapbox";
+import { MapStyleSwitcher } from "./map-swticher";
 
 type Props = {
   defaultCenter?: { latitude: number; longitude: number };
@@ -38,6 +40,11 @@ const DrawPolygonMap = forwardRef<MapRef, Props>(
     const mapRef = useRef<MapRef | null>(null);
     const drawRef = useRef<MapboxDraw | null>(null);
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
+    const { theme } = useTheme();
+
+    const [mapStyleId, setMapStyleId] = useState(
+      theme === "dark" ? "dark-v11" : "light-v11",
+    );
     const location = useLocation();
 
     const form = useFormContext();
@@ -120,12 +127,16 @@ const DrawPolygonMap = forwardRef<MapRef, Props>(
             longitude: defaultCenter.longitude,
             zoom: defaultZoom,
           }}
-          mapStyle="mapbox://styles/mapbox/dark-v9"
+          mapStyle={`mapbox://styles/mapbox/${mapStyleId}`}
           mapboxAccessToken={MAPBOX_TOKEN}
           style={{ height: 500, borderRadius: 10 }}
           onLoad={() => setIsLoaded(true)}
         >
           <FullscreenControl />
+          <MapStyleSwitcher
+            initial={theme === "dark" ? "dark-v11" : "light-v11"}
+            onChange={(id) => setMapStyleId(id)}
+          />
         </Map>
       </div>
     );

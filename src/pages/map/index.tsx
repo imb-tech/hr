@@ -1,90 +1,66 @@
 import TestMap from "@/components/map/test-map";
+import { getPolygonCentroid } from "@/components/map/util";
 import { COMPANIES } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
 import { useSearch } from "@tanstack/react-router";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { MapRef } from "react-map-gl/mapbox";
 import MapFilters from "./map-filters";
-
-// FAKE DATA
-const locations = Array.from({ length: 15 }, () => [
-  +(69.15 + Math.random() * (69.4 - 69.15)).toFixed(6),
-  +(41.2 + Math.random() * (41.4 - 41.2)).toFixed(6),
-]);
-
-// FAKE DATA
-const locations2 = Array.from({ length: 15 }, () => [
-  +(69.15 + Math.random() * (69.4 - 69.15)).toFixed(6),
-  +(41.2 + Math.random() * (41.4 - 41.2)).toFixed(6),
-]);
-
-// FAKE DATA
-const center = { lat: 41.20066, lon: 69.236537 };
-const offset = 0.0009;
-
-// FAKE DATA
-const locations3 = Array.from({ length: 10 }, () => [
-  +(center.lon + (Math.random() * 2 - 1) * offset).toFixed(6),
-  +(center.lat + (Math.random() * 2 - 1) * offset).toFixed(6),
-]);
+import { findPolygonWithOutliers } from "./map-utils";
 
 export default function MapPage() {
-  const data: GeoJSON.FeatureCollection[] = [
-    {
-      type: "FeatureCollection",
-      features: locations.map((crd, idx) => ({
-        type: "Feature",
-        properties: {
-          id: idx + 1,
-          name: `Point ${idx + 1}`,
-        },
-        geometry: {
-          type: "Point",
-          coordinates: crd,
-        },
-      })),
-    },
-    {
-      type: "FeatureCollection",
-      features: locations2.map((crd, idx) => ({
-        type: "Feature",
-        properties: {
-          id: idx + 1,
-          name: `Point ${idx + 1}`,
-        },
-        geometry: {
-          type: "Point",
-          coordinates: crd,
-        },
-      })),
-    },
-    {
-      type: "FeatureCollection",
-      features: locations3.map((crd, idx) => ({
-        type: "Feature",
-        properties: {
-          id: idx + 1,
-          name: `Point ${idx + 1}`,
-        },
-        geometry: {
-          type: "Point",
-          coordinates: crd,
-        },
-      })),
-    },
-  ];
   const search = useSearch({ from: "__root__" });
 
   const { data: companies } = useGet<FeatureCollection>(COMPANIES);
+  const data: GeoJSON.FeatureCollection[] = useMemo(
+    () =>
+      companies?.features?.map((company) => {
+        const polygonCoords = company.properties.polygon.coordinates[0];
+        const points = findPolygonWithOutliers(polygonCoords as any); // 32 ta nuqta
+
+        return {
+          type: "FeatureCollection",
+          features: points.map((coords, idx) => ({
+            type: "Feature",
+            properties: {
+              id: idx + 1,
+              name: `Point ${idx + 1}`,
+            },
+            geometry: {
+              type: "Point",
+              coordinates: coords,
+            },
+          })),
+        };
+      }) ?? [],
+    [companies],
+  );
+
   const ref = useRef<MapRef | null>(null);
 
   useEffect(() => {
-    if (ref.current) {
+    if (ref.current && search.office) {
+      const officeLoc = companies?.features?.find(
+        (comp) => comp.id == search.office,
+      );
+
       ref?.current.flyTo({
-        center: [locations?.[0][0], locations?.[0][1]],
-        duration: 1000,
+        center: [
+          getPolygonCentroid(officeLoc?.properties.polygon.coordinates ?? []).x,
+          getPolygonCentroid(officeLoc?.properties.polygon.coordinates ?? []).y,
+        ],
+        duration: 500,
         curve: 1.42,
-        zoom: 16,
+        zoom: 17,
+      });
+    } else if (ref.current && search.id) {
+      const officeLoc = data[0].features[Number(search.id ?? 0)];
+
+      ref?.current.flyTo({
+        center: (officeLoc.geometry as Geometry).coordinates,
+        duration: 500,
+        curve: 1.42,
+        zoom: 17,
       });
     }
   }, [search]);
