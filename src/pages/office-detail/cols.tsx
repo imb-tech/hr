@@ -1,6 +1,6 @@
 import { ColumnDef } from "@/components/ui/table";
-import { formatDateTime } from "@/lib/format-date";
 import { cn } from "@heroui/theme";
+import { formatDate } from "date-fns";
 import { useMemo } from "react";
 
 export const useWorkerInfoCols = () => {
@@ -21,7 +21,7 @@ export const useWorkerInfoCols = () => {
         cell(_, item) {
           return (
             <span>
-              {formatDateTime(item.attendance?.attendance_time) || "09:00"}
+              {formatDate(item.attendance?.attendance_time ?? new Date(), 'HH:dd') || "09:00"}
             </span>
           );
         },
@@ -30,9 +30,9 @@ export const useWorkerInfoCols = () => {
         header: "Ketdi",
         dataKey: "id",
         cell(_, item) {
-          const tm = item.attendance?.left_time;
+          const tm = item.attendance?.left_time ?? new Date();
 
-          return <span>{tm ? formatDateTime(tm) : "18:00"}</span>;
+          return <span>{tm ?  formatDate(tm, 'HH:dd') ?? "18:00" : "18:00"}</span>;
         },
       },
       {
