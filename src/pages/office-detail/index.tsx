@@ -58,7 +58,7 @@ export default function OfficeDetail() {
       </div>
 
       {view === "card" ? (
-        isSuccess && info?.length > 0 ? (
+        isSuccess && !!info ? (
           <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-4 my-4 max-w-full">
             {info?.map((item, index) => (
               <div key={index}>
@@ -74,7 +74,7 @@ export default function OfficeDetail() {
       ) : (
         <div>
           <PositionAccordion info={info} />
-          {isSuccess && info?.length > 0 ? (
+          {isSuccess && !!info ? (
             <div className="lg:hidden grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-4 my-4 max-w-full overflow-x-auto">
               {positionCard()}
             </div>

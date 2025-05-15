@@ -45,7 +45,7 @@ function PositionAccordion({ info }: Props) {
 
   return (
     <div>
-      {info?.length ? (
+      {!!info ? (
         <div className="overflow-x-auto hidden lg:block">
           <div className="min-w-[1024px]">
             <Accordion

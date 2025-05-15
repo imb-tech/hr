@@ -53,7 +53,7 @@ function OfficeList() {
         ref={scrollbarRef}
         className="flex flex-nowrap gap-3 overflow-x-auto py-1 my-3 scrollbar-hide"
       >
-        {isSuccess && companies?.features?.length > 0
+        {isSuccess && !!companies
           ? companies?.features?.map((item) => (
               <Link
                 key={item.id}
