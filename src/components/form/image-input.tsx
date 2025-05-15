@@ -48,7 +48,7 @@ export default function ImageInput<T extends FieldValues>({
   return (
     <label
       className={cn(
-        "gap-2 grid grid-cols-1 rounded-md overflow-hidden w-auto",
+        "gap-2 grid grid-cols-1 rounded-md overflow-hidden w-auto relative",
         wrapperClassName,
       )}
     >
