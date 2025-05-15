@@ -1,3 +1,4 @@
+import { Radio, RadioGroup } from "@heroui/react";
 import { useState } from "react";
 
 const styles = [
@@ -47,19 +48,5 @@ export function MapStyleSwitcher({
         ))}
       </RadioGroup>
     </div>
-  );
-}
-
-import { Radio, RadioGroup } from "@heroui/react";
-
-export default function App() {
-  return (
-    <RadioGroup label="Select your favorite city">
-      <Radio value="buenos-aires">Buenos Aires</Radio>
-      <Radio value="sydney">Sydney</Radio>
-      <Radio value="san-francisco">San Francisco</Radio>
-      <Radio value="london">London</Radio>
-      <Radio value="tokyo">Tokyo</Radio>
-    </RadioGroup>
   );
 }

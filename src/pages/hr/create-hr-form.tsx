@@ -1,3 +1,4 @@
+import ImageInput from "@/components/form/image-input";
 import FormInput from "@/components/form/input";
 import { FormNumberInput } from "@/components/form/number-input";
 import PhoneField from "@/components/form/phone-field";
@@ -35,46 +36,61 @@ export default function CreateHrForm() {
   const { data: dataPosition, isSuccess: successPosition } =
     useGet<Position[]>(POSITION);
   const { data: companies } = useGet<FeatureCollection>(COMPANIES);
-
   const { data, isSuccess } = useGet<Human>(`${HR_API}/${id}`, {
     options: { enabled: Boolean(id) },
   });
+
   const navigate = useNavigate();
 
-  const { mutate: postMutate, isPending: createPending } = usePost({
-    onSuccess: () => {
-      queryClient.refetchQueries({ queryKey: [HR_API] });
-      addToast({
-        description: "Muaffaqiyatli qo'shildi",
-        color: "success",
-      });
-      form.reset();
-      navigate({ to: "/hr" });
+  const config = {
+    headers: {
+      "Content-Type": "multipart/form-data",
     },
-  });
+  };
 
-  const { mutate: updateMutate, isPending: updatePending } = usePatch({
-    onSuccess: () => {
-      queryClient.refetchQueries({ queryKey: [HR_API] });
-      addToast({
-        description: "Muaffaqiyatli yangilandi",
-        color: "success",
-      });
-      form.reset();
-      navigate({ to: "/hr" });
+  const { mutate: postMutate, isPending: createPending } = usePost(
+    {
+      onSuccess: () => {
+        queryClient.refetchQueries({ queryKey: [HR_API] });
+        addToast({
+          description: "Muaffaqiyatli qo'shildi",
+          color: "success",
+        });
+        form.reset();
+        navigate({ to: "/hr" });
+      },
     },
-  });
+    config,
+  );
+
+  const { mutate: updateMutate, isPending: updatePending } = usePatch(
+    {
+      onSuccess: () => {
+        queryClient.refetchQueries({ queryKey: [HR_API] });
+        addToast({
+          description: "Muaffaqiyatli yangilandi",
+          color: "success",
+        });
+        form.reset();
+        navigate({ to: "/hr" });
+      },
+    },
+    config,
+  );
 
   const onSubmit = (values: Human) => {
+    const formData = new FormData();
+
+    const profile = {
+      phone_number: values?.profile.phone_number,
+      phone_number2: values?.profile.phone_number2,
+      id_number: values?.profile.id_number,
+      address: values?.profile.address,
+      residence: values?.profile.residence,
+      education: values?.profile.education,
+    };
+
     const user = {
-      profile: {
-        phone_number: values?.profile.phone_number,
-        phone_number2: values?.profile.phone_number2,
-        id_number: values?.profile.id_number,
-        address: values?.profile.address,
-        residence: values?.profile.residence,
-        education: values?.profile.education,
-      },
       password: values.password !== "" ? values.password : undefined,
       username: values.username,
       first_name: values.first_name,
@@ -88,11 +104,23 @@ export default function CreateHrForm() {
       companies: values.companies?.split(","),
       fine_per_minute: values.fine_per_minute,
     };
+    if (values.face && typeof values.face != "string") {
+      formData.append("face", values.face);
+    }
+
+    formData.append("profile", JSON.stringify(profile));
+    for (const [key, val] of Object.entries(user)) {
+      if (val && !["work_days"].includes(key)) {
+        formData.append(key, val);
+      }
+    }
+
+    formData.append("work_days", `[${user.work_days.join(",")}]`);
 
     if (id) {
-      updateMutate(`${HR_API}/${id}`, user);
+      updateMutate(`${HR_API}/${id}`, formData);
     } else {
-      postMutate(HR_API, user);
+      postMutate(HR_API, formData);
     }
   };
 
@@ -112,6 +140,7 @@ export default function CreateHrForm() {
         work_days: data.work_days,
         companies: data.companies?.join(","),
         fine_per_minute: data.fine_per_minute,
+        face: data.face,
       });
     }
   }, [isSuccess, data]);
@@ -123,6 +152,22 @@ export default function CreateHrForm() {
           <h1 className="font-bold text-xl md:col-span-2 col-span-1">
             Shaxsiy ma'lumotlar
           </h1>
+          <div className="md:col-span-2 grid lg:grid-cols-3 gap-4 grid-cols-1">
+            {/* <input
+              type="file"
+              name="face"
+              id=""
+              ref={fileRef}
+              className="row-span-2"
+            /> */}
+            <div >
+              <ImageInput<Human>
+                name="face"
+                wrapperClassName="row-span-2 max-w-44"
+                areaClassName="h-44 w-44"
+              />
+            </div>
+          </div>
           <div className="md:col-span-2 grid lg:grid-cols-3 gap-4 grid-cols-1">
             <FormInput
               isRequired
@@ -151,6 +196,7 @@ export default function CreateHrForm() {
               type="text"
             />
           </div>
+
           <PhoneField required methods={form} name={"profile.phone_number"} />
           <PhoneField
             label="Qo'shimcha raqam"
@@ -286,7 +332,6 @@ export default function CreateHrForm() {
           />
 
           <FormNumberInput
-            required
             control={form.control}
             label="Jarima (1 daqiqa uchun)"
             name="fine_per_minute"

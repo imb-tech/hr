@@ -21,7 +21,10 @@ export const useWorkerInfoCols = () => {
         cell(_, item) {
           return (
             <span>
-              {formatDate(item.attendance?.attendance_time ?? new Date(), 'HH:dd') || "09:00"}
+              {formatDate(
+                item.attendance?.attendance_time ?? new Date(),
+                "HH:dd",
+              ) || "-"}
             </span>
           );
         },
@@ -32,7 +35,9 @@ export const useWorkerInfoCols = () => {
         cell(_, item) {
           const tm = item.attendance?.left_time ?? new Date();
 
-          return <span>{tm ?  formatDate(tm, 'HH:dd') ?? "18:00" : "18:00"}</span>;
+          return (
+            <span>{tm ? (formatDate(tm, "HH:dd") ?? "18:00") : "18:00"}</span>
+          );
         },
       },
       {
@@ -44,7 +49,7 @@ export const useWorkerInfoCols = () => {
                 item.work_shift_start,
                 item.attendance.attendance_time,
               )
-            : "15 min";
+            : "-";
         },
       },
       // { header: "Erta ketish vaqti", dataKey: "" },
@@ -52,7 +57,7 @@ export const useWorkerInfoCols = () => {
         header: "Ishlagan soati",
         dataKey: "id",
         cell(_, item) {
-          return <span>{item.attendance?.duration || "7 soat 15 min"}</span>;
+          return <span>{item.attendance?.duration || "-"}</span>;
         },
       },
       {
@@ -63,10 +68,10 @@ export const useWorkerInfoCols = () => {
             <div className="flex items-center gap-4 justify-center">
               <span
                 className={cn(
-                  item.id % 2 === 0 ? "text-green-400" : "text-orange-300",
+                  item.entry_log_status === 1 ? "text-green-400" : "text-orange-300",
                 )}
               >
-                {item.id % 2 === 0 ? "Ofisda" : "Ofisdan tashqarida"}
+                {item.entry_log_status === 1 ? "Ofisda" : "Ofisdan tashqarida"}
               </span>
             </div>
           );

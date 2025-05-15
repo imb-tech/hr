@@ -41,6 +41,7 @@ type Human = {
   excuses_status?: string | number
   status?: boolean
   fine_per_minute: number
+  face?:string
 };
 
 type HumanInMap = {}
