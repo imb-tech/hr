@@ -41,7 +41,7 @@ function ViewPage() {
           <div className="border border-divider  h-[200px] sm:h-full sm:w-[215px] rounded-lg">
             <img
               alt="blah blah"
-              className="w-full h-full object-cover rounded-lg"
+              className="w-full h-full object-cover rounded-lg max-h-[200px] object-center"
               src={data?.face ?? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
             />
           </div>
