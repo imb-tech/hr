@@ -10,6 +10,7 @@ import { useGet } from "@/hooks/useGet";
 import { usePatch } from "@/hooks/usePatch";
 import { usePost } from "@/hooks/usePost";
 import { Button } from "@heroui/button";
+import { Select, SelectItem } from "@heroui/select";
 import { addToast } from "@heroui/toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "@tanstack/react-router";
@@ -78,6 +79,8 @@ export default function CreateHrForm() {
     config,
   );
 
+  console.log(form.watch("companies"));
+
   const onSubmit = (values: Human) => {
     const formData = new FormData();
 
@@ -101,7 +104,7 @@ export default function CreateHrForm() {
       work_shift_end: values.work_shift_end,
       work_days: values.work_days,
       role: values.role,
-      companies: values.companies?.split(","),
+      companies: Array.isArray(values.companies) ? values.companies : [],
       fine_per_minute: values.fine_per_minute,
     };
     if (values.face && typeof values.face != "string") {
@@ -111,12 +114,15 @@ export default function CreateHrForm() {
     formData.append("profile", JSON.stringify(profile));
     for (const [key, val] of Object.entries(user)) {
       if (val && !["work_days", "companies"].includes(key)) {
-        formData.append(key, val);
+        formData.append(key, val.toString());
       }
     }
 
     formData.append("work_days", `[${user.work_days.join(",")}]`);
-    formData.append("companies", `[${user.companies.join(",")}]`);
+    formData.append(
+      "companies",
+      `[${user.companies?.filter((c) => c != ",").join(",")}]`,
+    );
 
     if (id) {
       updateMutate(`${HR_API}/${id}`, formData);
@@ -161,7 +167,7 @@ export default function CreateHrForm() {
               ref={fileRef}
               className="row-span-2"
             /> */}
-            <div >
+            <div>
               <ImageInput<Human>
                 name="face"
                 wrapperClassName="row-span-2 max-w-44"
@@ -247,22 +253,23 @@ export default function CreateHrForm() {
           <h1 className="font-bold text-xl md:col-span-2">
             Ishga oid ma'lumotlar
           </h1>
-          <FormSelect
-            isRequired
-            label="Ofis"
-            methods={form}
+          <Select
             name="companies"
-            options={
-              companies?.features?.map((item) => ({
-                label: item.properties.name,
-                key: item.id,
-              })) ?? []
-            }
-            placeholder="Tanlang"
-            selectedKeys={new Set(form.watch("companies"))}
+            className="max-w-full"
+            labelPlacement="outside"
+            required
             size="lg"
-            multiple
-          />
+            label="Ofis"
+            selectionMode="multiple"
+            selectedKeys={new Set(form.watch("companies"))}
+            onSelectionChange={(v) => form.setValue("companies", Array.from(v))}
+          >
+            {companies?.features
+              ? companies?.features?.map((user) => (
+                  <SelectItem key={user.id}>{user.properties.name}</SelectItem>
+                ))
+              : null}
+          </Select>
           <FormSelect
             isRequired
             label="Lavozimi"

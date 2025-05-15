@@ -9,8 +9,8 @@ const baseURL = import.meta.env.VITE_DEFAULT_URL
 const partURL = import.meta.env.VITE_DEFAULT_PART_URL
 // const baseURL = "https://location.imbtech.uz/api/v1/"
 
-// const url = window.location.hostname
-const url = 'traveltogether.imbtech.uz'
+const url = window.location.hostname
+// const url = 'demo.imbtech.uz'
 const baseURLOrigin = 'https://' + url.split('.')[0] + partURL
 
 
