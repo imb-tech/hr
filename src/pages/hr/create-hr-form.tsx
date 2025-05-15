@@ -110,12 +110,13 @@ export default function CreateHrForm() {
 
     formData.append("profile", JSON.stringify(profile));
     for (const [key, val] of Object.entries(user)) {
-      if (val && !["work_days"].includes(key)) {
+      if (val && !["work_days", "companies"].includes(key)) {
         formData.append(key, val);
       }
     }
 
     formData.append("work_days", `[${user.work_days.join(",")}]`);
+    formData.append("companies", `[${user.companies.join(",")}]`);
 
     if (id) {
       updateMutate(`${HR_API}/${id}`, formData);
@@ -260,7 +261,7 @@ export default function CreateHrForm() {
             placeholder="Tanlang"
             selectedKeys={new Set(form.watch("companies"))}
             size="lg"
-            // multiple
+            multiple
           />
           <FormSelect
             isRequired
