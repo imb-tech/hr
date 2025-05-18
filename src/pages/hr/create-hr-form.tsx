@@ -148,6 +148,7 @@ export default function CreateHrForm() {
         companies: data.companies?.join(","),
         fine_per_minute: data.fine_per_minute,
         face: data.face,
+        hikvision_id: data?.hikvision_id
       });
     }
   }, [isSuccess, data]);
