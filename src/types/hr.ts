@@ -42,6 +42,7 @@ type Human = {
   status?: boolean
   fine_per_minute: number
   face?:string
+  hikvision_id?: number
 };
 
 type HumanInMap = {}

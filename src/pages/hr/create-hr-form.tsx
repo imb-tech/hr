@@ -79,7 +79,6 @@ export default function CreateHrForm() {
     config,
   );
 
-  console.log(form.watch("companies"));
 
   const onSubmit = (values: Human) => {
     const formData = new FormData();
@@ -106,6 +105,7 @@ export default function CreateHrForm() {
       role: values.role,
       companies: Array.isArray(values.companies) ? values.companies : [],
       fine_per_minute: values.fine_per_minute,
+      hikvision_id: values.hikvision_id
     };
     if (values.face && typeof values.face != "string") {
       formData.append("face", values.face);
@@ -310,6 +310,14 @@ export default function CreateHrForm() {
             label="Ish kunlari"
             name="work_days"
             wrapperClassName="gap-1"
+          />
+
+          <FormNumberInput
+            control={form.control}
+            label="Oylik maosh"
+            name="hikvision_id"
+            placeholder="Ex: 991"
+            size={"lg" as any}
           />
 
           <div className="grid md:grid-cols-2 grid-cols-1 gap-3">
