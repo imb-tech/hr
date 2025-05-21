@@ -58,7 +58,7 @@ export default function Sidebar() {
           <MenuItem
             key={i}
             {...link}
-            badge={link.to === "/settings" ? data?.excuses : undefined}
+            badge={link.to === "/settings" ? Number(data?.excuses) : undefined}
           />
         ))}
       </nav>

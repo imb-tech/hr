@@ -27,10 +27,12 @@ export default function MenuItem({ to, title, icon, badge }: Props) {
         <span className="ml-2">{title}</span>
       </Link>
 
-      {badge && (
+      {badge ? (
         <span className="absolute text-xs right-2 size-5 flex items-center justify-center bg-gray-500/70 rounded-full text-white">
           {badge > 9 ? "9+" : badge}
         </span>
+      ) : (
+        0
       )}
     </Button>
   );
