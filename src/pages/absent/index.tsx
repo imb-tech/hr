@@ -4,22 +4,20 @@ import { ParamInputSearch } from "@/components/param/search-input";
 import ParamTabs from "@/components/param/tabs";
 import DataTable from "@/components/ui/table";
 import Tabs from "@/components/ui/tabs";
-import { HR_ABSENTS, POSITION } from "@/constants/api-endpoints";
+import {
+  HR_ABSENTS,
+  OFFICE_DETAILS,
+  POSITION,
+} from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
 import { Card, CardBody } from "@heroui/card";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { Grid2x2, Table } from "lucide-react";
-import { Key, useState } from "react";
+import { Key, useMemo, useState } from "react";
 import EmployeeCard from "../arrivals/employee-card";
 import { useAbsentListCols } from "./cols";
 
 export type ViewMode = "table" | "card";
-
-const tabOptions = [
-  { key: "", label: "Barchasi (8)" },
-  { key: "1", label: "Sababli (5)" },
-  { key: "0", label: "Sababsiz (3)" },
-];
 
 export const tabs = [
   { key: "table", label: <Table /> },
@@ -32,6 +30,25 @@ export default function AbsentPage() {
   const { id, ...otherParams } = search as { id: string; [key: string]: any };
   const [view, setView] = useState<ViewMode>("table");
   const { data: dataPosition } = useGet<Position[]>(POSITION);
+
+  const { data: dataDetails } = useGet<CompanyStats>(
+    `${OFFICE_DETAILS}/${id}`,
+    { params: { date: search.date }, options: { enabled: Boolean(id) } },
+  );
+
+  const absentUsers =
+    Number(dataDetails?.excused) + Number(dataDetails?.absent);
+  const absentWithReason = dataDetails?.excused ?? 0;
+  const absentWithoutReason = dataDetails?.absent ?? 0;
+
+  const tabOptions = useMemo(
+    () => [
+      { key: "", label: `Barchasi (${absentUsers})` },
+      { key: "1", label: `Sababli (${absentWithReason})` },
+      { key: "0", label: `Sababsiz (${absentWithoutReason})` },
+    ],
+    [dataDetails],
+  );
 
   function handleChange(val: Key) {
     if (val === "table" || val === "card") {

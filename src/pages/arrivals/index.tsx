@@ -4,22 +4,20 @@ import { ParamInputSearch } from "@/components/param/search-input";
 import ParamTabs from "@/components/param/tabs";
 import DataTable from "@/components/ui/table";
 import Tabs from "@/components/ui/tabs";
-import { HR_ATTENDED, POSITION } from "@/constants/api-endpoints";
+import {
+  HR_ATTENDED,
+  OFFICE_DETAILS,
+  POSITION,
+} from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
 import { Card, CardBody } from "@heroui/card";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { Grid2x2, Table } from "lucide-react";
-import { Key, useState } from "react";
+import { Key, useMemo, useState } from "react";
 import { useArrivalsListCols } from "./cols";
 import EmployeeCard from "./employee-card";
 
 type ViewMode = "table" | "card";
-
-const tabOptions = [
-  { key: "", label: "Barchasi (304)" },
-  { key: "1", label: "Vaqtida kelganlar (299)" },
-  { key: "0", label: "Kech qolganlar (5)" },
-];
 
 const tabs = [
   { key: "table", label: <Table /> },
@@ -32,6 +30,25 @@ export default function ArrivalsPage() {
   const { id, ...otherParams } = search as { id: string; [key: string]: any };
   const [view, setView] = useState<ViewMode>("table");
   const { data: dataPosition } = useGet<Position[]>(POSITION);
+
+  const { data: dataDetails } = useGet<CompanyStats>(
+    `${OFFICE_DETAILS}/${id}`,
+    { params: { date: search.date }, options: { enabled: Boolean(id) } },
+  );
+
+  const usersInCompany =
+    Number(dataDetails?.in_time) + Number(dataDetails?.late);
+  const arrivedOnTime = dataDetails?.in_time ?? 0;
+  const lateUsers = dataDetails?.late ?? 0;
+
+  const tabOptions = useMemo(
+    () => [
+      { key: "", label: `Barchasi (${usersInCompany})` },
+      { key: "1", label: `Vaqtida kelganlar (${arrivedOnTime})` },
+      { key: "0", label: `Kech qolganlar (${lateUsers})` },
+    ],
+    [dataDetails],
+  );
 
   function handleChange(val: Key) {
     if (val === "table" || val === "card") {

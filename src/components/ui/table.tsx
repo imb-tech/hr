@@ -190,6 +190,8 @@ export default function DataTable<TData extends object>({
         onSelectionChange?.(item);
       }}
       onSortChange={setSortDescriptor}
+      isStriped={!isLoading}
+      border={0}
     >
       <TableHeader>
         {headerColumns.map((column, index) => (
@@ -267,7 +269,7 @@ export default function DataTable<TData extends object>({
               key={(item as any).id}
               className={cn(
                 !!onRowClick ? "cursor-pointer" : "",
-                "hover:bg-default-100 rounded-md border-b dark:border-b-zinc-700",
+                "hover:bg-default-200 rounded-md",
               )}
               onClick={() => onRowClick?.(item)}
             >
