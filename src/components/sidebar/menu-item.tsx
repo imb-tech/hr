@@ -32,7 +32,7 @@ export default function MenuItem({ to, title, icon, badge }: Props) {
           {badge > 9 ? "9+" : badge}
         </span>
       ) : (
-        0
+        ""
       )}
     </Button>
   );
