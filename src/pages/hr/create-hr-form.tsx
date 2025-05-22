@@ -79,7 +79,6 @@ export default function CreateHrForm() {
     config,
   );
 
-
   const onSubmit = (values: Human) => {
     const formData = new FormData();
 
@@ -105,15 +104,19 @@ export default function CreateHrForm() {
       role: values.role,
       companies: Array.isArray(values.companies) ? values.companies : [],
       fine_per_minute: values.fine_per_minute,
-      hikvision_id: values.hikvision_id
+      hikvision_id: values.hikvision_id,
     };
-    if (values.face && typeof values.face != "string") {
+    // if (values.face && typeof values.face !== "string") {
+    //   formData.append("face", values.face);
+    // }
+
+    if (values?.face instanceof File) {
       formData.append("face", values.face);
     }
 
     formData.append("profile", JSON.stringify(profile));
     for (const [key, val] of Object.entries(user)) {
-      if (val && !["work_days", "companies"].includes(key)) {
+      if (val && !["work_days", "companies", "face"].includes(key)) {
         formData.append(key, val.toString());
       }
     }
@@ -147,8 +150,8 @@ export default function CreateHrForm() {
         work_days: data.work_days,
         companies: data.companies?.join(","),
         fine_per_minute: data.fine_per_minute,
-        face: data.face,
-        hikvision_id: data?.hikvision_id
+        face: data.face ?? undefined,
+        hikvision_id: data?.hikvision_id,
       });
     }
   }, [isSuccess, data]);
