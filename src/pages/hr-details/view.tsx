@@ -42,7 +42,11 @@ function ViewPage() {
             <img
               alt="blah blah"
               className="w-full h-full object-cover rounded-lg max-h-[200px] object-center"
-              src={data?.face ?? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}
+              src={
+                typeof data?.face == "string"
+                  ? data.face
+                  : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+              }
             />
           </div>
           <ul className="h-full flex flex-col items-stretch gap-[3px]">
