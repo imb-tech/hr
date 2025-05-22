@@ -1,7 +1,7 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: "Demo",
+  name: "IMB HR",
   description: "Hodimlarni oson nazorat qiling",
   navItems: [
     {

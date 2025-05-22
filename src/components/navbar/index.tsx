@@ -77,7 +77,7 @@ export const Navbar = ({
           to="/"
         >
           <img alt="" src="/images/logo.png" width={30} />
-          <p className="font-bold text-inherit">HR DEMO</p>
+          <p className="font-bold text-inherit">IMB HR</p>
         </Link>
         {!!leftComponent && <div className="flex gap-2">{leftComponent}</div>}
         <HeaderBreadvrumb items={items ?? []} />

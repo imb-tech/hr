@@ -315,7 +315,7 @@ export default function CreateHrForm() {
 
           <FormNumberInput
             control={form.control}
-            label="Oylik maosh"
+            label="Hikvision ID"
             name="hikvision_id"
             placeholder="Ex: 991"
             size={"lg" as any}

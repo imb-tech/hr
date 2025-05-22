@@ -50,7 +50,7 @@ export default function Sidebar() {
           to="/"
         >
           <img alt="" src="/images/logo.png" width={30} />
-          <p className="font-bold text-inherit">HR DEMO</p>
+          <p className="font-bold text-inherit">IMB HR</p>
         </Link>
       </div>
       <nav className="flex flex-col gap-0.5 pt-2 w-full">
