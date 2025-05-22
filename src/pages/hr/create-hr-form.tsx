@@ -304,6 +304,10 @@ export default function CreateHrForm() {
                 );
                 form.setValue("work_shift_end", selectedRole?.work_shift_end);
                 form.setValue("work_days", selectedRole?.work_days);
+                form.setValue(
+                  "fine_per_minute",
+                  selectedRole?.fine_per_minute - 0,
+                );
               }
             }}
           />
@@ -314,14 +318,6 @@ export default function CreateHrForm() {
             label="Ish kunlari"
             name="work_days"
             wrapperClassName="gap-1"
-          />
-
-          <FormNumberInput
-            control={form.control}
-            label="Hikvision ID"
-            name="hikvision_id"
-            placeholder="Ex: 991"
-            size={"lg" as any}
           />
 
           <div className="grid md:grid-cols-2 grid-cols-1 gap-3">
@@ -376,6 +372,14 @@ export default function CreateHrForm() {
             name={"password"}
             placeholder={"*******"}
             size="lg"
+          />
+
+          <FormNumberInput
+            control={form.control}
+            label="Hikvision ID"
+            name="hikvision_id"
+            placeholder="Ex: 991"
+            size={"lg" as any}
           />
         </div>
 
