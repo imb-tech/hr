@@ -21,7 +21,6 @@ export default function OneDaysAccordion() {
     },
   });
 
-  console.log("one-days", search);
 
   return (
     <div>

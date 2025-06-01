@@ -35,13 +35,15 @@ export default function DaysAccordion() {
     const selected = Array.from(keys).filter(Boolean) as string[];
 
     setSelectedKeys(new Set(selected));
+    const day = new Date(selected.join(",")).getDate();
+    const formattedDay = day < 10 ? `0${day}` : `${day}`;
 
     navigate({
       to: "/hr-view/$id",
       params: { id },
       search: (prev) => ({
         ...prev,
-        day: selected.join(","),
+        day: formattedDay,
       }),
     });
   }
@@ -78,7 +80,7 @@ export default function DaysAccordion() {
         ]
       : isSuccess &&
         info?.map((item) => ({
-          key: item.id.toString(),
+          key: item.attendance_time.toString(),
           title: (
             <div className="grid grid-cols-7 gap-11 rounded-b-lg">
               <p className="text-sm">{item.id > 9 ? item.id : "0" + item.id}</p>
