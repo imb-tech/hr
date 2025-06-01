@@ -11,7 +11,7 @@ export const CustomPopup = ({
   properties: any;
   onClose: () => void;
 }) => (
-  <Marker anchor="right" latitude={lat} longitude={lng}>
+  <Marker anchor="top-left" latitude={lat} longitude={lng}>
     <div className="pr-2">
       <UserPopup
         color=""

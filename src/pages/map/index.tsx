@@ -5,7 +5,6 @@ import { useGet } from "@/hooks/useGet";
 import { useSearch } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef } from "react";
 import { MapRef } from "react-map-gl/mapbox";
-import MapFilters from "./map-filters";
 import { findPolygonWithOutliers } from "./map-utils";
 
 export default function MapPage() {
@@ -85,7 +84,7 @@ export default function MapPage() {
 
   return (
     <div className="h-[90%] w-full bottom-0">
-      <MapFilters className="mb-3 flex items-center gap-3" />
+      {/* <MapFilters className="mb-3 flex items-center gap-3" /> */}
       <TestMap
         ref={ref}
         defaultZoom={17}

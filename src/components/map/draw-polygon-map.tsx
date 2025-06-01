@@ -1,8 +1,12 @@
+import { MAPBOX_TOKEN } from "@/constants/map";
+import { cn } from "@heroui/theme";
+import { useTheme } from "@heroui/use-theme";
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
+import { useLocation } from "@tanstack/react-router";
+import { Plus, Trash } from "lucide-react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-
 import {
   forwardRef,
   useCallback,
@@ -11,14 +15,23 @@ import {
   useRef,
   useState,
 } from "react";
-
-import { MAPBOX_TOKEN } from "@/constants/map";
-import { useTheme } from "@heroui/use-theme";
-import { useLocation } from "@tanstack/react-router";
 import { useFormContext } from "react-hook-form";
 import type { MapRef } from "react-map-gl/mapbox";
 import { FullscreenControl, Map } from "react-map-gl/mapbox";
 import { MapStyleSwitcher } from "./map-swticher";
+
+interface GeoJSONPolygon {
+  type: "Polygon";
+  coordinates: number[][][];
+}
+
+interface DrawEvent {
+  features: Array<{
+    id: string;
+    geometry: GeoJSONPolygon;
+    properties: Record<string, unknown>;
+  }>;
+}
 
 type Props = {
   defaultCenter?: { latitude: number; longitude: number };
@@ -41,31 +54,59 @@ const DrawPolygonMap = forwardRef<MapRef, Props>(
     const drawRef = useRef<MapboxDraw | null>(null);
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
     const { theme } = useTheme();
-
-    const [mapStyleId, setMapStyleId] = useState(
+    const [mapStyleId, setMapStyleId] = useState<string>(
       theme === "dark" ? "dark-v11" : "light-v11",
     );
     const location = useLocation();
-
     const form = useFormContext();
 
     useImperativeHandle(ref, () => mapRef.current as MapRef, [mapRef]);
 
     const handleGetPolygons = useCallback(() => {
-      if (drawRef.current) {
-        const data = drawRef.current.getAll();
-        const coordinates: any[] = [];
-
-        data?.features?.forEach((element) => {
-          coordinates.push((element.geometry as Geometry).coordinates[0]);
-        });
-
-        form.setValue(name, {
-          type: "Polygon",
-          coordinates,
-        });
+      if (!drawRef.current) {
+        console.warn("Draw control is not initialized");
+        return;
       }
-    }, [drawRef.current]);
+      const data = drawRef.current.getAll();
+      const coordinates: number[][][] = [];
+
+      data?.features?.forEach((feature) => {
+        if (feature.geometry.type === "Polygon") {
+          coordinates.push(feature.geometry.coordinates[0]);
+        }
+      });
+
+      form.setValue(name, {
+        type: "Polygon",
+        coordinates,
+      });
+      console.log("Form updated with coordinates:", coordinates);
+    }, [form, name]);
+
+    const deleteSelectedPolygon = useCallback(() => {
+      if (!drawRef.current) {
+        console.warn("Draw control is not initialized");
+        return;
+      }
+      const selected = drawRef.current.getSelected();
+      if (selected.features.length > 0) {
+        const featureId = selected.features[0].id;
+        if (featureId) {
+          console.log("Deleting polygon with ID:", featureId);
+          drawRef.current.delete(featureId.toString());
+          handleGetPolygons();
+        }
+      }
+    }, [handleGetPolygons]);
+
+    const startDrawPolygon = useCallback(() => {
+      if (!drawRef.current) {
+        console.warn("Draw control is not initialized");
+        return;
+      }
+      drawRef.current.changeMode("draw_polygon");
+      console.log("Switched to draw_polygon mode");
+    }, []);
 
     useEffect(() => {
       if (!mapRef.current || !isLoaded) return;
@@ -74,8 +115,8 @@ const DrawPolygonMap = forwardRef<MapRef, Props>(
       drawRef.current = new MapboxDraw({
         displayControlsDefault: false,
         controls: {
-          polygon: true,
-          trash: true,
+          polygon: false,
+          trash: false,
         },
         defaultMode: "draw_polygon",
       });
@@ -88,35 +129,72 @@ const DrawPolygonMap = forwardRef<MapRef, Props>(
         showUserHeading: true,
       });
 
-      mapRef.current.addControl(geolocateControl);
+      mapboxMap.addControl(geolocateControl);
       geolocateControl.trigger();
 
       mapboxMap.addControl(drawRef.current);
 
-      mapboxMap.on("draw.create", handleGetPolygons);
-      mapboxMap.on("draw.update", handleGetPolygons);
-      mapboxMap.on("draw.delete", handleGetPolygons);
+      mapboxMap.on("draw.create", (e: DrawEvent) => {
+        console.log("Polygon created:", e.features);
+        handleGetPolygons();
+      });
+      mapboxMap.on("draw.update", (e: DrawEvent) => {
+        console.log("Polygon updated:", e.features);
+        handleGetPolygons();
+      });
+      mapboxMap.on("draw.delete", (e: DrawEvent) => {
+        console.log("Polygon deleted:", e.features);
+        handleGetPolygons();
+      });
+
+      mapboxMap.on("draw.selectionchange", (e: DrawEvent) => {
+        if (e.features.length > 0 && drawRef.current) {
+          let featureId = e.features[0].id;
+          if (!featureId) {
+            featureId = `polygon-${Date.now()}`;
+            e.features[0].id = featureId;
+            drawRef.current.deleteAll();
+            drawRef.current.add(e.features[0] as GeoJSON.Feature);
+          }
+          drawRef.current.changeMode("direct_select", { featureId });
+        }
+      });
 
       return () => {
-        if (drawRef.current) {
+        if (drawRef.current && mapRef.current) {
           mapboxMap.removeControl(drawRef.current);
-          mapRef.current?.removeControl(geolocateControl);
+          mapRef.current.removeControl(geolocateControl);
         }
       };
-    }, [isLoaded]);
+    }, [isLoaded, handleGetPolygons]);
 
     useEffect(() => {
       if (!drawRef.current || !isLoaded || !defaultValues) return;
 
       if (location.pathname.startsWith("/office-edit")) {
-        console.log("dasasdads");
-
-        drawRef.current?.add({
-          ...defaultValues,
+        const featureId = defaultValues.id || `polygon-${Date.now()}`;
+        console.log(
+          "Loading default polygon with ID:",
+          featureId,
+          "Default values:",
+          defaultValues,
+        );
+        const feature = {
+          type: "Feature" as const,
+          id: featureId,
           geometry: defaultValues.properties.polygon,
-        });
+          properties: {},
+        };
+        try {
+          drawRef.current?.add(feature);
+          drawRef.current?.changeMode("direct_select" as any, { featureId });
+          handleGetPolygons(); // Formni darhol yangilash
+          console.log("Default polygon loaded and set to direct_select");
+        } catch (error) {
+          console.error("Error loading default polygon:", error);
+        }
       }
-    }, [isLoaded, drawRef.current, defaultValues]);
+    }, [isLoaded, defaultValues, location.pathname, handleGetPolygons]);
 
     return (
       <div>
@@ -129,14 +207,32 @@ const DrawPolygonMap = forwardRef<MapRef, Props>(
           }}
           mapStyle={`mapbox://styles/mapbox/${mapStyleId}`}
           mapboxAccessToken={MAPBOX_TOKEN}
-          style={{ height: 500, borderRadius: 10 }}
+          style={{ height: 500, borderRadius: 10, position: "relative" }}
           onLoad={() => setIsLoaded(true)}
         >
-          <FullscreenControl />
+          <FullscreenControl position="top-right" style={{ marginTop: 88 }} />
           <MapStyleSwitcher
             initial={theme === "dark" ? "dark-v11" : "light-v11"}
             onChange={(id) => setMapStyleId(id)}
           />
+          <button
+            onClick={deleteSelectedPolygon}
+            className={cn(
+              "h-7 w-7 flex items-center justify-center rounded bg-rose-500 absolute right-[10px] top-[48px] !cursor-pointer",
+            )}
+            type="button"
+          >
+            <Trash size={18} />
+          </button>
+          <button
+            onClick={startDrawPolygon}
+            className={cn(
+              "h-7 w-7 flex items-center justify-center rounded bg-green-500 absolute right-[10px] top-[10px] !cursor-pointer",
+            )}
+            type="button"
+          >
+            <Plus size={18} />
+          </button>
         </Map>
       </div>
     );

@@ -75,6 +75,27 @@ export const unclusteredPointLayer = ({
   };
 };
 
+export const unclusteredPointHitboxLayer = ({
+  source,
+  id,
+}: {
+  source: string;
+  id: string;
+}): LayerProps => {
+  return {
+    id: "unclustered-point-hitbox-" + id,
+    type: "circle",
+    source,
+    filter: ["!", ["has", "point_count"]],
+    paint: {
+      "circle-radius": 16,
+      "circle-color": "#000",
+      "circle-opacity": 0,
+    },
+  };
+};
+
+
 export const polygonFillLayer = (id: string, color: string): LayerProps => ({
   id: `polygon-fill-${id}`,
   type: "fill",
