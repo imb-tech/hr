@@ -11,7 +11,9 @@ import { ThemeSwitch } from "@/components/theme-switch";
 import { siteConfig } from "@/config/site";
 import { GET_ME } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
+import { useSidebarState } from "@/store/sidebar";
 import { Avatar } from "@heroui/avatar";
+import { Button } from "@heroui/button";
 import {
   Dropdown,
   DropdownItem,
@@ -20,7 +22,7 @@ import {
   DropdownTrigger,
 } from "@heroui/dropdown";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { LogOut, User } from "lucide-react";
+import { LogOut, Menu, User } from "lucide-react";
 import { ReactNode } from "react";
 import HeaderBreadvrumb from "./header-breadcrumb";
 
@@ -55,6 +57,7 @@ export const Navbar = ({
   );
   const { data } = useGet<Profile>(GET_ME);
   const navigate = useNavigate();
+  const { toggle } = useSidebarState();
 
   const logOut = () => {
     localStorage.clear();
@@ -63,22 +66,32 @@ export const Navbar = ({
 
   return (
     <HeroUINavbar
-      className="border-b-small border-divider fixed left-0 lg:left-52 w-auto right-0"
+      className="border-b-small border-divider fixed top-0"
       maxWidth="full"
       position="sticky"
     >
       <div className="hidden">
         <ThemeSwitch className="min-w-full min-h-full" />
       </div>
-      <div className="flex gap-3 items-center">
-        <Link
-          className="flex justify-start lg:hidden items-center gap-1"
-          color="foreground"
-          to="/"
-        >
-          <img alt="" src="/images/logo.png" width={30} />
-          <p className="font-bold text-inherit">IMB HR</p>
-        </Link>
+
+      <div className="flex gap-3 items-center ">
+        <div className="flex items-center  min-w-48 -translate-x-3">
+          <Button
+            className="!min-w-2 lg:block hidden"
+            variant="light"
+            onPress={toggle}
+          >
+            <Menu />
+          </Button>
+          <Link
+            className="flex justify-start  items-center gap-1"
+            color="foreground"
+            to="/"
+          >
+            <img alt="logo" src="/images/logo.png" width={50} />
+            <p className="font-bold text-inherit">IMB HR</p>
+          </Link>
+        </div>
         {!!leftComponent && <div className="flex gap-2">{leftComponent}</div>}
         <HeaderBreadvrumb items={items ?? []} />
       </div>
