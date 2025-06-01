@@ -122,7 +122,7 @@ function ViewPage() {
               {formatMoney(data?.salary) || 0} so'm
             </span>
           </div>
-          <div className="flex items-center border-b pb-1 dark:border-b-zinc-700">
+          <div className="flex items-center w-full border-b pb-2 dark:border-b-zinc-700">
             <span className=" min-w-24 font-medium ">Jarima:</span>
             <span
               className={cn(" font-medium", data?.fine !== 0 && "text-red-500")}
