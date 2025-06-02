@@ -1,4 +1,3 @@
-import formatPhoneNumber from "@/lib/formatter-phone";
 import { Card, CardBody } from "@heroui/card";
 import {
   Table,
@@ -116,12 +115,9 @@ export default function FullCalendarEmployees() {
               {data.map((employee: any) => (
                 <TableRow key={employee.id}>
                   <TableCell className="border-b  dark:border-b-zinc-800  ">
-                    <div className="flex flex-col">
+                    <div className="flex flex-col h-10 justify-center">
                       <span className="whitespace-nowrap">
                         {employee.first_name}
-                      </span>
-                      <span className="whitespace-nowrap">
-                        {formatPhoneNumber(employee.phone)}
                       </span>
                     </div>
                   </TableCell>
