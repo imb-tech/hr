@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as MainImport } from './routes/_main'
 import { Route as AuthImport } from './routes/_auth'
 import { Route as MainIndexImport } from './routes/_main/index'
+import { Route as MainTaskManagmentImport } from './routes/_main/task-managment'
 import { Route as MainSettingsImport } from './routes/_main/settings'
 import { Route as MainPositionImport } from './routes/_main/position'
 import { Route as MainHrCreateImport } from './routes/_main/hr-create'
@@ -47,6 +48,12 @@ const AuthRoute = AuthImport.update({
 const MainIndexRoute = MainIndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => MainRoute,
+} as any)
+
+const MainTaskManagmentRoute = MainTaskManagmentImport.update({
+  id: '/task-managment',
+  path: '/task-managment',
   getParentRoute: () => MainRoute,
 } as any)
 
@@ -240,6 +247,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainSettingsImport
       parentRoute: typeof MainImport
     }
+    '/_main/task-managment': {
+      id: '/_main/task-managment'
+      path: '/task-managment'
+      fullPath: '/task-managment'
+      preLoaderRoute: typeof MainTaskManagmentImport
+      parentRoute: typeof MainImport
+    }
     '/_main/': {
       id: '/_main/'
       path: '/'
@@ -323,6 +337,7 @@ interface MainRouteChildren {
   MainHrCreateRoute: typeof MainHrCreateRoute
   MainPositionRoute: typeof MainPositionRoute
   MainSettingsRoute: typeof MainSettingsRoute
+  MainTaskManagmentRoute: typeof MainTaskManagmentRoute
   MainIndexRoute: typeof MainIndexRoute
   MainHrEditHrEditRoute: typeof MainHrEditHrEditRoute
   MainHrViewIdRoute: typeof MainHrViewIdRoute
@@ -341,6 +356,7 @@ const MainRouteChildren: MainRouteChildren = {
   MainHrCreateRoute: MainHrCreateRoute,
   MainPositionRoute: MainPositionRoute,
   MainSettingsRoute: MainSettingsRoute,
+  MainTaskManagmentRoute: MainTaskManagmentRoute,
   MainIndexRoute: MainIndexRoute,
   MainHrEditHrEditRoute: MainHrEditHrEditRoute,
   MainHrViewIdRoute: MainHrViewIdRoute,
@@ -365,6 +381,7 @@ export interface FileRoutesByFullPath {
   '/hr-create': typeof MainHrCreateRoute
   '/position': typeof MainPositionRoute
   '/settings': typeof MainSettingsRoute
+  '/task-managment': typeof MainTaskManagmentRoute
   '/': typeof MainIndexRoute
   '/hr-edit/$hr-edit': typeof MainHrEditHrEditRoute
   '/hr-view/$id': typeof MainHrViewIdRoute
@@ -387,6 +404,7 @@ export interface FileRoutesByTo {
   '/hr-create': typeof MainHrCreateRoute
   '/position': typeof MainPositionRoute
   '/settings': typeof MainSettingsRoute
+  '/task-managment': typeof MainTaskManagmentRoute
   '/': typeof MainIndexRoute
   '/hr-edit/$hr-edit': typeof MainHrEditHrEditRoute
   '/hr-view/$id': typeof MainHrViewIdRoute
@@ -411,6 +429,7 @@ export interface FileRoutesById {
   '/_main/hr-create': typeof MainHrCreateRoute
   '/_main/position': typeof MainPositionRoute
   '/_main/settings': typeof MainSettingsRoute
+  '/_main/task-managment': typeof MainTaskManagmentRoute
   '/_main/': typeof MainIndexRoute
   '/_main/hr-edit/$hr-edit': typeof MainHrEditHrEditRoute
   '/_main/hr-view/$id': typeof MainHrViewIdRoute
@@ -435,6 +454,7 @@ export interface FileRouteTypes {
     | '/hr-create'
     | '/position'
     | '/settings'
+    | '/task-managment'
     | '/'
     | '/hr-edit/$hr-edit'
     | '/hr-view/$id'
@@ -456,6 +476,7 @@ export interface FileRouteTypes {
     | '/hr-create'
     | '/position'
     | '/settings'
+    | '/task-managment'
     | '/'
     | '/hr-edit/$hr-edit'
     | '/hr-view/$id'
@@ -478,6 +499,7 @@ export interface FileRouteTypes {
     | '/_main/hr-create'
     | '/_main/position'
     | '/_main/settings'
+    | '/_main/task-managment'
     | '/_main/'
     | '/_main/hr-edit/$hr-edit'
     | '/_main/hr-view/$id'
@@ -531,6 +553,7 @@ export const routeTree = rootRoute
         "/_main/hr-create",
         "/_main/position",
         "/_main/settings",
+        "/_main/task-managment",
         "/_main/",
         "/_main/hr-edit/$hr-edit",
         "/_main/hr-view/$id",
@@ -579,6 +602,10 @@ export const routeTree = rootRoute
     },
     "/_main/settings": {
       "filePath": "_main/settings.tsx",
+      "parent": "/_main"
+    },
+    "/_main/task-managment": {
+      "filePath": "_main/task-managment.tsx",
       "parent": "/_main"
     },
     "/_main/": {
