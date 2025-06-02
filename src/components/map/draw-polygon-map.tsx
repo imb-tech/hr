@@ -210,7 +210,7 @@ const DrawPolygonMap = forwardRef<MapRef, Props>(
           style={{ height: 500, borderRadius: 10, position: "relative" }}
           onLoad={() => setIsLoaded(true)}
         >
-          <FullscreenControl position="top-right" style={{ marginTop: 88 }} />
+          <FullscreenControl position="top-right" style={{ marginTop: 10 }} />
           <MapStyleSwitcher
             initial={theme === "dark" ? "dark-v11" : "light-v11"}
             onChange={(id) => setMapStyleId(id)}
@@ -218,7 +218,7 @@ const DrawPolygonMap = forwardRef<MapRef, Props>(
           <button
             onClick={deleteSelectedPolygon}
             className={cn(
-              "h-7 w-7 flex items-center justify-center rounded bg-rose-500 absolute right-[10px] top-[48px] !cursor-pointer",
+              "h-7 w-7 flex items-center justify-center rounded absolute bg-white text-black right-[10px] top-[88px] !cursor-pointer",
             )}
             type="button"
           >
@@ -227,7 +227,7 @@ const DrawPolygonMap = forwardRef<MapRef, Props>(
           <button
             onClick={startDrawPolygon}
             className={cn(
-              "h-7 w-7 flex items-center justify-center rounded bg-green-500 absolute right-[10px] top-[10px] !cursor-pointer",
+              "h-7 w-7 flex items-center justify-center rounded absolute bg-white text-black right-[10px] top-[124px] !cursor-pointer",
             )}
             type="button"
           >

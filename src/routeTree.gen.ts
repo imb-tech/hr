@@ -24,6 +24,7 @@ import { Route as MainAbsentImport } from './routes/_main/absent'
 import { Route as AuthRegisterImport } from './routes/_auth/register'
 import { Route as AuthLoginImport } from './routes/_auth/login'
 import { Route as AuthForgotPasswordImport } from './routes/_auth/forgot-password'
+import { Route as MainPlansIndexImport } from './routes/_main/plans/index'
 import { Route as MainMapIndexImport } from './routes/_main/map/index'
 import { Route as MainPositionHrViewIdImport } from './routes/_main/position-hr-view/$id'
 import { Route as MainOfficeCreateImport } from './routes/_main/office/create'
@@ -108,6 +109,12 @@ const AuthForgotPasswordRoute = AuthForgotPasswordImport.update({
   id: '/forgot-password',
   path: '/forgot-password',
   getParentRoute: () => AuthRoute,
+} as any)
+
+const MainPlansIndexRoute = MainPlansIndexImport.update({
+  id: '/plans/',
+  path: '/plans/',
+  getParentRoute: () => MainRoute,
 } as any)
 
 const MainMapIndexRoute = MainMapIndexImport.update({
@@ -296,6 +303,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainMapIndexImport
       parentRoute: typeof MainImport
     }
+    '/_main/plans/': {
+      id: '/_main/plans/'
+      path: '/plans'
+      fullPath: '/plans'
+      preLoaderRoute: typeof MainPlansIndexImport
+      parentRoute: typeof MainImport
+    }
   }
 }
 
@@ -331,6 +345,7 @@ interface MainRouteChildren {
   MainOfficeCreateRoute: typeof MainOfficeCreateRoute
   MainPositionHrViewIdRoute: typeof MainPositionHrViewIdRoute
   MainMapIndexRoute: typeof MainMapIndexRoute
+  MainPlansIndexRoute: typeof MainPlansIndexRoute
 }
 
 const MainRouteChildren: MainRouteChildren = {
@@ -349,6 +364,7 @@ const MainRouteChildren: MainRouteChildren = {
   MainOfficeCreateRoute: MainOfficeCreateRoute,
   MainPositionHrViewIdRoute: MainPositionHrViewIdRoute,
   MainMapIndexRoute: MainMapIndexRoute,
+  MainPlansIndexRoute: MainPlansIndexRoute,
 }
 
 const MainRouteWithChildren = MainRoute._addFileChildren(MainRouteChildren)
@@ -373,6 +389,7 @@ export interface FileRoutesByFullPath {
   '/office/create': typeof MainOfficeCreateRoute
   '/position-hr-view/$id': typeof MainPositionHrViewIdRoute
   '/map': typeof MainMapIndexRoute
+  '/plans': typeof MainPlansIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -395,6 +412,7 @@ export interface FileRoutesByTo {
   '/office/create': typeof MainOfficeCreateRoute
   '/position-hr-view/$id': typeof MainPositionHrViewIdRoute
   '/map': typeof MainMapIndexRoute
+  '/plans': typeof MainPlansIndexRoute
 }
 
 export interface FileRoutesById {
@@ -419,6 +437,7 @@ export interface FileRoutesById {
   '/_main/office/create': typeof MainOfficeCreateRoute
   '/_main/position-hr-view/$id': typeof MainPositionHrViewIdRoute
   '/_main/map/': typeof MainMapIndexRoute
+  '/_main/plans/': typeof MainPlansIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -443,6 +462,7 @@ export interface FileRouteTypes {
     | '/office/create'
     | '/position-hr-view/$id'
     | '/map'
+    | '/plans'
   fileRoutesByTo: FileRoutesByTo
   to:
     | ''
@@ -464,6 +484,7 @@ export interface FileRouteTypes {
     | '/office/create'
     | '/position-hr-view/$id'
     | '/map'
+    | '/plans'
   id:
     | '__root__'
     | '/_auth'
@@ -486,6 +507,7 @@ export interface FileRouteTypes {
     | '/_main/office/create'
     | '/_main/position-hr-view/$id'
     | '/_main/map/'
+    | '/_main/plans/'
   fileRoutesById: FileRoutesById
 }
 
@@ -538,7 +560,8 @@ export const routeTree = rootRoute
         "/_main/office/$id",
         "/_main/office/create",
         "/_main/position-hr-view/$id",
-        "/_main/map/"
+        "/_main/map/",
+        "/_main/plans/"
       ]
     },
     "/_auth/forgot-password": {
@@ -611,6 +634,10 @@ export const routeTree = rootRoute
     },
     "/_main/map/": {
       "filePath": "_main/map/index.tsx",
+      "parent": "/_main"
+    },
+    "/_main/plans/": {
+      "filePath": "_main/plans/index.tsx",
       "parent": "/_main"
     }
   }
