@@ -280,7 +280,7 @@ export default function DataTable<TData extends object>({
               {headerColumns.map((column, i) => (
                 <TableCell
                   key={column.dataKey as string}
-                  className={i === 0 ? "rounded-l-md" : ""}
+                  className={i === 0 ? "rounded-l-md " : ""}
                 >
                   {renderCell(
                     item,
