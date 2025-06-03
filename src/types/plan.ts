@@ -5,3 +5,11 @@ type HrTariff = {
     price: number;
     features: string[];
 };
+
+
+
+type PlanUser = {
+  id: number;
+  name: string;
+  plan?: string;
+};

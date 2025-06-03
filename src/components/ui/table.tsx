@@ -64,6 +64,8 @@ type Props<TData extends object> = {
   pageSize?: number;
   skeletonRows?: number;
   skeletonClassName?: string;
+  hoverrable?: boolean;
+  tableHeadClassName?: string;
 };
 
 export default function DataTable<TData extends object>({
@@ -83,6 +85,8 @@ export default function DataTable<TData extends object>({
   pageSize = 48,
   skeletonRows = 10,
   skeletonClassName,
+  hoverrable = true,
+  tableHeadClassName,
   ...props
 }: Props<TData> & TableProps) {
   type ColumnKey = DataKey<TData>;
@@ -199,7 +203,7 @@ export default function DataTable<TData extends object>({
             key={index}
             align={column.dataKey === "actions" ? "end" : "start"}
             allowsSorting={column.sortable}
-            className="last:text-center"
+            className={cn("last:text-center", tableHeadClassName)}
           >
             {column.dataKey === "actions" ? (
               <div className="flex items-center justify-end py-1 gap-2">
@@ -269,12 +273,15 @@ export default function DataTable<TData extends object>({
               key={(item as any).id}
               className={cn(
                 !!onRowClick ? "cursor-pointer" : "",
-                "hover:bg-default-200 rounded-md",
+                hoverrable && "hover:bg-default-200",
               )}
               onClick={() => onRowClick?.(item)}
             >
-              {headerColumns.map((column) => (
-                <TableCell key={column.dataKey as string}>
+              {headerColumns.map((column, i) => (
+                <TableCell
+                  key={column.dataKey as string}
+                  className={i === 0 ? "rounded-l-md" : ""}
+                >
                   {renderCell(
                     item,
                     column.dataKey,
