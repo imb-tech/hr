@@ -39,16 +39,16 @@ export const links = [
     title: "Hodimlar",
   }),
   linkOptions({
-    to: "/settings",
-    icon: <ScrollText />,
-    enabled: true,
-    title: "So'rov",
-  }),
-  linkOptions({
     to: "/plans",
     icon: <Crown />,
     enabled: true,
     title: "Tariflarim",
+  }),
+  linkOptions({
+    to: "/settings",
+    icon: <ScrollText />,
+    enabled: true,
+    title: "So'rov",
   }),
 ];
 
