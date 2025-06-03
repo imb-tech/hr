@@ -7,9 +7,20 @@ import {
   TableHeader,
   TableRow,
 } from "@heroui/table";
-import { Home } from "lucide-react";
+import { Users } from "lucide-react";
+import { Selected } from "../position/position-accordion";
 
-const months: any = [
+type SubscriptionLevel = "boshlang'ich" | "o'rta" | "premium";
+
+interface Employee {
+  id: number;
+  first_name: string;
+  subscriptions: {
+    [month: number]: SubscriptionLevel;
+  };
+}
+
+export const months: any = [
   { value: 1, label: "Yanvar" },
   { value: 2, label: "Fevral" },
   { value: 3, label: "Mart" },
@@ -24,70 +35,28 @@ const months: any = [
   { value: 12, label: "Dekabr" },
 ];
 
-const data: any = [
-  {
-    id: 1,
-    first_name: "Abdisamatov Ozodbek",
-    phone: "+998931023042",
-  },
-  {
-    id: 2,
-    first_name: "Eshmamatov Doniyor",
-    phone: "+998931231177",
-  },
-  {
-    id: 3,
-    first_name: "Abdurahimov Ahmad",
-    phone: "+998912324191",
-  },
-  {
-    id: 4,
-    first_name: "Xamidov Shohjahon",
-    phone: "+998940701705",
-  },
-  {
-    id: 5,
-    first_name: "Kamoliddinov Jalolxon",
-    phone: "+998905360635",
-  },
-  {
-    id: 6,
-    first_name: "Eshmamatov Dilmurod",
-    phone: "+998931230102",
-  },
-  {
-    id: 7,
-    first_name: "Abdisamatov Ozodbek",
-    phone: "+998931023042",
-  },
-  {
-    id: 8,
-    first_name: "Eshmamatov Doniyor",
-    phone: "+998931231177",
-  },
-  {
-    id: 9,
-    first_name: "Abdurahimov Ahmad",
-    phone: "+998912324191",
-  },
-  {
-    id: 10,
-    first_name: "Xamidov Shohjahon",
-    phone: "+998940701705",
-  },
-  {
-    id: 11,
-    first_name: "Kamoliddinov Jalolxon",
-    phone: "+998905360635",
-  },
-  {
-    id: 12,
-    first_name: "Eshmamatov Dilmurod",
-    phone: "+998931230102",
-  },
-];
+type Props = {
+  toggleMonth: (customerId: number, month: number) => void;
+  selected: Selected[];
+};
 
-export default function FullCalendarEmployees() {
+const subscriptionColor = {
+  "boshlang'ich": "🚀  ",
+  "o'rta": "⚡ ",
+  premium: "💎 ",
+};
+
+export default function FullCalendarEmployees({
+  toggleMonth,
+  selected,
+}: Props) {
+  // const currentMonth = new Date().getMonth() + 1;
+  const isSelected = (customerId: number, month: number) => {
+    return selected.some(
+      (item) => item.customer === customerId && item.month.includes(month),
+    );
+  };
+
   return (
     <Card>
       <CardBody className="space-y-4 rounded-md">
@@ -96,15 +65,15 @@ export default function FullCalendarEmployees() {
             <TableHeader>
               <TableColumn>
                 <div className="whitespace-nowrap flex items-center gap-2">
-                  <Home className="h-4 w-4 text-muted-foreground" />
-                  <span>Xodimlar / Sana</span>
+                  <Users className="h-4 w-4 text-muted-foreground" />
+                  <span>Xodimlar / Oy</span>
                 </div>
               </TableColumn>
 
               {months.map((month: any) => (
                 <TableColumn
                   key={month.value}
-                  className="text-center min-w-[80px] border-l border-l-zinc-700 last:rounded-tr-md"
+                  className="text-center min-w-[80px] border-l dark:border-l-zinc-700 last:rounded-tr-md"
                 >
                   {month.label}
                 </TableColumn>
@@ -112,24 +81,28 @@ export default function FullCalendarEmployees() {
             </TableHeader>
 
             <TableBody>
-              {data.map((employee: any) => (
+              {data.map((employee) => (
                 <TableRow key={employee.id}>
-                  <TableCell className="border-b  dark:border-b-zinc-800  ">
-                    <div className="flex flex-col h-10 justify-center">
-                      <span className="whitespace-nowrap">
-                        {employee.first_name}
-                      </span>
-                    </div>
+                  <TableCell className="font-medium">
+                    {employee.first_name}
                   </TableCell>
+                  {months.map((month: any) => {
+                    const level = employee.subscriptions[month.value];
+                    const icon = subscriptionColor[level] || "";
+                    const selectedStyle = isSelected(employee.id, month.value)
+                      ? "bg-blue-600/25 text-black font-semibold"
+                      : "";
 
-                  {months.map((month: any) => (
-                    <TableCell
-                      key={month.value}
-                      className="text-center border border-t-0 border-zinc-800"
-                    >
-                      {" "}
-                    </TableCell>
-                  ))}
+                    return (
+                      <TableCell
+                        key={month.value}
+                        className={`text-center cursor-pointer capitalize border border-t-0 dark:border-zinc-800 transition ${selectedStyle}`}
+                        onClick={() => toggleMonth(employee.id, month.value)}
+                      >
+                        {icon}
+                      </TableCell>
+                    );
+                  })}
                 </TableRow>
               ))}
             </TableBody>
@@ -139,3 +112,222 @@ export default function FullCalendarEmployees() {
     </Card>
   );
 }
+
+const data: Employee[] = [
+  {
+    id: 1,
+    first_name: "Abdisamatov Ozodbek",
+    subscriptions: {
+      1: "boshlang'ich",
+      2: "o'rta",
+      3: "premium",
+      4: "boshlang'ich",
+      5: "o'rta",
+      6: "premium",
+      7: "boshlang'ich",
+      8: "o'rta",
+      9: "premium",
+      10: "boshlang'ich",
+      11: "o'rta",
+      12: "premium",
+    },
+  },
+  {
+    id: 2,
+    first_name: "Eshmamatov Doniyor",
+    subscriptions: {
+      1: "premium",
+      2: "o'rta",
+      3: "boshlang'ich",
+      4: "premium",
+      5: "o'rta",
+      6: "boshlang'ich",
+      7: "premium",
+      8: "o'rta",
+      9: "boshlang'ich",
+      10: "premium",
+      11: "o'rta",
+      12: "boshlang'ich",
+    },
+  },
+  {
+    id: 3,
+    first_name: "Abdurahimov Ahmad",
+    subscriptions: {
+      1: "o'rta",
+      2: "premium",
+      3: "boshlang'ich",
+      4: "o'rta",
+      5: "premium",
+      6: "boshlang'ich",
+      7: "o'rta",
+      8: "premium",
+      9: "boshlang'ich",
+      10: "o'rta",
+      11: "premium",
+      12: "boshlang'ich",
+    },
+  },
+  {
+    id: 4,
+    first_name: "Xamidov Shohjahon",
+    subscriptions: {
+      1: "boshlang'ich",
+      2: "boshlang'ich",
+      3: "boshlang'ich",
+      4: "o'rta",
+      5: "o'rta",
+      6: "o'rta",
+      7: "premium",
+      8: "premium",
+      9: "premium",
+      10: "boshlang'ich",
+      11: "o'rta",
+      12: "premium",
+    },
+  },
+  {
+    id: 5,
+    first_name: "Kamoliddinov Jalolxon",
+    subscriptions: {
+      1: "premium",
+      2: "boshlang'ich",
+      3: "o'rta",
+      4: "premium",
+      5: "boshlang'ich",
+      6: "o'rta",
+      7: "premium",
+      8: "boshlang'ich",
+      9: "o'rta",
+      10: "premium",
+      11: "boshlang'ich",
+      12: "o'rta",
+    },
+  },
+  {
+    id: 6,
+    first_name: "Eshmamatov Dilmurod",
+    subscriptions: {
+      1: "o'rta",
+      2: "boshlang'ich",
+      3: "premium",
+      4: "boshlang'ich",
+      5: "premium",
+      6: "o'rta",
+      7: "boshlang'ich",
+      8: "premium",
+      9: "o'rta",
+      10: "boshlang'ich",
+      11: "premium",
+      12: "o'rta",
+    },
+  },
+  {
+    id: 7,
+    first_name: "Abdisamatov Ozodbek",
+    subscriptions: {
+      1: "boshlang'ich",
+      2: "o'rta",
+      3: "premium",
+      4: "boshlang'ich",
+      5: "o'rta",
+      6: "premium",
+      7: "boshlang'ich",
+      8: "o'rta",
+      9: "premium",
+      10: "boshlang'ich",
+      11: "o'rta",
+      12: "premium",
+    },
+  },
+  {
+    id: 8,
+    first_name: "Eshmamatov Doniyor",
+    subscriptions: {
+      1: "premium",
+      2: "boshlang'ich",
+      3: "o'rta",
+      4: "premium",
+      5: "boshlang'ich",
+      6: "o'rta",
+      7: "premium",
+      8: "boshlang'ich",
+      9: "o'rta",
+      10: "premium",
+      11: "boshlang'ich",
+      12: "o'rta",
+    },
+  },
+  {
+    id: 9,
+    first_name: "Abdurahimov Ahmad",
+    subscriptions: {
+      1: "o'rta",
+      2: "premium",
+      3: "boshlang'ich",
+      4: "o'rta",
+      5: "premium",
+      6: "boshlang'ich",
+      7: "o'rta",
+      8: "premium",
+      9: "boshlang'ich",
+      10: "o'rta",
+      11: "premium",
+      12: "boshlang'ich",
+    },
+  },
+  {
+    id: 10,
+    first_name: "Xamidov Shohjahon",
+    subscriptions: {
+      1: "premium",
+      2: "o'rta",
+      3: "boshlang'ich",
+      4: "premium",
+      5: "o'rta",
+      6: "boshlang'ich",
+      7: "premium",
+      8: "o'rta",
+      9: "boshlang'ich",
+      10: "premium",
+      11: "o'rta",
+      12: "boshlang'ich",
+    },
+  },
+  {
+    id: 11,
+    first_name: "Kamoliddinov Jalolxon",
+    subscriptions: {
+      1: "boshlang'ich",
+      2: "boshlang'ich",
+      3: "o'rta",
+      4: "premium",
+      5: "premium",
+      6: "boshlang'ich",
+      7: "o'rta",
+      8: "boshlang'ich",
+      9: "o'rta",
+      10: "premium",
+      11: "premium",
+      12: "o'rta",
+    },
+  },
+  {
+    id: 12,
+    first_name: "Eshmamatov Dilmurod",
+    subscriptions: {
+      1: "premium",
+      2: "premium",
+      3: "boshlang'ich",
+      4: "boshlang'ich",
+      5: "o'rta",
+      6: "o'rta",
+      7: "premium",
+      8: "boshlang'ich",
+      9: "o'rta",
+      10: "premium",
+      11: "boshlang'ich",
+      12: "premium",
+    },
+  },
+];
