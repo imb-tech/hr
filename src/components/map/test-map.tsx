@@ -2,6 +2,7 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import {
   forwardRef,
+  useCallback,
   useEffect,
   useImperativeHandle,
   useMemo,
@@ -29,17 +30,14 @@ import {
 import { MAPBOX_TOKEN } from "@/constants/map";
 import { useTheme } from "@heroui/use-theme";
 // import { Building2 } from "lucide-react";
+import { ROTUES } from "@/constants/api-endpoints";
+import { useGet } from "@/hooks/useGet";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import type { GeoJSONSource, MapMouseEvent } from "mapbox-gl";
 import type { MapRef } from "react-map-gl/mapbox";
 import { CustomPopup } from "./custom-popup";
 import { MapStyleSwitcher } from "./map-swticher";
-import {
-  formatArray,
-  getPolygonCentroid,
-  interpolatePoints,
-  polygonColors,
-} from "./util";
+import { formatArray, getPolygonCentroid, polygonColors } from "./util";
 
 type TPoint = {
   latitude: number;
@@ -71,6 +69,19 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
   const { route_id: route_id_param } = search;
 
   const route_id = useMemo(() => route_id_param, [route_id_param]);
+
+  const { data: routes } = useGet<
+    Array<{
+      created_at: "2025-06-02T18:52:08Z";
+      lat: number;
+      lng: number;
+    }>
+  >(`${ROTUES}/${route_id}`, {
+    options: { enabled: !!route_id },
+    params: {
+      date: "2025-06-02",
+    },
+  });
 
   const [activePopup, setActivePopup] = useState<{
     lngLat: [number, number];
@@ -124,23 +135,44 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
     }
   };
 
-  const start: [number, number] = [69.108835, 41.251803];
-  const end: [number, number] = [69.376232, 41.337215];
+  const start: [number, number] = useMemo(() => {
+    if (routes?.[0]) {
+      return [routes[0].lng, routes[0].lat];
+    } else return [0, 0];
+  }, [routes]);
 
   const history = useMemo(() => {
     if (!route_id) {
       return null;
     }
-    const r = interpolatePoints(start, end, 20);
+    const r = routes?.map((cord) => [cord.lng, cord.lat]) ?? [];
     return formatArray(r).join(";");
-  }, [route_id]);
+  }, [route_id, routes]);
 
   const url = useMemo(
     () =>
       history
-        ? `https://api.mapbox.com/directions/v5/mapbox/driving/${history}?overview=full&steps=true&geometries=geojson&access_token=${MAPBOX_TOKEN}`
+        ? `https://api.mapbox.com/directions/v5/mapbox/walking/${history}?overview=full&steps=true&geometries=geojson&access_token=${MAPBOX_TOKEN}`
         : "",
     [history],
+  );
+
+  const [hoveredFeatureId, setHoveredFeatureId] = useState<number | null>(null);
+
+  // ...existing code...
+
+  const onMouseMove = useCallback(
+    (event: mapboxgl.MapLayerMouseEvent) => {
+      const feature = event.features?.[0];
+      if (feature && feature.id !== undefined) {
+        setHoveredFeatureId(feature.id as number);
+      } else {
+        if (!search.id) {
+          setHoveredFeatureId(null);
+        }
+      }
+    },
+    [search.id],
   );
 
   useEffect(() => {
@@ -177,6 +209,7 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
       );
 
       if (usr) {
+        setHoveredFeatureId(usr.id);
         setActivePopup({
           lngLat: usr.geometry.coordinates,
           properties: usr.properties,
@@ -215,6 +248,7 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
         longitude: defaultCenter?.longitude ?? 69.236537,
         zoom: defaultZoom,
       }}
+      onMouseMove={onMouseMove}
       interactiveLayerIds={[
         ...(points
           ?.map((_, i) => [
@@ -252,7 +286,7 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
             }}
             paint={{
               "line-color": "hsl(226, 65%, 52%)",
-              "line-width": 2,
+              "line-width": 3,
               "line-opacity": 1,
               "line-dasharray": [
                 "step",
@@ -295,6 +329,7 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
                 source: `earthquakes_${i}`,
                 id: i.toString(),
                 color: polygonColors[i],
+                hoveredFeatureId,
               })}
             />
             <Layer

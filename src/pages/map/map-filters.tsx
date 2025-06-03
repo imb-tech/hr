@@ -12,7 +12,7 @@ export default function MapFilters(props: HTMLProps<HTMLDivElement>) {
     <div {...props}>
       <ParamSelect
         clearOther
-        optionLabelKey="id"
+        optionLabelKey="full_name"
         optionValueKey="id"
         options={users}
         paramName="id"

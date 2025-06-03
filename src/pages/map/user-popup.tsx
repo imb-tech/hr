@@ -20,7 +20,7 @@ const UserPopup = () => {
     navigate({
       to: "/map",
       search: {
-        route_id: 5,
+        route_id: item?.id,
       },
     });
   }
