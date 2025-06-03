@@ -83,7 +83,7 @@ export default function FullCalendarEmployees({
             <TableBody>
               {data.map((employee) => (
                 <TableRow key={employee.id}>
-                  <TableCell className="font-medium">
+                  <TableCell className="font-medium border-b dark:border-b-zinc-800">
                     {employee.first_name}
                   </TableCell>
                   {months.map((month: any) => {
