@@ -1,46 +1,39 @@
 import TestMap from "@/components/map/test-map";
 import { getPolygonCentroid } from "@/components/map/util";
-import { COMPANIES, USER_LOCATIONS } from "@/constants/api-endpoints";
+import { COMPANIES } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
-import { useNavigate, useSearch } from "@tanstack/react-router";
+import { useSearch } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef } from "react";
 import { MapRef } from "react-map-gl/mapbox";
-import MapFilters from "./map-filters";
+import { findPolygonWithOutliers } from "./map-utils";
 
-export default function MapPage() {
+export default function DemoMapPage() {
   const search = useSearch({ from: "__root__" });
 
-  const navigate = useNavigate();
-
-  if (location.hostname.startsWith("demo")) {
-    navigate({
-      to: "/map/demo",
-    });
-  }
-
   const { data: companies } = useGet<FeatureCollection>(COMPANIES);
-  const { data: users } = useGet<UserPoint[]>(USER_LOCATIONS);
+  const data: GeoJSON.FeatureCollection[] = useMemo(
+    () =>
+      companies?.features?.map((company) => {
+        const polygonCoords = company.properties.polygon.coordinates[0];
+        const points = findPolygonWithOutliers(polygonCoords as any); // 32 ta nuqta
 
-  const data: GeoJSON.FeatureCollection[] = useMemo(() => {
-    return [
-      {
-        type: "FeatureCollection",
-        features:
-          users?.map((usr) => ({
-            id: usr.id,
+        return {
+          type: "FeatureCollection",
+          features: points.map((coords, idx) => ({
             type: "Feature",
             properties: {
-              id: usr.id,
-              name: `Hodim ${usr.id}`,
+              id: idx + 1,
+              name: `Point ${idx + 1}`,
             },
             geometry: {
               type: "Point",
-              coordinates: [usr.lng, usr.lat],
+              coordinates: coords,
             },
-          })) ?? [],
-      },
-    ];
-  }, [users]);
+          })),
+        };
+      }) ?? [],
+    [companies],
+  );
 
   const ref = useRef<MapRef | null>(null);
 
@@ -60,19 +53,16 @@ export default function MapPage() {
         zoom: 17,
       });
     } else if (ref.current && search.id) {
-      const user = data[0].features?.find((us) => us.id === Number(search.id));
+      const officeLoc = data[0].features[Number(search.id ?? 0)];
 
-      if (user) {
-        ref?.current.flyTo({
-          center: (user?.geometry as Geometry).coordinates,
-          duration: 500,
-          curve: 1.42,
-          offset: [-100, -150],
-          zoom: 19,
-        });
-      }
+      ref?.current.flyTo({
+        center: (officeLoc.geometry as Geometry).coordinates,
+        duration: 500,
+        curve: 1.42,
+        zoom: 17,
+      });
     }
-  }, [search, data]);
+  }, [search]);
 
   const convertedPolygons: GeoJSON.FeatureCollection[] =
     companies?.features.map((feature, i) => ({
@@ -94,7 +84,7 @@ export default function MapPage() {
 
   return (
     <div className="h-[90%] w-full bottom-0">
-      <MapFilters className="mb-3 flex items-center gap-3" />
+      {/* <MapFilters className="mb-3 flex items-center gap-3" /> */}
       <TestMap
         ref={ref}
         defaultZoom={17}

@@ -29,7 +29,7 @@ import {
 import { MAPBOX_TOKEN } from "@/constants/map";
 import { useTheme } from "@heroui/use-theme";
 // import { Building2 } from "lucide-react";
-import { useSearch } from "@tanstack/react-router";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import type { GeoJSONSource, MapMouseEvent } from "mapbox-gl";
 import type { MapRef } from "react-map-gl/mapbox";
 import { CustomPopup } from "./custom-popup";
@@ -66,6 +66,7 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
     theme === "dark" ? "dark-v11" : "light-v11",
   );
 
+  const navigate = useNavigate();
   const search = useSearch({ from: "__root__" });
   const { route_id: route_id_param } = search;
 
@@ -109,12 +110,11 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
     } else if (feature.geometry.type === "Point" && internalMapRef?.current) {
       const coordinates = feature.geometry.coordinates as [number, number];
 
-      internalMapRef?.current.flyTo({
-        center: coordinates,
-        duration: 1000,
-        offset: [-100, -150],
-        curve: 1.42,
-        zoom: 18,
+      navigate({
+        to: window.location.pathname,
+        search: {
+          id: feature.id?.toString(),
+        },
       });
 
       setActivePopup({
@@ -172,9 +172,9 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
 
   useEffect(() => {
     if (search.id && points) {
-      const usr = (points?.[0] as FeatureCollection)?.features[
-        Number(search.id ?? 0)
-      ];
+      const usr = (points?.[0] as FeatureCollection)?.features?.find(
+        (us) => us.properties.id === Number(search.id ?? 0),
+      );
 
       if (usr) {
         setActivePopup({
@@ -340,12 +340,7 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
         ))}
 
       {activePopup && (
-        <CustomPopup
-          lat={activePopup.lngLat[1]}
-          lng={activePopup.lngLat[0]}
-          properties={activePopup.properties}
-          onClose={() => setActivePopup(null)}
-        />
+        <CustomPopup lat={activePopup.lngLat[1]} lng={activePopup.lngLat[0]} />
       )}
     </Map>
   );

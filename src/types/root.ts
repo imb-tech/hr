@@ -11,4 +11,5 @@ type SearchParams = {
     office?: number
     route_id?: number
     plan_id?: string
+    focus_user?: number
 };
