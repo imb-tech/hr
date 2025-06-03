@@ -4,6 +4,7 @@ type HrTariff = {
     level: 'starter' | 'standard' | 'advanced';
     price: number;
     features: string[];
+    recomendet?: boolean
 };
 
 

@@ -5,19 +5,30 @@ import { Check, ChevronRight, User } from "lucide-react";
 
 export default function PlanSelector() {
   const navigate = useNavigate();
+
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="grid grid-cols-3">
       {plans?.map((pln) => (
         <Card
-          className={cn("w-full p-0 hover:shadow-md cursor-pointer")}
+          className={cn(
+            "w-full p-0 hover:shadow-md cursor-pointer hover:scale-100",
+            !pln?.recomendet
+              ? "scale-90 hover:scale-95"
+              : "scale-95 hover:scale-100",
+          )}
           key={pln.id}
         >
           <div
-            className="flex flex-col gap-4 p-6 h-full"
+            className="flex flex-col gap-4 p-6 h-full [&_button]:hover:bg-primary [&_span]:hover:opacity-100 relative"
             onClick={() =>
               navigate({ to: "/plans/$id", params: { id: pln.id } })
             }
           >
+            {pln.recomendet ? (
+              <span className="bg-secondary/30 text-secondary absolute top-2 right-2 rounded-2xl uppercase px-4 py-1 text-sm">
+                Popular
+              </span>
+            ) : null}
             <h2 className="text-xl">{pln.name}</h2>
             <div className="flex items-center gap-2 text-primary">
               <p className="text-2xl">{pln.price.toLocaleString()} so'm</p>
@@ -36,7 +47,6 @@ export default function PlanSelector() {
               ))}
             </ul>
             <Button
-              className="hover:bg-primary [&_span]:hover:opacity-100"
               onPress={() =>
                 navigate({ to: "/plans/$id", params: { id: pln.id } })
               }
@@ -76,6 +86,7 @@ export const plans: HrTariff[] = [
       "Barcha xodimlarning joylashuvini real-timeda ko‘rish",
       "Jamoaviy vazifalarni yaratish va boshqarish",
     ],
+    recomendet: true,
   },
   {
     id: "advanced",

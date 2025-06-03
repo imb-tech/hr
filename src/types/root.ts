@@ -10,4 +10,5 @@ type SearchParams = {
     employee?: number
     office?: number
     route_id?: number
+    plan_id?: string
 };
