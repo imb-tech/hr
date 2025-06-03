@@ -7,6 +7,7 @@ import { Selection } from "@react-types/shared";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useState } from "react";
 import FullCalendarEmployees from "../employees/full-calendar";
+import { Eraser } from "lucide-react";
 
 type Props = {
   info: Position[] | undefined;
@@ -95,9 +96,14 @@ function PositionAccordionTraffic({ info }: Props) {
                   <div className="w-full flex justify-between">
                     <span>{c.name}</span>{" "}
                     {selected?.length > 0 && c.id == search.position && (
-                      <Button size="sm" color="danger" onPress={openModal}>
+                     <div className="flex items-center gap-3">
+                       <Button size="sm" color="danger" onPress={()=>setSelected([])}>
+                        Tozalash <Eraser size={16} />
+                      </Button>
+                       <Button size="sm" color="primary" onPress={openModal}>
                         Obunani Bekor qilish
                       </Button>
+                     </div>
                     )}
                   </div>
                 ),

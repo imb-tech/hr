@@ -7,6 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@heroui/table";
+import { cn } from "@heroui/theme";
 import { Users } from "lucide-react";
 import { Selected } from "../position/position-accordion";
 
@@ -50,7 +51,7 @@ export default function FullCalendarEmployees({
   toggleMonth,
   selected,
 }: Props) {
-  // const currentMonth = new Date().getMonth() + 1;
+  const currentMonth = new Date().getMonth() + 1;
   const isSelected = (customerId: number, month: number) => {
     return selected.some(
       (item) => item.customer === customerId && item.month.includes(month),
@@ -73,7 +74,13 @@ export default function FullCalendarEmployees({
               {months.map((month: any) => (
                 <TableColumn
                   key={month.value}
-                  className="text-center min-w-[80px] border-l dark:border-l-zinc-700 last:rounded-tr-md"
+                  className={cn(
+                    "text-center min-w-[80px] border-l dark:border-l-zinc-700 last:rounded-tr-md",
+                    currentMonth > month.value &&
+                      "dark:bg-gray-800 bg-gray-200 opacity-60 dark:border-l-zinc-800",
+                    currentMonth === month.value &&
+                      "dark:bg-blue-700/50 bg-blue-600/50 text-white dark:border-l-zinc-800",
+                  )}
                 >
                   {month.label}
                 </TableColumn>
@@ -96,8 +103,17 @@ export default function FullCalendarEmployees({
                     return (
                       <TableCell
                         key={month.value}
-                        className={`text-center cursor-pointer capitalize border border-t-0 dark:border-zinc-800 transition ${selectedStyle}`}
-                        onClick={() => toggleMonth(employee.id, month.value)}
+                        className={cn(
+                          `text-center cursor-pointer capitalize border border-t-0 dark:border-zinc-950 transition ${selectedStyle}`,
+                          currentMonth > month.value &&
+                            "dark:bg-gray-800 bg-gray-200 opacity-50 cursor-not-allowed",
+                          currentMonth == month.value &&
+                            "dark:bg-blue-700/40 bg-blue-600/40 cursor-not-allowed",
+                        )}
+                        onClick={() => {
+                          currentMonth < month.value &&
+                            toggleMonth(employee.id, month.value);
+                        }}
                       >
                         {icon}
                       </TableCell>
