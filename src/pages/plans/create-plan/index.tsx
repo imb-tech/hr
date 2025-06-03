@@ -1,5 +1,6 @@
 import { Button } from "@heroui/button";
 import { useNavigate, useParams } from "@tanstack/react-router";
+import { ArrowRight } from "lucide-react";
 import UsersList from "./user-list";
 
 export default function CreatePlan() {
@@ -13,6 +14,8 @@ export default function CreatePlan() {
         <Button
           color="primary"
           variant="flat"
+          size="lg"
+          className="justify-center gap-1"
           onPress={() => {
             navigate({
               to: "/plans/payment",
@@ -22,7 +25,8 @@ export default function CreatePlan() {
             });
           }}
         >
-          To'lov qilish
+          <span>To'lov qilish</span>
+          <ArrowRight size={18} />
         </Button>
       </div>
       <UsersList />

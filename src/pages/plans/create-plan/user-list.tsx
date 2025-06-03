@@ -1,6 +1,8 @@
 import { ROLES_STATISTIC, USER_STATISTIC } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
 import { Accordion, AccordionItem, Checkbox, Skeleton } from "@heroui/react";
+import { cn } from "@heroui/theme";
+import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
 export default function UsersList() {
@@ -45,13 +47,11 @@ export default function UsersList() {
     } else {
       setGroups((c) => c.filter((id) => id !== groupId));
       // bu group uchun ochilgan accordion userlarini exceptions ga qo‘shib qo‘yamiz
-      if (opened === groupId && users) {
-        const newExceptions = users.map((u) => ({
-          id: u.id,
-          parent: groupId,
-        }));
-        setExceptions((prev) => [...prev, ...newExceptions]);
-      }
+      const newExceptions = users?.map((u) => ({
+        id: u.id,
+        parent: groupId,
+      }));
+      setExceptions((prev) => [...prev, ...(newExceptions ?? [])]);
     }
   };
 
@@ -89,6 +89,14 @@ export default function UsersList() {
     >
       {roles?.map((pos) => (
         <AccordionItem
+          indicator={({ isOpen }) => (
+            <ChevronDown
+              className={cn(
+                "text-zinc-500",
+                isOpen ? "rotate-[270deg]" : "rotate-0",
+              )}
+            />
+          )}
           key={pos.id}
           aria-label={pos.role}
           title={
@@ -98,7 +106,8 @@ export default function UsersList() {
                 color={checkGroup(pos.id) ? "default" : "primary"}
                 onValueChange={(v) => changeGroup(v as boolean, pos.id)}
               />
-              <span className="ml-2">{pos.role}</span>
+              <span className="ml-2 block mr-3">{pos.role}</span>
+              <span className="opacity-50">{"(5/20)"}</span>
             </div>
           }
         >
@@ -111,9 +120,8 @@ export default function UsersList() {
               </div>
             ) : (
               <ul className="pt-2 pb-4 px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                {users?.map((usr, j) => (
+                {users?.map((usr) => (
                   <li key={usr.id} className="cursor-pointer flex items-center">
-                    <span className="w-8">{j + 1}.</span>
                     <label className="flex items-center gap-2">
                       <Checkbox
                         isSelected={isUserChecked(usr.id, pos.id)}

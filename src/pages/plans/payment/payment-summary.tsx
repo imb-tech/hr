@@ -1,7 +1,7 @@
 import { Card, CardBody } from "@heroui/card";
-import { Chip } from "@heroui/react";
+import { Button, Chip } from "@heroui/react";
 import { cn } from "@heroui/theme";
-import { Crown } from "lucide-react";
+import { Circle, CircleCheckBig, Crown } from "lucide-react";
 import { useState } from "react";
 
 export default function PaymentSummary() {
@@ -17,21 +17,30 @@ export default function PaymentSummary() {
   }
 
   return (
-    <Card className="p-2 shadow-sm light:border-small">
+    <Card className="p-2 shadow-sm light:border-small col-span-2 ">
       <CardBody>
         <h1 className="mb-3">Obuna muddati</h1>
-        <ul className="grid grid-cols-3 gap-2 mb-5">
+        <ul className="grid grid-cols-6 gap-2 mb-5">
           {months?.map((m) => (
             <li
               key={m.key}
               className={cn(
-                "p-3 bg-gray-400/10 rounded-md cursor-pointer text-center select-none transition-all duration-150",
+                "p-3 bg-gray-400/10 rounded-md cursor-pointer text-center select-none transition-all duration-150 relative",
                 vals.includes(m.key) ? "bg-primary" : "",
                 current > Number(m.key) ? "bg-transparent" : "",
               )}
               onClick={() => handleChange(m.key)}
             >
               {m.name}
+              <span className="absolute top-1 right-1">
+                {current > Number(m.key) ? (
+                  ""
+                ) : vals.includes(m.key) ? (
+                  <CircleCheckBig size={14} className="opacity-70" />
+                ) : (
+                  <Circle size={14} className="opacity-50" />
+                )}
+              </span>
             </li>
           ))}
         </ul>
@@ -50,6 +59,10 @@ export default function PaymentSummary() {
             Premium x20
           </Chip>
         </div>
+
+        <Button color="primary" variant="solid" className="mt-4 rounded-md">
+          To'lov qilish
+        </Button>
       </CardBody>
     </Card>
   );

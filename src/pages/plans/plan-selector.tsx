@@ -7,14 +7,14 @@ export default function PlanSelector() {
   const navigate = useNavigate();
 
   return (
-    <div className="grid grid-cols-3">
+    <div className="grid grid-cols-3 gap-8 my-10">
       {plans?.map((pln) => (
         <Card
           className={cn(
-            "w-full p-0 hover:shadow-md cursor-pointer hover:scale-100",
-            !pln?.recomendet
-              ? "scale-90 hover:scale-95"
-              : "scale-95 hover:scale-100",
+            "w-full p-0 hover:shadow-md cursor-pointer hover:scale-[102%]",
+            pln?.recomendet
+              ? "border-[1px] border-primary/50 scale-[104%] hover:scale-[105%]"
+              : "border-none shadow-none",
           )}
           key={pln.id}
         >
@@ -25,8 +25,8 @@ export default function PlanSelector() {
             }
           >
             {pln.recomendet ? (
-              <span className="bg-secondary/30 text-secondary absolute top-2 right-2 rounded-2xl uppercase px-4 py-1 text-sm">
-                Popular
+              <span className="bg-secondary/30 text-secondary absolute top-2 right-2 rounded-2xl px-4 py-1 text-sm">
+                Recommended
               </span>
             ) : null}
             <h2 className="text-xl">{pln.name}</h2>
