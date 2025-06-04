@@ -1,20 +1,14 @@
+import { GET_ME } from "@/constants/api-endpoints";
+import { useGet } from "@/hooks/useGet";
+import { formatMoney } from "@/lib/format-money";
 import { Button } from "@heroui/button";
 import { Card } from "@heroui/card";
 import { useNavigate } from "@tanstack/react-router";
 import { DollarSign, Wallet } from "lucide-react";
 
 export default function PlanProfile() {
+  const { data } = useGet(GET_ME);
   const navigate = useNavigate({ from: "/plans" });
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("uz-UZ", {
-      style: "currency",
-      currency: "UZS",
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    })
-      .format(amount)
-      .replace("UZS", "");
-  };
 
   return (
     <div className="w-full rounded-xl mb-4">
@@ -36,7 +30,7 @@ export default function PlanProfile() {
             <div>
               <p className="text-lg text-gray-500 dark:text-gray-400">Balans</p>
               <p className="text-xl font-medium text-gray-900 dark:text-white">
-                {formatCurrency(2450000) + " so'm"}
+                {formatMoney(data?.balance)} so'm
               </p>
             </div>
           </div>

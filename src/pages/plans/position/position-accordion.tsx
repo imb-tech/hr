@@ -1,11 +1,14 @@
 import Accordion from "@/components/ui/accordion";
 import Modal from "@/components/ui/modal";
-import { POSITION_USERS } from "@/constants/api-endpoints";
+import { PAYMENTS_CANCELLED, POSITION_USERS } from "@/constants/api-endpoints";
 import { useModal } from "@/hooks/use-modal";
 import { useGet } from "@/hooks/useGet";
+import { usePost } from "@/hooks/usePost";
 import { Button } from "@heroui/button";
 import { Skeleton } from "@heroui/skeleton";
+import { addToast } from "@heroui/toast";
 import { Selection } from "@react-types/shared";
+import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { Eraser } from "lucide-react";
 import { useState } from "react";
@@ -21,6 +24,7 @@ export type Selected = {
 };
 
 function PositionAccordionTraffic({ info }: Props) {
+  const queryClinet = useQueryClient();
   const [selected, setSelected] = useState<Selected[]>([]);
   const search = useSearch({ from: "/_main/plans/" });
   const navigate = useNavigate();
@@ -31,7 +35,19 @@ function PositionAccordionTraffic({ info }: Props) {
     },
   );
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
-  const { openModal } = useModal("postion-traffic");
+  const { openModal, closeModal } = useModal("postion-traffic");
+  const { mutate, isPending } = usePost({
+    onSuccess: () => {
+      queryClinet.invalidateQueries({ queryKey: [POSITION_USERS] });
+      addToast({
+        description: "Obuna bekor qilindi",
+        color: "warning",
+      });
+      setSelected([]);
+      closeModal();
+      setSelectedKeys(new Set())
+    },
+  });
 
   const toggleMonth = (customerId: number, month: number) => {
     setSelected((prev) => {
@@ -70,6 +86,10 @@ function PositionAccordionTraffic({ info }: Props) {
       },
     });
   }
+
+  const onSubmit = () => {
+    mutate(PAYMENTS_CANCELLED, { payments: selected });
+  };
 
   return (
     <div>
@@ -151,7 +171,14 @@ function PositionAccordionTraffic({ info }: Props) {
             amalni bajarishga rozimisiz?
           </p>
         </div>
-        <Button color="danger">Obunani Bekor qilish</Button>
+        <Button
+          onPress={onSubmit}
+          disabled={isPending}
+          isLoading={isPending}
+          color="danger"
+        >
+          Obunani Bekor qilish
+        </Button>
       </Modal>
     </div>
   );
