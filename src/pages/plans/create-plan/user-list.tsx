@@ -3,6 +3,7 @@ import {
   PAYMENTS_ROLES_USERS,
 } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
+import { useUsersStore } from "@/store/user-ids";
 import { Accordion, AccordionItem, Checkbox, Skeleton } from "@heroui/react";
 import { cn } from "@heroui/theme";
 import { ChevronDown } from "lucide-react";
@@ -19,9 +20,8 @@ export default function UsersList() {
       options: { enabled: !!opened, staleTime: 60000 },
     },
   );
-
+  const { addUserId, removeUserId, setUsersId, usersId } = useUsersStore();
   const [groups, setGroups] = useState<number[]>([]);
-  const [usersId, setUsersId] = useState<number[]>([]);
 
   const changeGroup = (checked: boolean, groupId: number) => {
     if (checked) {
@@ -52,10 +52,7 @@ export default function UsersList() {
     parentGroupId: number,
   ) => {
     if (checked) {
-      setUsersId((prev) => {
-        if (!prev.includes(userId)) return [...prev, userId];
-        return prev;
-      });
+      addUserId(userId);
 
       if (users) {
         const groupUsers = users.filter((u) => u.role_id === parentGroupId);
@@ -68,7 +65,7 @@ export default function UsersList() {
         }
       }
     } else {
-      setUsersId((prev) => prev.filter((id) => id !== userId));
+      removeUserId(userId);
 
       if (groups.includes(parentGroupId)) {
         setGroups((prev) => prev.filter((id) => id !== parentGroupId));
@@ -95,8 +92,6 @@ export default function UsersList() {
       });
     }
   }, [users, opened, groups]);
-
-  console.log(usersId);
 
   return (
     <Accordion
