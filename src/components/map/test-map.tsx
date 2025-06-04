@@ -41,7 +41,7 @@ import type { GeoJSONSource, MapMouseEvent } from "mapbox-gl";
 import type { MapRef } from "react-map-gl/mapbox";
 import { CustomPopup } from "./custom-popup";
 import { MapStyleSwitcher } from "./map-swticher";
-import { formatArray, getPolygonCentroid, polygonColors } from "./util";
+import { getPolygonCentroid, polygonColors } from "./util";
 
 type TPoint = {
   latitude: number;
@@ -154,22 +154,6 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
     } else return [0, 0];
   }, [routes]);
 
-  const history = useMemo(() => {
-    if (!route_id) {
-      return null;
-    }
-    const r = routes?.map((cord) => [cord.lng, cord.lat]) ?? [];
-    return formatArray(r).join(";");
-  }, [route_id, routes]);
-
-  const url = useMemo(
-    () =>
-      history
-        ? `https://api.mapbox.com/directions/v5/mapbox/walking/${history}?overview=full&steps=true&geometries=geojson&access_token=${MAPBOX_TOKEN}`
-        : "",
-    [history],
-  );
-
   const [hoveredFeatureId, setHoveredFeatureId] = useState<number | null>(null);
 
   const onMouseMove = useCallback(
@@ -187,31 +171,31 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
   );
 
   useEffect(() => {
-    if (url && route_id) {
-      fetch(url)
-        .then((response) => response.json())
-        .then((data) => {
-          if (internalMapRef?.current) {
-            internalMapRef?.current.flyTo({
-              center: end,
-              duration: 1000,
-              curve: 1.42,
-              zoom: 14.6,
-            });
-          }
-          setRoute({
-            type: "FeatureCollection",
-            features: [
-              {
-                type: "Feature",
-                properties: {},
-                geometry: data.routes[0]?.geometry,
-              },
-            ],
-          });
+    if (routes && route_id) {
+      if (internalMapRef?.current) {
+        internalMapRef?.current.flyTo({
+          center: end,
+          duration: 1000,
+          curve: 1.42,
+          zoom: 16,
         });
+      }
+
+      setRoute({
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            properties: {},
+            geometry: {
+              type: "LineString",
+              coordinates: routes?.map((coord) => [coord.lng, coord.lat]) ?? [],
+            },
+          },
+        ],
+      });
     }
-  }, [url, route_id]);
+  }, [routes, route_id]);
 
   useEffect(() => {
     if (search.id && points) {
@@ -330,7 +314,7 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
                 ["zoom"],
                 [1, 0], // 1-qiymat: zoom 0 dan boshlab
                 14, // 14 zoomda...
-                [2, 4], // ...to‘liq chiziq
+                [1, 0], // ...to‘liq chiziq
               ],
             }}
           />
