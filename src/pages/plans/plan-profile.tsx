@@ -1,8 +1,10 @@
 import { Button } from "@heroui/button";
 import { Card } from "@heroui/card";
+import { useNavigate } from "@tanstack/react-router";
 import { DollarSign, Wallet } from "lucide-react";
 
 export default function PlanProfile() {
+  const navigate = useNavigate({ from: "/plans" });
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("uz-UZ", {
       style: "currency",
@@ -38,7 +40,11 @@ export default function PlanProfile() {
               </p>
             </div>
           </div>
-          <Button color="primary" variant="flat">
+          <Button
+            onPress={() => navigate({ to: "/plans/checkout" })}
+            color="primary"
+            variant="flat"
+          >
             <Wallet size={16} />
             Balansni toldirish
           </Button>

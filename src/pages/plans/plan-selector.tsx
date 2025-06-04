@@ -68,7 +68,7 @@ export const plans: HrTariff[] = [
     id: "starter",
     name: "Boshlang‘ich (Starter)",
     level: "starter",
-    price: 5000, // misol uchun
+    price: 4000, // misol uchun
     features: [
       "Turniket va FaceID orqali kirish-chiqishni nazorat qilish",
       "Xodimlarning ishga kelish va ketish hisobotlarini admin panel orqali nazorat qilish",
@@ -78,7 +78,7 @@ export const plans: HrTariff[] = [
     id: "standard",
     name: "O‘rta (Standard)",
     level: "standard",
-    price: 10000, // misol uchun
+    price: 6000, // misol uchun
     features: [
       "Turniket va FaceID orqali kirish-chiqishni nazorat qilish",
       "Xodimlarning ishga kelish va ketish hisobotlarini admin panel orqali nazorat qilish",
@@ -92,7 +92,7 @@ export const plans: HrTariff[] = [
     id: "advanced",
     name: "Premium (Advanced)",
     level: "advanced",
-    price: 15000, // misol uchun
+    price: 12000, // misol uchun
     features: [
       "Turniket va FaceID orqali kirish-chiqishni nazorat qilish",
       "Xodimlarning ishga kelish va ketish hisobotlarini admin panel orqali nazorat qilish",

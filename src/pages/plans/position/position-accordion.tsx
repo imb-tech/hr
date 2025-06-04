@@ -1,15 +1,18 @@
 import Accordion from "@/components/ui/accordion";
 import Modal from "@/components/ui/modal";
+import { POSITION_USERS } from "@/constants/api-endpoints";
 import { useModal } from "@/hooks/use-modal";
+import { useGet } from "@/hooks/useGet";
 import { Button } from "@heroui/button";
 import { Skeleton } from "@heroui/skeleton";
 import { Selection } from "@react-types/shared";
 import { useNavigate, useSearch } from "@tanstack/react-router";
+import { Eraser } from "lucide-react";
 import { useState } from "react";
 import FullCalendarEmployees from "../employees/full-calendar";
 
 type Props = {
-  info: Position[] | undefined;
+  info: { id: number; name: string }[] | undefined;
 };
 
 export type Selected = {
@@ -21,6 +24,12 @@ function PositionAccordionTraffic({ info }: Props) {
   const [selected, setSelected] = useState<Selected[]>([]);
   const search = useSearch({ from: "/_main/plans/" });
   const navigate = useNavigate();
+  const { data } = useGet<IncomingEmployee[]>(
+    `${POSITION_USERS}/${search.position}`,
+    {
+      options: { enabled: !!search.position },
+    },
+  );
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
   const { openModal } = useModal("postion-traffic");
 
@@ -95,9 +104,18 @@ function PositionAccordionTraffic({ info }: Props) {
                   <div className="w-full flex justify-between">
                     <span>{c.name}</span>{" "}
                     {selected?.length > 0 && c.id == search.position && (
-                      <Button size="sm" color="danger" onPress={openModal}>
-                        Obunani Bekor qilish
-                      </Button>
+                      <div className="flex items-center gap-3">
+                        <Button
+                          size="sm"
+                          color="danger"
+                          onPress={() => setSelected([])}
+                        >
+                          Tozalash <Eraser size={16} />
+                        </Button>
+                        <Button size="sm" color="primary" onPress={openModal}>
+                          Obunani Bekor qilish
+                        </Button>
+                      </div>
                     )}
                   </div>
                 ),
@@ -105,6 +123,7 @@ function PositionAccordionTraffic({ info }: Props) {
                   <FullCalendarEmployees
                     toggleMonth={toggleMonth}
                     selected={selected}
+                    data={data || []}
                   />
                 ),
               }))}

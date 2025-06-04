@@ -75,7 +75,7 @@ export const Navbar = ({
       </div>
 
       <div className="flex gap-3 items-center ">
-        <div className="flex items-center  min-w-48 -translate-x-3">
+        <div className="flex items-center  min-w-40 -translate-x-3">
           <Button
             className="!min-w-2 lg:block hidden"
             variant="light"
