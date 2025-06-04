@@ -1,6 +1,6 @@
 import Accordion from "@/components/ui/accordion";
 import Modal from "@/components/ui/modal";
-import { PAYMENTS_CANCELLED, POSITION_USERS } from "@/constants/api-endpoints";
+import { GET_ME, PAYMENTS_CANCELLED, POSITION_USERS } from "@/constants/api-endpoints";
 import { useModal } from "@/hooks/use-modal";
 import { useGet } from "@/hooks/useGet";
 import { usePost } from "@/hooks/usePost";
@@ -39,6 +39,7 @@ function PositionAccordionTraffic({ info }: Props) {
   const { mutate, isPending } = usePost({
     onSuccess: () => {
       queryClinet.invalidateQueries({ queryKey: [POSITION_USERS] });
+      queryClinet.invalidateQueries({ queryKey: [GET_ME] });
       addToast({
         description: "Obuna bekor qilindi",
         color: "warning",
