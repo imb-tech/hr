@@ -45,7 +45,8 @@ function PositionAccordionTraffic({ info }: Props) {
       });
       setSelected([]);
       closeModal();
-      setSelectedKeys(new Set())
+      setSelectedKeys(new Set());
+      navigate({ to: "/plans" });
     },
   });
 
