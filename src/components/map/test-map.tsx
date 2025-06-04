@@ -32,7 +32,11 @@ import { useTheme } from "@heroui/use-theme";
 // import { Building2 } from "lucide-react";
 import { ROTUES } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
+import { Button, DatePicker, DateValue } from "@heroui/react";
+import { parseDate } from "@internationalized/date";
 import { useNavigate, useSearch } from "@tanstack/react-router";
+import { formatDate } from "date-fns";
+import { ArrowLeft, Flag } from "lucide-react";
 import type { GeoJSONSource, MapMouseEvent } from "mapbox-gl";
 import type { MapRef } from "react-map-gl/mapbox";
 import { CustomPopup } from "./custom-popup";
@@ -68,19 +72,21 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
   const search = useSearch({ from: "__root__" });
   const { route_id: route_id_param } = search;
 
+  const systemDate = parseDate(formatDate(new Date(), "yyyy-MM-dd"));
+
+  const [date, setDate] = useState<DateValue | null>(systemDate ?? null);
+
   const route_id = useMemo(() => route_id_param, [route_id_param]);
 
   const { data: routes } = useGet<
     Array<{
-      created_at: "2025-06-02T18:52:08Z";
+      created_at: string;
       lat: number;
       lng: number;
     }>
   >(`${ROTUES}/${route_id}`, {
     options: { enabled: !!route_id },
-    params: {
-      date: "2025-06-02",
-    },
+    params: { date },
   });
 
   const [activePopup, setActivePopup] = useState<{
@@ -136,8 +142,15 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
   };
 
   const start: [number, number] = useMemo(() => {
-    if (routes?.[0]) {
+    if (routes?.length) {
       return [routes[0].lng, routes[0].lat];
+    } else return [0, 0];
+  }, [routes]);
+
+  const end: [number, number] = useMemo(() => {
+    const len = routes?.length;
+    if (len) {
+      return [routes[len - 1].lng, routes[len - 1].lat];
     } else return [0, 0];
   }, [routes]);
 
@@ -158,8 +171,6 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
   );
 
   const [hoveredFeatureId, setHoveredFeatureId] = useState<number | null>(null);
-
-  // ...existing code...
 
   const onMouseMove = useCallback(
     (event: mapboxgl.MapLayerMouseEvent) => {
@@ -182,7 +193,7 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
         .then((data) => {
           if (internalMapRef?.current) {
             internalMapRef?.current.flyTo({
-              center: start,
+              center: end,
               duration: 1000,
               curve: 1.42,
               zoom: 14.6,
@@ -274,7 +285,33 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
         onChange={(id) => setMapStyleId(id)}
       />
 
-      {route && (
+      {route_id && (
+        <div className="flex justify-end pr-12 pt-2 gap-2">
+          <Button
+            isIconOnly
+            variant="faded"
+            onPress={() => {
+              setDate(systemDate);
+              navigate({
+                to: window.location.pathname,
+                search: {
+                  id: route_id.toString(),
+                },
+              });
+            }}
+          >
+            <ArrowLeft />
+          </Button>
+          <DatePicker
+            className="max-w-[200px] bg-default-200"
+            value={date as any}
+            onChange={setDate as any}
+            variant="faded"
+          />
+        </div>
+      )}
+
+      {route && route_id && (
         <Source id="history" type="geojson" data={route}>
           <Layer
             id="line-layer"
@@ -369,10 +406,32 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
                 (polygon.features[0]?.geometry as any)?.coordinates,
               ).x
             }
-          >
-            {/* <Building2 /> */}
-          </Marker>
+          />
         ))}
+
+      {start && (
+        <Marker
+          anchor="bottom"
+          latitude={start[1]}
+          longitude={start[0]}
+          className="text-warning"
+        >
+          <Flag />
+          Start
+        </Marker>
+      )}
+
+      {end && (
+        <Marker
+          anchor="bottom"
+          latitude={end[1]}
+          longitude={end[0]}
+          className="text-success"
+        >
+          <Flag />
+          Finish
+        </Marker>
+      )}
 
       {activePopup && (
         <CustomPopup lat={activePopup.lngLat[1]} lng={activePopup.lngLat[0]} />

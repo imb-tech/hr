@@ -11,7 +11,7 @@ import { Clock, MapPin, Phone, X } from "lucide-react";
 
 const UserPopup = () => {
   const navigate = useNavigate();
-  const { id } = useSearch({ from: "__root__" });
+  const { id, ...search } = useSearch({ from: "__root__" });
   const { data: item, isLoading } = useGet<Human>(`${HR_API}/${id}`, {
     options: { enabled: Boolean(id) },
   });
@@ -20,6 +20,7 @@ const UserPopup = () => {
     navigate({
       to: "/map",
       search: {
+        ...search,
         route_id: item?.id,
       },
     });

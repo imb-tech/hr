@@ -18,8 +18,12 @@ export default function MapPage() {
     });
   }
 
+  const { role_id, last_company_id } = search;
+
   const { data: companies } = useGet<FeatureCollection>(COMPANIES);
-  const { data: users } = useGet<UserPoint[]>(USER_LOCATIONS);
+  const { data: users } = useGet<UserPoint[]>(USER_LOCATIONS, {
+    params: { role_id, last_company_id },
+  });
 
   const data: GeoJSON.FeatureCollection[] = useMemo(() => {
     return [
