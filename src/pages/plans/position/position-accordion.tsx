@@ -70,7 +70,6 @@ function PositionAccordionTraffic({ info }: Props) {
       },
     });
   }
-  console.log(!!info);
 
   return (
     <div>

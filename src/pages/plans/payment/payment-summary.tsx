@@ -62,6 +62,9 @@ export default function PaymentSummary() {
     mutate(PAYMENTS, data);
   };
 
+   console.log(usersId);
+   
+
   return (
     <Card className="p-2 shadow-sm light:border-small ">
       <CardBody>
