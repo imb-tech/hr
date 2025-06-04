@@ -1,23 +1,69 @@
+import {
+  PAYMENTS,
+  PAYMENTS_USERS_MONTH_PRICE,
+  POSITION_USERS,
+} from "@/constants/api-endpoints";
+import { useGet } from "@/hooks/useGet";
+import { usePost } from "@/hooks/usePost";
+import { formatMoney } from "@/lib/format-money";
+import { useMonthStore } from "@/store/mont-ids";
+import { useUsersStore } from "@/store/user-ids";
 import { Card, CardBody } from "@heroui/card";
-import { Button, Chip } from "@heroui/react";
+import { addToast, Button, Chip } from "@heroui/react";
 import { cn } from "@heroui/theme";
+import { useQueryClient } from "@tanstack/react-query";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { Circle, CircleCheckBig, Crown } from "lucide-react";
-import { useState } from "react";
 
 export default function PaymentSummary() {
-  const current = new Date().getMonth();
-  const [vals, setVals] = useState<string[]>([]);
+  const queryClinet = useQueryClient();
+  const { months: vals, setMonths, resetMonths } = useMonthStore();
+  const current = new Date().getMonth() + 1;
+  const navigate = useNavigate();
+  const search: SearchParams = useSearch({ from: "__root__" });
+  const { usersId, clearUsersId } = useUsersStore();
+  const { data } = useGet<{ total_amount: number }>(
+    PAYMENTS_USERS_MONTH_PRICE,
+    {
+      params: { months: vals, users: usersId, plan: search.plan_id },
+    },
+  );
+  const { mutate, isPending } = usePost({
+    onSuccess: () => {
+      resetMonths();
+      clearUsersId();
+      addToast({
+        description: "Muvaffaqiyatli",
+        color: "success",
+      });
+      navigate({ to: "/plans" });
+      queryClinet.invalidateQueries({ queryKey: [POSITION_USERS] });
+    },
+  });
 
   function handleChange(v: string) {
     if (current > Number(v)) {
       return;
-    } else if (vals.includes(v)) {
-      setVals((c) => c.filter((t) => t !== v));
-    } else setVals((c) => [...c, v]);
+    }
+
+    if (vals.includes(v)) {
+      setMonths((prev) => prev.filter((t) => t !== v));
+    } else {
+      setMonths((prev) => [...prev, v]);
+    }
   }
 
+  const onSubmit = () => {
+    const data = {
+      plan: search.plan_id,
+      users: usersId,
+      months: vals,
+    };
+    mutate(PAYMENTS, data);
+  };
+
   return (
-    <Card className="p-2 shadow-sm light:border-small col-span-2 ">
+    <Card className="p-2 shadow-sm light:border-small ">
       <CardBody>
         <h1 className="mb-3">Obuna muddati</h1>
         <ul className="grid grid-cols-6 gap-2 mb-5">
@@ -26,8 +72,10 @@ export default function PaymentSummary() {
               key={m.key}
               className={cn(
                 "p-3 bg-gray-400/10 rounded-md cursor-pointer text-center select-none transition-all duration-150 relative",
-                vals.includes(m.key) ? "bg-primary" : "",
-                current > Number(m.key) ? "bg-transparent" : "",
+                vals.includes(m.key) ? "bg-primary " : "",
+                current > Number(m.key)
+                  ? "bg-transparent border dark:border-zinc-800"
+                  : "",
               )}
               onClick={() => handleChange(m.key)}
             >
@@ -46,9 +94,7 @@ export default function PaymentSummary() {
         </ul>
 
         <div className="flex items-center justify-between p-3 bg-gray-400/10 rounded-md">
-          <h1 className="text-2xl">
-            {(vals.length * 100000).toLocaleString()} so'm
-          </h1>
+          <h1 className="text-2xl">{formatMoney(data?.total_amount)} so'm</h1>
 
           <Chip
             color="secondary"
@@ -60,7 +106,14 @@ export default function PaymentSummary() {
           </Chip>
         </div>
 
-        <Button color="primary" variant="solid" className="mt-4 rounded-md">
+        <Button
+          onPress={onSubmit}
+          disabled={isPending}
+          isLoading={isPending}
+          color="primary"
+          variant="solid"
+          className="mt-4 rounded-md"
+        >
           To'lov qilish
         </Button>
       </CardBody>

@@ -65,8 +65,8 @@ export default function PlanSelector() {
 
 export const plans: HrTariff[] = [
   {
-    id: "starter",
-    name: "Boshlang‘ich (Starter)",
+    id: "1",
+    name: "Boshlang'ich (Starter)",
     level: "starter",
     price: 4000, // misol uchun
     features: [
@@ -75,7 +75,7 @@ export const plans: HrTariff[] = [
     ],
   },
   {
-    id: "standard",
+    id: "2",
     name: "O‘rta (Standard)",
     level: "standard",
     price: 6000, // misol uchun
@@ -89,7 +89,7 @@ export const plans: HrTariff[] = [
     recomendet: true,
   },
   {
-    id: "advanced",
+    id: "3",
     name: "Premium (Advanced)",
     level: "advanced",
     price: 12000, // misol uchun
