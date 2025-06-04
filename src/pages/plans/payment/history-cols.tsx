@@ -3,10 +3,9 @@ import { formatMoney } from "@/lib/format-money";
 import { cn } from "@heroui/theme";
 import { format } from "date-fns";
 import { useMemo } from "react";
-import { PymentType } from "./history";
 
 export const usHistoryCols = () => {
-  return useMemo<ColumnDef<PymentType>[]>(
+  return useMemo<ColumnDef<Payment>[]>(
     () => [
       {
         header: "Summasi",
@@ -19,17 +18,28 @@ export const usHistoryCols = () => {
       },
       {
         header: "To'lov turi",
-        dataKey: "method",
+        dataKey: "id",
         cell: (_, itm) => (
-          <span className="whitespace-nowrap md:break-all">{itm.method}</span>
+          <div>
+            {itm.provider === 2 ? (
+              // <img src="/images/click-dark.svg" width={40} />
+              <img src="https://clickday.uz/static/favicon.ico" width={18} />
+            ) : (
+              // <img src="/images/payme-dark.svg" width={40} />
+              <img
+                src="https://cdn.payme.uz/payme-logos/ico/p/1/favicon-32x32.png"
+                width={18}
+              />
+            )}
+          </div>
         ),
       },
       {
         header: "To'lov sanai",
-        dataKey: "method",
+        dataKey: "created_at",
         cell: (_, itm) => (
           <span className="whitespace-nowrap md:break-all">
-            {format(itm.date, "yyyy-MM-mm HH:mm")}
+            {format(itm.created_at, "yyyy-MM-mm HH:mm")}
           </span>
         ),
       },
@@ -40,10 +50,18 @@ export const usHistoryCols = () => {
           <div
             className={cn(
               "whitespace-nowrap text-center",
-              itm.status === "success" ? "text-green-500" : "text-red-500",
+              itm.status == 1
+                ? "text-orange-500"
+                : itm.status == 2
+                  ? "text-green-500"
+                  : "text-red-500",
             )}
           >
-            {itm.status}
+            {itm.status == 1
+              ? "Kutilmoqda"
+              : itm.status == 2
+                ? "Tasdiqlangan"
+                : "Bekor qilingan"}
           </div>
         ),
       },

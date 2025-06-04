@@ -4,10 +4,12 @@ import { useLocation, useNavigate, useSearch } from "@tanstack/react-router";
 
 type Props = {
   paramName?: keyof SearchParams;
+  inputClassName?: DatePickerProps["classNames"];
 };
 
 export function ParamDatePicker({
   paramName = "date",
+  inputClassName,
   ...props
 }: Props & DatePickerProps) {
   const search = useSearch({ from: "__root__" });
@@ -37,6 +39,7 @@ export function ParamDatePicker({
       classNames={{
         input: "w-0 overflow-hidden",
         inputWrapper: "pl-1",
+        ...inputClassName,
       }}
       {...props}
       defaultValue={defaultDate as DatePickerProps["defaultValue"]}

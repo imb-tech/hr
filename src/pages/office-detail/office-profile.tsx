@@ -34,14 +34,6 @@ export default function AttendanceDashboard() {
   const absentWithReason = dataDetails?.excused ?? 0;
   const absentWithoutReason = dataDetails?.absent ?? 0;
 
-  // const total = 400;
-  // const usersInCompany = 300;
-  // const arrivedOnTime = 260;
-  // const lateUsers = 40;
-  // const absentUsers = 100;
-  // const absentWithReason = 70;
-  // const absentWithoutReason = 30;
-
   const getPercent = (value: number, total: number): string => {
     if (total === 0) return "0%";
 
@@ -62,14 +54,14 @@ export default function AttendanceDashboard() {
             to="/all-employees"
           >
             <div className="flex items-center gap-3 flex-1">
-              <div className="bg-blue-600 p-2 rounded-lg">
-                <Users className="h-6 w-6 text-white" />
+              <div className="bg-primary-500/20 p-2 rounded-lg">
+                <Users className="h-6 w-6 text-primary-500" />
               </div>
-              <h1 className="text-2xl font-bold dark:text-gray-300">
+              <h1 className="text-2xl font-bold dark:text-primary-500">
                 Hodimlar soni
               </h1>
             </div>
-            <span className="text-3xl font-bold dark:text-gray-300 ">
+            <span className="text-3xl font-bold dark:text-primary-500 ">
               {formatMoney(total)}
             </span>
             <span className="ml-4 absolute [transform:rotateY(90deg)] -right-6 group-hover:-right-12 group-hover:[transform:rotateY(0deg)] transition-all duration-300 text-gray-700">
@@ -90,14 +82,14 @@ export default function AttendanceDashboard() {
                 to="/arrivals"
               >
                 <div className="flex items-center gap-3">
-                  <div className="bg-[#10B981] p-2 rounded-lg">
-                    <UserCheck className="h-5 w-5 text-white" />
+                  <div className="bg-[#10B981]/20 text-[#10B981] p-2 rounded-lg">
+                    <UserCheck className="h-5 w-5" />
                   </div>
-                  <h1 className="text-2xl font-bold dark:text-gray-300">
+                  <h1 className="text-2xl font-light text-[#10B981]">
                     Kelganlar
                   </h1>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 text-[#10B981]">
                   <span className="text-lg text-gray-400">
                     ({getPercent(usersInCompany, total)})
                   </span>
@@ -127,8 +119,8 @@ export default function AttendanceDashboard() {
                   to="/arrivals"
                 >
                   <div className="flex items-center gap-2">
-                    <Clock className="h-4 w-4 text-[#34D399]" />
-                    <span className="text-sm dark:text-gray-300">
+                    <Clock className="h-4 w-4 text-[#10B981]" />
+                    <span className="text-sm text-[#10B981]">
                       Vaqtida kelganlar
                     </span>
                   </div>
@@ -160,7 +152,7 @@ export default function AttendanceDashboard() {
                 >
                   <div className="flex items-center gap-2 cursor-pointer">
                     <Clock className="h-4 w-4 text-[#FDBA74]" />
-                    <span className="text-sm dark:text-gray-300">
+                    <span className="text-sm text-[#FDBA74]">
                       Kech qolganlar
                     </span>
                   </div>
@@ -199,10 +191,10 @@ export default function AttendanceDashboard() {
                 to="/absent"
               >
                 <div className="flex items-center gap-3">
-                  <div className="bg-[#DC2626] p-2 rounded-lg">
-                    <UserX className="h-5 w-5 text-white" />
+                  <div className="bg-[#DC2626]/10 text-[#DC2626] p-2 rounded-lg">
+                    <UserX className="h-5 w-5" />
                   </div>
-                  <h1 className="text-2xl font-bold dark:text-gray-300">
+                  <h1 className="text-2xl font-light text-[#DC2626]">
                     Kelmaganlar
                   </h1>
                 </div>
@@ -210,7 +202,7 @@ export default function AttendanceDashboard() {
                   <span className="text-lg text-gray-400">
                     ({getPercent(absentUsers, total)})
                   </span>
-                  <span className="text-2xl font-bold">
+                  <span className="text-2xl font-bold text-[#DC2626]">
                     {formatMoney(absentUsers)}
                   </span>
                 </div>
@@ -224,7 +216,7 @@ export default function AttendanceDashboard() {
               <Progress
                 className="h-2"
                 classNames={{
-                  indicator: "bg-[#DC2626]",
+                  indicator: "bg-[#DC2626]/60",
                 }}
                 value={(absentUsers / total) * 100}
               />
@@ -237,7 +229,7 @@ export default function AttendanceDashboard() {
                 >
                   <div className="flex items-center gap-2">
                     <AlertCircle className="h-4 w-4 text-[#FBBF24]" />
-                    <span className="text-sm dark:text-gray-300">Sababli</span>
+                    <span className="text-sm text-[#FBBF24]">Sababli</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-xs text-gray-400">
@@ -266,14 +258,16 @@ export default function AttendanceDashboard() {
                   to="/absent"
                 >
                   <div className="flex items-center gap-2">
-                    <XCircle className="h-4 w-4 text-[#DC2626]" />
-                    <span className="text-sm dark:text-gray-300">Sababsiz</span>
+                    <XCircle className="h-4 w-4 text-[#DC2626]/80" />
+                    <span className="text-sm dark:text-[#FBBF24]">
+                      Sababsiz
+                    </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-xs text-gray-400">
                       ({getPercent(absentWithoutReason, total)})
                     </span>
-                    <span className="text-base font-semibold text-[#DC2626]">
+                    <span className="text-base font-semibold text-[#DC2626]/80">
                       {formatMoney(absentWithoutReason)}
                     </span>
                   </div>
@@ -284,7 +278,7 @@ export default function AttendanceDashboard() {
                 <Progress
                   className="h-1.5"
                   classNames={{
-                    indicator: "bg-[#DC2626]",
+                    indicator: "bg-[#DC2626]/60",
                   }}
                   value={(absentWithoutReason / total) * 100}
                 />

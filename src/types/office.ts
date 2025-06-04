@@ -10,6 +10,7 @@ type Polygon = {
 
 
 type Properties = {
+  id: number
   address: string;
   lunch_start_time: string;
   lunch_end_time: string;
@@ -33,6 +34,14 @@ type FeatureCollection = {
   features: Office[];
 };
 
+type UserPoint = {
+  id: number,
+  full_name: string
+  company: number
+  lat: number,
+  lng: number
+}
+
 
 type OfficeInfo = {
   group_id: number
@@ -52,7 +61,7 @@ type WorkerInfo = {
   latency: string
   check_out_time: string
   last_company: string
-  entry_log_status:string
+  entry_log_status: string
 }
 
 interface WorkerAttendance {

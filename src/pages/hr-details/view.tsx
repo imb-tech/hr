@@ -4,6 +4,7 @@ import { useGet } from "@/hooks/useGet";
 import { formatMoney } from "@/lib/format-money";
 import formatPassportNumber from "@/lib/formatter-pasport";
 import formatPhoneNumber from "@/lib/formatter-phone";
+import { educationLevels } from "@/lib/utils";
 import { cn } from "@heroui/theme";
 import { useParams } from "@tanstack/react-router";
 import {
@@ -15,7 +16,6 @@ import {
   PhoneCall,
 } from "lucide-react";
 import { useMemo } from "react";
-import { educationLevels } from "../hr/create-hr-form";
 import YearsAccordion from "./years-accordion";
 
 export const useHrListCols = () => {
@@ -107,7 +107,7 @@ function ViewPage() {
               <span>
                 {data?.profile?.education
                   ? educationLevels?.find(
-                      (item) => item.key == data?.profile?.education,
+                      (item) => item.key == Number(data?.profile?.education),
                     )?.label
                   : "-"}
               </span>

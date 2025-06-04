@@ -1,5 +1,6 @@
 const USERS = "users/"
 const HR = "hr/"
+const LOCATION = "location/"
 
 export const GET_ME = USERS + "admin-getme"
 export const REFRESH_TOKEN = "refresh_token"
@@ -32,5 +33,7 @@ export const ASSIGN_COMPANIES = USERS + 'assign_companies_to_user'
 export const HR_EXCEL_TEMP = HR + 'sample-excel'
 export const HR_EXCEL_DOWN = HR + 'excel-users'
 export const HR_EXCEL_UP = HR + 'create-from-excel'
+export const USER_LOCATIONS = LOCATION + 'users-locations'
+export const ROTUES = LOCATION + 'routes'
 export const PAYMENTS_USERS_MONTH = 'payments/billing-users'
 export const PAYMENTS_USERS_MONTH_PRICE = 'payments/calculate-months'
