@@ -68,6 +68,7 @@ interface WorkerAttendance {
   full_name: string
   entry_log_status: number
   work_shift_start: string
+  role_id?:number
   attendance: {
     status: 0 | 1
     duration: string

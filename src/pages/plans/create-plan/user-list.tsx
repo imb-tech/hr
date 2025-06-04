@@ -3,10 +3,11 @@ import {
   PAYMENTS_ROLES_USERS,
 } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
+import { useUsersStore } from "@/store/user-ids";
 import { Accordion, AccordionItem, Checkbox, Skeleton } from "@heroui/react";
 import { cn } from "@heroui/theme";
 import { ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function UsersList() {
   const [opened, setOpened] = useState<number | null>(null);
@@ -19,60 +20,78 @@ export default function UsersList() {
       options: { enabled: !!opened, staleTime: 60000 },
     },
   );
-
+  const { addUserId, removeUserId, setUsersId, usersId } = useUsersStore();
   const [groups, setGroups] = useState<number[]>([]);
-  const [exceptions, setExceptions] = useState<
-    { id: number; parent: number }[]
-  >([]);
 
-  const isUserChecked = (userId: number, parent: number) => {
-    if (groups.includes(parent)) {
-      return !exceptions.some((e) => e.id === userId && e.parent === parent);
-    }
-    return exceptions.some((e) => e.id === userId && e.parent === parent);
-  };
+  const changeGroup = (checked: boolean, groupId: number) => {
+    if (checked) {
+      setGroups((prev) => {
+        if (!prev.includes(groupId)) return [...prev, groupId];
+        return prev;
+      });
 
-  const checkGroup = (gr: number) => {
-    if (exceptions.some((g) => g.parent == gr)) {
-      return true;
-    } else return false;
-  };
-
-  const changeGroup = (v: boolean, groupId: number) => {
-    setOpened(groupId);
-
-    if (v) {
-      setGroups((c) => [...c, groupId]);
-      setExceptions((prev) => prev.filter((e) => e.parent !== groupId));
+      setOpened(groupId);
     } else {
-      setGroups((c) => c.filter((id) => id !== groupId));
-      const newExceptions = users?.map((u) => ({
-        id: u.id,
-        parent: groupId,
-      }));
-      setExceptions((prev) => [...prev, ...(newExceptions ?? [])]);
-    }
-  };
+      setGroups((prev) => prev.filter((id) => id !== groupId));
 
-  const changeUser = (v: boolean, id: number, parent: number) => {
-    if (groups.includes(parent)) {
-      if (!v) {
-        setExceptions((prev) => [...prev, { id, parent }]);
-      } else {
-        setExceptions((prev) =>
-          prev.filter((e) => !(e.id === id && e.parent === parent)),
-        );
-      }
-    } else {
-      if (v) {
-        setExceptions((prev) => [...prev, { id, parent }]);
-      } else {
-        setExceptions((prev) =>
-          prev.filter((e) => !(e.id === id && e.parent === parent)),
+      if (users && users.length) {
+        const userIdsToRemove = users
+          .filter((u) => u.role_id === groupId)
+          .map((u) => u.id);
+
+        setUsersId((prev) =>
+          prev.filter((id) => !userIdsToRemove.includes(id)),
         );
       }
     }
   };
+
+  const changeUser = (
+    checked: boolean,
+    userId: number,
+    parentGroupId: number,
+  ) => {
+    if (checked) {
+      addUserId(userId);
+
+      if (users) {
+        const groupUsers = users.filter((u) => u.role_id === parentGroupId);
+        const allSelected = groupUsers.every((u) =>
+          u.id === userId ? checked : usersId.includes(u.id),
+        );
+
+        if (allSelected && !groups.includes(parentGroupId)) {
+          setGroups((prev) => [...prev, parentGroupId]);
+        }
+      }
+    } else {
+      removeUserId(userId);
+
+      if (groups.includes(parentGroupId)) {
+        setGroups((prev) => prev.filter((id) => id !== parentGroupId));
+      }
+    }
+  };
+
+  const isUserChecked = (userId: number) => {
+    return usersId.includes(userId);
+  };
+
+  useEffect(() => {
+    if (opened && groups.includes(opened) && users && users.length) {
+      const newUserIds = users
+        .filter((u) => u.role_id === opened)
+        .map((u) => u.id);
+
+      setUsersId((prev) => {
+        const combined = [...prev];
+        newUserIds.forEach((id) => {
+          if (!combined.includes(id)) combined.push(id);
+        });
+        return combined;
+      });
+    }
+  }, [users, opened, groups]);
 
   return (
     <Accordion
@@ -99,13 +118,9 @@ export default function UsersList() {
             <div className="flex items-center">
               <Checkbox
                 isSelected={groups.includes(pos.id)}
-                color={checkGroup(pos.id) ? "default" : "primary"}
                 onValueChange={(v) => changeGroup(v as boolean, pos.id)}
               />
               <span className="ml-2 block mr-3">{pos.name}</span>
-              {/* <span className="opacity-50">
-                {pos.paid_count} / {pos.count}
-              </span> */}
             </div>
           }
         >
@@ -120,7 +135,7 @@ export default function UsersList() {
                   <li key={usr.id} className="cursor-pointer flex items-center">
                     <label className="flex items-center gap-2">
                       <Checkbox
-                        isSelected={isUserChecked(usr.id, pos.id)}
+                        isSelected={isUserChecked(usr.id)}
                         onValueChange={(v) =>
                           changeUser(v as boolean, usr.id, pos.id)
                         }
