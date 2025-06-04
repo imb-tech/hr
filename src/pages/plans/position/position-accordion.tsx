@@ -70,68 +70,71 @@ function PositionAccordionTraffic({ info }: Props) {
       },
     });
   }
+  console.log(!!info);
 
   return (
     <div>
       {!!info ? (
         <div className="overflow-x-auto ">
-          <div className="min-w-[1024px]">
-            <Accordion
-              itemProps={{
-                classNames: {
-                  content: "hidden",
-                  indicator: "opacity-0",
-                  trigger: "!pb-0",
-                },
-              }}
-              items={[
-                {
-                  key: "1",
+          {!!info.length && (
+            <div className="min-w-[1024px]">
+              <Accordion
+                itemProps={{
+                  classNames: {
+                    content: "hidden",
+                    indicator: "opacity-0",
+                    trigger: "!pb-0",
+                  },
+                }}
+                items={[
+                  {
+                    key: "1",
+                    title: (
+                      <h1 className="text-xl">Lavozimlar bo'yicha obunalar</h1>
+                    ),
+                    content: null,
+                  },
+                ]}
+                selectionMode="single"
+                variant="light"
+              />
+              <Accordion
+                itemProps={{ classNames: { trigger: "!px-0 py-3" } }}
+                items={info?.map((c, i) => ({
+                  key: i.toString(),
                   title: (
-                    <h1 className="text-xl">Lavozimlar bo'yicha obunalar</h1>
+                    <div className="w-full flex justify-between">
+                      <span>{c.name}</span>{" "}
+                      {selected?.length > 0 && c.id == search.position && (
+                        <div className="flex items-center gap-3">
+                          <Button
+                            size="sm"
+                            color="danger"
+                            onPress={() => setSelected([])}
+                          >
+                            Tozalash <Eraser size={16} />
+                          </Button>
+                          <Button size="sm" color="primary" onPress={openModal}>
+                            Obunani Bekor qilish
+                          </Button>
+                        </div>
+                      )}
+                    </div>
                   ),
-                  content: null,
-                },
-              ]}
-              selectionMode="single"
-              variant="light"
-            />
-            <Accordion
-              itemProps={{ classNames: { trigger: "!px-0 py-3" } }}
-              items={info?.map((c, i) => ({
-                key: i.toString(),
-                title: (
-                  <div className="w-full flex justify-between">
-                    <span>{c.name}</span>{" "}
-                    {selected?.length > 0 && c.id == search.position && (
-                      <div className="flex items-center gap-3">
-                        <Button
-                          size="sm"
-                          color="danger"
-                          onPress={() => setSelected([])}
-                        >
-                          Tozalash <Eraser size={16} />
-                        </Button>
-                        <Button size="sm" color="primary" onPress={openModal}>
-                          Obunani Bekor qilish
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                ),
-                content: (
-                  <FullCalendarEmployees
-                    toggleMonth={toggleMonth}
-                    selected={selected}
-                    data={data || []}
-                  />
-                ),
-              }))}
-              selectedKeys={selectedKeys}
-              selectionMode="single"
-              onSelectionChange={clickAccordion}
-            />
-          </div>
+                  content: (
+                    <FullCalendarEmployees
+                      toggleMonth={toggleMonth}
+                      selected={selected}
+                      data={data || []}
+                    />
+                  ),
+                }))}
+                selectedKeys={selectedKeys}
+                selectionMode="single"
+                onSelectionChange={clickAccordion}
+              />
+            </div>
+          )}
         </div>
       ) : (
         <div className="flex items-center flex-col gap-3 w-full justify-center bg-gray-500/20 rounded-md my-2">

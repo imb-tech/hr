@@ -21,10 +21,10 @@ export const usUsersCols = () => {
           <div
             className={cn(
               "whitespace-nowrap text-center",
-              !itm.status ? "text-green-500" : "text-red-500",
+              itm.status ? "text-green-500" : "text-red-500",
             )}
           >
-            {!itm.status ? "Aktiv " : "Aktiv emas"}
+            {itm.status ? "Aktiv " : "Aktiv emas"}
           </div>
         ),
       },
