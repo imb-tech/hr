@@ -1,4 +1,7 @@
-import { ROLES_STATISTIC, USER_STATISTIC } from "@/constants/api-endpoints";
+import {
+  PAYMENTS_ROLES,
+  PAYMENTS_ROLES_USERS,
+} from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
 import { Accordion, AccordionItem, Checkbox, Skeleton } from "@heroui/react";
 import { cn } from "@heroui/theme";
@@ -8,12 +11,10 @@ import { useState } from "react";
 export default function UsersList() {
   const [opened, setOpened] = useState<number | null>(null);
 
-  const { data: roles } = useGet<CompanyStats[]>(`${ROLES_STATISTIC}/${1}`, {
-    params: { date: "01-06-2026" },
-  });
+  const { data: roles } = useGet<PaymentsRoles[]>(`${PAYMENTS_ROLES}`);
 
   const { data: users, isFetching } = useGet<WorkerAttendance[]>(
-    `${USER_STATISTIC}/${opened}/1`,
+    `${PAYMENTS_ROLES_USERS}/${opened}`,
     {
       options: { enabled: !!opened, staleTime: 60000 },
     },
@@ -25,11 +26,9 @@ export default function UsersList() {
   >([]);
 
   const isUserChecked = (userId: number, parent: number) => {
-    // agar group checked bo‘lsa va user exceptions ichida bo‘lmasa
     if (groups.includes(parent)) {
       return !exceptions.some((e) => e.id === userId && e.parent === parent);
     }
-    // aks holda individual values ichida bo‘lishi kerak
     return exceptions.some((e) => e.id === userId && e.parent === parent);
   };
 
@@ -40,13 +39,13 @@ export default function UsersList() {
   };
 
   const changeGroup = (v: boolean, groupId: number) => {
+    setOpened(groupId);
+
     if (v) {
       setGroups((c) => [...c, groupId]);
-      // bu group uchun istisnolarni tozalab yuboramiz
       setExceptions((prev) => prev.filter((e) => e.parent !== groupId));
     } else {
       setGroups((c) => c.filter((id) => id !== groupId));
-      // bu group uchun ochilgan accordion userlarini exceptions ga qo‘shib qo‘yamiz
       const newExceptions = users?.map((u) => ({
         id: u.id,
         parent: groupId,
@@ -57,18 +56,14 @@ export default function UsersList() {
 
   const changeUser = (v: boolean, id: number, parent: number) => {
     if (groups.includes(parent)) {
-      // agar group checked bo‘lsa, faqat exceptions bilan ishlaymiz
       if (!v) {
-        // check bo‘lmagan bo‘lsa, exceptions ga qo‘shamiz
         setExceptions((prev) => [...prev, { id, parent }]);
       } else {
-        // check bo‘ldi, exceptions dan olib tashlaymiz
         setExceptions((prev) =>
           prev.filter((e) => !(e.id === id && e.parent === parent)),
         );
       }
     } else {
-      // agar group unchecked bo‘lsa, faqat exceptions da check qilinganlarni qoldiramiz
       if (v) {
         setExceptions((prev) => [...prev, { id, parent }]);
       } else {
@@ -83,6 +78,7 @@ export default function UsersList() {
     <Accordion
       variant="splitted"
       className="!p-0"
+      selectedKeys={opened ? [String(opened)] : []}
       onSelectionChange={(keys) =>
         setOpened(Number(Array.from(keys)[0]) || null)
       }
@@ -98,7 +94,7 @@ export default function UsersList() {
             />
           )}
           key={pos.id}
-          aria-label={pos.role}
+          aria-label={pos.name}
           title={
             <div className="flex items-center">
               <Checkbox
@@ -106,17 +102,17 @@ export default function UsersList() {
                 color={checkGroup(pos.id) ? "default" : "primary"}
                 onValueChange={(v) => changeGroup(v as boolean, pos.id)}
               />
-              <span className="ml-2 block mr-3">{pos.role}</span>
-              <span className="opacity-50">{"(5/20)"}</span>
+              <span className="ml-2 block mr-3">{pos.name}</span>
+              {/* <span className="opacity-50">
+                {pos.paid_count} / {pos.count}
+              </span> */}
             </div>
           }
         >
           {opened === pos.id &&
             (isFetching ? (
               <div className="flex gap-5 transition-all duration-150 pt-2 pb-4 px-4 ">
-                <Skeleton className="h-[160px] w-full rounded-md" />
-                <Skeleton className="h-[160px] w-full rounded-md" />
-                <Skeleton className="h-[160px] w-full rounded-md" />
+                <Skeleton className="h-[60px] w-full rounded-md" />
               </div>
             ) : (
               <ul className="pt-2 pb-4 px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
@@ -134,8 +130,8 @@ export default function UsersList() {
                   </li>
                 ))}
                 {!isFetching && !users?.length && (
-                  <div className="text-gray-500 col-span-full">
-                    Hodimlar yo‘q
+                  <div className="text-gray-500 col-span-full text-center">
+                    Hodimlar yo'q
                   </div>
                 )}
               </ul>
