@@ -26,24 +26,26 @@ export default function MapPage() {
   });
 
   const data: GeoJSON.FeatureCollection[] = useMemo(() => {
-    return [
-      {
+    return (
+      companies?.features?.map((company) => ({
         type: "FeatureCollection",
         features:
-          users?.map((usr) => ({
-            id: usr.id,
-            type: "Feature",
-            properties: {
+          users
+            ?.filter((u) => u.company == company.id)
+            ?.map((usr) => ({
               id: usr.id,
-              name: `Hodim ${usr.id}`,
-            },
-            geometry: {
-              type: "Point",
-              coordinates: [usr.lng, usr.lat],
-            },
-          })) ?? [],
-      },
-    ];
+              type: "Feature",
+              properties: {
+                id: usr.id,
+                name: `Hodim ${usr.id}`,
+              },
+              geometry: {
+                type: "Point",
+                coordinates: [usr.lng, usr.lat],
+              },
+            })) ?? [],
+      })) ?? []
+    );
   }, [users]);
 
   const ref = useRef<MapRef | null>(null);

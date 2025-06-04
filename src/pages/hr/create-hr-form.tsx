@@ -9,6 +9,7 @@ import { COMPANIES, HR_API, POSITION } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
 import { usePatch } from "@/hooks/usePatch";
 import { usePost } from "@/hooks/usePost";
+import { educationLevels } from "@/lib/utils";
 import { Button } from "@heroui/button";
 import { Select, SelectItem } from "@heroui/select";
 import { addToast } from "@heroui/toast";
@@ -16,15 +17,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-
-export const educationLevels = [
-  { label: "O'rta ta'lim", key: 1 },
-  { label: "O'rta maxsus ta'lim", key: 2 },
-  { label: "Kasb-hunar ta'limi", key: 3 },
-  { label: "Tugallanmagan oliy ta'lim", key: 4 },
-  { label: "Oliy ta'lim", key: 5 },
-  { label: "Magistratura", key: 6 },
-];
 
 export default function CreateHrForm() {
   const form = useForm<Human>({

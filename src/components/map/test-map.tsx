@@ -32,11 +32,11 @@ import { useTheme } from "@heroui/use-theme";
 // import { Building2 } from "lucide-react";
 import { ROTUES } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
-import { Button, DatePicker, DateValue } from "@heroui/react";
+import { addToast, Button, DatePicker, DateValue } from "@heroui/react";
 import { parseDate } from "@internationalized/date";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { formatDate } from "date-fns";
-import { ArrowLeft, Flag } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import type { GeoJSONSource, MapMouseEvent } from "mapbox-gl";
 import type { MapRef } from "react-map-gl/mapbox";
 import { CustomPopup } from "./custom-popup";
@@ -157,6 +157,12 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
   const history = useMemo(() => {
     if (!route_id) {
       return null;
+    }
+    if (Array.isArray(routes) && !routes?.length && route_id) {
+      addToast({
+        description: "Bu sanada ma'lumot yo'q",
+        color: "warning",
+      });
     }
     const r = routes?.map((cord) => [cord.lng, cord.lat]) ?? [];
     return formatArray(r).join(";");
@@ -307,6 +313,7 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
             value={date as any}
             onChange={setDate as any}
             variant="faded"
+            aria-label="sana tanlagich"
           />
         </div>
       )}
@@ -416,7 +423,7 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
           longitude={start[0]}
           className="text-warning"
         >
-          <Flag />
+          <img src="/images/location-pin.png" width={32} className="-mb-1" />
           Start
         </Marker>
       )}
@@ -428,7 +435,7 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
           longitude={end[0]}
           className="text-success"
         >
-          <Flag />
+          <img src="/images/location-pin.png" width={32} className="-mb-1" />
           Finish
         </Marker>
       )}

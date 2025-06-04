@@ -43,3 +43,13 @@ type PaymentsRoles = {
   paid_count: number,
   count: number
 }
+
+type Payment = {
+  id: number,
+  created_at: string,
+  updated_at: string,
+  amount: string,
+  status: number,
+  provider: number,
+  client: number
+}
