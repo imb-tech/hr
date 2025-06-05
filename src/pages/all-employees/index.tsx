@@ -4,7 +4,11 @@ import { ParamInputSearch } from "@/components/param/search-input";
 import ParamTabs from "@/components/param/tabs";
 import DataTable from "@/components/ui/table";
 import Tabs from "@/components/ui/tabs";
-import { ALL_EMPLOYEES, POSITION } from "@/constants/api-endpoints";
+import {
+  ALL_EMPLOYEES,
+  POSITION,
+  STATUS_COUNT,
+} from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
 import { Card, CardBody } from "@heroui/card";
 import { useNavigate, useSearch } from "@tanstack/react-router";
@@ -26,6 +30,9 @@ export default function AllEmployeesPage() {
   const { id, ...otherParams } = search as { id: string; [key: string]: any };
   const [view, setView] = useState<ViewMode>("table");
   const { data: dataPosition } = useGet<Position[]>(POSITION);
+  const { data: statusCount } = useGet<{ true: number; false: number }>(
+    STATUS_COUNT,
+  );
 
   function handleChange(val: Key) {
     if (val === "table" || val === "card") {
@@ -71,14 +78,14 @@ export default function AllEmployeesPage() {
       ))}
     </div>
   );
-  const attendanceCount = data?.results.filter(
-    (item) => item.has_attendance === false,
-  ).length;
 
   const tabOptions = [
-    { key: "", label: `Barchasi (${data?.results.length})` },
-    { key: "1", label: `Kelganlar (${attendanceCount})` },
-    { key: "0", label: `Kelmaganlar (${attendanceCount})` },
+    {
+      key: "",
+      label: `Barchasi (${Number(Number(statusCount?.true )+ Number(statusCount?.false))})`,
+    },
+    { key: "1", label: `Kelganlar (${statusCount?.true})` },
+    { key: "0", label: `Kelmaganlar (${statusCount?.false})` },
   ];
 
   return (
