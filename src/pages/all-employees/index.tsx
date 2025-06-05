@@ -15,11 +15,6 @@ import { useAllEmployeesListCols } from "./cols";
 
 type ViewMode = "table" | "card";
 
-const tabOptions = [
-  { key: "", label: "Barchasi (312)" },
-  { key: "1", label: "Kelganlar (308)" },
-  { key: "0", label: "Kelmaganlar (4)" },
-];
 const tabs = [
   { key: "table", label: <Table /> },
   { key: "card", label: <Grid2x2 /> },
@@ -76,6 +71,15 @@ export default function AllEmployeesPage() {
       ))}
     </div>
   );
+  const attendanceCount = data?.results.filter(
+    (item) => item.has_attendance === false,
+  ).length;
+
+  const tabOptions = [
+    { key: "", label: `Barchasi (${data?.results.length})` },
+    { key: "1", label: `Kelganlar (${attendanceCount})` },
+    { key: "0", label: `Kelmaganlar (${attendanceCount})` },
+  ];
 
   return (
     <div>
