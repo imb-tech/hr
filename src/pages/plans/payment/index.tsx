@@ -64,13 +64,6 @@ export default function PaymentPage() {
                   onClick={() => handleChange(m.key)}
                 >
                   {m.name}
-                  <span className="absolute top-1 right-1">
-                    {monthId === m.key ? (
-                      <CircleCheckBig size={14} className="opacity-70" />
-                    ) : (
-                      <Circle size={14} className="opacity-50" />
-                    )}
-                  </span>
                 </li>
               ))}
           </ul>
