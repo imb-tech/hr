@@ -15,16 +15,16 @@ export const usUsersCols = () => {
         dataKey: "full_name",
       },
       {
-        header: "To'lov holati",
+        header: "Ta'rif holati",
         dataKey: "status",
         cell: (_, itm) => (
           <div
             className={cn(
               "whitespace-nowrap text-center",
-              itm.status ? "text-green-500" : "text-red-500",
+              !itm.status ? "text-green-500" : "text-red-500",
             )}
           >
-            {itm.status ? "Aktiv " : "Aktiv emas"}
+            {itm.status ? "Ta'rif mavjud " : "+ 6000"}
           </div>
         ),
       },

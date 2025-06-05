@@ -421,10 +421,10 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
           anchor="bottom"
           latitude={start[1]}
           longitude={start[0]}
-          className="text-warning"
+          className="text-warning -mb-2"
         >
-          <img src="/images/location-pin.png" width={32} className="-mb-1" />
-          Start
+          {/* <img src="/images/navigation.png" width={36} className="-mb-1" /> */}
+          {/* Start */}
         </Marker>
       )}
 
@@ -435,8 +435,7 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
           longitude={end[0]}
           className="text-success"
         >
-          <img src="/images/location-pin.png" width={32} className="-mb-1" />
-          Finish
+          <img src="/images/finish.png" width={36} className="-mb-1" />
         </Marker>
       )}
 
