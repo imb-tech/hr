@@ -3,7 +3,13 @@ import { useGet } from "@/hooks/useGet";
 import { useSidebarState } from "@/store/sidebar";
 import { cn } from "@heroui/theme";
 import { linkOptions } from "@tanstack/react-router";
-import { Building2, MapPinned, ScrollText, SquareUser } from "lucide-react";
+import {
+  Building2,
+  Crown,
+  MapPinned,
+  ScrollText,
+  SquareUser,
+} from "lucide-react";
 import { UsersIcon } from "../icons/nav-icons";
 import MenuItem from "./menu-item";
 
@@ -31,6 +37,12 @@ export const links = [
     icon: <UsersIcon />,
     enabled: true,
     title: "Hodimlar",
+  }),
+  linkOptions({
+    to: "/plans",
+    icon: <Crown />,
+    enabled: true,
+    title: "Tariflarim",
   }),
   linkOptions({
     to: "/settings",

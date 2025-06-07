@@ -32,11 +32,11 @@ export default function SettingsPage() {
     EXCUSE_COUNT,
   );
 
-const tabOptions = [
-  { key: "0", label: `So'rovlar (${dataCount?.["0"] ?? 0})` },
-  { key: "1", label: `Ruxsat berilganlar (${dataCount?.["1"] ?? 0})` },
-  { key: "2", label: `Rad etilganlar (${dataCount?.["2"] ?? 0})` },
-];
+  const tabOptions = [
+    { key: "0", label: `So'rovlar (${dataCount?.["0"] ?? 0})` },
+    { key: "1", label: `Ruxsat berilganlar (${dataCount?.["1"] ?? 0})` },
+    { key: "2", label: `Rad etilganlar (${dataCount?.["2"] ?? 0})` },
+  ];
 
   const { store } = useStore<StatusType>("status-data");
   const queryClient = useQueryClient();
@@ -47,6 +47,9 @@ const tabOptions = [
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [EXCUSE],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [EXCUSE_COUNT],
       });
       status?.status === 2
         ? addToast({

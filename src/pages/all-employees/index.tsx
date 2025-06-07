@@ -4,7 +4,11 @@ import { ParamInputSearch } from "@/components/param/search-input";
 import ParamTabs from "@/components/param/tabs";
 import DataTable from "@/components/ui/table";
 import Tabs from "@/components/ui/tabs";
-import { ALL_EMPLOYEES, POSITION } from "@/constants/api-endpoints";
+import {
+  ALL_EMPLOYEES,
+  POSITION,
+  STATUS_COUNT,
+} from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
 import { Card, CardBody } from "@heroui/card";
 import { useNavigate, useSearch } from "@tanstack/react-router";
@@ -15,11 +19,6 @@ import { useAllEmployeesListCols } from "./cols";
 
 type ViewMode = "table" | "card";
 
-const tabOptions = [
-  { key: "", label: "Barchasi (312)" },
-  { key: "1", label: "Kelganlar (308)" },
-  { key: "0", label: "Kelmaganlar (4)" },
-];
 const tabs = [
   { key: "table", label: <Table /> },
   { key: "card", label: <Grid2x2 /> },
@@ -31,6 +30,9 @@ export default function AllEmployeesPage() {
   const { id, ...otherParams } = search as { id: string; [key: string]: any };
   const [view, setView] = useState<ViewMode>("table");
   const { data: dataPosition } = useGet<Position[]>(POSITION);
+  const { data: statusCount } = useGet<{ true: number; false: number }>(
+    STATUS_COUNT,
+  );
 
   function handleChange(val: Key) {
     if (val === "table" || val === "card") {
@@ -76,6 +78,15 @@ export default function AllEmployeesPage() {
       ))}
     </div>
   );
+
+  const tabOptions = [
+    {
+      key: "",
+      label: `Barchasi (${Number(Number(statusCount?.true )+ Number(statusCount?.false))})`,
+    },
+    { key: "1", label: `Kelganlar (${statusCount?.true})` },
+    { key: "0", label: `Kelmaganlar (${statusCount?.false})` },
+  ];
 
   return (
     <div>

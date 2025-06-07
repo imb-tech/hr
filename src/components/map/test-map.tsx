@@ -2,6 +2,7 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import {
   forwardRef,
+  useCallback,
   useEffect,
   useImperativeHandle,
   useMemo,
@@ -29,17 +30,18 @@ import {
 import { MAPBOX_TOKEN } from "@/constants/map";
 import { useTheme } from "@heroui/use-theme";
 // import { Building2 } from "lucide-react";
-import { useSearch } from "@tanstack/react-router";
+import { ROTUES } from "@/constants/api-endpoints";
+import { useGet } from "@/hooks/useGet";
+import { addToast, Button, DatePicker, DateValue } from "@heroui/react";
+import { parseDate } from "@internationalized/date";
+import { useNavigate, useSearch } from "@tanstack/react-router";
+import { formatDate } from "date-fns";
+import { ArrowLeft } from "lucide-react";
 import type { GeoJSONSource, MapMouseEvent } from "mapbox-gl";
 import type { MapRef } from "react-map-gl/mapbox";
 import { CustomPopup } from "./custom-popup";
 import { MapStyleSwitcher } from "./map-swticher";
-import {
-  formatArray,
-  getPolygonCentroid,
-  interpolatePoints,
-  polygonColors,
-} from "./util";
+import { formatArray, getPolygonCentroid, polygonColors } from "./util";
 
 type TPoint = {
   latitude: number;
@@ -66,10 +68,26 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
     theme === "dark" ? "dark-v11" : "light-v11",
   );
 
+  const navigate = useNavigate();
   const search = useSearch({ from: "__root__" });
   const { route_id: route_id_param } = search;
 
+  const systemDate = parseDate(formatDate(new Date(), "yyyy-MM-dd"));
+
+  const [date, setDate] = useState<DateValue | null>(systemDate ?? null);
+
   const route_id = useMemo(() => route_id_param, [route_id_param]);
+
+  const { data: routes } = useGet<
+    Array<{
+      created_at: string;
+      lat: number;
+      lng: number;
+    }>
+  >(`${ROTUES}/${route_id}`, {
+    options: { enabled: !!route_id },
+    params: { date },
+  });
 
   const [activePopup, setActivePopup] = useState<{
     lngLat: [number, number];
@@ -109,12 +127,11 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
     } else if (feature.geometry.type === "Point" && internalMapRef?.current) {
       const coordinates = feature.geometry.coordinates as [number, number];
 
-      internalMapRef?.current.flyTo({
-        center: coordinates,
-        duration: 1000,
-        offset: [-100, -150],
-        curve: 1.42,
-        zoom: 18,
+      navigate({
+        to: window.location.pathname,
+        search: {
+          id: feature.id?.toString(),
+        },
       });
 
       setActivePopup({
@@ -124,23 +141,55 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
     }
   };
 
-  const start: [number, number] = [69.108835, 41.251803];
-  const end: [number, number] = [69.376232, 41.337215];
+  const start: [number, number] = useMemo(() => {
+    if (routes?.length) {
+      return [routes[0].lng, routes[0].lat];
+    } else return [0, 0];
+  }, [routes]);
+
+  const end: [number, number] = useMemo(() => {
+    const len = routes?.length;
+    if (len) {
+      return [routes[len - 1].lng, routes[len - 1].lat];
+    } else return [0, 0];
+  }, [routes]);
 
   const history = useMemo(() => {
     if (!route_id) {
       return null;
     }
-    const r = interpolatePoints(start, end, 20);
+    if (Array.isArray(routes) && !routes?.length && route_id) {
+      addToast({
+        description: "Bu sanada ma'lumot yo'q",
+        color: "warning",
+      });
+    }
+    const r = routes?.map((cord) => [cord.lng, cord.lat]) ?? [];
     return formatArray(r).join(";");
-  }, [route_id]);
+  }, [route_id, routes]);
 
   const url = useMemo(
     () =>
       history
-        ? `https://api.mapbox.com/directions/v5/mapbox/driving/${history}?overview=full&steps=true&geometries=geojson&access_token=${MAPBOX_TOKEN}`
+        ? `https://api.mapbox.com/directions/v5/mapbox/walking/${history}?overview=full&steps=true&geometries=geojson&access_token=${MAPBOX_TOKEN}`
         : "",
     [history],
+  );
+
+  const [hoveredFeatureId, setHoveredFeatureId] = useState<number | null>(null);
+
+  const onMouseMove = useCallback(
+    (event: mapboxgl.MapLayerMouseEvent) => {
+      const feature = event.features?.[0];
+      if (feature && feature.id !== undefined) {
+        setHoveredFeatureId(feature.id as number);
+      } else {
+        if (!search.id) {
+          setHoveredFeatureId(null);
+        }
+      }
+    },
+    [search.id],
   );
 
   useEffect(() => {
@@ -150,7 +199,7 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
         .then((data) => {
           if (internalMapRef?.current) {
             internalMapRef?.current.flyTo({
-              center: start,
+              center: end,
               duration: 1000,
               curve: 1.42,
               zoom: 14.6,
@@ -172,11 +221,12 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
 
   useEffect(() => {
     if (search.id && points) {
-      const usr = (points?.[0] as FeatureCollection)?.features[
-        Number(search.id ?? 0)
-      ];
+      const usr = (points?.[0] as FeatureCollection)?.features?.find(
+        (us) => us.properties.id === Number(search.id ?? 0),
+      );
 
       if (usr) {
+        setHoveredFeatureId(usr.id);
         setActivePopup({
           lngLat: usr.geometry.coordinates,
           properties: usr.properties,
@@ -215,6 +265,7 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
         longitude: defaultCenter?.longitude ?? 69.236537,
         zoom: defaultZoom,
       }}
+      onMouseMove={onMouseMove}
       interactiveLayerIds={[
         ...(points
           ?.map((_, i) => [
@@ -240,7 +291,34 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
         onChange={(id) => setMapStyleId(id)}
       />
 
-      {route && (
+      {route_id && (
+        <div className="flex justify-end pr-12 pt-2 gap-2">
+          <Button
+            isIconOnly
+            variant="faded"
+            onPress={() => {
+              setDate(systemDate);
+              navigate({
+                to: window.location.pathname,
+                search: {
+                  id: route_id.toString(),
+                },
+              });
+            }}
+          >
+            <ArrowLeft />
+          </Button>
+          <DatePicker
+            className="max-w-[200px] bg-default-200"
+            value={date as any}
+            onChange={setDate as any}
+            variant="faded"
+            aria-label="sana tanlagich"
+          />
+        </div>
+      )}
+
+      {route && route_id && (
         <Source id="history" type="geojson" data={route}>
           <Layer
             id="line-layer"
@@ -252,7 +330,7 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
             }}
             paint={{
               "line-color": "hsl(226, 65%, 52%)",
-              "line-width": 2,
+              "line-width": 3,
               "line-opacity": 1,
               "line-dasharray": [
                 "step",
@@ -295,6 +373,7 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
                 source: `earthquakes_${i}`,
                 id: i.toString(),
                 color: polygonColors[i],
+                hoveredFeatureId,
               })}
             />
             <Layer
@@ -334,18 +413,34 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
                 (polygon.features[0]?.geometry as any)?.coordinates,
               ).x
             }
-          >
-            {/* <Building2 /> */}
-          </Marker>
+          />
         ))}
 
+      {start && (
+        <Marker
+          anchor="bottom"
+          latitude={start[1]}
+          longitude={start[0]}
+          className="text-warning -mb-2"
+        >
+          {/* <img src="/images/navigation.png" width={36} className="-mb-1" /> */}
+          {/* Start */}
+        </Marker>
+      )}
+
+      {end && (
+        <Marker
+          anchor="bottom"
+          latitude={end[1]}
+          longitude={end[0]}
+          className="text-success"
+        >
+          <img src="/images/finish.png" width={36} className="-mb-1" />
+        </Marker>
+      )}
+
       {activePopup && (
-        <CustomPopup
-          lat={activePopup.lngLat[1]}
-          lng={activePopup.lngLat[0]}
-          properties={activePopup.properties}
-          onClose={() => setActivePopup(null)}
-        />
+        <CustomPopup lat={activePopup.lngLat[1]} lng={activePopup.lngLat[0]} />
       )}
     </Map>
   );

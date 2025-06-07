@@ -7,7 +7,7 @@ import { ArrowLeft } from "lucide-react";
 export const Route = createFileRoute("/_main/hr-create")({
   component: RouteComponent,
 });
-
+ 
 function RouteComponent() {
   const navigate = useNavigate();
 

@@ -56,10 +56,12 @@ export const unclusteredPointLayer = ({
   source,
   id,
   color,
+  hoveredFeatureId
 }: {
   source: string;
   id: string;
   color?: string;
+  hoveredFeatureId: number | null
 }): LayerProps => {
   return {
     id: "unclustered-point-" + id,
@@ -68,9 +70,15 @@ export const unclusteredPointLayer = ({
     filter: ["!", ["has", "point_count"]],
     paint: {
       "circle-color": color ?? "#11b4da",
-      "circle-radius": 5,
+      "circle-radius": [
+        "case",
+        ["==", ["id"], hoveredFeatureId],
+        8, // hover bo‘lsa radius 10
+        5   // oddiy holatda radius 5
+      ],
       "circle-stroke-width": 0.5,
       "circle-stroke-color": "#fff",
+      "circle-radius-transition": { duration: 400 },
     },
   };
 };
