@@ -31,7 +31,10 @@ export default function AllEmployeesPage() {
   const [view, setView] = useState<ViewMode>("table");
   const { data: dataPosition } = useGet<Position[]>(POSITION);
   const { data: statusCount } = useGet<{ true: number; false: number }>(
-    STATUS_COUNT,
+    `${STATUS_COUNT}/${id}`,
+    {
+      options: { enabled: Boolean(id) },
+    },
   );
 
   function handleChange(val: Key) {
@@ -82,7 +85,7 @@ export default function AllEmployeesPage() {
   const tabOptions = [
     {
       key: "",
-      label: `Barchasi (${Number(Number(statusCount?.true )+ Number(statusCount?.false)) || 0})`,
+      label: `Barchasi (${Number(Number(statusCount?.true) + Number(statusCount?.false)) || 0})`,
     },
     { key: "1", label: `Kelganlar (${statusCount?.true || 0})` },
     { key: "0", label: `Kelmaganlar (${statusCount?.false || 0})` },

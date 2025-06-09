@@ -33,7 +33,6 @@ export default function DaysAccordion() {
 
   function clickAccordion(keys: Selection) {
     const selected = Array.from(keys).filter(Boolean) as string[];
-
     setSelectedKeys(new Set(selected));
     const day = new Date(selected.join(",")).getDate();
     const formattedDay = day < 10 ? `0${day}` : `${day}`;
@@ -83,14 +82,37 @@ export default function DaysAccordion() {
           key: item.attendance_time.toString(),
           title: (
             <div className="grid grid-cols-7 gap-11 rounded-b-lg">
-              <p className="text-sm">{item.id > 9 ? item.id : "0" + item.id}</p>
+              <p className="text-sm">
+                {String(new Date(item.attendance_time).getDate()).padStart(
+                  2,
+                  "0",
+                )}
+              </p>
+
               <p className="text-sm">
                 {format(new Date(item?.attendance_time), "HH:mm")}
               </p>
-              <p className="text-sm">{item.late_duration?.slice(0, 5)}</p>
-              <p className="text-sm">{item?.shift_start_time?.slice(0, 5)}</p>
-              <p className="text-sm">{item?.shift_end_time?.slice(0, 5)}</p>
-              <p className="text-sm">{item.early_checkout?.slice(0, 5)}</p>
+              <p className="text-sm">
+                {item.late_duration && item.late_duration[0] !== "0"
+                  ? "0" + item.late_duration.slice(0, 4)
+                  : item.late_duration?.slice(0, 4)}
+              </p>
+              <p className="text-sm">
+                {item.shift_start_time && item.shift_start_time[0] !== "0"
+                  ? "0" + item.shift_start_time.slice(0, 4)
+                  : item.shift_start_time?.slice(0, 4)}
+              </p>
+              <p className="text-sm">
+                {item.shift_end_time && item.shift_end_time[0] !== "0"
+                  ? "0" + item.shift_end_time.slice(0, 4)
+                  : item.shift_end_time?.slice(0, 4)}
+              </p>
+              <p className="text-sm">
+                {item.early_checkout && item.early_checkout[0] !== "0"
+                  ? "0" + item.early_checkout.slice(0, 4)
+                  : item.early_checkout?.slice(0, 4)}
+              </p>
+
               <p className="text-sm">{statusData[item.status]}</p>
             </div>
           ),
