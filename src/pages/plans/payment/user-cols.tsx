@@ -3,7 +3,7 @@ import { cn } from "@heroui/theme";
 import { useMemo } from "react";
 import { UsersType } from ".";
 
-export const usUsersCols = () => {
+export const usUsersCols = (price: number) => {
   return useMemo<ColumnDef<UsersType>[]>(
     () => [
       {
@@ -24,11 +24,11 @@ export const usUsersCols = () => {
               !itm.status ? "text-green-500" : "text-red-500",
             )}
           >
-            {itm.status ? "Ta'rif mavjud " : "+ 6000"}
+            {itm.status ? "Ta'rif mavjud " : `+ ${price.toLocaleString()}`}
           </div>
         ),
       },
     ],
-    [],
+    [price],
   );
 };

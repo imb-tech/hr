@@ -6,7 +6,6 @@ import { useMonthStore } from "@/store/mont-ids";
 import { useUsersStore } from "@/store/user-ids";
 import { cn } from "@heroui/theme";
 import { useNavigate, useSearch } from "@tanstack/react-router";
-import { Circle, CircleCheckBig } from "lucide-react";
 import PaymentSummary, { months } from "./payment-summary";
 import { usUsersCols } from "./user-cols";
 
@@ -16,7 +15,7 @@ export interface UsersType {
   full_name: string;
   status: boolean;
 }
-const tariffPrices: Record<number, number> = {
+export const tariffPrices: Record<number, number> = {
   1: 4000,
   2: 6000,
   3: 12000,
@@ -73,7 +72,7 @@ export default function PaymentPage() {
           <h1>Aktiv va Aktivmas hodimlar</h1>
           <h1>Jami : {formatMoney(total)} so'm</h1>
         </div>
-        <DataTable indexing columns={usUsersCols()} data={data || []} />
+        <DataTable indexing columns={usUsersCols(tariffPrices[Number(search?.plan_id)] || 0)} data={data || []} />
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
 import { HR_API } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
-import { formatMoney } from "@/lib/format-money";
 import formatPhoneNumber from "@/lib/formatter-phone";
 import { Avatar } from "@heroui/avatar";
 import { Card, CardBody, CardHeader } from "@heroui/card";
@@ -36,7 +35,9 @@ const UserPopup = () => {
             <Avatar
               showFallback
               className="h-14 w-14"
-              src="https://images.unsplash.com/broken"
+              src={
+                (item.face as string) ?? "https://images.unsplash.com/broken"
+              }
             />
             <div className="pt-2">
               <h3 className="font-semibold">
@@ -60,9 +61,6 @@ const UserPopup = () => {
                 )}
               >
                 online
-              </div>
-              <div className="text-sm rounded-full px-3 py-[2px] dark:bg-zinc-800 border dark:border-zinc-700">
-                {formatMoney(item.salary)} so'm
               </div>
               <button
                 className="flex gap-1 text-sm rounded-full px-3 py-[2px]  dark:bg-zinc-800 border dark:border-zinc-700 text-green-500 border-green-500 items-center cursor-pointer"
