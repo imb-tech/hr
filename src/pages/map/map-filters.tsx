@@ -5,34 +5,19 @@ import { useSearch } from "@tanstack/react-router";
 import { HTMLProps } from "react";
 
 export default function MapFilters(props: HTMLProps<HTMLDivElement>) {
+  const search = useSearch({ from: "__root__" });
   const { data: oficeData } = useGet<GeoJSON.FeatureCollection>(COMPANIES);
-  const { data: positions } = useGet<Position[]>(POSITION);
-  const { data: users } = useGet<UserPoint[]>(USER_LOCATIONS);
-
+  const { data: positions } = useGet<Position[]>(POSITION, {
+    params: { last_company_id: search?.last_company_id },
+  });
+  const { data: users } = useGet<UserPoint[]>(USER_LOCATIONS,{
+     params: { role_id: search?.role_id,last_company_id: search?.last_company_id },
+  });
   const { route_id } = useSearch({ from: "__root__" });
 
   return (
     <div {...props}>
       <ParamSelect
-        clearOther
-        optionLabelKey="full_name"
-        optionValueKey="id"
-        options={users}
-        paramName={route_id ? "route_id" : "id"}
-        placeholder="Hodim"
-      />
-
-      <ParamSelect
-        clearOther
-        optionLabelKey="name"
-        optionValueKey="id"
-        options={positions}
-        paramName="role_id"
-        placeholder="Lavozimlar"
-      />
-
-      <ParamSelect
-        clearOther
         optionLabelKey="name"
         optionValueKey="id"
         options={oficeData?.features?.map((el) => ({
@@ -41,6 +26,20 @@ export default function MapFilters(props: HTMLProps<HTMLDivElement>) {
         }))}
         paramName="last_company_id"
         placeholder="Ofis"
+      />
+      <ParamSelect
+        optionLabelKey="name"
+        optionValueKey="id"
+        options={positions}
+        paramName="role_id"
+        placeholder="Lavozimlar"
+      />
+      <ParamSelect
+        optionLabelKey="full_name"
+        optionValueKey="id"
+        options={users}
+        paramName={route_id ? "route_id" : "id"}
+        placeholder="Hodim"
       />
     </div>
   );

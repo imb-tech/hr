@@ -207,7 +207,6 @@ export default function CreateHrForm() {
             name={"profile.phone_number2"}
           />
           <FormInput
-            isRequired
             label={"Doimiy turar joyi"}
             methods={form}
             name={"profile.address"}
@@ -216,7 +215,6 @@ export default function CreateHrForm() {
             type="text"
           />
           <FormInput
-            isRequired
             label={"Vaqtinchalik turar joyi"}
             methods={form}
             name={"profile.residence"}
@@ -225,7 +223,6 @@ export default function CreateHrForm() {
             type="text"
           />
           <FormInput
-            isRequired
             label={"Pasport ma'lumoti"}
             maxLength={9}
             methods={form}
@@ -235,7 +232,6 @@ export default function CreateHrForm() {
             type="text"
           />
           <FormSelect
-            isRequired
             label="O'quv ma'lumoti"
             methods={form}
             name="profile.education"
@@ -267,7 +263,6 @@ export default function CreateHrForm() {
               : null}
           </Select>
           <FormSelect
-            isRequired
             label="Lavozimi"
             methods={form}
             name="role"
@@ -314,14 +309,12 @@ export default function CreateHrForm() {
 
           <div className="grid md:grid-cols-2 grid-cols-1 gap-3">
             <TimeInput
-              isRequired
               label={"Ish boshlanish vaqti"}
               methods={form}
               name="work_shift_start"
               size="lg"
             />
             <TimeInput
-              isRequired
               label={"Ish tugash vaqti"}
               methods={form}
               name="work_shift_end"
@@ -349,7 +342,6 @@ export default function CreateHrForm() {
           />
 
           <FormInput
-            isRequired
             label={"Login"}
             methods={form}
             name={"username"}
@@ -358,7 +350,6 @@ export default function CreateHrForm() {
             wrapperClassName="pt-1"
           />
           <FormInput
-            isRequired={data?.id ? false : true}
             label={"Parol"}
             methods={form}
             name={"password"}

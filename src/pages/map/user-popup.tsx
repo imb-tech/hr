@@ -6,11 +6,11 @@ import { Card, CardBody, CardHeader } from "@heroui/card";
 import { cn } from "@heroui/theme";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { format } from "date-fns";
-import { Clock, MapPin, Phone, X } from "lucide-react";
+import { Clock, Phone, X } from "lucide-react";
 
 const UserPopup = () => {
   const navigate = useNavigate();
-  const { id, } = useSearch({ from: "__root__" });
+  const { id } = useSearch({ from: "__root__" });
   const { data: item, isLoading } = useGet<Human>(`${HR_API}/${id}`, {
     options: { enabled: Boolean(id) },
   });
@@ -99,15 +99,7 @@ const UserPopup = () => {
                   <p>{formatPhoneNumber(Number(item.profile?.phone_number))}</p>
                 </div>
               </div>
-              <div className="flex items-start gap-3">
-                <div className="dark:bg-zinc-800 bg-zinc-100 p-2 rounded-full mt-1">
-                  <MapPin className="h-4 w-4 text-gray-400" />
-                </div>
-                <div>
-                  <p className="text-xs text-gray-400">Yashash manzil</p>
-                  <p className="text-sm">{item.profile?.residence}</p>
-                </div>
-              </div>
+
               <div className="flex items-center gap-3">
                 <div className="dark:bg-zinc-800 bg-zinc-100 p-2 rounded-full">
                   <Clock className="h-4 w-4 text-gray-400" />
