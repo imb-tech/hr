@@ -10,20 +10,20 @@ import { Clock, MapPin, Phone, X } from "lucide-react";
 
 const UserPopup = () => {
   const navigate = useNavigate();
-  const { id, ...search } = useSearch({ from: "__root__" });
+  const { id, } = useSearch({ from: "__root__" });
   const { data: item, isLoading } = useGet<Human>(`${HR_API}/${id}`, {
     options: { enabled: Boolean(id) },
   });
 
-  function handleHistory() {
-    navigate({
-      to: "/map",
-      search: {
-        ...search,
-        route_id: item?.id,
-      },
-    });
-  }
+  // function handleHistory() {
+  //   navigate({
+  //     to: "/map",
+  //     search: {
+  //       ...search,
+  //       route_id: item?.id,
+  //     },
+  //   });
+  // }
 
   return (
     <Card className="min-w-[320px]">
