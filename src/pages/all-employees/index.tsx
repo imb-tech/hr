@@ -82,10 +82,10 @@ export default function AllEmployeesPage() {
   const tabOptions = [
     {
       key: "",
-      label: `Barchasi (${Number(Number(statusCount?.true )+ Number(statusCount?.false))})`,
+      label: `Barchasi (${Number(Number(statusCount?.true )+ Number(statusCount?.false)) || 0})`,
     },
-    { key: "1", label: `Kelganlar (${statusCount?.true})` },
-    { key: "0", label: `Kelmaganlar (${statusCount?.false})` },
+    { key: "1", label: `Kelganlar (${statusCount?.true || 0})` },
+    { key: "0", label: `Kelmaganlar (${statusCount?.false || 0})` },
   ];
 
   return (

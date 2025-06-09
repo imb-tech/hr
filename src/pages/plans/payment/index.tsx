@@ -6,7 +6,6 @@ import { useMonthStore } from "@/store/mont-ids";
 import { useUsersStore } from "@/store/user-ids";
 import { cn } from "@heroui/theme";
 import { useNavigate, useSearch } from "@tanstack/react-router";
-import { Circle, CircleCheckBig } from "lucide-react";
 import PaymentSummary, { months } from "./payment-summary";
 import { usUsersCols } from "./user-cols";
 
