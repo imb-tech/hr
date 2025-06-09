@@ -62,7 +62,7 @@ const UserPopup = () => {
               >
                 online
               </div>
-              <button
+              {/* <button
                 className="flex gap-1 text-sm rounded-full px-3 py-[2px]  dark:bg-zinc-800 border dark:border-zinc-700 text-green-500 border-green-500 items-center cursor-pointer"
                 onClick={handleHistory}
               >
@@ -86,7 +86,7 @@ const UserPopup = () => {
                   ></path>
                 </svg>
                 <span>Tarix</span>
-              </button>
+              </button> */}
             </div>
 
             <div className="space-y-4  h-full">

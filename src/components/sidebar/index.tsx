@@ -38,12 +38,12 @@ export const links = [
     enabled: true,
     title: "Hodimlar",
   }),
-  linkOptions({
-    to: "/plans",
-    icon: <Crown />,
-    enabled: true,
-    title: "Tariflarim",
-  }),
+  // linkOptions({
+  //   to: "/plans",
+  //   icon: <Crown />,
+  //   enabled: true,
+  //   title: "Tariflarim",
+  // }),
   linkOptions({
     to: "/settings",
     icon: <ScrollText />,
