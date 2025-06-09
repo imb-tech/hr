@@ -1,3 +1,4 @@
+import PopoverImage from "@/components/elements/popover-image";
 import { ColumnDef } from "@/components/ui/table";
 import { formatMoney } from "@/lib/format-money";
 import formatPhoneNumber from "@/lib/formatter-phone";
@@ -6,6 +7,17 @@ import { useMemo } from "react";
 export const useHrListCols = () => {
   return useMemo<ColumnDef<Human>[]>(
     () => [
+      {
+        header: "Rasm",
+        dataKey: "face",
+        cell: (value: string) => {
+          return (
+            <div className="max-w-8">
+              <PopoverImage image={value} />
+            </div>
+          );
+        },
+      },
       {
         header: "FIO",
         dataKey: "middle_name",

@@ -10,6 +10,7 @@ import {
 import { cn } from "@heroui/theme";
 import { Users } from "lucide-react";
 import { Selected } from "../position/position-accordion";
+import PopoverImage from "@/components/elements/popover-image";
 
 export const months: any = [
   { value: 1, label: "Yanvar" },
@@ -96,7 +97,10 @@ export default function FullCalendarEmployees({
               {convertedData.map((employee) => (
                 <TableRow key={employee.id}>
                   <TableCell className="font-medium border-b dark:border-b-zinc-800">
-                    {employee.first_name}
+                    <div className="flex items-center gap-3">
+                      <PopoverImage image={employee.face} />
+                      <span>{employee.first_name}</span>
+                    </div>
                   </TableCell>
                   {months.map((month: any) => {
                     const level = employee.subscriptions[month.value];

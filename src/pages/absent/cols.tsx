@@ -1,3 +1,4 @@
+import PopoverImage from "@/components/elements/popover-image";
 import { ColumnDef } from "@/components/ui/table";
 import { formatMoney } from "@/lib/format-money";
 import formatPassportNumber from "@/lib/formatter-pasport";
@@ -8,7 +9,17 @@ import { useMemo } from "react";
 export const useAbsentListCols = () => {
   return useMemo<ColumnDef<Human>[]>(
     () => [
-      // { header: "ID", dataKey: "id" },
+      {
+        header: "Rasm",
+        dataKey: "face",
+        cell: (value) => {
+          return (
+            <div className="max-w-8">
+              <PopoverImage image={value} />
+            </div>
+          );
+        },
+      },
       {
         header: "FIO",
         dataKey: "full_name",

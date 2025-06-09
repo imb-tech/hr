@@ -1,3 +1,4 @@
+import PopoverImage from "@/components/elements/popover-image";
 import { ColumnDef } from "@/components/ui/table";
 import { useModal } from "@/hooks/use-modal";
 import { useStore } from "@/hooks/use-store";
@@ -21,7 +22,17 @@ export const usSettingsCols = () => {
 
   return useMemo<ColumnDef<StatusType>[]>(
     () => [
-      // { header: "ID", dataKey: "id" },
+      {
+        header: "Rasm",
+        dataKey: "face",
+        cell: (_,item) => {
+          return (
+            <div className="max-w-8">
+              <PopoverImage image={item.face} />
+            </div>
+          );
+        },
+      },
       {
         header: "FIO",
         dataKey: "full_name",

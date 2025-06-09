@@ -1,7 +1,8 @@
+import PopoverImage from "@/components/elements/popover-image";
 import { formatDateTime } from "@/lib/format-date";
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Link } from "@tanstack/react-router";
-import { Clock, LogIn, LogOut, User } from "lucide-react";
+import { Clock, LogIn, LogOut } from "lucide-react";
 import { calculateTimeDifference } from "../cols";
 
 type Props = {
@@ -15,8 +16,8 @@ function PositionHrCard({ data }: Props) {
         <CardHeader className="pb-2 border-b dark:border-b-zinc-700 h-16">
           <div className="flex justify-between items-center w-full gap-3">
             <div className="flex items-center gap-2">
-              <div className="dark:bg-zinc-800 bg-zinc-100 p-1.5 rounded-full shadow-sm">
-                <User className="h-6 w-6 text-zinc-400" />
+              <div>
+                <PopoverImage image={data.face} />
               </div>
               <h3 className="font-semibold text-[16px]">{data.full_name}</h3>
             </div>

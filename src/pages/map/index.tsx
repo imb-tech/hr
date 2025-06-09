@@ -2,21 +2,13 @@ import TestMap from "@/components/map/test-map";
 import { getPolygonCentroid } from "@/components/map/util";
 import { COMPANIES, USER_LOCATIONS } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
-import { useNavigate, useSearch } from "@tanstack/react-router";
+import { useSearch } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef } from "react";
 import { MapRef } from "react-map-gl/mapbox";
 import MapFilters from "./map-filters";
 
 export default function MapPage() {
   const search = useSearch({ from: "__root__" });
-
-  const navigate = useNavigate();
-
-  if (location.hostname.startsWith("demo")) {
-    navigate({
-      to: "/map/demo",
-    });
-  }
 
   const { role_id, last_company_id } = search;
 

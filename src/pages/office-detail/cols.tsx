@@ -1,3 +1,4 @@
+import PopoverImage from "@/components/elements/popover-image";
 import { ColumnDef } from "@/components/ui/table";
 import { cn } from "@heroui/theme";
 import { formatDate } from "date-fns";
@@ -6,7 +7,17 @@ import { useMemo } from "react";
 export const useWorkerInfoCols = () => {
   return useMemo<ColumnDef<WorkerAttendance>[]>(
     () => [
-      // { header: "ID", dataKey: "id" },
+      {
+        header: "Rasm",
+        dataKey: "face",
+        cell: (_,item) => {
+          return (
+            <div className="max-w-8">
+              <PopoverImage image={item.face} />
+            </div>
+          );
+        },
+      },
       { header: "FIO", dataKey: "full_name" },
       {
         header: "Ish vaqti",
@@ -68,7 +79,9 @@ export const useWorkerInfoCols = () => {
             <div className="flex items-center gap-4 justify-center">
               <span
                 className={cn(
-                  item.entry_log_status === 1 ? "text-green-400" : "text-orange-300",
+                  item.entry_log_status === 1
+                    ? "text-green-400"
+                    : "text-orange-300",
                 )}
               >
                 {item.entry_log_status === 1 ? "Ofisda" : "Ofisdan tashqarida"}

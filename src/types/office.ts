@@ -67,6 +67,7 @@ type WorkerInfo = {
 interface WorkerAttendance {
   id: number
   full_name: string
+  face:string
   entry_log_status: number
   work_shift_start: string
   role_id?:number
