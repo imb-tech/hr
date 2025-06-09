@@ -7,6 +7,16 @@ type Props = {
   inputClassName?: DatePickerProps["classNames"];
 };
 
+function getCurrentDateFormatted(): string {
+  const date = new Date();
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
 export function ParamDatePicker({
   paramName = "date",
   inputClassName,
@@ -31,7 +41,9 @@ export function ParamDatePicker({
   };
 
   const defaultDate =
-    typeof search[paramName] === "string" ? parseDate(search[paramName]) : null;
+    typeof search[paramName] === "string"
+      ? parseDate(search[paramName])
+      : parseDate(getCurrentDateFormatted());
 
   return (
     <DatePicker
@@ -42,7 +54,7 @@ export function ParamDatePicker({
         ...inputClassName,
       }}
       {...props}
-      defaultValue={defaultDate as DatePickerProps["defaultValue"]}
+      defaultValue={defaultDate as any}
       onChange={handleChange}
     />
   );
