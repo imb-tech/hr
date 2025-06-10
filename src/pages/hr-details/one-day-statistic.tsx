@@ -6,8 +6,7 @@ import { statusData } from "./days-accordion";
 export default function OneDaysAccordion() {
   const { id } = useParams({ from: "/_main/hr-view/$id" });
   const search = useSearch({ strict: false });
-
-  const params = `${(search as any)?.year}-${(search as any)?.month > 9 ? (search as any)?.month : "0" + (search as any)?.month}-${(search as any)?.day > 9 ? (search as any)?.day : "0" + (search as any)?.day}`;
+  const params = `${(search as any)?.year}-${(search as any)?.month > 9 ? (search as any)?.month : "0" + (search as any)?.month}-${(search as any)?.day}`;
   const {
     data: info,
     isSuccess,
@@ -20,7 +19,6 @@ export default function OneDaysAccordion() {
       enabled: Boolean((search as any)?.day),
     },
   });
-
 
   return (
     <div>

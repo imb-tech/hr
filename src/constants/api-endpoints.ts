@@ -12,6 +12,7 @@ export const HR_ATTENDED = HR + "attended-users"
 export const HR_ABSENTS = HR + "absent-users"
 export const ALL_EMPLOYEES = HR + "all-employees"
 export const POSITION = USERS + 'roles'
+export const STATUS_COUNT =HR  + 'status-count'
 export const POSITION_PAYMENT = 'payments/paid-roles'
 export const POSITION_USERS = 'payments/paid-users'
 export const ENTRANCE_LOG = 'location/entrance-log'

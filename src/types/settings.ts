@@ -1,4 +1,5 @@
 type StatusType = {
+    face:string
     id: number,
     full_name: string,
     start: string,

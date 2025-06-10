@@ -31,6 +31,7 @@ interface IncomingEmployee {
 type Employee = {
   id: number;
   first_name: string;
+  face?:string
   subscriptions: {
     [month: number]: SubscriptionLevel;
   };

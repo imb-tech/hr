@@ -5,8 +5,8 @@ import { cn } from "@heroui/theme";
 import { linkOptions } from "@tanstack/react-router";
 import {
   Building2,
-  Crown,
   MapPinned,
+  NotebookText,
   ScrollText,
   SquareUser,
 } from "lucide-react";
@@ -38,11 +38,17 @@ export const links = [
     enabled: true,
     title: "Hodimlar",
   }),
+  // linkOptions({
+  //   to: "/plans",
+  //   icon: <Crown />,
+  //   enabled: true,
+  //   title: "Tariflarim",
+  // }),
   linkOptions({
-    to: "/plans",
-    icon: <Crown />,
+    to: "/landing",
+    icon: <NotebookText />,
     enabled: true,
-    title: "Tariflarim",
+    title: "Qo'llanma",
   }),
   linkOptions({
     to: "/settings",

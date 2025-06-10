@@ -128,9 +128,10 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
       const coordinates = feature.geometry.coordinates as [number, number];
 
       navigate({
-        to: window.location.pathname,
+        to: "/map",
         search: {
-          id: feature.id?.toString(),
+          ...search,
+          id: feature?.id?.toString(),
         },
       });
 
@@ -416,7 +417,7 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
           />
         ))}
 
-      {start && (
+      {false && start && (
         <Marker
           anchor="bottom"
           latitude={start[1]}
@@ -428,7 +429,7 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
         </Marker>
       )}
 
-      {end && (
+      {false && end && (
         <Marker
           anchor="bottom"
           latitude={end[1]}

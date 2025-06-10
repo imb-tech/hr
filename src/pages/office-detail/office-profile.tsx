@@ -119,8 +119,8 @@ export default function AttendanceDashboard() {
                   to="/arrivals"
                 >
                   <div className="flex items-center gap-2">
-                    <Clock className="h-4 w-4 text-[#10B981]" />
-                    <span className="text-sm text-[#10B981]">
+                    <Clock className="h-4 w-4 text-[#6dceaef5]" />
+                    <span className="text-sm text-[#6dceaef5]">
                       Vaqtida kelganlar
                     </span>
                   </div>
@@ -128,7 +128,7 @@ export default function AttendanceDashboard() {
                     <span className="text-xs text-gray-400">
                       ({getPercent(arrivedOnTime, total)})
                     </span>
-                    <span className="text-base font-semibold text-[#34D399]">
+                    <span className="text-base font-semibold text-[#6dceaef5]">
                       {formatMoney(arrivedOnTime)}
                     </span>
                   </div>
@@ -258,8 +258,8 @@ export default function AttendanceDashboard() {
                   to="/absent"
                 >
                   <div className="flex items-center gap-2">
-                    <XCircle className="h-4 w-4 text-[#DC2626]/80" />
-                    <span className="text-sm dark:text-[#FBBF24]">
+                    <XCircle className="h-4 w-4 text-[#e75a5a]" />
+                    <span className="text-sm text-[#e75a5a]">
                       Sababsiz
                     </span>
                   </div>
@@ -267,7 +267,7 @@ export default function AttendanceDashboard() {
                     <span className="text-xs text-gray-400">
                       ({getPercent(absentWithoutReason, total)})
                     </span>
-                    <span className="text-base font-semibold text-[#DC2626]/80">
+                    <span className="text-base font-semibold text-[#e75a5a]">
                       {formatMoney(absentWithoutReason)}
                     </span>
                   </div>
@@ -278,7 +278,7 @@ export default function AttendanceDashboard() {
                 <Progress
                   className="h-1.5"
                   classNames={{
-                    indicator: "bg-[#DC2626]/60",
+                    indicator: "bg-[#e75a5a]",
                   }}
                   value={(absentWithoutReason / total) * 100}
                 />
