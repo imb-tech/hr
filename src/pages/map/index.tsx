@@ -43,7 +43,7 @@ export default function MapPage() {
   const ref = useRef<MapRef | null>(null);
 
   useEffect(() => {
-    if (ref.current && search.last_company_id) {
+    if (ref.current && search.last_company_id && !id) {
       const officeLoc = companies?.features?.find(
         (comp) => comp.id == search.last_company_id,
       );
@@ -64,10 +64,10 @@ export default function MapPage() {
       if (user) {
         ref?.current.flyTo({
           center: (user?.geometry as Geometry).coordinates,
-          duration: 500,
+          duration: 1000,
           curve: 1.42,
-          offset: [-100, -150],
-          zoom: 25,
+          zoom: 20,
+          essential: true,
         });
       }
     }
@@ -90,7 +90,6 @@ export default function MapPage() {
         },
       ],
     })) ?? [];
-
 
   return (
     <div className="h-[90%] w-full bottom-0">
