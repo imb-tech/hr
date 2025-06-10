@@ -71,7 +71,9 @@ const EmployeeCard = ({
               </div>
               <div>
                 <p className="text-xs text-gray-400">Pasport</p>
-                <p>{formatPassportNumber(item.id_number)}</p>
+                <p>
+                  {item.id_number ? formatPassportNumber(item.id_number) : "-"}
+                </p>
               </div>
             </div>
             <div className="flex items-center gap-3">

@@ -76,7 +76,7 @@ export const useAllEmployeesListCols = () => {
         cell: (value) => {
           return (
             <span className="whitespace-nowrap">
-              {formatPassportNumber(value)}
+              {value ? formatPassportNumber(value) : "-"}
             </span>
           );
         },
