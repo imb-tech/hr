@@ -47,10 +47,11 @@ export function ParamDatePicker({
 
   return (
     <DatePicker
-      className="max-w-[284px]"
+      className="max-w-[284px]  date-picker "
       classNames={{
         input: "w-0 overflow-hidden",
         inputWrapper: "pl-1",
+        
         ...inputClassName,
       }}
       {...props}

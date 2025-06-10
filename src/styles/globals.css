@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-
-[data-selected] {
+ [data-slot="cell"] [data-selected] {
   background-color: #006fee35 !important;
-  color: #006FEE !important;
+  color: #006fee !important;
 }
+

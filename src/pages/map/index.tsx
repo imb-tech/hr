@@ -10,7 +10,7 @@ import MapFilters from "./map-filters";
 export default function MapPage() {
   const search = useSearch({ from: "__root__" });
 
-  const { role_id, last_company_id } = search;
+  const { role_id, last_company_id, id } = search;
 
   const { data: companies } = useGet<FeatureCollection>(COMPANIES);
   const { data: users } = useGet<UserPoint[]>(USER_LOCATIONS, {
@@ -43,9 +43,9 @@ export default function MapPage() {
   const ref = useRef<MapRef | null>(null);
 
   useEffect(() => {
-    if (ref.current && search.office) {
+    if (ref.current && search.last_company_id) {
       const officeLoc = companies?.features?.find(
-        (comp) => comp.id == search.office,
+        (comp) => comp.id == search.last_company_id,
       );
 
       ref?.current.flyTo({
@@ -57,8 +57,9 @@ export default function MapPage() {
         curve: 1.42,
         zoom: 17,
       });
-    } else if (ref.current && search.id) {
-      const user = data[0].features?.find((us) => us.id === Number(search.id));
+    } else if (ref.current && id) {
+      const allFeatures = data.flatMap((d) => d.features || []);
+      const user = allFeatures.find((us) => us.id === Number(id));
 
       if (user) {
         ref?.current.flyTo({
@@ -66,7 +67,7 @@ export default function MapPage() {
           duration: 500,
           curve: 1.42,
           offset: [-100, -150],
-          zoom: 19,
+          zoom: 25,
         });
       }
     }
@@ -89,6 +90,7 @@ export default function MapPage() {
         },
       ],
     })) ?? [];
+
 
   return (
     <div className="h-[90%] w-full bottom-0">
