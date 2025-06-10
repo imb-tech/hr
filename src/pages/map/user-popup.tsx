@@ -118,19 +118,23 @@ const UserPopup = () => {
               </div>
             </div>
 
-            {item?.attendance_json?.attendance_time &&
+            {item?.attendance_json?.attendance_time ||
             item?.attendance_json?.left_time ? (
               <div className="mt-6 dark:bg-zinc-800 bg-zinc-100 rounded-lg p-4 grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-xs text-gray-400 mb-1">Kelish</p>
                   <p className="font-medium text-green-400">
-                    {format(item?.attendance_json?.attendance_time, "HH:mm")}
+                    {item?.attendance_json?.attendance_time
+                      ? format(item?.attendance_json?.attendance_time, "HH:mm")
+                      : "-"}
                   </p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-400 mb-1">Ketish</p>
                   <p className="font-medium text-red-400">
-                    {format(item?.attendance_json?.left_time, "HH:mm")}
+                    {item?.attendance_json?.left_time
+                      ? format(item?.attendance_json?.left_time, "HH:mm")
+                      : "-"}
                   </p>
                 </div>
               </div>

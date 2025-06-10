@@ -188,8 +188,7 @@ const DrawPolygonMap = forwardRef<MapRef, Props>(
         try {
           drawRef.current?.add(feature);
           drawRef.current?.changeMode("direct_select" as any, { featureId });
-          handleGetPolygons(); // Formni darhol yangilash
-          console.log("Default polygon loaded and set to direct_select");
+          handleGetPolygons()
         } catch (error) {
           console.error("Error loading default polygon:", error);
         }

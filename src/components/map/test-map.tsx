@@ -29,7 +29,6 @@ import {
 
 import { MAPBOX_TOKEN } from "@/constants/map";
 import { useTheme } from "@heroui/use-theme";
-// import { Building2 } from "lucide-react";
 import { ROTUES } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
 import { addToast, Button, DatePicker, DateValue } from "@heroui/react";
@@ -185,12 +184,10 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
       if (feature && feature.id !== undefined) {
         setHoveredFeatureId(feature.id as number);
       } else {
-        if (!search.id) {
-          setHoveredFeatureId(null);
-        }
+        setHoveredFeatureId(null);
       }
     },
-    [search.id],
+    [],
   );
 
   useEffect(() => {
@@ -227,7 +224,6 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
       const usr = allFeatures.find((us) => us.id == Number(id));
 
       if (usr) {
-        setHoveredFeatureId(usr.id);
         setActivePopup({
           lngLat: usr.geometry.coordinates,
           properties: usr.properties,
