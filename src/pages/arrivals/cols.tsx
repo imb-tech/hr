@@ -44,13 +44,17 @@ export const useArrivalsListCols = () => {
         header: "Kelish va Ketish",
         dataKey: "id",
         cell: (_, item) => {
-          return item.attendance_json?.attendance_time &&
-            item.attendance_json?.left_time ? (
+          return (
             <span className="whitespace-nowrap lg:break-all">
-              {format(item.attendance_json?.attendance_time, "HH:mm")} -
-              {format(item.attendance_json?.left_time, "HH:mm")}
+              {item.attendance_json?.attendance_time
+                ? format(item.attendance_json?.attendance_time, "HH:mm")
+                : "-"}{" "}
+              -
+              {item.attendance_json?.left_time
+                ? format(item.attendance_json?.left_time, "HH:mm")
+                : "-"}
             </span>
-          ) : null;
+          );
         },
       },
       {

@@ -35,7 +35,6 @@ import { Route as MainPlansIdImport } from './routes/_main/plans/$id'
 import { Route as MainOfficeCreateImport } from './routes/_main/office/create'
 import { Route as MainOfficeIdImport } from './routes/_main/office/$id'
 import { Route as MainOfficeEditIdImport } from './routes/_main/office-edit/$id'
-import { Route as MainMapDemoImport } from './routes/_main/map/demo'
 import { Route as MainHrViewIdImport } from './routes/_main/hr-view/$id'
 
 // Create Virtual Routes
@@ -182,12 +181,6 @@ const MainOfficeEditIdRoute = MainOfficeEditIdImport.update({
   getParentRoute: () => MainRoute,
 } as any)
 
-const MainMapDemoRoute = MainMapDemoImport.update({
-  id: '/map/demo',
-  path: '/map/demo',
-  getParentRoute: () => MainRoute,
-} as any)
-
 const MainHrViewIdRoute = MainHrViewIdImport.update({
   id: '/hr-view/$id',
   path: '/hr-view/$id',
@@ -296,13 +289,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainHrViewIdImport
       parentRoute: typeof MainImport
     }
-    '/_main/map/demo': {
-      id: '/_main/map/demo'
-      path: '/map/demo'
-      fullPath: '/map/demo'
-      preLoaderRoute: typeof MainMapDemoImport
-      parentRoute: typeof MainImport
-    }
     '/_main/office-edit/$id': {
       id: '/_main/office-edit/$id'
       path: '/office-edit/$id'
@@ -402,7 +388,6 @@ interface MainRouteChildren {
   MainSettingsRoute: typeof MainSettingsRoute
   MainIndexRoute: typeof MainIndexRoute
   MainHrViewIdRoute: typeof MainHrViewIdRoute
-  MainMapDemoRoute: typeof MainMapDemoRoute
   MainOfficeEditIdRoute: typeof MainOfficeEditIdRoute
   MainOfficeIdRoute: typeof MainOfficeIdRoute
   MainOfficeCreateRoute: typeof MainOfficeCreateRoute
@@ -425,7 +410,6 @@ const MainRouteChildren: MainRouteChildren = {
   MainSettingsRoute: MainSettingsRoute,
   MainIndexRoute: MainIndexRoute,
   MainHrViewIdRoute: MainHrViewIdRoute,
-  MainMapDemoRoute: MainMapDemoRoute,
   MainOfficeEditIdRoute: MainOfficeEditIdRoute,
   MainOfficeIdRoute: MainOfficeIdRoute,
   MainOfficeCreateRoute: MainOfficeCreateRoute,
@@ -454,7 +438,6 @@ export interface FileRoutesByFullPath {
   '/settings': typeof MainSettingsRoute
   '/': typeof MainIndexRoute
   '/hr-view/$id': typeof MainHrViewIdRoute
-  '/map/demo': typeof MainMapDemoRoute
   '/office-edit/$id': typeof MainOfficeEditIdRoute
   '/office/$id': typeof MainOfficeIdRoute
   '/office/create': typeof MainOfficeCreateRoute
@@ -481,7 +464,6 @@ export interface FileRoutesByTo {
   '/settings': typeof MainSettingsRoute
   '/': typeof MainIndexRoute
   '/hr-view/$id': typeof MainHrViewIdRoute
-  '/map/demo': typeof MainMapDemoRoute
   '/office-edit/$id': typeof MainOfficeEditIdRoute
   '/office/$id': typeof MainOfficeIdRoute
   '/office/create': typeof MainOfficeCreateRoute
@@ -510,7 +492,6 @@ export interface FileRoutesById {
   '/_main/settings': typeof MainSettingsRoute
   '/_main/': typeof MainIndexRoute
   '/_main/hr-view/$id': typeof MainHrViewIdRoute
-  '/_main/map/demo': typeof MainMapDemoRoute
   '/_main/office-edit/$id': typeof MainOfficeEditIdRoute
   '/_main/office/$id': typeof MainOfficeIdRoute
   '/_main/office/create': typeof MainOfficeCreateRoute
@@ -539,7 +520,6 @@ export interface FileRouteTypes {
     | '/settings'
     | '/'
     | '/hr-view/$id'
-    | '/map/demo'
     | '/office-edit/$id'
     | '/office/$id'
     | '/office/create'
@@ -565,7 +545,6 @@ export interface FileRouteTypes {
     | '/settings'
     | '/'
     | '/hr-view/$id'
-    | '/map/demo'
     | '/office-edit/$id'
     | '/office/$id'
     | '/office/create'
@@ -592,7 +571,6 @@ export interface FileRouteTypes {
     | '/_main/settings'
     | '/_main/'
     | '/_main/hr-view/$id'
-    | '/_main/map/demo'
     | '/_main/office-edit/$id'
     | '/_main/office/$id'
     | '/_main/office/create'
@@ -650,7 +628,6 @@ export const routeTree = rootRoute
         "/_main/settings",
         "/_main/",
         "/_main/hr-view/$id",
-        "/_main/map/demo",
         "/_main/office-edit/$id",
         "/_main/office/$id",
         "/_main/office/create",
@@ -709,10 +686,6 @@ export const routeTree = rootRoute
     },
     "/_main/hr-view/$id": {
       "filePath": "_main/hr-view/$id.tsx",
-      "parent": "/_main"
-    },
-    "/_main/map/demo": {
-      "filePath": "_main/map/demo.tsx",
       "parent": "/_main"
     },
     "/_main/office-edit/$id": {

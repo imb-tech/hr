@@ -263,6 +263,7 @@ export default function CreateHrForm() {
               : null}
           </Select>
           <FormSelect
+            isRequired
             label="Lavozimi"
             methods={form}
             name="role"
