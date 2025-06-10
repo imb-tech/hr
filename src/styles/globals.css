@@ -2,8 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
- [data-slot="cell"] [data-selected] {
+[data-slot="cell"] [data-selected] {
   background-color: #006fee35 !important;
   color: #006fee !important;
 }
 
+* {
+  scroll-behavior: smooth !important;
+}
