@@ -29,7 +29,6 @@ import {
 
 import { MAPBOX_TOKEN } from "@/constants/map";
 import { useTheme } from "@heroui/use-theme";
-// import { Building2 } from "lucide-react";
 import { ROTUES } from "@/constants/api-endpoints";
 import { useGet } from "@/hooks/useGet";
 import { addToast, Button, DatePicker, DateValue } from "@heroui/react";
@@ -70,7 +69,7 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
 
   const navigate = useNavigate();
   const search = useSearch({ from: "__root__" });
-  const { route_id: route_id_param } = search;
+  const { route_id: route_id_param, id } = search;
 
   const systemDate = parseDate(formatDate(new Date(), "yyyy-MM-dd"));
 
@@ -185,12 +184,10 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
       if (feature && feature.id !== undefined) {
         setHoveredFeatureId(feature.id as number);
       } else {
-        if (!search.id) {
-          setHoveredFeatureId(null);
-        }
+        setHoveredFeatureId(null);
       }
     },
-    [search.id],
+    [],
   );
 
   useEffect(() => {
@@ -221,22 +218,23 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
   }, [url, route_id]);
 
   useEffect(() => {
-    if (search.id && points) {
-      const usr = (points?.[0] as FeatureCollection)?.features?.find(
-        (us) => us.properties.id === Number(search.id ?? 0),
-      );
+    if (id && points) {
+      const allFeatures = points?.flatMap((d: any) => d.features || []);
+
+      const usr = allFeatures.find((us) => us.id == Number(id));
 
       if (usr) {
-        setHoveredFeatureId(usr.id);
         setActivePopup({
           lngLat: usr.geometry.coordinates,
           properties: usr.properties,
         });
+      } else {
+        setActivePopup(null);
       }
     } else {
       setActivePopup(null);
     }
-  }, [search, points, route_id]);
+  }, [id, points]);
 
   useEffect(() => {
     if (isLoaded && internalMapRef.current) {

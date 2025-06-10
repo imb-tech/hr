@@ -1,4 +1,4 @@
-import { Building2, MapPinned, UsersIcon } from "lucide-react";
+import { Building2, MapPinned, ScrollText, UsersIcon } from "lucide-react";
 
 export default function Tabbar() {
   return (
@@ -33,7 +33,7 @@ export const links = [
   },
   {
     to: "#requests",
-    icon: <MapPinned size={16} />,
+    icon: <ScrollText size={16} />,
     title: "So'rovlar",
   },
 ];
