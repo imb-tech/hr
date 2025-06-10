@@ -128,9 +128,10 @@ const TestMap = forwardRef<MapRef, Props>(function TestMapComponent(
       const coordinates = feature.geometry.coordinates as [number, number];
 
       navigate({
-        to: window.location.pathname,
+        to: "/map",
         search: {
-          id: feature.id?.toString(),
+          ...search,
+          id: feature?.id?.toString(),
         },
       });
 

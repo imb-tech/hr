@@ -10,9 +10,9 @@ import { Clock, Phone, X } from "lucide-react";
 
 const UserPopup = () => {
   const navigate = useNavigate();
-  const { id } = useSearch({ from: "__root__" });
-  const { data: item, isLoading } = useGet<Human>(`${HR_API}/${id}`, {
-    options: { enabled: Boolean(id) },
+  const search = useSearch({ from: "__root__" });
+  const { data: item, isLoading } = useGet<Human>(`${HR_API}/${search?.id}`, {
+    options: { enabled: Boolean(search?.id) },
   });
 
   // function handleHistory() {
@@ -48,7 +48,9 @@ const UserPopup = () => {
             {/* // eslint-disable-next-file */}
             <button
               className="ml-auto text-rose-500 cursor-pointer"
-              onClick={() => navigate({ to: "/map" })}
+              onClick={() =>
+                navigate({ to: "/map", search: { ...search, id: undefined } })
+              }
             >
               <X />
             </button>

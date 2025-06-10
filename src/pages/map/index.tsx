@@ -10,11 +10,11 @@ import MapFilters from "./map-filters";
 export default function MapPage() {
   const search = useSearch({ from: "__root__" });
 
-  const { role_id, last_company_id, id } = search;
+  const { role_id, last_company_id } = search;
 
   const { data: companies } = useGet<FeatureCollection>(COMPANIES);
   const { data: users } = useGet<UserPoint[]>(USER_LOCATIONS, {
-    params: { role_id, last_company_id, id },
+    params: { role_id, last_company_id },
   });
 
   const data: GeoJSON.FeatureCollection[] = useMemo(() => {
