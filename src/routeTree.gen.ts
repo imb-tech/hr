@@ -18,6 +18,7 @@ import { Route as AuthImport } from './routes/_auth'
 import { Route as MainIndexImport } from './routes/_main/index'
 import { Route as MainSettingsImport } from './routes/_main/settings'
 import { Route as MainPositionImport } from './routes/_main/position'
+import { Route as MainLandingImport } from './routes/_main/landing'
 import { Route as MainHrCreateImport } from './routes/_main/hr-create'
 import { Route as MainHrImport } from './routes/_main/hr'
 import { Route as MainArrivalsImport } from './routes/_main/arrivals'
@@ -69,6 +70,12 @@ const MainSettingsRoute = MainSettingsImport.update({
 const MainPositionRoute = MainPositionImport.update({
   id: '/position',
   path: '/position',
+  getParentRoute: () => MainRoute,
+} as any)
+
+const MainLandingRoute = MainLandingImport.update({
+  id: '/landing',
+  path: '/landing',
   getParentRoute: () => MainRoute,
 } as any)
 
@@ -268,6 +275,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainHrCreateImport
       parentRoute: typeof MainImport
     }
+    '/_main/landing': {
+      id: '/_main/landing'
+      path: '/landing'
+      fullPath: '/landing'
+      preLoaderRoute: typeof MainLandingImport
+      parentRoute: typeof MainImport
+    }
     '/_main/position': {
       id: '/_main/position'
       path: '/position'
@@ -398,6 +412,7 @@ interface MainRouteChildren {
   MainArrivalsRoute: typeof MainArrivalsRoute
   MainHrRoute: typeof MainHrRoute
   MainHrCreateRoute: typeof MainHrCreateRoute
+  MainLandingRoute: typeof MainLandingRoute
   MainPositionRoute: typeof MainPositionRoute
   MainSettingsRoute: typeof MainSettingsRoute
   MainIndexRoute: typeof MainIndexRoute
@@ -421,6 +436,7 @@ const MainRouteChildren: MainRouteChildren = {
   MainArrivalsRoute: MainArrivalsRoute,
   MainHrRoute: MainHrRoute,
   MainHrCreateRoute: MainHrCreateRoute,
+  MainLandingRoute: MainLandingRoute,
   MainPositionRoute: MainPositionRoute,
   MainSettingsRoute: MainSettingsRoute,
   MainIndexRoute: MainIndexRoute,
@@ -450,6 +466,7 @@ export interface FileRoutesByFullPath {
   '/arrivals': typeof MainArrivalsRoute
   '/hr': typeof MainHrRoute
   '/hr-create': typeof MainHrCreateRoute
+  '/landing': typeof MainLandingRoute
   '/position': typeof MainPositionRoute
   '/settings': typeof MainSettingsRoute
   '/': typeof MainIndexRoute
@@ -477,6 +494,7 @@ export interface FileRoutesByTo {
   '/arrivals': typeof MainArrivalsRoute
   '/hr': typeof MainHrRoute
   '/hr-create': typeof MainHrCreateRoute
+  '/landing': typeof MainLandingRoute
   '/position': typeof MainPositionRoute
   '/settings': typeof MainSettingsRoute
   '/': typeof MainIndexRoute
@@ -506,6 +524,7 @@ export interface FileRoutesById {
   '/_main/arrivals': typeof MainArrivalsRoute
   '/_main/hr': typeof MainHrRoute
   '/_main/hr-create': typeof MainHrCreateRoute
+  '/_main/landing': typeof MainLandingRoute
   '/_main/position': typeof MainPositionRoute
   '/_main/settings': typeof MainSettingsRoute
   '/_main/': typeof MainIndexRoute
@@ -535,6 +554,7 @@ export interface FileRouteTypes {
     | '/arrivals'
     | '/hr'
     | '/hr-create'
+    | '/landing'
     | '/position'
     | '/settings'
     | '/'
@@ -561,6 +581,7 @@ export interface FileRouteTypes {
     | '/arrivals'
     | '/hr'
     | '/hr-create'
+    | '/landing'
     | '/position'
     | '/settings'
     | '/'
@@ -588,6 +609,7 @@ export interface FileRouteTypes {
     | '/_main/arrivals'
     | '/_main/hr'
     | '/_main/hr-create'
+    | '/_main/landing'
     | '/_main/position'
     | '/_main/settings'
     | '/_main/'
@@ -646,6 +668,7 @@ export const routeTree = rootRoute
         "/_main/arrivals",
         "/_main/hr",
         "/_main/hr-create",
+        "/_main/landing",
         "/_main/position",
         "/_main/settings",
         "/_main/",
@@ -693,6 +716,10 @@ export const routeTree = rootRoute
     },
     "/_main/hr-create": {
       "filePath": "_main/hr-create.tsx",
+      "parent": "/_main"
+    },
+    "/_main/landing": {
+      "filePath": "_main/landing.tsx",
       "parent": "/_main"
     },
     "/_main/position": {
