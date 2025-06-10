@@ -56,7 +56,7 @@ export const usSettingsCols = () => {
         dataKey: "comment",
         cell(value) {
           return (
-            <span className="whitespace-nowrap lg:break-all">{value}</span>
+            <span >{value}</span>
           );
         },
       },
@@ -65,7 +65,7 @@ export const usSettingsCols = () => {
         dataKey: "response_comment",
         cell(value) {
           return (
-            <span className="whitespace-nowrap lg:break-all">{value}</span>
+            <span>{value}</span>
           );
         },
       },
