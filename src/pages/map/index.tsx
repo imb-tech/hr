@@ -53,7 +53,7 @@ export default function MapPage() {
           getPolygonCentroid(officeLoc?.properties.polygon.coordinates ?? []).x,
           getPolygonCentroid(officeLoc?.properties.polygon.coordinates ?? []).y,
         ],
-        duration: 500,
+        duration: 1000,
         curve: 1.42,
         zoom: 17,
       });
@@ -90,6 +90,7 @@ export default function MapPage() {
         },
       ],
     })) ?? [];
+
 
   return (
     <div className="h-[90%] w-full bottom-0">
