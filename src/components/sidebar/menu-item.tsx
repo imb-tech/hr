@@ -39,7 +39,7 @@ export default function MenuItem({ to, title, icon, badge }: Props) {
 
       {badge && !open ? (
         <span className="absolute text-xs right-2 size-5 flex items-center justify-center bg-gray-500/70 rounded-full text-white">
-          {badge > 9 ? "9+" : badge}
+          {badge}
         </span>
       ) : (
         ""
