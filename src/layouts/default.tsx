@@ -17,7 +17,8 @@ export default function DefaultLayout({
           !open ? "lg:pl-[182px]" : "lg:pl-20"
         )}>
           {children}
-          <nav className="flex lg:hidden h-16 justify-between items-center border-t border-t-default w-full fixed bottom-0 bg-background z-50">
+          {/* <nav className="flex lg:hidden h-16 justify-between items-center border-t border-t-default w-full fixed bottom-0 bg-background z-50"> */}
+          <nav className="grid grid-cols-6 lg:hidden h-16 items-center border-t border-t-default w-full fixed bottom-0 bg-background z-50">
             {links?.map((link, i) => <MenuItemMobile key={i} {...link} />)}
           </nav>
         </div>
