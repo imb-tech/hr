@@ -358,8 +358,8 @@ export default function CreateHrForm() {
             size="lg"
           />
 
-          <FormNumberInput
-            control={form.control}
+          <FormInput
+            methods={form}
             label="Hikvision ID"
             name="hikvision_id"
             placeholder="Ex: 991"
