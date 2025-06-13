@@ -39,21 +39,6 @@ export default function MonthAccordion() {
     });
   }
 
-  const month: { [key: number]: string } = {
-    1: "Yanvar",
-    2: "Fevral",
-    3: "Mart",
-    4: "Aprel",
-    5: "May",
-    6: "Iyun",
-    7: "Iyul",
-    8: "Avgust",
-    9: "Sentabr",
-    10: "Oktabr",
-    11: "Noyabr",
-    12: "Dekabr",
-  };
-
   const accordionItems = isLoading
     ? [
         {
@@ -86,7 +71,7 @@ export default function MonthAccordion() {
           key: item.month.toString(),
           title: (
             <div className="grid grid-cols-4 gap-11 px-1 ">
-              <p className="text-sm">{month[item.month as any]}</p>
+              <p className="text-sm">{monthKeys[item.month as any]}</p>
               <p className="text-sm">{item.late_count} marta</p>
               <p className="text-sm">{item.late_duration?.slice(0, 5)}</p>
               <p className="text-sm">{item.fine} so'm</p>
@@ -137,3 +122,18 @@ export default function MonthAccordion() {
     </div>
   );
 }
+
+export const monthKeys: { [key: number]: string } = {
+  1: "Yanvar",
+  2: "Fevral",
+  3: "Mart",
+  4: "Aprel",
+  5: "May",
+  6: "Iyun",
+  7: "Iyul",
+  8: "Avgust",
+  9: "Sentabr",
+  10: "Oktabr",
+  11: "Noyabr",
+  12: "Dekabr",
+};

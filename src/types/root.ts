@@ -13,4 +13,5 @@ type SearchParams = {
     plan_id?: string
     month?:string
     last_company_id?: number
+    search?: string
 };

@@ -8,6 +8,12 @@ type HrTariff = {
 };
 
 
+type Plan = {
+  id: number
+  name: string
+  price: number
+}
+
 
 type PlanUser = {
   id: number;
@@ -31,7 +37,7 @@ interface IncomingEmployee {
 type Employee = {
   id: number;
   first_name: string;
-  face?:string
+  face?: string
   subscriptions: {
     [month: number]: SubscriptionLevel;
   };
@@ -52,5 +58,18 @@ type Payment = {
   amount: string,
   status: number,
   provider: number,
+  client: number
+}
+
+type PlanHistory = {
+  id: number
+  created_at: string
+  updated_at: string
+  amount: string
+  status: number,
+  year: number,
+  month: number,
+  employees_count: number,
+  plan: string,
   client: number
 }

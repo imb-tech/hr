@@ -26,7 +26,7 @@ export default function HrPage() {
   const { openModal } = useModal("delete");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
-  const params = useSearch({ strict: false });
+  const params = useSearch({ from: "__root__" });
   const [excelDown, setExcelDow] = useState({ down: false, template: false });
   const { data: dataPosition } = useGet<Position[]>(POSITION);
   const { data: dataDown, isLoading: isLoadingDown } = useGet(HR_EXCEL_DOWN, {
@@ -44,9 +44,12 @@ export default function HrPage() {
       },
     },
   );
-  const { data, isLoading, isSuccess } = useGet<ListResponse<Human>>(HR_API, {
-    params: { ...params, page_size: 48 },
-  });
+  const { data, isLoading, isSuccess, refetch } = useGet<ListResponse<Human>>(
+    HR_API,
+    {
+      params: { ...params, page_size: 48 },
+    },
+  );
 
   const { mutate, isPending } = usePost(
     {
@@ -55,6 +58,7 @@ export default function HrPage() {
           description: "Muaffaqiyatli qo'shildi",
           color: "success",
         });
+        refetch();
       },
       onError: async (err) => {
         if (err.response && err.response.data instanceof Blob) {
@@ -174,7 +178,7 @@ export default function HrPage() {
       </div>
       <DataTable
         indexing
-        columns={useHrListCols()}
+        columns={useHrListCols(params?.search)}
         data={data?.results || []}
         isLoading={isLoading}
         onDelete={(item) => handleDelete(item)}

@@ -1,4 +1,5 @@
 import Page from "@/layouts/page";
+import CreatePlan from "@/pages/plans/create-plan";
 import { plans } from "@/pages/plans/plan-selector";
 import { Button } from "@heroui/button";
 import {
@@ -29,8 +30,8 @@ function RouteComponent() {
       }
       breadcrumb={["To'lov va obunalar", breadcrumb?.name ?? ""]}
     >
-      <div>Sahifa topilmadi</div>
-      {/* <CreatePlan /> */}
+      {/* <div>Sahifa topilmadi</div> */}
+      <CreatePlan/>
     </Page>
   );
 }

@@ -21,8 +21,9 @@ import {
   DropdownSection,
   DropdownTrigger,
 } from "@heroui/dropdown";
+import { Tooltip } from "@heroui/react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { LogOut, Menu, User } from "lucide-react";
+import { LogOut, Menu, User, UserCircle } from "lucide-react";
 import { ReactNode } from "react";
 import HeaderBreadvrumb from "./header-breadcrumb";
 
@@ -98,6 +99,26 @@ export const Navbar = ({
 
       <div className="flex gap-3">
         {!!rightComponent && <div className="flex gap-2">{rightComponent}</div>}
+
+        <Tooltip
+          showArrow
+          classNames={{
+            content: ["py-3 px-5 shadow-xl"],
+          }}
+          content={
+            <div className="max-w-40">
+              <p>Hozirda sizda 120ta hodim mavjud</p>
+              <p>Keyingi oy to'lovingiz 300 000 so'm</p>
+            </div>
+          }
+          placement="bottom-end"
+        >
+          <div className="flex items-center justify-center gap-1 px-3 rounded-xl bg-success-500/15 text-success">
+            <p>18/21</p>
+            {/* <UserCircle size={18} /> */}
+          </div>
+        </Tooltip>
+
         <Dropdown placement="bottom-start">
           <DropdownTrigger>
             <Avatar
@@ -110,9 +131,9 @@ export const Navbar = ({
           <DropdownMenu aria-label="User Actions" variant="flat">
             <DropdownItem key="profile" className="h-9">
               <div className="flex items-center gap-2">
-                <User size={18} />{" "}
+                <User size={18} />
                 {data?.first_name && data?.last_name ? (
-                  <p className="font-medium ">
+                  <p className="font-medium">
                     {data?.first_name} {data?.last_name}
                   </p>
                 ) : (

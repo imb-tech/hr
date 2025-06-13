@@ -9,6 +9,7 @@ import {
   NotebookText,
   ScrollText,
   SquareUser,
+  WalletMinimal,
 } from "lucide-react";
 import { UsersIcon } from "../icons/nav-icons";
 import MenuItem from "./menu-item";
@@ -38,12 +39,6 @@ export const links = [
     enabled: true,
     title: "Hodimlar",
   }),
-  // linkOptions({
-  //   to: "/plans",
-  //   icon: <Crown />,
-  //   enabled: true,
-  //   title: "Tariflarim",
-  // }),
   linkOptions({
     to: "/landing",
     icon: <NotebookText />,
@@ -55,6 +50,12 @@ export const links = [
     icon: <ScrollText />,
     enabled: true,
     title: "So'rov",
+  }),
+  linkOptions({
+    to: "/plans",
+    icon: <WalletMinimal />,
+    enabled: true,
+    title: "Balans",
   }),
 ];
 

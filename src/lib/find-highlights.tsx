@@ -5,12 +5,14 @@ export default function findHighlights(
   query: string,
   className?: string,
 ) {
+  if (!query || query.length === 0) {
+    return text;
+  }
   return text.split(new RegExp(`(${query})`, "gi")).map((part, i) =>
     part.toLowerCase() === query.toLowerCase() ? (
       <span
         key={i}
-        className={cn("!", className)}
-        style={{ backgroundColor: "green" }}
+        className={cn("text-success-600 !", className)}
       >
         {part}
       </span>

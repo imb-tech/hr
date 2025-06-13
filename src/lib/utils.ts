@@ -6,3 +6,5 @@ export const educationLevels = [
     { label: "Oliy ta'lim", key: 5 },
     { label: "Magistratura", key: 6 },
 ];
+
+

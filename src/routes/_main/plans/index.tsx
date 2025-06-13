@@ -1,4 +1,5 @@
 import Page from "@/layouts/page";
+import PlansPage from "@/pages/plans";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_main/plans/")({
@@ -8,8 +9,7 @@ export const Route = createFileRoute("/_main/plans/")({
 function RouteComponent() {
   return (
     <Page breadcrumb={["To'lov va obunalar"]}>
-      {/* <PlansPage /> */}
-      <div>Sahifa topilmadi</div>
+      <PlansPage />
     </Page>
   );
 }
