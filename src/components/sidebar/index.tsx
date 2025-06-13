@@ -30,13 +30,13 @@ export const links = [
     to: "/position",
     icon: <SquareUser />,
     enabled: true,
-    title: "Lavozimlar",
+    title: "Lavozim",
   }),
   linkOptions({
     to: "/hr",
     icon: <UsersIcon />,
     enabled: true,
-    title: "Hodimlar",
+    title: "Hodim",
   }),
   // linkOptions({
   //   to: "/plans",
