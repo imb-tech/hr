@@ -94,7 +94,7 @@ export default function MapPage() {
 
   return (
     <div className="h-[90%] w-full bottom-0">
-      <MapFilters className="mb-3 flex items-center gap-3" />
+      <MapFilters className="mb-3 w-full flex sm:flex-row flex-col items-center gap-3" />
       <TestMap
         ref={ref}
         defaultZoom={17}

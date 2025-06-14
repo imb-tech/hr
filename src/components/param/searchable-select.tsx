@@ -30,7 +30,7 @@ export default function SearchableSelect<T extends object>({
   return (
     <Autocomplete<T>
       aria-label={"Select a user"}
-      className={cn("max-w-xs", className)}
+      className={cn("max-w-xl  sm:max-w-xs", className)}
       defaultItems={options}
       placeholder="Select a user"
       size="md"
